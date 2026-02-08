@@ -24,7 +24,7 @@ const WEDDING_CONFIG = {
       fullName: "Lê Long Nhật",
       dob: "13/09/2000",
       dobISO: "2000-09-13",
-      image: "assets/images/groom.jpg",
+      image: "assets/images/placeholder.jpg",
       imageAlt: "Chú rể - Lê Long Nhật",
     },
     bride: {
@@ -32,7 +32,7 @@ const WEDDING_CONFIG = {
       fullName: "Vũ Thị Thanh Hiền",
       dob: "04/02/1999",
       dobISO: "1999-02-04",
-      image: "assets/images/bride.jpg",
+      image: "assets/images/placeholder.jpg",
       imageAlt: "Cô dâu - Vũ Thị Thanh Hiền",
     },
   },
@@ -41,7 +41,7 @@ const WEDDING_CONFIG = {
   // HERO / HEADER
   // ──────────────────────────────────────────────
   hero: {
-    backgroundImage: "assets/images/hero-bg.jpg",
+    backgroundImage: "assets/images/placeholder.jpg",
     dayOfWeek: "Thứ Hai",
     day: "12",
     time: "11h00",
@@ -60,7 +60,7 @@ const WEDDING_CONFIG = {
   // COUNTDOWN
   // ──────────────────────────────────────────────
   countdown: {
-    backgroundImage: "assets/images/countdown-bg.jpg",
+    backgroundImage: "assets/images/placeholder.jpg",
     heading: "SAVE THE DATE",
     weddingDateISO: "2026-01-12T11:00:00+07:00",
     labels: {
@@ -105,7 +105,7 @@ const WEDDING_CONFIG = {
   // LOVE STORY
   // ──────────────────────────────────────────────
   loveStory: {
-    backgroundImage: "assets/images/love-story-bg.jpg",
+    backgroundImage: "assets/images/placeholder.jpg",
     heading: "Love Story",
     milestones: [
       {
@@ -136,12 +136,12 @@ const WEDDING_CONFIG = {
     tagline: "cherish every",
     title: "our moment",
     images: [
-      { src: "assets/images/gallery-01.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 1" },
-      { src: "assets/images/gallery-02.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 2" },
-      { src: "assets/images/gallery-03.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 3" },
-      { src: "assets/images/gallery-04.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 4" },
-      { src: "assets/images/gallery-05.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 5" },
-      { src: "assets/images/gallery-06.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 6" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 1" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 2" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 3" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 4" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 5" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 6" },
     ],
   },
 
@@ -149,7 +149,7 @@ const WEDDING_CONFIG = {
   // WISHES / GUESTBOOK
   // ──────────────────────────────────────────────
   wishes: {
-    backgroundImage: "assets/images/wishes-bg.jpg",
+    backgroundImage: "assets/images/placeholder.jpg",
     heading: "Gửi lời chúc đến cặp đôi",
     formTitle: "Gửi lời chúc",
     nameLabel: "Tên của bạn",
@@ -193,7 +193,7 @@ const WEDDING_CONFIG = {
   // THANK YOU
   // ──────────────────────────────────────────────
   thankYou: {
-    backgroundImage: "assets/images/thankyou-bg.jpg",
+    backgroundImage: "assets/images/placeholder.jpg",
     heading: "Thank you",
     message: "Sự xuất hiện của bạn là niềm vui đối với chúng tôi!",
   },
