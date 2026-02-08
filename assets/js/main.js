@@ -760,14 +760,15 @@
 
     const { api } = WEDDING_CONFIG;
 
-    // Fetch existing wishes from API on load
-    if (api && api.wishesGet) {
-      fetch(api.wishesGet)
+    // Fetch existing wishes from Google Sheets API on load
+    if (api && api.baseUrl) {
+      fetch(api.baseUrl + "?action=getWishes")
         .then((res) => {
           if (res.ok) return res.json();
           throw new Error("Failed to fetch wishes");
         })
-        .then((data) => {
+        .then((json) => {
+          var data = json.data || json;
           if (Array.isArray(data) && data.length > 0) {
             renderWishes(
               data.map((w) => ({
@@ -799,18 +800,15 @@
       const originalText = submitBtn ? submitBtn.textContent : "";
       if (submitBtn) submitBtn.textContent = "Đang gửi...";
 
-      const payload = { author_name: name, content: message };
+      const payload = { action: "wish", author_name: name, content: message };
 
-      if (api && api.wishesPost) {
-        fetch(api.wishesPost, {
+      if (api && api.baseUrl) {
+        fetch(api.baseUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload),
         })
-          .then((res) => {
-            if (res.ok) return res.json();
-            throw new Error("Failed");
-          })
+          .then((res) => res.json())
           .then(() => {
             prependWish(name, message);
             form.reset();
@@ -859,6 +857,7 @@
       }
 
       const payload = {
+        action: "rsvp",
         event: eventRadio.value,
         guest_name: nameInput.value.trim(),
         attendance: attendanceRadio.value,
@@ -868,16 +867,13 @@
       // Update button state
       if (submitBtn) submitBtn.textContent = "Đang gửi...";
 
-      if (api && api.rsvpPost) {
-        fetch(api.rsvpPost, {
+      if (api && api.baseUrl) {
+        fetch(api.baseUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload),
         })
-          .then((res) => {
-            if (res.ok) return res.json();
-            throw new Error("Failed");
-          })
+          .then((res) => res.json())
           .then(() => {
             markRsvpSuccess(submitBtn, form);
           })

@@ -218,11 +218,11 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // API ENDPOINTS (placeholder URLs for backend)
+  // API — Google Apps Script Web App
+  // Replace the URL below with your deployed Apps Script URL
+  // (see backend/Code.gs for full setup instructions)
   // ──────────────────────────────────────────────
   api: {
-    wishesGet: "/api/wishes",
-    wishesPost: "/api/wishes",
-    rsvpPost: "/api/rsvp",
+    baseUrl: "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec",
   },
 };
