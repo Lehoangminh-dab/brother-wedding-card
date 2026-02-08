@@ -41,6 +41,7 @@ const WEDDING_CONFIG = {
   // HERO / HEADER
   // ──────────────────────────────────────────────
   hero: {
+    backgroundImage: "assets/images/hero-bg.jpg",
     dayOfWeek: "Thứ Hai",
     day: "12",
     time: "11h00",
@@ -54,6 +55,7 @@ const WEDDING_CONFIG = {
   // COUNTDOWN
   // ──────────────────────────────────────────────
   countdown: {
+    backgroundImage: "assets/images/countdown-bg.jpg",
     heading: "SAVE THE DATE",
     weddingDateISO: "2026-01-12T11:00:00+07:00",
     labels: {
@@ -98,6 +100,7 @@ const WEDDING_CONFIG = {
   // LOVE STORY
   // ──────────────────────────────────────────────
   loveStory: {
+    backgroundImage: "assets/images/love-story-bg.jpg",
     heading: "Love Story",
     milestones: [
       {
@@ -141,6 +144,7 @@ const WEDDING_CONFIG = {
   // WISHES / GUESTBOOK
   // ──────────────────────────────────────────────
   wishes: {
+    backgroundImage: "assets/images/wishes-bg.jpg",
     heading: "Gửi lời chúc đến cặp đôi",
     formTitle: "Gửi lời chúc",
     nameLabel: "Tên của bạn",
@@ -184,6 +188,7 @@ const WEDDING_CONFIG = {
   // THANK YOU
   // ──────────────────────────────────────────────
   thankYou: {
+    backgroundImage: "assets/images/thankyou-bg.jpg",
     heading: "Thank you",
     message: "Sự xuất hiện của bạn là niềm vui đối với chúng tôi!",
   },

@@ -35,6 +35,13 @@
   function populateHero() {
     const { couple, hero } = WEDDING_CONFIG;
 
+    // Set hero background image
+    const heroBg = document.querySelector(".hero__bg");
+    if (heroBg && hero.backgroundImage) {
+      heroBg.src = hero.backgroundImage;
+      heroBg.alt = "Wedding background";
+    }
+
     setText(".hero__groom-name", couple.groom.shortName);
     setText(".hero__bride-name", couple.bride.shortName);
     setText(".hero__day-of-week", hero.dayOfWeek);
@@ -91,6 +98,12 @@
 
   function populateCountdown() {
     const { countdown } = WEDDING_CONFIG;
+
+    // Set background image
+    const countdownSection = document.getElementById("countdown");
+    if (countdownSection && countdown.backgroundImage) {
+      countdownSection.style.backgroundImage = `url('${countdown.backgroundImage}')`;
+    }
 
     const headingEl = document.querySelector(".countdown__heading");
     if (headingEl) {
@@ -161,6 +174,12 @@
 
   function populateLoveStory() {
     const { loveStory } = WEDDING_CONFIG;
+
+    // Set background image
+    const loveStorySection = document.getElementById("love-story");
+    if (loveStorySection && loveStory.backgroundImage) {
+      loveStorySection.style.backgroundImage = `url('${loveStory.backgroundImage}')`;
+    }
 
     const headingEl = document.querySelector(".love-story__heading");
     if (headingEl) {
@@ -233,6 +252,12 @@
 
   function populateWishes() {
     const { wishes } = WEDDING_CONFIG;
+
+    // Set background image
+    const wishesSection = document.getElementById("wishes");
+    if (wishesSection && wishes.backgroundImage) {
+      wishesSection.style.backgroundImage = `url('${wishes.backgroundImage}')`;
+    }
 
     const headingEl = document.querySelector(".wishes__heading");
     if (headingEl) {
@@ -368,6 +393,13 @@
 
   function populateThankYou() {
     const { thankYou } = WEDDING_CONFIG;
+
+    // Set background image
+    const thankYouSection = document.getElementById("thank-you");
+    if (thankYouSection && thankYou.backgroundImage) {
+      thankYouSection.style.backgroundImage = `url('${thankYou.backgroundImage}')`;
+    }
+
     setText(".thank-you__heading", thankYou.heading);
     setText(".thank-you__message", thankYou.message);
   }
@@ -403,6 +435,69 @@
     }
   }
 
+  // --- Countdown Timer -------------------------------------------------------
+
+  function startCountdownTimer() {
+    const timerEl = document.querySelector(".countdown__timer");
+    if (!timerEl) return;
+
+    const weddingDate = new Date(timerEl.getAttribute("data-wedding-date"));
+
+    function update() {
+      const now = new Date();
+      const diff = Math.max(0, weddingDate - now);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      const daysEl = document.getElementById("countdown-days");
+      const hoursEl = document.getElementById("countdown-hours");
+      const minutesEl = document.getElementById("countdown-minutes");
+      const secondsEl = document.getElementById("countdown-seconds");
+
+      if (daysEl) daysEl.textContent = String(days).padStart(2, "0");
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, "0");
+      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, "0");
+      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, "0");
+    }
+
+    update();
+    setInterval(update, 1000);
+  }
+
+  // --- Scroll Reveal (lightweight AOS alternative) -------------------------
+
+  function initScrollReveal() {
+    const revealTargets = document.querySelectorAll(
+      ".couple__person, .events__card, .love-story__milestone, " +
+      ".gallery__item, .wishes__item, .wishes__form-wrapper"
+    );
+
+    revealTargets.forEach((el) => el.classList.add("reveal"));
+
+    if (!("IntersectionObserver" in window)) {
+      // Fallback: show everything immediately
+      revealTargets.forEach((el) => el.classList.add("visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    revealTargets.forEach((el) => observer.observe(el));
+  }
+
   // --- Initialize ------------------------------------------------------------
 
   function init() {
@@ -417,6 +512,8 @@
     populateRsvp();
     populateThankYou();
     populateFooter();
+    startCountdownTimer();
+    initScrollReveal();
   }
 
   // Run when DOM is ready
