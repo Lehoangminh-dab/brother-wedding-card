@@ -401,15 +401,6 @@
         linksList.appendChild(li);
       });
     }
-
-    // Copyright
-    const copyright = document.querySelector(".footer__copyright");
-    if (copyright) {
-      copyright.innerHTML =
-        `&copy; <a href="${footer.copyrightUrl}" target="_blank" rel="noopener noreferrer">${footer.copyrightName}</a>. ` +
-        `All rights reserved. Powered by ` +
-        `<a href="${footer.copyrightUrl}" target="_blank" rel="noopener noreferrer">${footer.copyrightName}</a>.`;
-    }
   }
 
   // --- Initialize ------------------------------------------------------------

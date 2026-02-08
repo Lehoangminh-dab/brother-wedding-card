@@ -198,7 +198,5 @@ const WEDDING_CONFIG = {
       { platform: "zalo", label: "Zalo", ariaLabel: "Chia sẻ qua Zalo", url: "#" },
       { platform: "copy", label: "Sao chép liên kết", ariaLabel: "Sao chép liên kết", url: "#" },
     ],
-    copyrightName: "ROSÉ Wedding",
-    copyrightUrl: "https://www.rosewedding.link",
   },
 };
