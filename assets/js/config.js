@@ -49,6 +49,11 @@ const WEDDING_CONFIG = {
     venueLabel: "Địa điểm tổ chức",
     venueName: "Trung tâm Tổ chức sự kiện Bách Đại Dũng",
     venueAddress: "TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
+    actionButtons: [
+      { type: "phone", icon: "ri-phone-fill", href: "tel:+84", ariaLabel: "Gọi điện" },
+      { type: "gift", icon: "ri-gift-2-fill", href: "#wishes", ariaLabel: "Gửi lời chúc" },
+      { type: "map", icon: "ri-map-2-line", href: "https://maps.app.goo.gl/TmKBaF94cfrp9q8V7?g_st=ipc", ariaLabel: "Xem bản đồ", external: true },
+    ],
   },
 
   // ──────────────────────────────────────────────
@@ -203,5 +208,21 @@ const WEDDING_CONFIG = {
       { platform: "zalo", label: "Zalo", ariaLabel: "Chia sẻ qua Zalo", url: "#" },
       { platform: "copy", label: "Sao chép liên kết", ariaLabel: "Sao chép liên kết", url: "#" },
     ],
+  },
+
+  // ──────────────────────────────────────────────
+  // AUDIO / BACKGROUND MUSIC
+  // ──────────────────────────────────────────────
+  audio: {
+    src: "assets/audio/wedding-music.mp3",
+  },
+
+  // ──────────────────────────────────────────────
+  // API ENDPOINTS (placeholder URLs for backend)
+  // ──────────────────────────────────────────────
+  api: {
+    wishesGet: "/api/wishes",
+    wishesPost: "/api/wishes",
+    rsvpPost: "/api/rsvp",
   },
 };

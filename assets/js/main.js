@@ -1,8 +1,17 @@
 /**
- * Wedding Card - DOM Population
+ * Wedding Card - DOM Population & Interactive Features
  *
  * Reads from WEDDING_CONFIG (defined in config.js) and populates all
- * text content and image sources in the HTML. Config.js must be loaded first.
+ * text content and image sources in the HTML. Also handles:
+ *  - Page preloader
+ *  - Scroll animations (AOS-like)
+ *  - Gallery Swiper carousel + lightbox
+ *  - Background music toggle
+ *  - Wishes form AJAX submission
+ *  - RSVP form AJAX submission
+ *  - Share link handlers
+ *
+ * Config.js and Swiper must be loaded first.
  */
 
 (function () {
@@ -53,6 +62,26 @@
     const address = document.querySelector(".hero__venue-address");
     if (address) {
       address.textContent = `${hero.venueName} ${hero.venueAddress}`;
+    }
+
+    // Action buttons (phone, gift, map)
+    const actionsContainer = document.querySelector(".hero__actions");
+    if (actionsContainer && hero.actionButtons) {
+      actionsContainer.innerHTML = "";
+      hero.actionButtons.forEach((btn) => {
+        const a = document.createElement("a");
+        a.href = btn.href;
+        a.className = "hero__action-btn";
+        a.setAttribute("aria-label", btn.ariaLabel);
+        if (btn.external) {
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+        }
+        const icon = document.createElement("i");
+        icon.className = btn.icon;
+        a.appendChild(icon);
+        actionsContainer.appendChild(a);
+      });
     }
   }
 
@@ -220,7 +249,7 @@
     });
   }
 
-  // --- Populate Gallery ------------------------------------------------------
+  // --- Populate Gallery (Swiper slides) -------------------------------------
 
   function populateGallery() {
     const { gallery } = WEDDING_CONFIG;
@@ -228,14 +257,19 @@
     setText(".gallery__tagline-top", gallery.tagline);
     setText(".gallery__title", gallery.title);
 
-    const grid = document.querySelector(".gallery__grid");
-    if (!grid) return;
+    const wrapper = document.querySelector(".gallery__slider .swiper-wrapper");
+    if (!wrapper) return;
 
-    grid.innerHTML = "";
+    wrapper.innerHTML = "";
 
-    gallery.images.forEach((image) => {
-      const figure = document.createElement("figure");
-      figure.className = "gallery__item";
+    gallery.images.forEach((image, index) => {
+      const slide = document.createElement("div");
+      slide.className = "swiper-slide";
+
+      const a = document.createElement("a");
+      a.href = image.src;
+      a.setAttribute("data-lightbox-index", index);
+      a.className = "gallery__link";
 
       const img = document.createElement("img");
       img.src = image.src;
@@ -243,8 +277,9 @@
       img.className = "gallery__img";
       img.loading = "lazy";
 
-      figure.appendChild(img);
-      grid.appendChild(figure);
+      a.appendChild(img);
+      slide.appendChild(a);
+      wrapper.appendChild(slide);
     });
   }
 
@@ -267,22 +302,8 @@
       headingEl.appendChild(document.createTextNode(` ${wishes.heading}`));
     }
 
-    // Render initial wishes
-    const list = document.getElementById("wishes-list");
-    if (list) {
-      list.innerHTML = "";
-      wishes.initialWishes.forEach((wish) => {
-        const article = document.createElement("article");
-        article.className = "wishes__item";
-        article.innerHTML = `
-          <p class="wishes__author"></p>
-          <p class="wishes__message"></p>
-        `;
-        setText(".wishes__author", wish.author, article);
-        setText(".wishes__message", wish.message, article);
-        list.appendChild(article);
-      });
-    }
+    // Render initial wishes from config
+    renderWishes(wishes.initialWishes);
 
     // Populate form
     setText(".wishes__form-title", wishes.formTitle);
@@ -300,6 +321,31 @@
     if (msgInput) msgInput.placeholder = wishes.messagePlaceholder;
 
     setText(".wishes__submit", wishes.submitText);
+  }
+
+  /** Render an array of wish objects into the wishes list. */
+  function renderWishes(wishes) {
+    const list = document.getElementById("wishes-list");
+    if (!list) return;
+    list.innerHTML = "";
+    wishes.forEach((wish) => {
+      prependWish(wish.author || wish.author_name, wish.message || wish.content);
+    });
+  }
+
+  /** Prepend a single wish to the top of the wishes list. */
+  function prependWish(author, message) {
+    const list = document.getElementById("wishes-list");
+    if (!list) return;
+    const article = document.createElement("article");
+    article.className = "wishes__item";
+    article.innerHTML = `
+      <p class="wishes__author"></p>
+      <p class="wishes__message"></p>
+    `;
+    setText(".wishes__author", author, article);
+    setText(".wishes__message", message, article);
+    list.prepend(article);
   }
 
   // --- Populate RSVP ---------------------------------------------------------
@@ -422,6 +468,7 @@
         a.className = `footer__share-link footer__share-link--${link.platform}`;
         a.href = link.url;
         a.setAttribute("aria-label", link.ariaLabel);
+        a.setAttribute("data-platform", link.platform);
         a.textContent = link.label;
 
         if (link.platform !== "copy") {
@@ -467,19 +514,57 @@
     setInterval(update, 1000);
   }
 
-  // --- Scroll Reveal (lightweight AOS alternative) -------------------------
+  // =========================================================================
+  // FEATURE 1: PAGE PRELOADER
+  // =========================================================================
 
-  function initScrollReveal() {
-    const revealTargets = document.querySelectorAll(
+  function initPreloader() {
+    const loader = document.getElementById("loader");
+    if (!loader) return;
+
+    // Lock scroll while loading
+    document.body.style.overflow = "hidden";
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        loader.classList.add("loader--hidden");
+        setTimeout(() => {
+          loader.style.display = "none";
+          document.body.style.overflow = "";
+        }, 400);
+      }, 800);
+    });
+  }
+
+  // =========================================================================
+  // FEATURE 2: SCROLL ANIMATIONS (AOS-like with IntersectionObserver)
+  // =========================================================================
+
+  function initScrollAnimations() {
+    const animTargets = document.querySelectorAll(
       ".couple__person, .events__card, .love-story__milestone, " +
-      ".gallery__item, .wishes__item, .wishes__form-wrapper"
+        ".wishes__item, .wishes__form-wrapper, .gallery__heading"
     );
 
-    revealTargets.forEach((el) => el.classList.add("reveal"));
+    // Add data-aos attributes for fade-up animation
+    animTargets.forEach((el, index) => {
+      el.setAttribute("data-aos", "fade-up");
+      // Stagger siblings by 200ms increments
+      const siblings = el.parentElement
+        ? Array.from(el.parentElement.children).filter((c) =>
+            c.matches(el.tagName.toLowerCase() + "." + [...el.classList].join("."))
+          )
+        : [];
+      const sibIndex = siblings.indexOf(el);
+      const delay = sibIndex > 0 ? sibIndex * 200 : 0;
+      if (delay > 0) {
+        el.setAttribute("data-aos-delay", String(delay));
+      }
+    });
 
     if (!("IntersectionObserver" in window)) {
       // Fallback: show everything immediately
-      revealTargets.forEach((el) => el.classList.add("visible"));
+      animTargets.forEach((el) => el.classList.add("aos-animate"));
       return;
     }
 
@@ -487,7 +572,10 @@
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+            const delay = parseInt(entry.target.getAttribute("data-aos-delay") || "0", 10);
+            setTimeout(() => {
+              entry.target.classList.add("aos-animate");
+            }, delay);
             observer.unobserve(entry.target);
           }
         });
@@ -495,12 +583,404 @@
       { threshold: 0.1 }
     );
 
-    revealTargets.forEach((el) => observer.observe(el));
+    animTargets.forEach((el) => observer.observe(el));
+  }
+
+  // =========================================================================
+  // FEATURE 3: GALLERY SWIPER CAROUSEL
+  // =========================================================================
+
+  let gallerySwiper = null;
+
+  function initGallerySwiper() {
+    if (typeof Swiper === "undefined") return;
+
+    gallerySwiper = new Swiper(".gallery__slider", {
+      effect: "coverflow",
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
+      coverflowEffect: {
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true,
+      },
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      loop: true,
+    });
+  }
+
+  // =========================================================================
+  // FEATURE 4: GALLERY LIGHTBOX
+  // =========================================================================
+
+  let lightboxIndex = 0;
+
+  function initLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    if (!lightbox || !lightboxImg) return;
+
+    const { gallery } = WEDDING_CONFIG;
+    const images = gallery.images;
+
+    function openLightbox(index) {
+      lightboxIndex = index;
+      lightboxImg.src = images[lightboxIndex].src;
+      lightboxImg.alt = images[lightboxIndex].alt;
+      lightbox.classList.add("lightbox--open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("lightbox--open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function showPrev() {
+      lightboxIndex = (lightboxIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[lightboxIndex].src;
+      lightboxImg.alt = images[lightboxIndex].alt;
+    }
+
+    function showNext() {
+      lightboxIndex = (lightboxIndex + 1) % images.length;
+      lightboxImg.src = images[lightboxIndex].src;
+      lightboxImg.alt = images[lightboxIndex].alt;
+    }
+
+    // Delegate click on gallery links
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("[data-lightbox-index]");
+      if (link) {
+        e.preventDefault();
+        openLightbox(parseInt(link.getAttribute("data-lightbox-index"), 10));
+      }
+    });
+
+    // Close button
+    lightbox.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
+
+    // Prev / Next
+    lightbox.querySelector(".lightbox__prev").addEventListener("click", showPrev);
+    lightbox.querySelector(".lightbox__next").addEventListener("click", showNext);
+
+    // Click on overlay (outside image) closes
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("lightbox--open")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    });
+  }
+
+  // =========================================================================
+  // FEATURE 5: BACKGROUND MUSIC + AUDIO TOGGLE
+  // =========================================================================
+
+  function initAudioToggle() {
+    const audio = document.getElementById("audio");
+    const toggleBtn = document.getElementById("audio-toggle");
+    if (!audio || !toggleBtn) return;
+
+    const { audio: audioConfig } = WEDDING_CONFIG;
+    if (audioConfig && audioConfig.src) {
+      audio.src = audioConfig.src;
+    }
+
+    let isPlaying = false;
+
+    function updateIcon() {
+      const icon = toggleBtn.querySelector("i");
+      if (icon) {
+        icon.className = isPlaying ? "ri-volume-up-fill" : "ri-volume-mute-fill";
+      }
+    }
+
+    // Toggle play/pause
+    toggleBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+      } else {
+        audio.play().catch(() => {
+          // Browser blocked autoplay – ignore silently
+        });
+        isPlaying = true;
+      }
+      updateIcon();
+    });
+
+    // Try to autoplay on first user interaction
+    function tryAutoplay() {
+      if (!isPlaying) {
+        audio
+          .play()
+          .then(() => {
+            isPlaying = true;
+            updateIcon();
+          })
+          .catch(() => {
+            // Autoplay blocked – remain muted
+          });
+      }
+      document.removeEventListener("click", tryAutoplay);
+      document.removeEventListener("touchstart", tryAutoplay);
+      document.removeEventListener("scroll", tryAutoplay);
+    }
+
+    document.addEventListener("click", tryAutoplay, { once: true });
+    document.addEventListener("touchstart", tryAutoplay, { once: true });
+    document.addEventListener("scroll", tryAutoplay, { once: true });
+  }
+
+  // =========================================================================
+  // FEATURE 6: WISHES FORM SUBMISSION
+  // =========================================================================
+
+  function initWishesForm() {
+    const form = document.getElementById("wishes-form");
+    if (!form) return;
+
+    const { api } = WEDDING_CONFIG;
+
+    // Fetch existing wishes from API on load
+    if (api && api.wishesGet) {
+      fetch(api.wishesGet)
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error("Failed to fetch wishes");
+        })
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            renderWishes(
+              data.map((w) => ({
+                author: w.author_name || w.author,
+                message: w.content || w.message,
+              }))
+            );
+          }
+        })
+        .catch(() => {
+          // API not available yet – keep initial wishes from config
+        });
+    }
+
+    // Form submit handler
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById("wish-name");
+      const messageInput = document.getElementById("wish-message");
+      const submitBtn = form.querySelector(".wishes__submit");
+
+      const name = nameInput ? nameInput.value.trim() : "";
+      const message = messageInput ? messageInput.value.trim() : "";
+
+      if (!name || !message) return;
+
+      // Update button state
+      const originalText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) submitBtn.textContent = "Đang gửi...";
+
+      const payload = { author_name: name, content: message };
+
+      if (api && api.wishesPost) {
+        fetch(api.wishesPost, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => {
+            if (res.ok) return res.json();
+            throw new Error("Failed");
+          })
+          .then(() => {
+            prependWish(name, message);
+            form.reset();
+            if (submitBtn) submitBtn.textContent = originalText;
+          })
+          .catch(() => {
+            // API not available – still show the wish locally
+            prependWish(name, message);
+            form.reset();
+            if (submitBtn) submitBtn.textContent = originalText;
+          });
+      } else {
+        // No API configured – just add locally
+        prependWish(name, message);
+        form.reset();
+        if (submitBtn) submitBtn.textContent = originalText;
+      }
+    });
+  }
+
+  // =========================================================================
+  // FEATURE 7: RSVP FORM SUBMISSION
+  // =========================================================================
+
+  function initRsvpForm() {
+    const form = document.getElementById("rsvp-form");
+    if (!form) return;
+
+    const { api } = WEDDING_CONFIG;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector(".rsvp__submit");
+
+      // Collect form data
+      const eventRadio = form.querySelector('input[name="event"]:checked');
+      const nameInput = document.getElementById("rsvp-name");
+      const attendanceRadio = form.querySelector('input[name="attendance"]:checked');
+      const guestCountRadio = form.querySelector('input[name="guest_count"]:checked');
+
+      // Validate
+      if (!eventRadio || !nameInput || !nameInput.value.trim() || !attendanceRadio) {
+        showFormMessage(form, "Vui lòng điền đầy đủ thông tin!", "error");
+        return;
+      }
+
+      const payload = {
+        event: eventRadio.value,
+        guest_name: nameInput.value.trim(),
+        attendance: attendanceRadio.value,
+        guest_count: guestCountRadio ? guestCountRadio.value : "1",
+      };
+
+      // Update button state
+      if (submitBtn) submitBtn.textContent = "Đang gửi...";
+
+      if (api && api.rsvpPost) {
+        fetch(api.rsvpPost, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => {
+            if (res.ok) return res.json();
+            throw new Error("Failed");
+          })
+          .then(() => {
+            markRsvpSuccess(submitBtn, form);
+          })
+          .catch(() => {
+            // API not available – still show success locally
+            markRsvpSuccess(submitBtn, form);
+          });
+      } else {
+        // No API configured – show success locally
+        markRsvpSuccess(submitBtn, form);
+      }
+    });
+  }
+
+  function markRsvpSuccess(submitBtn, form) {
+    if (submitBtn) {
+      submitBtn.textContent = "Đã xác nhận";
+      submitBtn.disabled = true;
+      submitBtn.classList.add("rsvp__submit--success");
+    }
+    showFormMessage(form, "Chúng mình xin chân thành cám ơn!", "success");
+  }
+
+  function showFormMessage(form, text, type) {
+    // Remove existing message
+    const existing = form.querySelector(".form-message");
+    if (existing) existing.remove();
+
+    const msg = document.createElement("p");
+    msg.className = `form-message form-message--${type}`;
+    msg.textContent = text;
+    form.appendChild(msg);
+
+    // Auto-hide after 5 seconds for error messages
+    if (type === "error") {
+      setTimeout(() => msg.remove(), 5000);
+    }
+  }
+
+  // =========================================================================
+  // FEATURE 8: SHARE LINKS
+  // =========================================================================
+
+  function initShareLinks() {
+    const pageUrl = encodeURIComponent(window.location.href);
+
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("[data-platform]");
+      if (!link) return;
+
+      const platform = link.getAttribute("data-platform");
+
+      switch (platform) {
+        case "facebook":
+          e.preventDefault();
+          window.open(
+            `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`,
+            "_blank",
+            "width=600,height=400"
+          );
+          break;
+
+        case "zalo":
+          e.preventDefault();
+          window.open(
+            `https://zalo.me/share?url=${pageUrl}`,
+            "_blank",
+            "width=600,height=400"
+          );
+          break;
+
+        case "copy":
+          e.preventDefault();
+          navigator.clipboard
+            .writeText(window.location.href)
+            .then(() => {
+              // Show copied tooltip
+              const original = link.getAttribute("aria-label");
+              link.setAttribute("aria-label", "Đã sao chép!");
+              link.classList.add("footer__share-link--copied");
+              setTimeout(() => {
+                link.setAttribute("aria-label", original);
+                link.classList.remove("footer__share-link--copied");
+              }, 2000);
+            })
+            .catch(() => {
+              // Fallback: select and copy
+              const input = document.createElement("input");
+              input.value = window.location.href;
+              document.body.appendChild(input);
+              input.select();
+              document.execCommand("copy");
+              input.remove();
+            });
+          break;
+      }
+    });
   }
 
   // --- Initialize ------------------------------------------------------------
 
   function init() {
+    // Populate DOM from config
     populateMeta();
     populateHero();
     populateCouple();
@@ -512,11 +992,22 @@
     populateRsvp();
     populateThankYou();
     populateFooter();
+
+    // Interactive features
     startCountdownTimer();
-    initScrollReveal();
+    initGallerySwiper();
+    initLightbox();
+    initScrollAnimations();
+    initAudioToggle();
+    initWishesForm();
+    initRsvpForm();
+    initShareLinks();
   }
 
-  // Run when DOM is ready
+  // Preloader must run immediately (before DOMContentLoaded)
+  initPreloader();
+
+  // Run the rest when DOM is ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
