@@ -49,7 +49,7 @@
  */
 
 // ── Replace with YOUR Google Sheet ID ──
-var SHEET_ID = "YOUR_GOOGLE_SHEET_ID_HERE";
+var SHEET_ID = "1tk2JSOc33m5gCNfekp57984CJvpfYurD2vEqcQxv9rI";
 
 // ── Sheet tab names (must match exactly) ──
 var WISHES_SHEET = "Wishes";

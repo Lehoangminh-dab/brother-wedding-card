@@ -223,6 +223,6 @@ const WEDDING_CONFIG = {
   // (see backend/Code.gs for full setup instructions)
   // ──────────────────────────────────────────────
   api: {
-    baseUrl: "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec",
+    baseUrl: "https://script.google.com/macros/s/AKfycbxyAjfENKitNWb7mIQjkmVOQYToYsRBquUgb3gnrdn2VYph95bgkDPus6SVDMm447tS/exec",
   },
 };
