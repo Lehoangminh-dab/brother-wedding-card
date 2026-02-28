@@ -47,7 +47,7 @@ const WEDDING_CONFIG = {
     posterImage: "", // optional poster before video loads
     backgroundImage: "", // fallback when no video; leave empty to use hero.backgroundImage
     // Canva-style date format; leave empty to build from hero
-    dateLine1: "Thứ Hai, 12 Tháng 1",
+    dateLine1: "Thứ Năm, 28 Tháng 5 Năm 2026",
     dateLine2: "11h00",
   },
 
