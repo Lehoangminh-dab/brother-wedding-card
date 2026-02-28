@@ -247,8 +247,9 @@ main {
   --cover-font-name: "Blosta Script", "Great Vibes", "WindSong", cursive;
   --cover-font-sans: "Montserrat", "Quicksand", sans-serif;
   /* Movie poster hierarchy */
-  --cover-name-size: clamp(58px, 8.2vw, 98px);
-  --cover-and-date-size: clamp(14px, 1.85vw, 22px);
+  --cover-name-size: clamp(87px, 12.3vw, 147px);
+  --cover-and-size: clamp(21px, 2.8vw, 33px);
+  --cover-date-size: clamp(14px, 1.9vw, 22px);
 
   position: relative;
   width: 100%;
@@ -359,13 +360,13 @@ main {
 /* AND – sans-serif, uppercase, small, nestled between names */
 /* Extra margin-bottom: script font visually extends beyond its box (descenders/ascenders) */
 .cover__and {
-  font-size: var(--cover-and-date-size);
+  font-size: var(--cover-and-size);
   font-family: var(--cover-font-sans);
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   line-height: 1;
-  margin: 6px 0 12px 0;
+  margin: 6px 0 24px 0;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
@@ -373,7 +374,7 @@ main {
 .cover__date {
   margin: 0;
   padding: 0;
-  font-size: var(--cover-and-date-size);
+  font-size: var(--cover-date-size);
   font-family: var(--cover-font-sans);
   font-weight: 500;
   letter-spacing: 0.18em;
