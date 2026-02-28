@@ -180,56 +180,6 @@
     });
   }
 
-  // --- Populate Love Story ---------------------------------------------------
-
-  function populateLoveStory() {
-    const { loveStory } = WEDDING_CONFIG;
-
-    // Set background image
-    const loveStorySection = document.getElementById("love-story");
-    if (loveStorySection && loveStory.backgroundImage) {
-      loveStorySection.style.backgroundImage = `url('${loveStory.backgroundImage}')`;
-    }
-
-    const headingEl = document.querySelector(".love-story__heading");
-    if (headingEl) {
-      const iconSpan = headingEl.querySelector(".love-story__icon");
-      headingEl.textContent = "";
-      if (iconSpan) headingEl.appendChild(iconSpan);
-      headingEl.appendChild(document.createTextNode(` ${loveStory.heading}`));
-    }
-
-    const timeline = document.querySelector(".love-story__timeline");
-    if (!timeline) return;
-
-    timeline.innerHTML = "";
-
-    loveStory.milestones.forEach((milestone) => {
-      const li = document.createElement("li");
-      li.className = "love-story__milestone";
-
-      const timeEl = document.createElement("time");
-      timeEl.className = "love-story__date";
-      timeEl.setAttribute("datetime", milestone.dateISO);
-      timeEl.textContent = milestone.dateDisplay;
-      li.appendChild(timeEl);
-
-      const h3 = document.createElement("h3");
-      h3.className = "love-story__title";
-      h3.textContent = milestone.title;
-      li.appendChild(h3);
-
-      if (milestone.description) {
-        const p = document.createElement("p");
-        p.className = "love-story__description";
-        p.textContent = milestone.description;
-        li.appendChild(p);
-      }
-
-      timeline.appendChild(li);
-    });
-  }
-
   // --- Populate Gallery (Swiper slides) -------------------------------------
 
   function populateGallery() {
@@ -531,7 +481,7 @@
 
   function initScrollAnimations() {
     const animTargets = document.querySelectorAll(
-      ".couple__person, .events__card, .love-story__milestone, " +
+      ".couple__person, .events__card, " +
         ".wishes__item, .wishes__form-wrapper, .gallery__heading"
     );
 
@@ -911,7 +861,6 @@
     populateCouple();
     populateCountdown();
     populateEvents();
-    populateLoveStory();
     populateGallery();
     populateWishes();
     populateRsvp();

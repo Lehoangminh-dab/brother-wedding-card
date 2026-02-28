@@ -116,34 +116,6 @@ const WEDDING_CONFIG = {
   ],
 
   // ──────────────────────────────────────────────
-  // LOVE STORY
-  // ──────────────────────────────────────────────
-  loveStory: {
-    backgroundImage: "assets/images/placeholder.jpg",
-    heading: "Love Story",
-    milestones: [
-      {
-        dateDisplay: "01/03/2019",
-        dateISO: "2019-03-01",
-        title: "Ngày đầu hẹn hò",
-        description: "",
-      },
-      {
-        dateDisplay: "11/08/2025",
-        dateISO: "2025-08-11",
-        title: "Ngày cầu hôn",
-        description: "Anh nói đã đến lúc chúng ta cùng nhau bước sang 1 trang mới của cuộc đời",
-      },
-      {
-        dateDisplay: "12/01/2026",
-        dateISO: "2026-01-12",
-        title: "Ngày thành hôn",
-        description: "Chúng mình chính thức về chung một nhà",
-      },
-    ],
-  },
-
-  // ──────────────────────────────────────────────
   // GALLERY
   // ──────────────────────────────────────────────
   gallery: {
