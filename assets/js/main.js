@@ -39,50 +39,32 @@
     setAttr('meta[name="description"]', "content", meta.description);
   }
 
-  // --- Populate Hero ---------------------------------------------------------
+  // --- Populate Cover --------------------------------------------------------
 
-  function populateHero() {
-    const { couple, hero } = WEDDING_CONFIG;
+  function populateCover() {
+    const { couple, hero, cover } = WEDDING_CONFIG;
 
-    // Set hero background image
-    const heroBg = document.querySelector(".hero__bg");
-    if (heroBg && hero.backgroundImage) {
-      heroBg.src = hero.backgroundImage;
-      heroBg.alt = "Wedding background";
+    // Video background (looped, muted, autoplay)
+    const coverVideo = document.querySelector(".cover__video");
+    if (coverVideo && cover.videoUrl) {
+      coverVideo.src = cover.videoUrl;
+      coverVideo.poster = cover.posterImage || hero.backgroundImage || "";
+      coverVideo.play().catch(() => {}); // autoplay may be blocked; play() handles it
     }
 
-    setText(".hero__groom-name", couple.groom.shortName);
-    setText(".hero__bride-name", couple.bride.shortName);
-    setText(".hero__day-of-week", hero.dayOfWeek);
-    setText(".hero__day", hero.day);
-    setText(".hero__time", hero.time);
-    setText(".hero__month-year", hero.monthYear);
-    setText(".hero__venue-label", hero.venueLabel);
-
-    const address = document.querySelector(".hero__venue-address");
-    if (address) {
-      address.textContent = `${hero.venueName} ${hero.venueAddress}`;
+    // Fallback: background image when no video
+    const coverBg = document.querySelector(".cover__bg--fallback");
+    const bgImage = cover.backgroundImage || hero.backgroundImage;
+    if (coverBg && bgImage) {
+      coverBg.style.backgroundImage = `url('${bgImage}')`;
     }
 
-    // Action buttons (phone, gift, map)
-    const actionsContainer = document.querySelector(".hero__actions");
-    if (actionsContainer && hero.actionButtons) {
-      actionsContainer.innerHTML = "";
-      hero.actionButtons.forEach((btn) => {
-        const a = document.createElement("a");
-        a.href = btn.href;
-        a.className = "hero__action-btn";
-        a.setAttribute("aria-label", btn.ariaLabel);
-        if (btn.external) {
-          a.target = "_blank";
-          a.rel = "noopener noreferrer";
-        }
-        const icon = document.createElement("i");
-        icon.className = btn.icon;
-        a.appendChild(icon);
-        actionsContainer.appendChild(a);
-      });
-    }
+    setText(".cover__groom-name", couple.groom.shortName);
+    setText(".cover__bride-name", couple.bride.shortName);
+
+    // Single line, uppercase (like Canva ref: "SATURDAY, 25 OCTOBER")
+    const dateStr = cover.dateLine1 || `${hero.dayOfWeek}, ${hero.day} ${hero.monthYear}`;
+    setText(".cover__date", dateStr.toUpperCase());
   }
 
   // --- Populate Couple -------------------------------------------------------
@@ -525,15 +507,23 @@
     // Lock scroll while loading
     document.body.style.overflow = "hidden";
 
-    window.addEventListener("load", () => {
+    function hideLoaderAndStartCover() {
       setTimeout(() => {
         loader.classList.add("loader--hidden");
         setTimeout(() => {
           loader.style.display = "none";
           document.body.style.overflow = "";
+          const cover = document.getElementById("cover");
+          if (cover) cover.classList.add("cover--ready");
         }, 400);
       }, 800);
-    });
+    }
+
+    if (document.readyState === "complete") {
+      hideLoaderAndStartCover();
+    } else {
+      window.addEventListener("load", hideLoaderAndStartCover);
+    }
   }
 
   // =========================================================================
@@ -978,7 +968,7 @@
   function init() {
     // Populate DOM from config
     populateMeta();
-    populateHero();
+    populateCover();
     populateCouple();
     populateCountdown();
     populateEvents();

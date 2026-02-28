@@ -11,8 +11,8 @@ const WEDDING_CONFIG = {
   // META / PAGE-LEVEL
   // ──────────────────────────────────────────────
   meta: {
-    title: "Long Nhật – Thanh Hiền | Wedding Invitation",
-    description: "Thiệp cưới Long Nhật & Thanh Hiền - Wedding Invitation",
+    title: "Phuc – Van | Wedding Invitation",
+    description: "Thiệp cưới Phuc & Van - Wedding Invitation",
   },
 
   // ──────────────────────────────────────────────
@@ -20,21 +20,35 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   couple: {
     groom: {
-      shortName: "Long Nhật",
-      fullName: "Lê Long Nhật",
+      shortName: "Phuc",
+      fullName: "Lê Hoàng Phúc",
       dob: "13/09/2000",
       dobISO: "2000-09-13",
       image: "assets/images/placeholder.jpg",
-      imageAlt: "Chú rể - Lê Long Nhật",
+      imageAlt: "Chú rể - Lê Hoàng Phúc",
     },
     bride: {
-      shortName: "Thanh Hiền",
-      fullName: "Vũ Thị Thanh Hiền",
+      shortName: "Van",
+      fullName: "Nguyễn Thị Hồng Vân",
       dob: "04/02/1999",
       dobISO: "1999-02-04",
       image: "assets/images/placeholder.jpg",
-      imageAlt: "Cô dâu - Vũ Thị Thanh Hiền",
+      imageAlt: "Cô dâu - Nguyễn Thị Hồng Vân",
     },
+  },
+
+  // ──────────────────────────────────────────────
+  // COVER (opening section: names + date only)
+  // Canva-style: looped video bg, staggered text animations
+  // Uses hero date values. Set videoUrl for looped video, or backgroundImage as fallback
+  // ──────────────────────────────────────────────
+  cover: {
+    videoUrl: "https://assets.mixkit.co/videos/48527/48527-720.mp4", // aerial ocean waves; leave "" for image only
+    posterImage: "", // optional poster before video loads
+    backgroundImage: "", // fallback when no video; leave empty to use hero.backgroundImage
+    // Canva-style date format; leave empty to build from hero
+    dateLine1: "Thứ Hai, 12 Tháng 1",
+    dateLine2: "11h00",
   },
 
   // ──────────────────────────────────────────────
@@ -136,12 +150,12 @@ const WEDDING_CONFIG = {
     tagline: "cherish every",
     title: "our moment",
     images: [
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 1" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 2" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 3" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 4" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 5" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Long Nhật và Thanh Hiền - 6" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 1" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 2" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 3" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 4" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 5" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 6" },
     ],
   },
 

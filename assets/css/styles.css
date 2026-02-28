@@ -230,163 +230,191 @@ main {
 }
 
 /* ==========================================================================
-   5. HERO / HEADER SECTION
+   5. COVER SECTION (names + date only)
+   Canva-style: looped video, staggered text animations
    ========================================================================== */
-.hero {
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .4);
+
+/* Blosta Script – original Canva wedding-website-0020 font for names */
+@font-face {
+  font-family: "Blosta Script";
+  src: url("../fonts/BlostaScript-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-.hero__bg {
+.cover {
+  --cover-font-name: "Blosta Script", "Great Vibes", "WindSong", cursive;
+  --cover-font-sans: "Montserrat", "Quicksand", sans-serif;
+  /* Movie poster hierarchy */
+  --cover-name-size: clamp(52px, 7.5vw, 90px);
+  --cover-and-date-size: clamp(12px, 1.6vw, 20px);
+
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Video / image background layer */
+.cover__media {
   position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.cover__video {
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
   object-fit: cover;
-  object-position: center center;
-  z-index: -1;
-  animation: kenburns-top 10s ease-out infinite both;
+  object-position: center 30%;
 }
 
-.hero__overlay {
-  width: 90%;
-  max-width: 500px;
-  max-height: 90vh;
+.cover__bg--fallback {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  z-index: 9;
-  display: flex;
-  flex-direction: column;
-  gap: min(40px, 4vh);
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: var(--text-white);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  padding: min(20px, 2.5vh) min(20px, 4vw);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  border-radius: 12px;
-  background-color: rgba(0, 0, 0, .237);
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
 }
 
-.hero__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+/* Hide fallback when video is present and playing */
+.cover__media:has(.cover__video[src]) .cover__bg--fallback {
+  display: none;
 }
 
-.hero__groom-name,
-.hero__bride-name {
-  font-size: var(--biger-size);
-  font-family: var(--title-font);
-  line-height: 1.2;
+/* Movie-poster overlay: vignette (darker at edges) */
+.cover__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse 90% 80% at 50% 45%,
+    transparent 30%,
+    rgba(0, 0, 0, 0.15) 60%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
 }
 
-.hero__ampersand {
-  font-size: var(--biger-size);
-  font-family: var(--title-font);
-  line-height: 1;
-}
-
-/* Date group – 3-col grid */
-.hero__date {
+/* Content layer – movie poster layout: names center, date lower third */
+.cover__content {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  font-family: var(--title-font);
-  padding: 12px 0;
-  border-top: 1px solid var(--text-white);
-  border-bottom: 1px solid var(--text-white);
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto;
-  gap: min(10px, 1.2vh);
-  align-items: center;
-  text-transform: uppercase;
-  margin-top: 12px;
-}
-
-.hero__day-of-week {
-  text-align: center;
-  border-top: 1px solid var(--text-white);
-  border-bottom: 1px solid var(--text-white);
-  padding: 4px 0;
-  font-weight: 200;
-}
-
-.hero__day {
-  text-align: center;
-  font-size: var(--biger-size);
-  font-weight: 700;
-}
-
-.hero__time {
-  text-align: center;
-  border-top: 1px solid var(--text-white);
-  border-bottom: 1px solid var(--text-white);
-  padding: 4px 0;
-  font-weight: 200;
-}
-
-.hero__month-year {
-  grid-column: 1 / -1;
-  text-align: center;
-  font-size: var(--title-fs);
-  font-weight: 200;
-}
-
-/* Venue */
-.hero__venue {
-  margin-top: 10px;
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   text-align: center;
+  color: #fff;
+  padding: 48px 24px 56px;
+  box-sizing: border-box;
 }
 
-.hero__venue-label {
-  font-size: 16px;
-  font-weight: 300;
-  font-family: var(--script-font);
-}
-
-.hero__venue-address {
-  font-size: 16px;
-  font-weight: 300;
-  font-style: normal;
-}
-
-/* Hero action buttons (phone, gift, map) */
-.hero__actions {
+.cover__names-block {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.hero__action-btn {
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  color: var(--text-white);
-  font-size: 20px;
-  transition: background-color var(--transition), transform var(--transition);
-  text-decoration: none;
+  justify-content: center;
+  flex: 1;
 }
 
-.hero__action-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
+@media only screen and (min-width: 540px) {
+  .cover__content {
+    padding: 56px 32px 64px;
+  }
 }
+
+@media only screen and (min-width: 768px) {
+  .cover__content {
+    padding: 64px 40px 72px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .cover__content {
+    padding: 72px 48px 80px;
+  }
+}
+
+/* Names – movie-poster title treatment */
+.cover__groom-name,
+.cover__bride-name {
+  font-size: var(--cover-name-size);
+  font-family: var(--cover-font-name);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  margin: 0;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* AND – sans-serif, uppercase, small, nestled between names */
+.cover__and {
+  font-size: var(--cover-and-date-size);
+  font-family: var(--cover-font-sans);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 6px 0;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Date – lower third, like film credit block */
+.cover__date {
+  margin: 0;
+  padding: 0;
+  font-size: var(--cover-and-date-size);
+  font-family: var(--cover-font-sans);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Staggered entrance – slower, more cinematic */
+.cover__animate {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cover--ready .cover__animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cover__animate[data-cover-delay="0"] { transition-delay: 0ms; }
+.cover__animate[data-cover-delay="300"] { transition-delay: 300ms; }
+.cover__animate[data-cover-delay="600"] { transition-delay: 600ms; }
+.cover__animate[data-cover-delay="900"] { transition-delay: 900ms; }
+
+/* Fallback when no video/image: light cream with dark text */
+.cover:not(:has(.cover__video[src])) .cover__bg--fallback {
+  display: block;
+}
+
+.cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__content {
+  color: var(--text-dark);
+}
+
+.cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__bg--fallback {
+  background-color: var(--bg);
+}
+
+.cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__overlay {
+  background: transparent;
+}
+
 
 /* ==========================================================================
    6. COUPLE / ABOUT SECTION
