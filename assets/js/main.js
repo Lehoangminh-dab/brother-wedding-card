@@ -66,44 +66,6 @@
     setText(".cover__date", dateStr.toUpperCase());
   }
 
-  // --- Populate Couple -------------------------------------------------------
-
-  function populateCouple() {
-    const { couple } = WEDDING_CONFIG;
-
-    // Bride
-    const brideSection = document.querySelector(".couple__bride");
-    if (brideSection) {
-      const img = brideSection.querySelector(".couple__img");
-      if (img) {
-        img.src = couple.bride.image;
-        img.alt = couple.bride.imageAlt;
-      }
-      setText(".couple__name", couple.bride.fullName, brideSection);
-      const time = brideSection.querySelector(".couple__dob time");
-      if (time) {
-        time.textContent = couple.bride.dob;
-        time.setAttribute("datetime", couple.bride.dobISO);
-      }
-    }
-
-    // Groom
-    const groomSection = document.querySelector(".couple__groom");
-    if (groomSection) {
-      const img = groomSection.querySelector(".couple__img");
-      if (img) {
-        img.src = couple.groom.image;
-        img.alt = couple.groom.imageAlt;
-      }
-      setText(".couple__name", couple.groom.fullName, groomSection);
-      const time = groomSection.querySelector(".couple__dob time");
-      if (time) {
-        time.textContent = couple.groom.dob;
-        time.setAttribute("datetime", couple.groom.dobISO);
-      }
-    }
-  }
-
   // --- Populate Countdown ----------------------------------------------------
 
   function populateCountdown() {
@@ -131,52 +93,6 @@
     labels.forEach((unit, i) => {
       const key = labelKeys[i];
       if (key) setText(".countdown__label", countdown.labels[key], unit);
-    });
-  }
-
-  // --- Populate Events -------------------------------------------------------
-
-  function populateEvents() {
-    const { events } = WEDDING_CONFIG;
-    const container = document.getElementById("events");
-    if (!container) return;
-
-    // Clear existing cards
-    container.innerHTML = "";
-
-    events.forEach((event) => {
-      const card = document.createElement("article");
-      card.className = "events__card";
-
-      card.innerHTML = `
-        <h3 class="events__title"></h3>
-        <address class="events__location"></address>
-        <div class="events__details">
-          <p class="events__time">Vào lúc <strong></strong></p>
-          <p class="events__date">
-            <span class="events__day-of-week"></span>
-            <time>
-              <span class="events__day"></span>
-              <span class="events__separator">/</span>
-              <span class="events__month"></span>
-              <span class="events__year"></span>
-            </time>
-          </p>
-          <p class="events__lunar"></p>
-        </div>
-      `;
-
-      setText(".events__title", event.title, card);
-      setText(".events__location", event.location, card);
-      setText(".events__time strong", event.time, card);
-      setText(".events__day-of-week", event.dayOfWeek, card);
-      setAttr(".events__date time", "datetime", event.dateISO, card);
-      setText(".events__day", event.day, card);
-      setText(".events__month", event.month, card);
-      setText(".events__year", event.year, card);
-      setText(".events__lunar", event.lunar, card);
-
-      container.appendChild(card);
     });
   }
 
@@ -381,38 +297,6 @@
     setText(".thank-you__message", thankYou.message);
   }
 
-  // --- Populate Footer -------------------------------------------------------
-
-  function populateFooter() {
-    const { footer } = WEDDING_CONFIG;
-
-    setText(".footer__share-title", footer.shareTitle);
-
-    // Rebuild share links
-    const linksList = document.querySelector(".footer__share-links");
-    if (linksList) {
-      linksList.innerHTML = "";
-
-      footer.shareLinks.forEach((link) => {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.className = `footer__share-link footer__share-link--${link.platform}`;
-        a.href = link.url;
-        a.setAttribute("aria-label", link.ariaLabel);
-        a.setAttribute("data-platform", link.platform);
-        a.textContent = link.label;
-
-        if (link.platform !== "copy") {
-          a.target = "_blank";
-          a.rel = "noopener noreferrer";
-        }
-
-        li.appendChild(a);
-        linksList.appendChild(li);
-      });
-    }
-  }
-
   // --- Countdown Timer -------------------------------------------------------
 
   function startCountdownTimer() {
@@ -481,8 +365,7 @@
 
   function initScrollAnimations() {
     const animTargets = document.querySelectorAll(
-      ".couple__person, .events__card, " +
-        ".wishes__item, .wishes__form-wrapper, .gallery__heading"
+      ".wishes__item, .wishes__form-wrapper, .gallery__heading"
     );
 
     // Add data-aos attributes for fade-up animation
@@ -792,80 +675,17 @@
     }
   }
 
-  // =========================================================================
-  // FEATURE 7: SHARE LINKS
-  // =========================================================================
-
-  function initShareLinks() {
-    const pageUrl = encodeURIComponent(window.location.href);
-
-    document.addEventListener("click", (e) => {
-      const link = e.target.closest("[data-platform]");
-      if (!link) return;
-
-      const platform = link.getAttribute("data-platform");
-
-      switch (platform) {
-        case "facebook":
-          e.preventDefault();
-          window.open(
-            `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`,
-            "_blank",
-            "width=600,height=400"
-          );
-          break;
-
-        case "zalo":
-          e.preventDefault();
-          window.open(
-            `https://zalo.me/share?url=${pageUrl}`,
-            "_blank",
-            "width=600,height=400"
-          );
-          break;
-
-        case "copy":
-          e.preventDefault();
-          navigator.clipboard
-            .writeText(window.location.href)
-            .then(() => {
-              // Show copied tooltip
-              const original = link.getAttribute("aria-label");
-              link.setAttribute("aria-label", "Đã sao chép!");
-              link.classList.add("footer__share-link--copied");
-              setTimeout(() => {
-                link.setAttribute("aria-label", original);
-                link.classList.remove("footer__share-link--copied");
-              }, 2000);
-            })
-            .catch(() => {
-              // Fallback: select and copy
-              const input = document.createElement("input");
-              input.value = window.location.href;
-              document.body.appendChild(input);
-              input.select();
-              document.execCommand("copy");
-              input.remove();
-            });
-          break;
-      }
-    });
-  }
-
   // --- Initialize ------------------------------------------------------------
 
   function init() {
     // Populate DOM from config
     populateMeta();
     populateCover();
-    populateCouple();
     populateCountdown();
-    populateEvents();
     populateGallery();
     populateWishes();
     populateRsvp();
     populateThankYou();
-    populateFooter();
 
     // Interactive features
     startCountdownTimer();
@@ -874,7 +694,6 @@
     initScrollAnimations();
     initWishesForm();
     initRsvpForm();
-    initShareLinks();
   }
 
   // Preloader must run immediately (before DOMContentLoaded)

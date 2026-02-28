@@ -16,25 +16,11 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // COUPLE
+  // COUPLE (names used on cover only)
   // ──────────────────────────────────────────────
   couple: {
-    groom: {
-      shortName: "Phuc",
-      fullName: "Lê Hoàng Phúc",
-      dob: "13/09/2000",
-      dobISO: "2000-09-13",
-      image: "assets/images/placeholder.jpg",
-      imageAlt: "Chú rể - Lê Hoàng Phúc",
-    },
-    bride: {
-      shortName: "Van",
-      fullName: "Nguyễn Thị Hồng Vân",
-      dob: "04/02/1999",
-      dobISO: "1999-02-04",
-      image: "assets/images/placeholder.jpg",
-      imageAlt: "Cô dâu - Nguyễn Thị Hồng Vân",
-    },
+    groom: { shortName: "Phuc" },
+    bride: { shortName: "Van" },
   },
 
   // ──────────────────────────────────────────────
@@ -182,18 +168,6 @@ const WEDDING_CONFIG = {
     backgroundImage: "assets/images/placeholder.jpg",
     heading: "Thank you",
     message: "Sự xuất hiện của bạn là niềm vui đối với chúng tôi!",
-  },
-
-  // ──────────────────────────────────────────────
-  // FOOTER
-  // ──────────────────────────────────────────────
-  footer: {
-    shareTitle: "Chia sẻ thiệp",
-    shareLinks: [
-      { platform: "facebook", label: "Facebook", ariaLabel: "Chia sẻ qua Facebook", url: "#" },
-      { platform: "zalo", label: "Zalo", ariaLabel: "Chia sẻ qua Zalo", url: "#" },
-      { platform: "copy", label: "Sao chép liên kết", ariaLabel: "Sao chép liên kết", url: "#" },
-    ],
   },
 
   // ──────────────────────────────────────────────
