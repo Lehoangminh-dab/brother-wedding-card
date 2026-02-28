@@ -6,7 +6,6 @@
  *  - Page preloader
  *  - Scroll animations (AOS-like)
  *  - Gallery Swiper carousel + lightbox
- *  - Background music toggle
  *  - Wishes form AJAX submission
  *  - RSVP form AJAX submission
  *  - Share link handlers
@@ -681,67 +680,7 @@
   }
 
   // =========================================================================
-  // FEATURE 5: BACKGROUND MUSIC + AUDIO TOGGLE
-  // =========================================================================
-
-  function initAudioToggle() {
-    const audio = document.getElementById("audio");
-    const toggleBtn = document.getElementById("audio-toggle");
-    if (!audio || !toggleBtn) return;
-
-    const { audio: audioConfig } = WEDDING_CONFIG;
-    if (audioConfig && audioConfig.src) {
-      audio.src = audioConfig.src;
-    }
-
-    let isPlaying = false;
-
-    function updateIcon() {
-      const icon = toggleBtn.querySelector("i");
-      if (icon) {
-        icon.className = isPlaying ? "ri-volume-up-fill" : "ri-volume-mute-fill";
-      }
-    }
-
-    // Toggle play/pause
-    toggleBtn.addEventListener("click", () => {
-      if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-      } else {
-        audio.play().catch(() => {
-          // Browser blocked autoplay – ignore silently
-        });
-        isPlaying = true;
-      }
-      updateIcon();
-    });
-
-    // Try to autoplay on first user interaction
-    function tryAutoplay() {
-      if (!isPlaying) {
-        audio
-          .play()
-          .then(() => {
-            isPlaying = true;
-            updateIcon();
-          })
-          .catch(() => {
-            // Autoplay blocked – remain muted
-          });
-      }
-      document.removeEventListener("click", tryAutoplay);
-      document.removeEventListener("touchstart", tryAutoplay);
-      document.removeEventListener("scroll", tryAutoplay);
-    }
-
-    document.addEventListener("click", tryAutoplay, { once: true });
-    document.addEventListener("touchstart", tryAutoplay, { once: true });
-    document.addEventListener("scroll", tryAutoplay, { once: true });
-  }
-
-  // =========================================================================
-  // FEATURE 6: WISHES FORM SUBMISSION
+  // FEATURE 5: WISHES FORM SUBMISSION
   // =========================================================================
 
   function initWishesForm() {
@@ -820,7 +759,7 @@
   }
 
   // =========================================================================
-  // FEATURE 7: RSVP FORM SUBMISSION
+  // FEATURE 6: RSVP FORM SUBMISSION
   // =========================================================================
 
   function initRsvpForm() {
@@ -904,7 +843,7 @@
   }
 
   // =========================================================================
-  // FEATURE 8: SHARE LINKS
+  // FEATURE 7: SHARE LINKS
   // =========================================================================
 
   function initShareLinks() {
@@ -984,7 +923,6 @@
     initGallerySwiper();
     initLightbox();
     initScrollAnimations();
-    initAudioToggle();
     initWishesForm();
     initRsvpForm();
     initShareLinks();

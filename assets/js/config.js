@@ -225,13 +225,6 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // AUDIO / BACKGROUND MUSIC
-  // ──────────────────────────────────────────────
-  audio: {
-    src: "assets/audio/wedding-music.mp3",
-  },
-
-  // ──────────────────────────────────────────────
   // API — Google Apps Script Web App
   // Replace the URL below with your deployed Apps Script URL
   // (see backend/Code.gs for full setup instructions)

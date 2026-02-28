@@ -366,7 +366,7 @@ main {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   line-height: 1;
-  margin: 6px 0 24px 0;
+  margin: 6px 0 30px 0;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
@@ -1381,40 +1381,7 @@ main {
 }
 
 /* ==========================================================================
-   16. AUDIO TOGGLE BUTTON
-   ========================================================================== */
-.audio-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: var(--primary-color);
-  color: var(--text-white);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  z-index: 9999;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.audio-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-/* Hide the native audio element */
-#audio {
-  display: none;
-}
-
-/* ==========================================================================
-   17. FORM MESSAGES
+   16. FORM MESSAGES
    ========================================================================== */
 .form-message {
   margin-top: 12px;
