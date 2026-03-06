@@ -172,6 +172,40 @@
     });
   }
 
+  // --- Populate Location -----------------------------------------------------
+
+  function populateLocation() {
+    const { location } = WEDDING_CONFIG;
+    if (!location) return;
+
+    const section = document.getElementById("location");
+    if (section && location.backgroundImage) {
+      section.style.backgroundImage = `url('${location.backgroundImage}')`;
+    }
+
+    setText(".location__heading", location.heading);
+    setText(".location__venue-name", location.venueName);
+    setText(".location__venue-address", location.venueAddress);
+
+    setAttr(".location__map-iframe", "src", location.googleMapsEmbedUrl);
+
+    const mapLink = document.querySelector(".location__map-link");
+    if (mapLink) {
+      mapLink.href = location.mapLinkHref;
+      mapLink.textContent = location.mapLinkText;
+    }
+
+    setText(".location__sketch-heading", location.sketchHeading);
+
+    const sketchImg = document.querySelector(".location__sketch-img");
+    if (sketchImg) {
+      sketchImg.src = location.sketchMapImage;
+      sketchImg.alt = location.sketchMapAlt;
+    }
+
+    setText(".location__sketch-caption", location.sketchMapCaption);
+  }
+
   // --- Populate Wishes -------------------------------------------------------
 
   function populateWishes() {
@@ -365,7 +399,7 @@
 
   function initScrollAnimations() {
     const animTargets = document.querySelectorAll(
-      ".wishes__form-wrapper, .gallery__heading, .gifts__card"
+      ".wishes__form-wrapper, .gallery__heading, .gifts__card, .location__inner"
     );
 
     // Add data-aos attributes for fade-up animation
@@ -694,6 +728,7 @@
     populateSaveTheDate();
     populateTimeline();
     populateGallery();
+    populateLocation();
     populateWishes();
     populateGifts();
     populateRsvp();

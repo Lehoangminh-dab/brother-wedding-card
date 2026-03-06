@@ -762,6 +762,129 @@ main {
 }
 
 /* ==========================================================================
+   10b. LOCATION SECTION (Google Maps + Sketch Map)
+   ========================================================================== */
+.location {
+  padding: var(--section-margin) 20px;
+  position: relative;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .55);
+  color: var(--text-white);
+}
+
+.location__inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.location__heading {
+  font-family: var(--script-font);
+  font-size: clamp(56px, 10vw, 96px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-white);
+  margin-bottom: 16px;
+}
+
+.location__venue-name {
+  font-family: var(--title-font);
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-white);
+  margin-bottom: 4px;
+}
+
+.location__venue-address {
+  font-family: var(--primary-font);
+  font-size: clamp(14px, 2vw, 17px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 28px;
+}
+
+.location__map-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 16px;
+}
+
+.location__map-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.location__map-link {
+  display: inline-block;
+  font-family: var(--primary-font);
+  font-size: clamp(14px, 2vw, 16px);
+  font-weight: 500;
+  color: var(--text-white);
+  text-decoration: none;
+  padding: 10px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  transition: background-color var(--transition), border-color var(--transition);
+  margin-bottom: 36px;
+}
+
+.location__map-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--text-white);
+}
+
+.location__divider {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 0 auto 36px;
+}
+
+.location__sketch-heading {
+  font-family: var(--title-font);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-white);
+  margin-bottom: 20px;
+}
+
+.location__sketch-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 12px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.location__sketch-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.location__sketch-caption {
+  font-family: var(--primary-font);
+  font-size: clamp(13px, 1.8vw, 15px);
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 8px;
+}
+
+/* ==========================================================================
    11. WISHES / GUESTBOOK SECTION
    ========================================================================== */
 .wishes {
