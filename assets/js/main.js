@@ -66,33 +66,75 @@
     setText(".cover__date", dateStr.toUpperCase());
   }
 
-  // --- Populate Countdown ----------------------------------------------------
+  // --- Populate Until The Big Day --------------------------------------------
 
-  function populateCountdown() {
-    const { countdown } = WEDDING_CONFIG;
+  function populateUntilTheDay() {
+    const { untilTheDay } = WEDDING_CONFIG;
 
-    // Set background image
-    const countdownSection = document.getElementById("countdown");
-    if (countdownSection && countdown.backgroundImage) {
-      countdownSection.style.backgroundImage = `url('${countdown.backgroundImage}')`;
+    const section = document.getElementById("until-the-day");
+    if (section && untilTheDay.backgroundImage) {
+      section.style.backgroundImage = `url('${untilTheDay.backgroundImage}')`;
     }
 
-    const headingEl = document.querySelector(".countdown__heading");
-    if (headingEl) {
-      // Preserve the icon span, replace rest
-      const iconSpan = headingEl.querySelector(".countdown__icon");
-      headingEl.textContent = "";
-      if (iconSpan) headingEl.appendChild(iconSpan);
-      headingEl.appendChild(document.createTextNode(` ${countdown.heading}`));
-    }
+    setText(".until__date", untilTheDay.dateLine);
+    setText(".until__heading", untilTheDay.heading);
+    setAttr(".until__timer", "data-wedding-date", untilTheDay.weddingDateISO);
 
-    setAttr(".countdown__timer", "data-wedding-date", countdown.weddingDateISO);
-
-    const labels = document.querySelectorAll(".countdown__unit");
+    const items = document.querySelectorAll(".until__item");
     const labelKeys = ["days", "hours", "minutes", "seconds"];
-    labels.forEach((unit, i) => {
+    items.forEach((item, i) => {
       const key = labelKeys[i];
-      if (key) setText(".countdown__label", countdown.labels[key], unit);
+      if (key) setText(".until__label", untilTheDay.labels[key], item);
+    });
+
+    setText(".until__message", untilTheDay.message);
+  }
+
+  // --- Populate Save The Date ------------------------------------------------
+
+  function populateSaveTheDate() {
+    const { saveTheDate } = WEDDING_CONFIG;
+
+    const section = document.getElementById("save-the-date");
+    if (section && saveTheDate.backgroundImage) {
+      section.style.backgroundImage = `url('${saveTheDate.backgroundImage}')`;
+    }
+
+    setText(".save-date__line1", saveTheDate.line1);
+    setText(".save-date__line2", saveTheDate.line2);
+    setText(".save-date__line3", saveTheDate.line3);
+    setText(".save-date__date", saveTheDate.dateLine);
+    setText(".save-date__time", saveTheDate.timeLine);
+  }
+
+  // --- Populate Timeline -----------------------------------------------------
+
+  function populateTimeline() {
+    const { timeline } = WEDDING_CONFIG;
+
+    setText(".timeline__subtitle", timeline.subtitle);
+    setText(".timeline__heading", timeline.heading);
+
+    const track = document.querySelector(".timeline__track");
+    if (!track) return;
+
+    track.innerHTML = "";
+
+    timeline.items.forEach((item) => {
+      const row = document.createElement("div");
+      row.className = "timeline__item";
+
+      const time = document.createElement("span");
+      time.className = "timeline__time";
+      time.textContent = item.time;
+
+      const event = document.createElement("span");
+      event.className = "timeline__event";
+      event.textContent = item.label;
+
+      row.appendChild(time);
+      row.appendChild(event);
+      track.appendChild(row);
     });
   }
 
@@ -149,9 +191,6 @@
       headingEl.appendChild(document.createTextNode(` ${wishes.heading}`));
     }
 
-    // Render initial wishes from config
-    renderWishes(wishes.initialWishes);
-
     // Populate form
     setText(".wishes__form-title", wishes.formTitle);
 
@@ -170,63 +209,13 @@
     setText(".wishes__submit", wishes.submitText);
   }
 
-  /** Render an array of wish objects into the wishes list. */
-  function renderWishes(wishes) {
-    const list = document.getElementById("wishes-list");
-    if (!list) return;
-    list.innerHTML = "";
-    wishes.forEach((wish) => {
-      prependWish(wish.author || wish.author_name, wish.message || wish.content);
-    });
-  }
-
-  /** Prepend a single wish to the top of the wishes list. */
-  function prependWish(author, message) {
-    const list = document.getElementById("wishes-list");
-    if (!list) return;
-    const article = document.createElement("article");
-    article.className = "wishes__item";
-    article.innerHTML = `
-      <p class="wishes__author"></p>
-      <p class="wishes__message"></p>
-    `;
-    setText(".wishes__author", author, article);
-    setText(".wishes__message", message, article);
-    list.prepend(article);
-  }
-
   // --- Populate RSVP ---------------------------------------------------------
 
   function populateRsvp() {
-    const { rsvp, events } = WEDDING_CONFIG;
+    const { rsvp } = WEDDING_CONFIG;
 
     setText(".rsvp__heading", rsvp.heading);
     setText(".rsvp__description", rsvp.description);
-
-    // Event selection
-    const eventsFieldset = document.querySelector(".rsvp__events");
-    if (eventsFieldset) {
-      setText(".rsvp__legend", rsvp.eventLegend, eventsFieldset);
-
-      // Rebuild event options from config
-      const legend = eventsFieldset.querySelector(".rsvp__legend");
-      eventsFieldset.innerHTML = "";
-      if (legend) eventsFieldset.appendChild(legend);
-
-      events.forEach((event) => {
-        const label = document.createElement("label");
-        label.className = "rsvp__event-option";
-        label.innerHTML = `
-          <input type="radio" name="event" value="" class="rsvp__radio">
-          <span class="rsvp__event-name"></span>
-          <span class="rsvp__event-location"></span>
-        `;
-        label.querySelector("input").value = event.rsvpValue;
-        setText(".rsvp__event-name", event.title, label);
-        setText(".rsvp__event-location", event.location, label);
-        eventsFieldset.appendChild(label);
-      });
-    }
 
     // Guest name
     const nameLabel = document.querySelector('.rsvp__label[for="rsvp-name"]');
@@ -257,29 +246,40 @@
       });
     }
 
-    // Guest count options
-    const guestCountFieldset = document.querySelector(".rsvp__guest-count");
-    if (guestCountFieldset) {
-      setText(".rsvp__legend", rsvp.guestCountLegend, guestCountFieldset);
+    setText(".rsvp__submit", rsvp.submitText);
+  }
 
-      const legend = guestCountFieldset.querySelector(".rsvp__legend");
-      guestCountFieldset.innerHTML = "";
-      if (legend) guestCountFieldset.appendChild(legend);
+  // --- Populate Gifts -------------------------------------------------------
 
-      rsvp.guestCountOptions.forEach((option) => {
-        const label = document.createElement("label");
-        label.className = "rsvp__count-option";
-        label.innerHTML = `
-          <input type="radio" name="guest_count" value="" class="rsvp__radio">
-          <span></span>
-        `;
-        label.querySelector("input").value = option.value;
-        label.querySelector("span").textContent = option.label;
-        guestCountFieldset.appendChild(label);
-      });
+  function populateGifts() {
+    const { gifts } = WEDDING_CONFIG;
+    if (!gifts) return;
+
+    const section = document.getElementById("gifts");
+    if (section && gifts.backgroundImage) {
+      section.style.backgroundImage = `url('${gifts.backgroundImage}')`;
     }
 
-    setText(".rsvp__submit", rsvp.submitText);
+    setText(".gifts__heading", gifts.heading);
+    setText(".gifts__subtitle", gifts.subtitle);
+
+    ["groom", "bride"].forEach((role) => {
+      const card = document.querySelector(`.gifts__card[data-gift="${role}"]`);
+      if (!card || !gifts[role]) return;
+
+      const data = gifts[role];
+      setText(".gifts__card-label", data.label, card);
+
+      const img = card.querySelector(".gifts__qr-img");
+      if (img) {
+        img.src = data.qrImage;
+        img.alt = `QR ${data.label}`;
+      }
+
+      setText(".gifts__account-name", data.name, card);
+      setText(".gifts__bank-name", data.bank, card);
+      setText(".gifts__account-number", data.accountNumber, card);
+    });
   }
 
   // --- Populate Thank You ----------------------------------------------------
@@ -300,7 +300,7 @@
   // --- Countdown Timer -------------------------------------------------------
 
   function startCountdownTimer() {
-    const timerEl = document.querySelector(".countdown__timer");
+    const timerEl = document.querySelector(".until__timer");
     if (!timerEl) return;
 
     const weddingDate = new Date(timerEl.getAttribute("data-wedding-date"));
@@ -365,7 +365,7 @@
 
   function initScrollAnimations() {
     const animTargets = document.querySelectorAll(
-      ".wishes__item, .wishes__form-wrapper, .gallery__heading"
+      ".wishes__form-wrapper, .gallery__heading, .gifts__card"
     );
 
     // Add data-aos attributes for fade-up animation
@@ -520,32 +520,28 @@
     const form = document.getElementById("wishes-form");
     if (!form) return;
 
-    const { api } = WEDDING_CONFIG;
+    const { api, wishes } = WEDDING_CONFIG;
 
-    // Fetch existing wishes from Google Sheets API on load
-    if (api && api.baseUrl) {
-      fetch(api.baseUrl + "?action=getWishes")
-        .then((res) => {
-          if (res.ok) return res.json();
-          throw new Error("Failed to fetch wishes");
-        })
-        .then((json) => {
-          var data = json.data || json;
-          if (Array.isArray(data) && data.length > 0) {
-            renderWishes(
-              data.map((w) => ({
-                author: w.author_name || w.author,
-                message: w.content || w.message,
-              }))
-            );
-          }
-        })
-        .catch(() => {
-          // API not available yet – keep initial wishes from config
-        });
+    function markWishSuccess(submitBtn) {
+      form.reset();
+      if (submitBtn) {
+        submitBtn.textContent = "Đã gửi";
+        submitBtn.disabled = true;
+        submitBtn.classList.add("wishes__submit--success");
+      }
+
+      const wrapper = form.closest(".wishes__form-wrapper");
+      const target = wrapper || form;
+      const existing = target.parentElement.querySelector(".wishes__success");
+      if (!existing) {
+        const confirmation = document.createElement("div");
+        confirmation.className = "wishes__success";
+        confirmation.innerHTML = '<p class="wishes__success-text"></p>';
+        setText(".wishes__success-text", wishes.successMessage, confirmation);
+        target.parentElement.insertBefore(confirmation, target);
+      }
     }
 
-    // Form submit handler
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
@@ -558,8 +554,6 @@
 
       if (!name || !message) return;
 
-      // Update button state
-      const originalText = submitBtn ? submitBtn.textContent : "";
       if (submitBtn) submitBtn.textContent = "Đang gửi...";
 
       const payload = { action: "wish", author_name: name, content: message };
@@ -572,21 +566,13 @@
         })
           .then((res) => res.json())
           .then(() => {
-            prependWish(name, message);
-            form.reset();
-            if (submitBtn) submitBtn.textContent = originalText;
+            markWishSuccess(submitBtn);
           })
           .catch(() => {
-            // API not available – still show the wish locally
-            prependWish(name, message);
-            form.reset();
-            if (submitBtn) submitBtn.textContent = originalText;
+            markWishSuccess(submitBtn);
           });
       } else {
-        // No API configured – just add locally
-        prependWish(name, message);
-        form.reset();
-        if (submitBtn) submitBtn.textContent = originalText;
+        markWishSuccess(submitBtn);
       }
     });
   }
@@ -607,23 +593,19 @@
       const submitBtn = form.querySelector(".rsvp__submit");
 
       // Collect form data
-      const eventRadio = form.querySelector('input[name="event"]:checked');
       const nameInput = document.getElementById("rsvp-name");
       const attendanceRadio = form.querySelector('input[name="attendance"]:checked');
-      const guestCountRadio = form.querySelector('input[name="guest_count"]:checked');
 
       // Validate
-      if (!eventRadio || !nameInput || !nameInput.value.trim() || !attendanceRadio) {
+      if (!nameInput || !nameInput.value.trim() || !attendanceRadio) {
         showFormMessage(form, "Vui lòng điền đầy đủ thông tin!", "error");
         return;
       }
 
       const payload = {
         action: "rsvp",
-        event: eventRadio.value,
         guest_name: nameInput.value.trim(),
         attendance: attendanceRadio.value,
-        guest_count: guestCountRadio ? guestCountRadio.value : "1",
       };
 
       // Update button state
@@ -675,15 +657,45 @@
     }
   }
 
+  // =========================================================================
+  // FEATURE 7: GIFT CARD QR TOGGLE
+  // =========================================================================
+
+  function initGifts() {
+    const cards = document.querySelectorAll(".gifts__card");
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const panel = card.querySelector(".gifts__qr-panel");
+        const isOpen = panel && panel.classList.contains("gifts__qr-panel--open");
+
+        // Close all panels first
+        cards.forEach((c) => {
+          const p = c.querySelector(".gifts__qr-panel");
+          if (p) p.classList.remove("gifts__qr-panel--open");
+          c.classList.remove("gifts__card--active");
+        });
+
+        // Toggle the clicked one (if it wasn't already open)
+        if (!isOpen && panel) {
+          panel.classList.add("gifts__qr-panel--open");
+          card.classList.add("gifts__card--active");
+        }
+      });
+    });
+  }
+
   // --- Initialize ------------------------------------------------------------
 
   function init() {
     // Populate DOM from config
     populateMeta();
     populateCover();
-    populateCountdown();
+    populateUntilTheDay();
+    populateSaveTheDate();
+    populateTimeline();
     populateGallery();
     populateWishes();
+    populateGifts();
     populateRsvp();
     populateThankYou();
 
@@ -693,6 +705,7 @@
     initLightbox();
     initScrollAnimations();
     initWishesForm();
+    initGifts();
     initRsvpForm();
   }
 

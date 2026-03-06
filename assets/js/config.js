@@ -57,11 +57,12 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // COUNTDOWN
+  // UNTIL THE BIG DAY (countdown + welcome)
   // ──────────────────────────────────────────────
-  countdown: {
+  untilTheDay: {
     backgroundImage: "assets/images/placeholder.jpg",
-    heading: "SAVE THE DATE",
+    dateLine: "Thứ Hai, 12 Tháng 1",
+    heading: "Until The Big Day!",
     weddingDateISO: "2026-01-12T11:00:00+07:00",
     labels: {
       days: "Ngày",
@@ -69,6 +70,35 @@ const WEDDING_CONFIG = {
       minutes: "Phút",
       seconds: "Giây",
     },
+    message:
+      "Chúng mình rất vui mừng được chia sẻ ngày trọng đại này cùng bạn. Tại đây, bạn sẽ tìm thấy mọi thông tin về buổi lễ và tiệc cưới của chúng mình.",
+  },
+
+  // ──────────────────────────────────────────────
+  // SAVE THE DATE (elegant date display)
+  // ──────────────────────────────────────────────
+  saveTheDate: {
+    backgroundImage: "assets/images/placeholder.jpg",
+    line1: "Save",
+    line2: "the",
+    line3: "Date",
+    dateLine: "Thứ Hai, 12 Tháng 1",
+    timeLine: "11 giờ sáng",
+  },
+
+  // ──────────────────────────────────────────────
+  // WEDDING TIMELINE
+  // ──────────────────────────────────────────────
+  timeline: {
+    subtitle: "Timeline",
+    heading: "Wedding Day",
+    items: [
+      { time: "10:00", label: "Đón khách" },
+      { time: "10:30", label: "Lễ thành hôn" },
+      { time: "11:00", label: "Tiệc cưới" },
+      { time: "12:00", label: "Cắt bánh" },
+      { time: "13:00", label: "Tiệc trà" },
+    ],
   },
 
   // ──────────────────────────────────────────────
@@ -129,13 +159,30 @@ const WEDDING_CONFIG = {
     messageLabel: "Lời nhắn gửi",
     messagePlaceholder: "Lời nhắn gửi",
     submitText: "Gửi lời chúc",
-    initialWishes: [
-      {
-        author: "Phương Nguyễn",
-        message:
-          "Chúc bạn thân của tao lấy một chồng, đẻ hai con đủ nếp đủ tẻ, sống ở nhà ba tầng, mua xe 4 bánh nhé. Phải thật hạnh phúc mày nhé! Hi hi.",
-      },
-    ],
+    successMessage: "Lời chúc của bạn đã được gửi đến cô dâu và chú rể!",
+  },
+
+  // ──────────────────────────────────────────────
+  // GIFTS / MONEY TRANSFER
+  // ──────────────────────────────────────────────
+  gifts: {
+    backgroundImage: "assets/images/placeholder.jpg",
+    heading: "Mừng cưới",
+    subtitle: "Gửi quà tặng đến cô dâu & chú rể",
+    groom: {
+      label: "Chú rể",
+      name: "NGUYEN VAN PHUC",
+      bank: "Vietcombank",
+      accountNumber: "0123456789",
+      qrImage: "assets/images/placeholder.jpg",
+    },
+    bride: {
+      label: "Cô dâu",
+      name: "NGUYEN THI VAN",
+      bank: "Vietcombank",
+      accountNumber: "0123456789",
+      qrImage: "assets/images/placeholder.jpg",
+    },
   },
 
   // ──────────────────────────────────────────────
@@ -144,19 +191,12 @@ const WEDDING_CONFIG = {
   rsvp: {
     heading: "Xác nhận tham dự",
     description: "Hãy cho chúng tôi biết bạn sẽ đến tham dự nhé!",
-    eventLegend: "Chọn sự kiện",
     guestNameLabel: "Tên Khách Mời",
     guestNamePlaceholder: "Tên Khách Mời",
     attendanceLegend: "Xác nhận",
     attendanceOptions: [
       { value: "yes", label: "Có tôi sẽ đến" },
       { value: "no", label: "Xin Lỗi tôi không tham dự được !" },
-    ],
-    guestCountLegend: "Số người tham dự",
-    guestCountOptions: [
-      { value: "1", label: "1 Người" },
-      { value: "2", label: "2 Người" },
-      { value: "3", label: "3 Người" },
     ],
     submitText: "Xác nhận",
   },

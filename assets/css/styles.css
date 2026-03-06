@@ -18,8 +18,8 @@
   --biger-size: 44px;
   --title-fs: 24px;
   --script-font: 'WindSong', cursive;
-  --primary-font: 'Quicksand', sans-serif;
-  --title-font: 'Noto Serif Display', serif;
+  --primary-font: 'Cormorant Garamond', serif;
+  --title-font: 'Cormorant Garamond', serif;
   --section-margin: 80px;
   --section-padding: 40px;
   --gap: 20px;
@@ -234,18 +234,9 @@ main {
    Canva-style: looped video, staggered text animations
    ========================================================================== */
 
-/* Blosta Script – original Canva wedding-website-0020 font for names */
-@font-face {
-  font-family: "Blosta Script";
-  src: url("../fonts/BlostaScript-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 .cover {
-  --cover-font-name: "Blosta Script", "Great Vibes", "WindSong", cursive;
-  --cover-font-sans: "Montserrat", "Quicksand", sans-serif;
+  --cover-font-name: var(--script-font);
+  --cover-font-sans: 'Cormorant Garamond', serif;
   /* Movie poster hierarchy */
   --cover-name-size: clamp(87px, 12.3vw, 147px);
   --cover-and-size: clamp(21px, 2.8vw, 33px);
@@ -345,39 +336,38 @@ main {
   }
 }
 
-/* Names – movie-poster title treatment */
+/* Names – script calligraphy (Canva: 0em letter-spacing, no text-transform) */
 .cover__groom-name,
 .cover__bride-name {
   font-size: var(--cover-name-size);
   font-family: var(--cover-font-name);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.1;
-  letter-spacing: 0.06em;
+  letter-spacing: 0em;
   margin: 0;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* AND – sans-serif, uppercase, small, nestled between names */
-/* Extra margin-bottom: script font visually extends beyond its box (descenders/ascenders) */
+/* AND – thin serif, uppercase, wide tracking (Canva thin-serif pattern) */
 .cover__and {
   font-size: var(--cover-and-size);
-  font-family: "Forum", serif;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-family: var(--title-font);
+  font-weight: 300;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
   line-height: 1;
   margin: 6px 0 30px 0;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Date – lower third, like film credit block */
+/* Date – lower third (Canva: regular serif, uppercase, ~0.5em tracking) */
 .cover__date {
   margin: 0;
   padding: 0;
   font-size: var(--cover-date-size);
-  font-family: "Forum", serif;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-family: var(--primary-font);
+  font-weight: 400;
+  letter-spacing: 0.5em;
   text-transform: uppercase;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
@@ -419,70 +409,275 @@ main {
 
 
 /* ==========================================================================
-   7. COUNTDOWN / SAVE THE DATE SECTION
+   7a. UNTIL THE BIG DAY SECTION
    ========================================================================== */
-.countdown {
+.until {
   margin-top: var(--section-margin);
-  padding: 120px 0;
+  padding: 80px 20px;
   position: relative;
   text-align: center;
   color: var(--text-white);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .4);
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .45);
 }
 
-.countdown__heading {
-  font-size: var(--title-fs);
-  font-weight: 700;
+.until__inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.until__date {
   font-family: var(--title-font);
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.until__heading {
+  font-family: var(--script-font);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
   color: var(--text-white);
-  margin-bottom: 24px;
-  display: block;
+  margin-bottom: 32px;
 }
 
-.countdown__icon {
-  display: inline-block;
-  animation: heartbeat 1.5s ease-in-out infinite both;
-  font-size: 32px;
-}
-
-.countdown__timer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
+.until__timer {
+  display: inline-flex;
+  gap: 24px;
   justify-content: center;
-  align-items: center;
-  margin-top: 40px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 
-.countdown__unit {
+.until__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.until__value {
+  font-family: var(--title-font);
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.until__label {
+  font-family: var(--primary-font);
+  font-size: clamp(13px, 1.8vw, 16px);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.until__message {
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 19px);
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+  max-width: 520px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   7b. SAVE THE DATE SECTION
+   ========================================================================== */
+.save-date {
+  padding: 100px 20px;
+  position: relative;
+  text-align: center;
+  color: var(--text-white);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .45);
+}
+
+.save-date__inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.save-date__heading {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  color: var(--text-white);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  padding: 20px 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  background-color: rgba(0, 0, 0, 0.25);
-  min-width: 70px;
+  gap: 0;
+  margin-bottom: 32px;
 }
 
-.countdown__value {
-  display: block;
-  font-size: var(--title-fs);
-  font-weight: 600;
+.save-date__line1,
+.save-date__line3 {
+  font-family: var(--script-font);
+  font-size: clamp(56px, 10vw, 96px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.save-date__line2 {
   font-family: var(--title-font);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: -4px 0;
 }
 
-.countdown__label {
-  display: block;
-  margin-top: 4px;
-  font-size: 14px;
+.save-date__divider {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0 auto 28px;
+}
+
+.save-date__date {
+  font-family: var(--primary-font);
+  font-size: clamp(18px, 2.8vw, 26px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.save-date__time {
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   7c. WEDDING TIMELINE SECTION
+   ========================================================================== */
+.timeline {
+  padding: var(--section-margin) 20px;
+  background-color: var(--bg);
+}
+
+.timeline__inner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.timeline__subtitle {
+  font-family: var(--title-font);
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--text-gray);
+  margin-bottom: 4px;
+}
+
+.timeline__heading {
+  font-family: var(--script-font);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  color: var(--primary-color);
+  margin-bottom: 48px;
+}
+
+.timeline__track {
+  position: relative;
+  padding: 0;
+}
+
+.timeline__track::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--primary-color);
+  opacity: 0.3;
+  transform: translateX(-50%);
+}
+
+.timeline__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.timeline__item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.timeline__time {
+  flex: 1;
+  text-align: right;
+  padding-right: 32px;
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  color: var(--primary-color);
+}
+
+.timeline__event {
+  flex: 1;
+  text-align: left;
+  padding-left: 32px;
+  font-family: var(--primary-font);
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  color: var(--text-dark);
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 480px) {
+  .timeline__track::before {
+    left: 16px;
+  }
+
+  .timeline__item::before {
+    left: 16px;
+  }
+
+  .timeline__item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 40px;
+  }
+
+  .timeline__time {
+    text-align: left;
+    padding-right: 0;
+    margin-bottom: 4px;
+  }
+
+  .timeline__event {
+    text-align: left;
+    padding-left: 0;
+  }
 }
 
 /* ==========================================================================
@@ -500,16 +695,19 @@ main {
 }
 
 .gallery__tagline-top {
-  font-family: var(--script-font);
-  font-size: 18px;
+  font-family: var(--title-font);
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
   color: var(--text-gray);
   margin-bottom: 4px;
 }
 
 .gallery__title {
-  font-size: var(--title-fs);
-  font-weight: 700;
-  font-family: var(--title-font);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  font-family: var(--script-font);
   color: var(--primary-color);
 }
 
@@ -578,9 +776,9 @@ main {
 }
 
 .wishes__heading {
-  font-size: var(--title-fs);
-  font-weight: 700;
-  font-family: var(--title-font);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  font-family: var(--script-font);
   color: var(--text-white);
   margin-bottom: 40px;
   display: block;
@@ -592,55 +790,26 @@ main {
   font-size: 32px;
 }
 
-/* Message list */
-.wishes__list {
-  max-width: 90%;
-  margin: 0 auto;
-  display: grid;
-  row-gap: 20px;
-  padding: 0 20px;
-  overflow-y: auto;
-  max-height: 500px;
-}
-
-.wishes__list::-webkit-scrollbar {
-  width: 10px;
-}
-
-.wishes__list::-webkit-scrollbar-track {
-  background-color: var(--bg);
-  opacity: .5;
-  border-radius: 999px;
-  box-shadow: inset 0 0 5px grey;
-}
-
-.wishes__list::-webkit-scrollbar-thumb {
-  background-color: rgb(160, 160, 160);
-  border-radius: 999px;
-  transition: var(--transition);
-}
-
-.wishes__list::-webkit-scrollbar-thumb:hover {
-  background-color: var(--primary-color);
-}
-
-.wishes__item {
-  padding: 20px;
+/* Wish success confirmation */
+.wishes__success {
+  max-width: 600px;
+  margin: 0 auto 32px;
+  padding: 20px 28px;
   border-radius: 12px;
-  font-style: italic;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  text-align: left;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+  text-align: center;
+  animation: fadeInUp 0.6s ease both;
 }
 
-.wishes__author {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  font-family: var(--title-font);
-}
-
-.wishes__message {
-  line-height: 1.6;
+.wishes__success-text {
+  font-family: var(--primary-font);
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 400;
+  color: var(--text-white);
+  line-height: 1.8;
+  letter-spacing: 0.01em;
 }
 
 /* Wish form */
@@ -658,9 +827,10 @@ main {
 }
 
 .wishes__form-title {
-  font-size: 24px;
+  font-size: clamp(24px, 4vw, 36px);
   color: var(--primary-color);
-  font-family: var(--title-font);
+  font-family: var(--script-font);
+  font-weight: 400;
 }
 
 .wishes__form {
@@ -715,6 +885,160 @@ main {
   box-shadow: 0 0 10px var(--primary-color);
 }
 
+.wishes__submit--success {
+  background-color: #2e7d32;
+  border-color: #2e7d32;
+  cursor: default;
+  opacity: 0.9;
+}
+
+.wishes__submit--success:hover {
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   11b. GIFTS / MONEY TRANSFER SECTION
+   ========================================================================== */
+.gifts {
+  position: relative;
+  padding: var(--section-margin) 20px;
+  text-align: center;
+  color: var(--text-white);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .45);
+}
+
+.gifts__heading {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  font-family: var(--script-font);
+  color: var(--text-white);
+  margin-bottom: 8px;
+}
+
+.gifts__subtitle {
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 19px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--text-white);
+  opacity: 0.85;
+  margin-bottom: 40px;
+}
+
+.gifts__cards {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.gifts__card {
+  flex: 1 1 280px;
+  max-width: 320px;
+  padding: 28px 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.gifts__card:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.gifts__card--active {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.gifts__card-icon {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.gifts__card-label {
+  display: block;
+  font-family: var(--primary-font);
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* QR panel – hidden by default, revealed on click */
+.gifts__qr-panel {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.35s ease,
+              margin-top 0.35s ease;
+  margin-top: 0;
+}
+
+.gifts__qr-panel--open {
+  max-height: 520px;
+  opacity: 1;
+  margin-top: 20px;
+}
+
+.gifts__qr-img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 8px;
+  margin-bottom: 16px;
+}
+
+.gifts__account-name {
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 500;
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+}
+
+.gifts__bank-name {
+  font-family: var(--primary-font);
+  font-size: clamp(13px, 1.6vw, 15px);
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.gifts__account-number {
+  font-family: var(--primary-font);
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  opacity: 0.95;
+}
+
+@media only screen and (max-width: 620px) {
+  .gifts__cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gifts__card {
+    width: 100%;
+    max-width: 340px;
+  }
+}
+
 /* ==========================================================================
    12. RSVP SECTION
    ========================================================================== */
@@ -724,9 +1048,9 @@ main {
 }
 
 .rsvp__heading {
-  font-size: var(--title-fs);
-  font-weight: 700;
-  font-family: var(--title-font);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  font-family: var(--script-font);
   color: var(--primary-color);
   text-align: center;
 }
@@ -736,6 +1060,7 @@ main {
   margin-top: 8px;
   margin-bottom: 24px;
   color: var(--text-gray);
+  letter-spacing: 0.015em;
 }
 
 .rsvp__form {
@@ -767,27 +1092,6 @@ main {
   width: 100%;
 }
 
-/* Event radio options */
-.rsvp__event-option {
-  position: relative;
-  padding-left: 28px;
-  cursor: pointer;
-  display: block;
-  text-align: left;
-  margin-bottom: 12px;
-}
-
-.rsvp__event-name {
-  display: block;
-  font-weight: 600;
-}
-
-.rsvp__event-location {
-  display: block;
-  font-size: 13px;
-  color: var(--text-gray);
-}
-
 /* Custom radio checkmark */
 .rsvp__radio {
   position: absolute;
@@ -797,9 +1101,7 @@ main {
   width: 0;
 }
 
-.rsvp__event-option::before,
-.rsvp__attendance-option::before,
-.rsvp__count-option::before {
+.rsvp__attendance-option::before {
   content: "";
   position: absolute;
   top: 2px;
@@ -813,9 +1115,7 @@ main {
   align-items: center;
 }
 
-.rsvp__event-option::after,
-.rsvp__attendance-option::after,
-.rsvp__count-option::after {
+.rsvp__attendance-option::after {
   content: "";
   position: absolute;
   top: 7px;
@@ -827,29 +1127,24 @@ main {
   display: none;
 }
 
-.rsvp__event-option:has(.rsvp__radio:checked)::after,
-.rsvp__attendance-option:has(.rsvp__radio:checked)::after,
-.rsvp__count-option:has(.rsvp__radio:checked)::after {
+.rsvp__attendance-option:has(.rsvp__radio:checked)::after {
   display: block;
 }
 
-/* Attendance & count options – inline */
-.rsvp__attendance,
-.rsvp__guest-count {
+/* Attendance options – inline */
+.rsvp__attendance {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   justify-content: center;
 }
 
-.rsvp__attendance .rsvp__legend,
-.rsvp__guest-count .rsvp__legend {
+.rsvp__attendance .rsvp__legend {
   width: 100%;
   flex-basis: 100%;
 }
 
-.rsvp__attendance-option,
-.rsvp__count-option {
+.rsvp__attendance-option {
   position: relative;
   padding-left: 28px;
   cursor: pointer;
@@ -916,15 +1211,20 @@ main {
 }
 
 .thank-you__heading {
-  font-size: 64px;
-  font-family: var(--title-font);
-  line-height: 1.6;
+  font-size: clamp(48px, 8vw, 80px);
+  font-family: var(--script-font);
+  font-weight: 400;
+  line-height: 1.3;
 }
 
 .thank-you__message {
-  font-size: 20px;
+  font-family: var(--primary-font);
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
   text-align: center;
   margin-top: 12px;
+  line-height: 1.8;
 }
 
 /* ==========================================================================

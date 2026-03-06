@@ -1,12 +1,13 @@
 # Fonts
 
-## Blosta Script (cover section names)
+All fonts are loaded via Google Fonts. No local font files are required.
 
-The cover section uses **Blosta Script** to match the Canva wedding-website-0020 design.
+## Typography System (3-font hierarchy)
 
-### How to add the font
+Modeled after the Canva "Moody Vintage Romance" wedding template.
 
-1. Download Blosta Script Regular in **WOFF2** format from [OnlineWebFonts.com](https://www.onlinewebfonts.com/fonts/Blosta_Script_Regular)
-2. Save the file as `BlostaScript-Regular.woff2` in this folder (`assets/fonts/`)
-
-The font will then load automatically for the cover section names (Phuc & Van).
+| Role | Font | Weight | Usage |
+|------|------|--------|-------|
+| Script / Calligraphy | WindSong | 400 | Names, section headings, decorative text |
+| Thin Decorative Serif | Cormorant Garamond | 300 | Uppercase subtitles with wide letter-spacing |
+| Body / Navigation Serif | Cormorant Garamond | 400-500 | Body text, labels, navigation, dates |
