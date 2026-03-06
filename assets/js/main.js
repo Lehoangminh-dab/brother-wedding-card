@@ -143,33 +143,60 @@
   function populateGallery() {
     const { gallery } = WEDDING_CONFIG;
 
-    setText(".gallery__tagline-top", gallery.tagline);
     setText(".gallery__title", gallery.title);
 
+    // Vertical (portrait) slides
     const wrapper = document.querySelector(".gallery__slider .swiper-wrapper");
-    if (!wrapper) return;
+    if (wrapper) {
+      wrapper.innerHTML = "";
+      gallery.images.forEach((image, index) => {
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
 
-    wrapper.innerHTML = "";
+        const a = document.createElement("a");
+        a.href = image.src;
+        a.setAttribute("data-lightbox-index", index);
+        a.setAttribute("data-lightbox-pool", "vertical");
+        a.className = "gallery__link";
 
-    gallery.images.forEach((image, index) => {
-      const slide = document.createElement("div");
-      slide.className = "swiper-slide";
+        const img = document.createElement("img");
+        img.src = image.src;
+        img.alt = image.alt;
+        img.className = "gallery__img";
+        img.loading = "lazy";
 
-      const a = document.createElement("a");
-      a.href = image.src;
-      a.setAttribute("data-lightbox-index", index);
-      a.className = "gallery__link";
+        a.appendChild(img);
+        slide.appendChild(a);
+        wrapper.appendChild(slide);
+      });
+    }
 
-      const img = document.createElement("img");
-      img.src = image.src;
-      img.alt = image.alt;
-      img.className = "gallery__img";
-      img.loading = "lazy";
+    // Horizontal (landscape) slides
+    const hImages = gallery.horizontalImages || [];
+    const hWrapper = document.querySelector(".gallery__horizontal-slider .swiper-wrapper");
+    if (hWrapper && hImages.length) {
+      hWrapper.innerHTML = "";
+      hImages.forEach((image, index) => {
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
 
-      a.appendChild(img);
-      slide.appendChild(a);
-      wrapper.appendChild(slide);
-    });
+        const a = document.createElement("a");
+        a.href = image.src;
+        a.setAttribute("data-lightbox-index", index);
+        a.setAttribute("data-lightbox-pool", "horizontal");
+        a.className = "gallery__link";
+
+        const img = document.createElement("img");
+        img.src = image.src;
+        img.alt = image.alt;
+        img.className = "gallery__img";
+        img.loading = "lazy";
+
+        a.appendChild(img);
+        slide.appendChild(a);
+        hWrapper.appendChild(slide);
+      });
+    }
   }
 
   // --- Populate Location -----------------------------------------------------
@@ -442,6 +469,7 @@
   // =========================================================================
 
   let gallerySwiper = null;
+  let horizontalSwiper = null;
 
   function initGallerySwiper() {
     if (typeof Swiper === "undefined") return;
@@ -468,6 +496,20 @@
       },
       loop: true,
     });
+
+    horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
+      slidesPerView: "auto",
+      spaceBetween: 16,
+      grabCursor: true,
+      freeMode: true,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+        reverseDirection: true,
+      },
+      speed: 4000,
+      loop: true,
+    });
   }
 
   // =========================================================================
@@ -475,6 +517,7 @@
   // =========================================================================
 
   let lightboxIndex = 0;
+  let lightboxPool = [];
 
   function initLightbox() {
     const lightbox = document.getElementById("lightbox");
@@ -482,12 +525,14 @@
     if (!lightbox || !lightboxImg) return;
 
     const { gallery } = WEDDING_CONFIG;
-    const images = gallery.images;
+    const verticalImages = gallery.images;
+    const horizontalImages = gallery.horizontalImages || [];
 
-    function openLightbox(index) {
+    function openLightbox(pool, index) {
+      lightboxPool = pool;
       lightboxIndex = index;
-      lightboxImg.src = images[lightboxIndex].src;
-      lightboxImg.alt = images[lightboxIndex].alt;
+      lightboxImg.src = lightboxPool[lightboxIndex].src;
+      lightboxImg.alt = lightboxPool[lightboxIndex].alt;
       lightbox.classList.add("lightbox--open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -500,39 +545,36 @@
     }
 
     function showPrev() {
-      lightboxIndex = (lightboxIndex - 1 + images.length) % images.length;
-      lightboxImg.src = images[lightboxIndex].src;
-      lightboxImg.alt = images[lightboxIndex].alt;
+      lightboxIndex = (lightboxIndex - 1 + lightboxPool.length) % lightboxPool.length;
+      lightboxImg.src = lightboxPool[lightboxIndex].src;
+      lightboxImg.alt = lightboxPool[lightboxIndex].alt;
     }
 
     function showNext() {
-      lightboxIndex = (lightboxIndex + 1) % images.length;
-      lightboxImg.src = images[lightboxIndex].src;
-      lightboxImg.alt = images[lightboxIndex].alt;
+      lightboxIndex = (lightboxIndex + 1) % lightboxPool.length;
+      lightboxImg.src = lightboxPool[lightboxIndex].src;
+      lightboxImg.alt = lightboxPool[lightboxIndex].alt;
     }
 
-    // Delegate click on gallery links
     document.addEventListener("click", (e) => {
       const link = e.target.closest("[data-lightbox-index]");
       if (link) {
         e.preventDefault();
-        openLightbox(parseInt(link.getAttribute("data-lightbox-index"), 10));
+        const idx = parseInt(link.getAttribute("data-lightbox-index"), 10);
+        const poolName = link.getAttribute("data-lightbox-pool");
+        const pool = poolName === "horizontal" ? horizontalImages : verticalImages;
+        openLightbox(pool, idx);
       }
     });
 
-    // Close button
     lightbox.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
-
-    // Prev / Next
     lightbox.querySelector(".lightbox__prev").addEventListener("click", showPrev);
     lightbox.querySelector(".lightbox__next").addEventListener("click", showNext);
 
-    // Click on overlay (outside image) closes
     lightbox.addEventListener("click", (e) => {
       if (e.target === lightbox) closeLightbox();
     });
 
-    // Keyboard navigation
     document.addEventListener("keydown", (e) => {
       if (!lightbox.classList.contains("lightbox--open")) return;
       if (e.key === "Escape") closeLightbox();

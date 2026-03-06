@@ -135,8 +135,7 @@ const WEDDING_CONFIG = {
   // GALLERY
   // ──────────────────────────────────────────────
   gallery: {
-    tagline: "cherish every",
-    title: "our moment",
+    title: "Cherish our moments",
     images: [
       { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 1" },
       { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 2" },
@@ -144,6 +143,14 @@ const WEDDING_CONFIG = {
       { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 4" },
       { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 5" },
       { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 6" },
+    ],
+    horizontalImages: [
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 7" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 8" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 9" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 10" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 11" },
+      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 12" },
     ],
   },
 

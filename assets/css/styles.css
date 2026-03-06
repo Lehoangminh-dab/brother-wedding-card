@@ -684,24 +684,14 @@ main {
    10. GALLERY SECTION
    ========================================================================== */
 .gallery {
-  padding: var(--section-margin) 20px;
-  max-width: var(--max-width);
-  margin: 0 auto;
+  padding: var(--section-margin) 0;
+  overflow: hidden;
 }
 
 .gallery__heading {
   text-align: center;
   margin-bottom: 40px;
-}
-
-.gallery__tagline-top {
-  font-family: var(--title-font);
-  font-size: clamp(14px, 2vw, 18px);
-  font-weight: 300;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--text-gray);
-  margin-bottom: 4px;
+  padding: 0 20px;
 }
 
 .gallery__title {
@@ -711,7 +701,7 @@ main {
   color: var(--primary-color);
 }
 
-/* Swiper gallery carousel */
+/* Vertical (portrait) coverflow carousel */
 .gallery__slider {
   margin-top: 20px;
   padding-bottom: 40px;
@@ -759,6 +749,30 @@ main {
 
 .gallery__slider .swiper-pagination-bullet-active {
   background-color: var(--primary-color);
+}
+
+/* Horizontal (landscape) filmstrip carousel */
+.gallery__horizontal-slider {
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.gallery__horizontal-slider .swiper-slide {
+  width: 340px;
+  height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 768px) {
+  .gallery__horizontal-slider .swiper-slide {
+    width: 400px;
+    height: 260px;
+  }
+}
+
+.gallery__horizontal-slider .gallery__img {
+  object-position: center center;
 }
 
 /* ==========================================================================
