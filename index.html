@@ -199,7 +199,7 @@
     </section>
 
     <!-- ============================================
-         WISHES / GUESTBOOK SECTION
+         WISHES & GIFTS (merged section)
          ============================================ -->
     <section id="wishes" class="wishes">
       <h2 class="wishes__heading">
@@ -235,37 +235,38 @@
           <button class="wishes__submit" type="submit"></button>
         </form>
       </div>
-    </section>
 
-    <!-- ============================================
-         GIFTS / MONEY TRANSFER SECTION
-         ============================================ -->
-    <section id="gifts" class="gifts">
-      <h2 class="gifts__heading"></h2>
-      <p class="gifts__subtitle"></p>
+      <!-- Divider between wishes and gifts -->
+      <div class="wishes__divider"></div>
 
-      <div class="gifts__cards">
-        <!-- Groom card -->
-        <div class="gifts__card" data-gift="groom">
-          <span class="gifts__card-icon"><i class="ri-user-heart-line"></i></span>
-          <span class="gifts__card-label"></span>
-          <div class="gifts__qr-panel">
-            <img class="gifts__qr-img" src="" alt="">
-            <p class="gifts__account-name"></p>
-            <p class="gifts__bank-name"></p>
-            <p class="gifts__account-number"></p>
+      <!-- Gifts / money transfer -->
+      <div id="gifts" class="wishes__gifts">
+        <h3 class="gifts__heading"></h3>
+        <p class="gifts__subtitle"></p>
+
+        <div class="gifts__cards">
+          <!-- Groom card -->
+          <div class="gifts__card" data-gift="groom">
+            <span class="gifts__card-icon"><i class="ri-user-heart-line"></i></span>
+            <span class="gifts__card-label"></span>
+            <div class="gifts__qr-panel">
+              <img class="gifts__qr-img" src="" alt="">
+              <p class="gifts__account-name"></p>
+              <p class="gifts__bank-name"></p>
+              <p class="gifts__account-number"></p>
+            </div>
           </div>
-        </div>
 
-        <!-- Bride card -->
-        <div class="gifts__card" data-gift="bride">
-          <span class="gifts__card-icon"><i class="ri-user-heart-line"></i></span>
-          <span class="gifts__card-label"></span>
-          <div class="gifts__qr-panel">
-            <img class="gifts__qr-img" src="" alt="">
-            <p class="gifts__account-name"></p>
-            <p class="gifts__bank-name"></p>
-            <p class="gifts__account-number"></p>
+          <!-- Bride card -->
+          <div class="gifts__card" data-gift="bride">
+            <span class="gifts__card-icon"><i class="ri-user-heart-line"></i></span>
+            <span class="gifts__card-label"></span>
+            <div class="gifts__qr-panel">
+              <img class="gifts__qr-img" src="" alt="">
+              <p class="gifts__account-name"></p>
+              <p class="gifts__bank-name"></p>
+              <p class="gifts__account-number"></p>
+            </div>
           </div>
         </div>
       </div>

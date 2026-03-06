@@ -289,11 +289,6 @@
     const { gifts } = WEDDING_CONFIG;
     if (!gifts) return;
 
-    const section = document.getElementById("gifts");
-    if (section && gifts.backgroundImage) {
-      section.style.backgroundImage = `url('${gifts.backgroundImage}')`;
-    }
-
     setText(".gifts__heading", gifts.heading);
     setText(".gifts__subtitle", gifts.subtitle);
 
@@ -399,7 +394,7 @@
 
   function initScrollAnimations() {
     const animTargets = document.querySelectorAll(
-      ".wishes__form-wrapper, .gallery__heading, .gifts__card, .location__inner"
+      ".wishes__form-wrapper, .wishes__gifts, .gallery__heading, .location__inner"
     );
 
     // Add data-aos attributes for fade-up animation

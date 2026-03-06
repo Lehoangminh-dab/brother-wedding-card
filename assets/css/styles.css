@@ -885,7 +885,7 @@ main {
 }
 
 /* ==========================================================================
-   11. WISHES / GUESTBOOK SECTION
+   11. WISHES & GIFTS (merged section)
    ========================================================================== */
 .wishes {
   position: relative;
@@ -1019,22 +1019,22 @@ main {
   box-shadow: none;
 }
 
-/* ==========================================================================
-   11b. GIFTS / MONEY TRANSFER SECTION
-   ========================================================================== */
-.gifts {
-  position: relative;
-  padding: var(--section-margin) 20px;
+/* Divider between wishes form and gifts */
+.wishes__divider {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 56px auto;
+}
+
+/* Gifts subsection (inside wishes) */
+.wishes__gifts {
   text-align: center;
   color: var(--text-white);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .45);
 }
 
 .gifts__heading {
-  font-size: clamp(36px, 6vw, 56px);
+  font-size: clamp(30px, 5vw, 48px);
   font-weight: 400;
   font-family: var(--script-font);
   color: var(--text-white);
