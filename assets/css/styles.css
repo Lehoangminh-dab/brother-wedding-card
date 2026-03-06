@@ -1,18 +1,21 @@
 /* ==========================================================================
    Wedding Card – styles.css
-   Clone of rosewedding.link "Korea" template
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
+/* ==========================================================================
    1. DESIGN TOKENS (CSS Custom Properties)
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 :root {
   --max-width: 1024px;
   --bg: #2B2F26;
   --bg-light: #E6DFD4;
+  --bg-form: #D8D0C4;
   --primary-color: #8B917E;
   --secondary-color: #5C4A3A;
+  --color-success: #4A5540;
+  --color-error: #8E3E38;
   --text-white: #F2EAE0;
+  --text-white-muted: rgba(242, 234, 224, 0.8);
   --text-black: #1C1E1A;
   --text-gray: #9E9688;
   --text-dark: #2C2118;
@@ -25,12 +28,11 @@
   --section-padding: 40px;
   --gap: 20px;
   --transition: .3s;
+  --overlay-dark: rgba(0, 0, 0, 0.55);
 }
 
 @media only screen and (min-width: 540px) {
-  :root {
-    --biger-size: 56px;
-  }
+  :root { --biger-size: 56px; }
 }
 
 @media only screen and (min-width: 768px) {
@@ -55,9 +57,9 @@
   }
 }
 
-/* --------------------------------------------------------------------------
+/* ==========================================================================
    2. RESET
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 *:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol *)) {
   all: unset;
   display: revert;
@@ -86,9 +88,9 @@ h1, h2, h3, h4, p, address { padding: 0; margin: 0; color: inherit; }
 a { color: inherit; }
 a:hover { text-decoration: none; color: inherit; }
 
-/* --------------------------------------------------------------------------
+/* ==========================================================================
    3. BASE / UTILITIES
-   -------------------------------------------------------------------------- */
+   ========================================================================== */
 body {
   font-family: var(--primary-font);
   margin: 0;
@@ -107,9 +109,70 @@ main {
   padding: 0 20px;
 }
 
-/* --------------------------------------------------------------------------
-   4. KEYFRAME ANIMATIONS
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   4. SHARED COMPONENTS
+   ========================================================================== */
+
+/* --- 4a. Section with background overlay -------------------------------- */
+.until,
+.save-date,
+.location,
+.wishes,
+.thank-you {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 2000px var(--overlay-dark);
+}
+
+/* --- 4b. Submit buttons (shared between wishes + RSVP) ------------------ */
+.wishes__submit,
+.rsvp__submit {
+  padding: 12px 24px;
+  background-color: var(--secondary-color);
+  color: var(--bg-light);
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid var(--secondary-color);
+  font-family: var(--primary-font);
+  font-weight: 600;
+  transition: box-shadow var(--transition);
+}
+
+.wishes__submit:hover,
+.rsvp__submit:hover {
+  box-shadow: 0 0 10px var(--secondary-color);
+}
+
+.wishes__submit--success,
+.rsvp__submit--success {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  cursor: default;
+  opacity: 0.9;
+}
+
+.wishes__submit--success:hover,
+.rsvp__submit--success:hover {
+  box-shadow: none;
+}
+
+/* --- 4c. Form inputs (shared between wishes + RSVP) --------------------- */
+.wishes__input,
+.wishes__textarea,
+.rsvp__input {
+  border: 1px solid var(--primary-color);
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-family: var(--primary-font);
+  font-size: 14px;
+  color: var(--text-dark);
+  background-color: #fff;
+}
+
+/* ==========================================================================
+   5. KEYFRAME ANIMATIONS
+   ========================================================================== */
 @keyframes kenburns-top {
   0% {
     transform: scale(1) translateY(0);
@@ -161,19 +224,13 @@ main {
   to { opacity: 1; }
 }
 
-/* Scroll-reveal helper class (applied via IntersectionObserver in JS) */
-.reveal {
-  opacity: 0;
-  transform: translateY(60px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* AOS-like scroll animation classes */
+/* ==========================================================================
+   6. SCROLL ANIMATIONS (AOS-like, driven by IntersectionObserver in JS)
+   ========================================================================== */
 [data-aos] {
   opacity: 0;
   transition-property: opacity, transform;
@@ -194,9 +251,9 @@ main {
   transform: translate3d(0, 0, 0);
 }
 
-/* --------------------------------------------------------------------------
-   4b. PRELOADER
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   7. PRELOADER
+   ========================================================================== */
 .loader {
   position: fixed;
   top: 0;
@@ -226,19 +283,12 @@ main {
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
 /* ==========================================================================
-   5. COVER SECTION (names + date only)
-   Canva-style: looped video, staggered text animations
+   8. COVER SECTION
    ========================================================================== */
-
 .cover {
   --cover-font-name: var(--script-font);
   --cover-font-sans: 'Cormorant Garamond', serif;
-  /* Movie poster hierarchy */
   --cover-name-size: clamp(87px, 12.3vw, 147px);
   --cover-and-size: clamp(21px, 2.8vw, 33px);
   --cover-date-size: clamp(18px, 2.6vw, 30px);
@@ -252,7 +302,6 @@ main {
   overflow: hidden;
 }
 
-/* Video / image background layer */
 .cover__media {
   position: absolute;
   inset: 0;
@@ -275,12 +324,10 @@ main {
   z-index: 0;
 }
 
-/* Hide fallback when video is present and playing */
 .cover__media:has(.cover__video[src]) .cover__bg--fallback {
   display: none;
 }
 
-/* Movie-poster overlay: vignette (darker at edges) */
 .cover__overlay {
   position: absolute;
   inset: 0;
@@ -294,7 +341,6 @@ main {
   pointer-events: none;
 }
 
-/* Content layer – movie poster layout: names center, date lower third */
 .cover__content {
   position: relative;
   z-index: 2;
@@ -320,24 +366,17 @@ main {
 }
 
 @media only screen and (min-width: 540px) {
-  .cover__content {
-    padding: 56px 32px 64px;
-  }
+  .cover__content { padding: 56px 32px 64px; }
 }
 
 @media only screen and (min-width: 768px) {
-  .cover__content {
-    padding: 64px 40px 72px;
-  }
+  .cover__content { padding: 64px 40px 72px; }
 }
 
 @media only screen and (min-width: 1024px) {
-  .cover__content {
-    padding: 72px 48px 80px;
-  }
+  .cover__content { padding: 72px 48px 80px; }
 }
 
-/* Names – script calligraphy (Canva: 0em letter-spacing, no text-transform) */
 .cover__groom-name,
 .cover__bride-name {
   font-size: var(--cover-name-size);
@@ -349,7 +388,6 @@ main {
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* AND – thin serif, uppercase, wide tracking (Canva thin-serif pattern) */
 .cover__and {
   font-size: var(--cover-and-size);
   font-family: var(--title-font);
@@ -361,7 +399,6 @@ main {
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Date – lower third (Canva: regular serif, uppercase, ~0.5em tracking) */
 .cover__date {
   margin: 0;
   padding: 0;
@@ -373,7 +410,7 @@ main {
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* Staggered entrance – slower, more cinematic */
+/* Staggered entrance */
 .cover__animate {
   opacity: 0;
   transform: translateY(24px);
@@ -391,7 +428,7 @@ main {
 .cover__animate[data-cover-delay="600"] { transition-delay: 600ms; }
 .cover__animate[data-cover-delay="900"] { transition-delay: 900ms; }
 
-/* Fallback when no video/image: dark bg with cream text */
+/* Fallbacks when no video/image */
 .cover:not(:has(.cover__video[src])) .cover__bg--fallback {
   display: block;
 }
@@ -408,9 +445,8 @@ main {
   background: transparent;
 }
 
-
 /* ==========================================================================
-   7a. UNTIL THE BIG DAY SECTION
+   9. UNTIL THE BIG DAY SECTION
    ========================================================================== */
 .until {
   margin-top: var(--section-margin);
@@ -418,10 +454,6 @@ main {
   position: relative;
   text-align: center;
   color: var(--text-white);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .55);
 }
 
 .until__inner {
@@ -486,200 +518,6 @@ main {
   max-width: 520px;
   margin: 0 auto;
   opacity: 0.9;
-}
-
-/* ==========================================================================
-   7b. SAVE THE DATE SECTION
-   ========================================================================== */
-.save-date {
-  padding: 100px 20px;
-  position: relative;
-  text-align: center;
-  color: var(--text-white);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .55);
-}
-
-.save-date__inner {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.save-date__heading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  margin-bottom: 32px;
-}
-
-.save-date__line1,
-.save-date__line3 {
-  font-family: var(--script-font);
-  font-size: clamp(56px, 10vw, 96px);
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.save-date__line2 {
-  font-family: var(--title-font);
-  font-size: clamp(18px, 2.5vw, 26px);
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  line-height: 1;
-  margin: -4px 0;
-}
-
-.save-date__divider {
-  width: 60px;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.5);
-  margin: 0 auto 28px;
-}
-
-.save-date__date {
-  font-family: var(--primary-font);
-  font-size: clamp(18px, 2.8vw, 26px);
-  font-weight: 400;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.save-date__time {
-  font-family: var(--primary-font);
-  font-size: clamp(15px, 2vw, 20px);
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  opacity: 0.85;
-}
-
-/* ==========================================================================
-   7c. WEDDING TIMELINE SECTION
-   ========================================================================== */
-.timeline {
-  padding: var(--section-margin) 20px;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-}
-
-.timeline__inner {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.timeline__subtitle {
-  font-family: var(--title-font);
-  font-size: clamp(16px, 2.5vw, 22px);
-  font-weight: 300;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--secondary-color);
-  margin-bottom: 4px;
-}
-
-.timeline__heading {
-  font-family: var(--script-font);
-  font-size: clamp(36px, 6vw, 56px);
-  font-weight: 400;
-  color: var(--secondary-color);
-  margin-bottom: 48px;
-}
-
-.timeline__track {
-  position: relative;
-  padding: 0;
-}
-
-.timeline__track::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background-color: var(--secondary-color);
-  opacity: 0.3;
-  transform: translateX(-50%);
-}
-
-.timeline__item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.timeline__item:last-child {
-  margin-bottom: 0;
-}
-
-.timeline__item::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 12px;
-  height: 12px;
-  background-color: var(--secondary-color);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
-
-.timeline__time {
-  flex: 1;
-  text-align: right;
-  padding-right: 32px;
-  font-family: var(--primary-font);
-  font-size: clamp(15px, 2vw, 18px);
-  font-weight: 500;
-  letter-spacing: 0.015em;
-  color: var(--secondary-color);
-}
-
-.timeline__event {
-  flex: 1;
-  text-align: left;
-  padding-left: 32px;
-  font-family: var(--primary-font);
-  font-size: clamp(14px, 1.8vw, 17px);
-  font-weight: 400;
-  letter-spacing: 0.015em;
-  color: var(--text-dark);
-  text-transform: uppercase;
-}
-
-@media only screen and (max-width: 480px) {
-  .timeline__track::before {
-    left: 16px;
-  }
-
-  .timeline__item::before {
-    left: 16px;
-  }
-
-  .timeline__item {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 40px;
-  }
-
-  .timeline__time {
-    text-align: left;
-    padding-right: 0;
-    margin-bottom: 4px;
-  }
-
-  .timeline__event {
-    text-align: left;
-    padding-left: 0;
-  }
 }
 
 /* ==========================================================================
@@ -778,16 +616,198 @@ main {
 }
 
 /* ==========================================================================
-   10b. LOCATION SECTION (Google Maps + Sketch Map)
+   11. SAVE THE DATE SECTION
+   ========================================================================== */
+.save-date {
+  padding: 100px 20px;
+  position: relative;
+  text-align: center;
+  color: var(--text-white);
+}
+
+.save-date__inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.save-date__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 32px;
+}
+
+.save-date__line1,
+.save-date__line3 {
+  font-family: var(--script-font);
+  font-size: clamp(56px, 10vw, 96px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.save-date__line2 {
+  font-family: var(--title-font);
+  font-size: clamp(18px, 2.5vw, 26px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: -4px 0;
+}
+
+.save-date__divider {
+  width: 60px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0 auto 28px;
+}
+
+.save-date__date {
+  font-family: var(--primary-font);
+  font-size: clamp(18px, 2.8vw, 26px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.save-date__time {
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   12. WEDDING TIMELINE SECTION
+   ========================================================================== */
+.timeline {
+  padding: var(--section-margin) 20px;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.timeline__inner {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.timeline__subtitle {
+  font-family: var(--title-font);
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  margin-bottom: 4px;
+}
+
+.timeline__heading {
+  font-family: var(--script-font);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  color: var(--secondary-color);
+  margin-bottom: 48px;
+}
+
+.timeline__track {
+  position: relative;
+  padding: 0;
+}
+
+.timeline__track::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--secondary-color);
+  opacity: 0.3;
+  transform: translateX(-50%);
+}
+
+.timeline__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.timeline__item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: var(--secondary-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.timeline__time {
+  flex: 1;
+  text-align: right;
+  padding-right: 32px;
+  font-family: var(--primary-font);
+  font-size: clamp(15px, 2vw, 18px);
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  color: var(--secondary-color);
+}
+
+.timeline__event {
+  flex: 1;
+  text-align: left;
+  padding-left: 32px;
+  font-family: var(--primary-font);
+  font-size: clamp(14px, 1.8vw, 17px);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  color: var(--text-dark);
+  text-transform: uppercase;
+}
+
+@media only screen and (max-width: 480px) {
+  .timeline__track::before { left: 16px; }
+  .timeline__item::before { left: 16px; }
+
+  .timeline__item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 40px;
+  }
+
+  .timeline__time {
+    text-align: left;
+    padding-right: 0;
+    margin-bottom: 4px;
+  }
+
+  .timeline__event {
+    text-align: left;
+    padding-left: 0;
+  }
+}
+
+/* ==========================================================================
+   13. LOCATION SECTION
    ========================================================================== */
 .location {
   padding: var(--section-margin) 20px;
   position: relative;
   text-align: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .6);
+  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
   color: var(--text-white);
 }
 
@@ -818,14 +838,14 @@ main {
   font-family: var(--primary-font);
   font-size: clamp(14px, 2vw, 17px);
   font-weight: 400;
-  color: rgba(242, 234, 224, 0.8);
+  color: var(--text-white-muted);
   margin-bottom: 28px;
 }
 
 .location__map-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 */
+  padding-bottom: 56.25%;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -901,17 +921,136 @@ main {
 }
 
 /* ==========================================================================
-   11. WISHES & GIFTS (merged section)
+   14. RSVP SECTION
+   ========================================================================== */
+.rsvp {
+  padding: var(--section-margin) 20px;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.rsvp__heading {
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 400;
+  font-family: var(--script-font);
+  color: var(--secondary-color);
+  text-align: center;
+}
+
+.rsvp__description {
+  text-align: center;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  color: var(--secondary-color);
+  letter-spacing: 0.015em;
+}
+
+.rsvp__form {
+  width: 680px;
+  max-width: 90%;
+  background-color: var(--bg-form);
+  padding: 20px;
+  text-align: center;
+  margin: 0 auto;
+  border-radius: 12px;
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+}
+
+.rsvp__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.rsvp__legend {
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: 12px;
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.rsvp__radio {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.rsvp__attendance-option::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid var(--secondary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rsvp__attendance-option::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--secondary-color);
+  border-radius: 2px;
+  display: none;
+}
+
+.rsvp__attendance-option:has(.rsvp__radio:checked)::after {
+  display: block;
+}
+
+.rsvp__attendance {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.rsvp__attendance .rsvp__legend {
+  width: 100%;
+  flex-basis: 100%;
+}
+
+.rsvp__attendance-option {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+}
+
+.rsvp__form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+}
+
+.rsvp__label {
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+/* ==========================================================================
+   15. WISHES & GIFTS SECTION
    ========================================================================== */
 .wishes {
   position: relative;
   padding: var(--section-margin) 20px;
   text-align: center;
   color: var(--text-white);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .55);
 }
 
 .wishes__heading {
@@ -992,47 +1131,9 @@ main {
   color: var(--secondary-color);
 }
 
-.wishes__input,
-.wishes__textarea {
-  border: 1px solid var(--primary-color);
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-family: var(--primary-font);
-  font-size: 14px;
-  color: var(--text-dark);
-  background-color: #fff;
-}
-
 .wishes__textarea {
   resize: vertical;
   min-height: 80px;
-}
-
-.wishes__submit {
-  padding: 12px 24px;
-  background-color: var(--secondary-color);
-  color: var(--bg-light);
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid var(--secondary-color);
-  font-family: var(--primary-font);
-  font-weight: 600;
-  transition: box-shadow var(--transition);
-}
-
-.wishes__submit:hover {
-  box-shadow: 0 0 10px var(--secondary-color);
-}
-
-.wishes__submit--success {
-  background-color: #4A5540;
-  border-color: #4A5540;
-  cursor: default;
-  opacity: 0.9;
-}
-
-.wishes__submit--success:hover {
-  box-shadow: none;
 }
 
 /* Divider between wishes form and gifts */
@@ -1043,7 +1144,7 @@ main {
   margin: 56px auto;
 }
 
-/* Gifts subsection (inside wishes) */
+/* Gifts subsection */
 .wishes__gifts {
   text-align: center;
   color: var(--text-white);
@@ -1116,7 +1217,6 @@ main {
   text-transform: uppercase;
 }
 
-/* QR panel – hidden by default, revealed on click */
 .gifts__qr-panel {
   max-height: 0;
   overflow: hidden;
@@ -1179,160 +1279,7 @@ main {
 }
 
 /* ==========================================================================
-   12. RSVP SECTION
-   ========================================================================== */
-.rsvp {
-  padding: var(--section-margin) 20px;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
-}
-
-.rsvp__heading {
-  font-size: clamp(36px, 6vw, 56px);
-  font-weight: 400;
-  font-family: var(--script-font);
-  color: var(--secondary-color);
-  text-align: center;
-}
-
-.rsvp__description {
-  text-align: center;
-  margin-top: 8px;
-  margin-bottom: 24px;
-  color: var(--secondary-color);
-  letter-spacing: 0.015em;
-}
-
-.rsvp__form {
-  width: 680px;
-  max-width: 90%;
-  background-color: #D8D0C4;
-  padding: 20px;
-  text-align: center;
-  margin: 0 auto;
-  border-radius: 12px;
-  display: grid;
-  gap: 20px;
-  justify-items: center;
-}
-
-.rsvp__fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.rsvp__legend {
-  font-weight: 600;
-  color: var(--secondary-color);
-  margin-bottom: 12px;
-  display: block;
-  text-align: center;
-  width: 100%;
-}
-
-/* Custom radio checkmark */
-.rsvp__radio {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.rsvp__attendance-option::before {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 1px solid var(--secondary-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.rsvp__attendance-option::after {
-  content: "";
-  position: absolute;
-  top: 7px;
-  left: 5px;
-  width: 10px;
-  height: 10px;
-  background-color: var(--secondary-color);
-  border-radius: 2px;
-  display: none;
-}
-
-.rsvp__attendance-option:has(.rsvp__radio:checked)::after {
-  display: block;
-}
-
-/* Attendance options – inline */
-.rsvp__attendance {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-}
-
-.rsvp__attendance .rsvp__legend {
-  width: 100%;
-  flex-basis: 100%;
-}
-
-.rsvp__attendance-option {
-  position: relative;
-  padding-left: 28px;
-  cursor: pointer;
-}
-
-/* Form group */
-.rsvp__form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-  text-align: left;
-}
-
-.rsvp__label {
-  font-weight: 600;
-  color: var(--secondary-color);
-}
-
-.rsvp__input {
-  border: 1px solid var(--primary-color);
-  padding: 8px 20px;
-  text-align: left;
-  border-radius: 6px;
-  font-family: var(--primary-font);
-  font-size: 14px;
-  color: var(--text-dark);
-  background-color: #fff;
-}
-
-.rsvp__submit {
-  padding: 12px 24px;
-  background-color: var(--secondary-color);
-  color: var(--bg-light);
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid var(--secondary-color);
-  font-family: var(--primary-font);
-  font-weight: 600;
-  transition: box-shadow var(--transition);
-}
-
-.rsvp__submit:hover {
-  box-shadow: 0 0 10px var(--secondary-color);
-}
-
-/* ==========================================================================
-   13. THANK YOU SECTION
+   16. THANK YOU SECTION
    ========================================================================== */
 .thank-you {
   position: relative;
@@ -1344,10 +1291,7 @@ main {
   color: var(--text-white);
   text-align: center;
   padding: 40px 20px;
-  background-size: cover;
   background-position: center top;
-  background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, .55);
 }
 
 .thank-you__heading {
@@ -1368,7 +1312,7 @@ main {
 }
 
 /* ==========================================================================
-   15. LIGHTBOX
+   17. LIGHTBOX
    ========================================================================== */
 .lightbox {
   position: fixed;
@@ -1442,16 +1386,11 @@ main {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.lightbox__prev {
-  left: 16px;
-}
-
-.lightbox__next {
-  right: 16px;
-}
+.lightbox__prev { left: 16px; }
+.lightbox__next { right: 16px; }
 
 /* ==========================================================================
-   16. FORM MESSAGES
+   18. FORM MESSAGES
    ========================================================================== */
 .form-message {
   margin-top: 12px;
@@ -1464,24 +1403,12 @@ main {
 
 .form-message--success {
   background-color: rgba(74, 85, 64, 0.15);
-  color: #4A5540;
-  border: 1px solid #4A5540;
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
 }
 
 .form-message--error {
   background-color: rgba(142, 62, 56, 0.15);
-  color: #8E3E38;
-  border: 1px solid #8E3E38;
-}
-
-/* RSVP submit success state */
-.rsvp__submit--success {
-  background-color: #4A5540;
-  border-color: #4A5540;
-  cursor: default;
-  opacity: 0.9;
-}
-
-.rsvp__submit--success:hover {
-  box-shadow: none;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
 }

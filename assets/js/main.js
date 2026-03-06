@@ -8,7 +8,6 @@
  *  - Gallery Swiper carousel + lightbox
  *  - Wishes form AJAX submission
  *  - RSVP form AJAX submission
- *  - Share link handlers
  *
  * Config.js and Swiper must be loaded first.
  */
@@ -16,119 +15,155 @@
 (function () {
   "use strict";
 
-  // --- Helpers ---------------------------------------------------------------
+  // =========================================================================
+  // REGION 1: HELPERS
+  // =========================================================================
 
-  /** Set text content of an element selected within a parent. */
-  function setText(selector, text, parent = document) {
-    const el = parent.querySelector(selector);
+  function setText(selector, text, parent) {
+    var el = (parent || document).querySelector(selector);
     if (el) el.textContent = text;
   }
 
-  /** Set an attribute on an element selected within a parent. */
-  function setAttr(selector, attr, value, parent = document) {
-    const el = parent.querySelector(selector);
+  function setAttr(selector, attr, value, parent) {
+    var el = (parent || document).querySelector(selector);
     if (el) el.setAttribute(attr, value);
   }
 
-  // --- Populate Meta ---------------------------------------------------------
+  /** Bulk-set textContent from a { selector: text } map. */
+  function populateText(mapping, parent) {
+    var root = parent || document;
+    var selectors = Object.keys(mapping);
+    for (var i = 0; i < selectors.length; i++) {
+      var el = root.querySelector(selectors[i]);
+      if (el) el.textContent = mapping[selectors[i]];
+    }
+  }
+
+  /** Bulk-set attributes from a { selector: { attr: value, ... } } map. */
+  function populateAttrs(mapping, parent) {
+    var root = parent || document;
+    var selectors = Object.keys(mapping);
+    for (var i = 0; i < selectors.length; i++) {
+      var el = root.querySelector(selectors[i]);
+      if (!el) continue;
+      var attrs = mapping[selectors[i]];
+      var keys = Object.keys(attrs);
+      for (var j = 0; j < keys.length; j++) {
+        el.setAttribute(keys[j], attrs[keys[j]]);
+      }
+    }
+  }
+
+  /** Set background-image on a section element by ID. */
+  function setSectionBackground(sectionId, imageUrl) {
+    if (!imageUrl) return;
+    var section = document.getElementById(sectionId);
+    if (section) section.style.backgroundImage = "url('" + imageUrl + "')";
+  }
+
+  /** Show a temporary message inside a form. */
+  function showFormMessage(form, text, type) {
+    var existing = form.querySelector(".form-message");
+    if (existing) existing.remove();
+
+    var msg = document.createElement("p");
+    msg.className = "form-message form-message--" + type;
+    msg.textContent = text;
+    form.appendChild(msg);
+
+    if (type === "error") {
+      setTimeout(function () { msg.remove(); }, 5000);
+    }
+  }
+
+  // =========================================================================
+  // REGION 2: POPULATE FUNCTIONS (config -> DOM)
+  // =========================================================================
 
   function populateMeta() {
-    const { meta } = WEDDING_CONFIG;
+    var meta = WEDDING_CONFIG.meta;
     document.title = meta.title;
     setAttr('meta[name="description"]', "content", meta.description);
   }
 
-  // --- Populate Cover --------------------------------------------------------
-
   function populateCover() {
-    const { couple, hero, cover } = WEDDING_CONFIG;
+    var couple = WEDDING_CONFIG.couple;
+    var cover = WEDDING_CONFIG.cover;
 
-    // Video background (looped, muted, autoplay)
-    const coverVideo = document.querySelector(".cover__video");
+    var coverVideo = document.querySelector(".cover__video");
     if (coverVideo && cover.videoUrl) {
       coverVideo.src = cover.videoUrl;
-      coverVideo.poster = cover.posterImage || hero.backgroundImage || "";
-      coverVideo.play().catch(() => {}); // autoplay may be blocked; play() handles it
+      coverVideo.poster = cover.posterImage || cover.backgroundImage || "";
+      coverVideo.play().catch(function () {});
     }
 
-    // Fallback: background image when no video
-    const coverBg = document.querySelector(".cover__bg--fallback");
-    const bgImage = cover.backgroundImage || hero.backgroundImage;
-    if (coverBg && bgImage) {
-      coverBg.style.backgroundImage = `url('${bgImage}')`;
+    var coverBg = document.querySelector(".cover__bg--fallback");
+    if (coverBg && cover.backgroundImage) {
+      coverBg.style.backgroundImage = "url('" + cover.backgroundImage + "')";
     }
 
-    setText(".cover__groom-name", couple.groom.shortName);
-    setText(".cover__bride-name", couple.bride.shortName);
-
-    // Single line, uppercase (like Canva ref: "SATURDAY, 25 OCTOBER")
-    const dateStr = cover.dateLine1 || `${hero.dayOfWeek}, ${hero.day} ${hero.monthYear}`;
-    setText(".cover__date", dateStr.toUpperCase());
+    populateText({
+      ".cover__groom-name": couple.groom.shortName,
+      ".cover__bride-name": couple.bride.shortName,
+      ".cover__date": (cover.dateLine || "").toUpperCase(),
+    });
   }
-
-  // --- Populate Until The Big Day --------------------------------------------
 
   function populateUntilTheDay() {
-    const { untilTheDay } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.untilTheDay;
 
-    const section = document.getElementById("until-the-day");
-    if (section && untilTheDay.backgroundImage) {
-      section.style.backgroundImage = `url('${untilTheDay.backgroundImage}')`;
-    }
+    setSectionBackground("until-the-day", cfg.backgroundImage);
+    setAttr(".until__timer", "data-wedding-date", WEDDING_CONFIG.weddingDate);
 
-    setText(".until__date", untilTheDay.dateLine);
-    setText(".until__heading", untilTheDay.heading);
-    setAttr(".until__timer", "data-wedding-date", untilTheDay.weddingDateISO);
-
-    const items = document.querySelectorAll(".until__item");
-    const labelKeys = ["days", "hours", "minutes", "seconds"];
-    items.forEach((item, i) => {
-      const key = labelKeys[i];
-      if (key) setText(".until__label", untilTheDay.labels[key], item);
+    populateText({
+      ".until__date": cfg.dateLine,
+      ".until__heading": cfg.heading,
+      ".until__message": cfg.message,
     });
 
-    setText(".until__message", untilTheDay.message);
+    var items = document.querySelectorAll(".until__item");
+    var labelKeys = ["days", "hours", "minutes", "seconds"];
+    for (var i = 0; i < items.length; i++) {
+      if (labelKeys[i]) setText(".until__label", cfg.labels[labelKeys[i]], items[i]);
+    }
   }
-
-  // --- Populate Save The Date ------------------------------------------------
 
   function populateSaveTheDate() {
-    const { saveTheDate } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.saveTheDate;
 
-    const section = document.getElementById("save-the-date");
-    if (section && saveTheDate.backgroundImage) {
-      section.style.backgroundImage = `url('${saveTheDate.backgroundImage}')`;
-    }
+    setSectionBackground("save-the-date", cfg.backgroundImage);
 
-    setText(".save-date__line1", saveTheDate.line1);
-    setText(".save-date__line2", saveTheDate.line2);
-    setText(".save-date__line3", saveTheDate.line3);
-    setText(".save-date__date", saveTheDate.dateLine);
-    setText(".save-date__time", saveTheDate.timeLine);
+    populateText({
+      ".save-date__line1": cfg.line1,
+      ".save-date__line2": cfg.line2,
+      ".save-date__line3": cfg.line3,
+      ".save-date__date": cfg.dateLine,
+      ".save-date__time": cfg.timeLine,
+    });
   }
 
-  // --- Populate Timeline -----------------------------------------------------
-
   function populateTimeline() {
-    const { timeline } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.timeline;
 
-    setText(".timeline__subtitle", timeline.subtitle);
-    setText(".timeline__heading", timeline.heading);
+    populateText({
+      ".timeline__subtitle": cfg.subtitle,
+      ".timeline__heading": cfg.heading,
+    });
 
-    const track = document.querySelector(".timeline__track");
+    var track = document.querySelector(".timeline__track");
     if (!track) return;
 
     track.innerHTML = "";
 
-    timeline.items.forEach((item) => {
-      const row = document.createElement("div");
+    cfg.items.forEach(function (item) {
+      var row = document.createElement("div");
       row.className = "timeline__item";
 
-      const time = document.createElement("span");
+      var time = document.createElement("span");
       time.className = "timeline__time";
       time.textContent = item.time;
 
-      const event = document.createElement("span");
+      var event = document.createElement("span");
       event.className = "timeline__event";
       event.textContent = item.label;
 
@@ -138,271 +173,184 @@
     });
   }
 
-  // --- Populate Gallery (Swiper slides) -------------------------------------
-
   function populateGallery() {
-    const { gallery } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.gallery;
 
-    setText(".gallery__title", gallery.title);
-
-    // Vertical (portrait) slides
-    const wrapper = document.querySelector(".gallery__slider .swiper-wrapper");
-    if (wrapper) {
-      wrapper.innerHTML = "";
-      gallery.images.forEach((image, index) => {
-        const slide = document.createElement("div");
-        slide.className = "swiper-slide";
-
-        const a = document.createElement("a");
-        a.href = image.src;
-        a.setAttribute("data-lightbox-index", index);
-        a.setAttribute("data-lightbox-pool", "vertical");
-        a.className = "gallery__link";
-
-        const img = document.createElement("img");
-        img.src = image.src;
-        img.alt = image.alt;
-        img.className = "gallery__img";
-        img.loading = "lazy";
-
-        a.appendChild(img);
-        slide.appendChild(a);
-        wrapper.appendChild(slide);
-      });
-    }
-
-    // Horizontal (landscape) slides
-    const hImages = gallery.horizontalImages || [];
-    const hWrapper = document.querySelector(".gallery__horizontal-slider .swiper-wrapper");
-    if (hWrapper && hImages.length) {
-      hWrapper.innerHTML = "";
-      hImages.forEach((image, index) => {
-        const slide = document.createElement("div");
-        slide.className = "swiper-slide";
-
-        const a = document.createElement("a");
-        a.href = image.src;
-        a.setAttribute("data-lightbox-index", index);
-        a.setAttribute("data-lightbox-pool", "horizontal");
-        a.className = "gallery__link";
-
-        const img = document.createElement("img");
-        img.src = image.src;
-        img.alt = image.alt;
-        img.className = "gallery__img";
-        img.loading = "lazy";
-
-        a.appendChild(img);
-        slide.appendChild(a);
-        hWrapper.appendChild(slide);
-      });
-    }
+    setText(".gallery__title", cfg.title);
+    buildSlides(".gallery__slider .swiper-wrapper", cfg.images, "vertical");
+    buildSlides(".gallery__horizontal-slider .swiper-wrapper", cfg.horizontalImages || [], "horizontal");
   }
 
-  // --- Populate Location -----------------------------------------------------
+  function buildSlides(wrapperSelector, images, pool) {
+    var wrapper = document.querySelector(wrapperSelector);
+    if (!wrapper || !images.length) return;
+
+    wrapper.innerHTML = "";
+    images.forEach(function (image, index) {
+      var slide = document.createElement("div");
+      slide.className = "swiper-slide";
+
+      var a = document.createElement("a");
+      a.href = image.src;
+      a.className = "gallery__link";
+      a.setAttribute("data-lightbox-index", index);
+      a.setAttribute("data-lightbox-pool", pool);
+
+      var img = document.createElement("img");
+      img.src = image.src;
+      img.alt = image.alt;
+      img.className = "gallery__img";
+      img.loading = "lazy";
+
+      a.appendChild(img);
+      slide.appendChild(a);
+      wrapper.appendChild(slide);
+    });
+  }
 
   function populateLocation() {
-    const { location } = WEDDING_CONFIG;
-    if (!location) return;
+    var cfg = WEDDING_CONFIG.location;
+    if (!cfg) return;
 
-    const section = document.getElementById("location");
-    if (section && location.backgroundImage) {
-      section.style.backgroundImage = `url('${location.backgroundImage}')`;
-    }
+    setSectionBackground("location", cfg.backgroundImage);
 
-    setText(".location__heading", location.heading);
-    setText(".location__venue-name", location.venueName);
-    setText(".location__venue-address", location.venueAddress);
+    populateText({
+      ".location__heading": cfg.heading,
+      ".location__venue-name": cfg.venueName,
+      ".location__venue-address": cfg.venueAddress,
+      ".location__sketch-heading": cfg.sketchHeading,
+      ".location__sketch-caption": cfg.sketchMapCaption,
+    });
 
-    setAttr(".location__map-iframe", "src", location.googleMapsEmbedUrl);
+    setAttr(".location__map-iframe", "src", cfg.googleMapsEmbedUrl);
 
-    const mapLink = document.querySelector(".location__map-link");
+    var mapLink = document.querySelector(".location__map-link");
     if (mapLink) {
-      mapLink.href = location.mapLinkHref;
-      mapLink.textContent = location.mapLinkText;
+      mapLink.href = cfg.mapLinkHref;
+      mapLink.textContent = cfg.mapLinkText;
     }
 
-    setText(".location__sketch-heading", location.sketchHeading);
-
-    const sketchImg = document.querySelector(".location__sketch-img");
-    if (sketchImg) {
-      sketchImg.src = location.sketchMapImage;
-      sketchImg.alt = location.sketchMapAlt;
-    }
-
-    setText(".location__sketch-caption", location.sketchMapCaption);
+    populateAttrs({
+      ".location__sketch-img": { src: cfg.sketchMapImage, alt: cfg.sketchMapAlt },
+    });
   }
-
-  // --- Populate Wishes -------------------------------------------------------
 
   function populateWishes() {
-    const { wishes } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.wishes;
 
-    // Set background image
-    const wishesSection = document.getElementById("wishes");
-    if (wishesSection && wishes.backgroundImage) {
-      wishesSection.style.backgroundImage = `url('${wishes.backgroundImage}')`;
-    }
+    setSectionBackground("wishes", cfg.backgroundImage);
 
-    const headingEl = document.querySelector(".wishes__heading");
+    var headingEl = document.querySelector(".wishes__heading");
     if (headingEl) {
-      const iconSpan = headingEl.querySelector(".wishes__icon");
+      var iconSpan = headingEl.querySelector(".wishes__icon");
       headingEl.textContent = "";
       if (iconSpan) headingEl.appendChild(iconSpan);
-      headingEl.appendChild(document.createTextNode(` ${wishes.heading}`));
+      headingEl.appendChild(document.createTextNode(" " + cfg.heading));
     }
 
-    // Populate form
-    setText(".wishes__form-title", wishes.formTitle);
+    populateText({
+      ".wishes__form-title": cfg.formTitle,
+      '.wishes__label[for="wish-name"]': cfg.nameLabel,
+      '.wishes__label[for="wish-message"]': cfg.messageLabel,
+      ".wishes__submit": cfg.submitText,
+    });
 
-    const nameLabel = document.querySelector('.wishes__label[for="wish-name"]');
-    if (nameLabel) nameLabel.textContent = wishes.nameLabel;
-
-    const nameInput = document.getElementById("wish-name");
-    if (nameInput) nameInput.placeholder = wishes.namePlaceholder;
-
-    const msgLabel = document.querySelector('.wishes__label[for="wish-message"]');
-    if (msgLabel) msgLabel.textContent = wishes.messageLabel;
-
-    const msgInput = document.getElementById("wish-message");
-    if (msgInput) msgInput.placeholder = wishes.messagePlaceholder;
-
-    setText(".wishes__submit", wishes.submitText);
+    populateAttrs({
+      "#wish-name": { placeholder: cfg.namePlaceholder },
+      "#wish-message": { placeholder: cfg.messagePlaceholder },
+    });
   }
 
-  // --- Populate RSVP ---------------------------------------------------------
-
   function populateRsvp() {
-    const { rsvp } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.rsvp;
 
-    setText(".rsvp__heading", rsvp.heading);
-    setText(".rsvp__description", rsvp.description);
+    populateText({
+      ".rsvp__heading": cfg.heading,
+      ".rsvp__description": cfg.description,
+      '.rsvp__label[for="rsvp-name"]': cfg.guestNameLabel,
+      ".rsvp__submit": cfg.submitText,
+    });
 
-    // Guest name
-    const nameLabel = document.querySelector('.rsvp__label[for="rsvp-name"]');
-    if (nameLabel) nameLabel.textContent = rsvp.guestNameLabel;
+    setAttr("#rsvp-name", "placeholder", cfg.guestNamePlaceholder);
 
-    const nameInput = document.getElementById("rsvp-name");
-    if (nameInput) nameInput.placeholder = rsvp.guestNamePlaceholder;
-
-    // Attendance options
-    const attendanceFieldset = document.querySelector(".rsvp__attendance");
+    var attendanceFieldset = document.querySelector(".rsvp__attendance");
     if (attendanceFieldset) {
-      setText(".rsvp__legend", rsvp.attendanceLegend, attendanceFieldset);
+      setText(".rsvp__legend", cfg.attendanceLegend, attendanceFieldset);
 
-      const legend = attendanceFieldset.querySelector(".rsvp__legend");
+      var legend = attendanceFieldset.querySelector(".rsvp__legend");
       attendanceFieldset.innerHTML = "";
       if (legend) attendanceFieldset.appendChild(legend);
 
-      rsvp.attendanceOptions.forEach((option) => {
-        const label = document.createElement("label");
+      cfg.attendanceOptions.forEach(function (option) {
+        var label = document.createElement("label");
         label.className = "rsvp__attendance-option";
-        label.innerHTML = `
-          <input type="radio" name="attendance" value="" class="rsvp__radio">
-          <span></span>
-        `;
+        label.innerHTML =
+          '<input type="radio" name="attendance" value="" class="rsvp__radio">' +
+          "<span></span>";
         label.querySelector("input").value = option.value;
         label.querySelector("span").textContent = option.label;
         attendanceFieldset.appendChild(label);
       });
     }
-
-    setText(".rsvp__submit", rsvp.submitText);
   }
 
-  // --- Populate Gifts -------------------------------------------------------
-
   function populateGifts() {
-    const { gifts } = WEDDING_CONFIG;
-    if (!gifts) return;
+    var cfg = WEDDING_CONFIG.gifts;
+    if (!cfg) return;
 
-    setText(".gifts__heading", gifts.heading);
-    setText(".gifts__subtitle", gifts.subtitle);
+    populateText({
+      ".gifts__heading": cfg.heading,
+      ".gifts__subtitle": cfg.subtitle,
+    });
 
-    ["groom", "bride"].forEach((role) => {
-      const card = document.querySelector(`.gifts__card[data-gift="${role}"]`);
-      if (!card || !gifts[role]) return;
+    ["groom", "bride"].forEach(function (role) {
+      var card = document.querySelector('.gifts__card[data-gift="' + role + '"]');
+      if (!card || !cfg[role]) return;
 
-      const data = gifts[role];
-      setText(".gifts__card-label", data.label, card);
+      var data = cfg[role];
+      populateText({
+        ".gifts__card-label": data.label,
+        ".gifts__account-name": data.name,
+        ".gifts__bank-name": data.bank,
+        ".gifts__account-number": data.accountNumber,
+      }, card);
 
-      const img = card.querySelector(".gifts__qr-img");
-      if (img) {
-        img.src = data.qrImage;
-        img.alt = `QR ${data.label}`;
-      }
-
-      setText(".gifts__account-name", data.name, card);
-      setText(".gifts__bank-name", data.bank, card);
-      setText(".gifts__account-number", data.accountNumber, card);
+      populateAttrs({
+        ".gifts__qr-img": { src: data.qrImage, alt: "QR " + data.label },
+      }, card);
     });
   }
 
-  // --- Populate Thank You ----------------------------------------------------
-
   function populateThankYou() {
-    const { thankYou } = WEDDING_CONFIG;
+    var cfg = WEDDING_CONFIG.thankYou;
 
-    // Set background image
-    const thankYouSection = document.getElementById("thank-you");
-    if (thankYouSection && thankYou.backgroundImage) {
-      thankYouSection.style.backgroundImage = `url('${thankYou.backgroundImage}')`;
-    }
+    setSectionBackground("thank-you", cfg.backgroundImage);
 
-    setText(".thank-you__heading", thankYou.heading);
-    setText(".thank-you__message", thankYou.message);
-  }
-
-  // --- Countdown Timer -------------------------------------------------------
-
-  function startCountdownTimer() {
-    const timerEl = document.querySelector(".until__timer");
-    if (!timerEl) return;
-
-    const weddingDate = new Date(timerEl.getAttribute("data-wedding-date"));
-
-    function update() {
-      const now = new Date();
-      const diff = Math.max(0, weddingDate - now);
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      const daysEl = document.getElementById("countdown-days");
-      const hoursEl = document.getElementById("countdown-hours");
-      const minutesEl = document.getElementById("countdown-minutes");
-      const secondsEl = document.getElementById("countdown-seconds");
-
-      if (daysEl) daysEl.textContent = String(days).padStart(2, "0");
-      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, "0");
-      if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, "0");
-      if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, "0");
-    }
-
-    update();
-    setInterval(update, 1000);
+    populateText({
+      ".thank-you__heading": cfg.heading,
+      ".thank-you__message": cfg.message,
+    });
   }
 
   // =========================================================================
-  // FEATURE 1: PAGE PRELOADER
+  // REGION 3: INTERACTIVE FEATURES
   // =========================================================================
+
+  // --- 3a. Page Preloader ---------------------------------------------------
 
   function initPreloader() {
-    const loader = document.getElementById("loader");
+    var loader = document.getElementById("loader");
     if (!loader) return;
 
-    // Lock scroll while loading
     document.body.style.overflow = "hidden";
 
     function hideLoaderAndStartCover() {
-      setTimeout(() => {
+      setTimeout(function () {
         loader.classList.add("loader--hidden");
-        setTimeout(() => {
+        setTimeout(function () {
           loader.style.display = "none";
           document.body.style.overflow = "";
-          const cover = document.getElementById("cover");
+          var cover = document.getElementById("cover");
           if (cover) cover.classList.add("cover--ready");
         }, 400);
       }, 800);
@@ -415,43 +363,28 @@
     }
   }
 
-  // =========================================================================
-  // FEATURE 2: SCROLL ANIMATIONS (AOS-like with IntersectionObserver)
-  // =========================================================================
+  // --- 3b. Scroll Animations (AOS-like) ------------------------------------
 
   function initScrollAnimations() {
-    const animTargets = document.querySelectorAll(
+    var animTargets = document.querySelectorAll(
       ".wishes__form-wrapper, .wishes__gifts, .gallery__heading, .location__inner"
     );
 
-    // Add data-aos attributes for fade-up animation
-    animTargets.forEach((el, index) => {
+    animTargets.forEach(function (el) {
       el.setAttribute("data-aos", "fade-up");
-      // Stagger siblings by 200ms increments
-      const siblings = el.parentElement
-        ? Array.from(el.parentElement.children).filter((c) =>
-            c.matches(el.tagName.toLowerCase() + "." + [...el.classList].join("."))
-          )
-        : [];
-      const sibIndex = siblings.indexOf(el);
-      const delay = sibIndex > 0 ? sibIndex * 200 : 0;
-      if (delay > 0) {
-        el.setAttribute("data-aos-delay", String(delay));
-      }
     });
 
     if (!("IntersectionObserver" in window)) {
-      // Fallback: show everything immediately
-      animTargets.forEach((el) => el.classList.add("aos-animate"));
+      animTargets.forEach(function (el) { el.classList.add("aos-animate"); });
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            const delay = parseInt(entry.target.getAttribute("data-aos-delay") || "0", 10);
-            setTimeout(() => {
+            var delay = parseInt(entry.target.getAttribute("data-aos-delay") || "0", 10);
+            setTimeout(function () {
               entry.target.classList.add("aos-animate");
             }, delay);
             observer.unobserve(entry.target);
@@ -461,20 +394,46 @@
       { threshold: 0.1 }
     );
 
-    animTargets.forEach((el) => observer.observe(el));
+    animTargets.forEach(function (el) { observer.observe(el); });
   }
 
-  // =========================================================================
-  // FEATURE 3: GALLERY SWIPER CAROUSEL
-  // =========================================================================
+  // --- 3c. Countdown Timer -------------------------------------------------
 
-  let gallerySwiper = null;
-  let horizontalSwiper = null;
+  function initCountdown() {
+    var timerEl = document.querySelector(".until__timer");
+    if (!timerEl) return;
+
+    var weddingDate = new Date(timerEl.getAttribute("data-wedding-date"));
+    var els = {
+      days: document.getElementById("countdown-days"),
+      hours: document.getElementById("countdown-hours"),
+      minutes: document.getElementById("countdown-minutes"),
+      seconds: document.getElementById("countdown-seconds"),
+    };
+
+    function update() {
+      var diff = Math.max(0, weddingDate - new Date());
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff / 3600000) % 24);
+      var m = Math.floor((diff / 60000) % 60);
+      var s = Math.floor((diff / 1000) % 60);
+
+      if (els.days) els.days.textContent = String(d).padStart(2, "0");
+      if (els.hours) els.hours.textContent = String(h).padStart(2, "0");
+      if (els.minutes) els.minutes.textContent = String(m).padStart(2, "0");
+      if (els.seconds) els.seconds.textContent = String(s).padStart(2, "0");
+    }
+
+    update();
+    setInterval(update, 1000);
+  }
+
+  // --- 3d. Gallery Swiper Carousel -----------------------------------------
 
   function initGallerySwiper() {
     if (typeof Swiper === "undefined") return;
 
-    gallerySwiper = new Swiper(".gallery__slider", {
+    new Swiper(".gallery__slider", {
       effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
@@ -486,148 +445,133 @@
         modifier: 1,
         slideShadows: true,
       },
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
+      autoplay: { delay: 3000, disableOnInteraction: false },
+      pagination: { el: ".swiper-pagination", clickable: true },
       loop: true,
     });
 
-    horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
+    new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
       spaceBetween: 16,
       grabCursor: true,
       freeMode: true,
-      autoplay: {
-        delay: 0,
-        disableOnInteraction: false,
-        reverseDirection: true,
-      },
+      autoplay: { delay: 0, disableOnInteraction: false, reverseDirection: true },
       speed: 4000,
       loop: true,
     });
   }
 
-  // =========================================================================
-  // FEATURE 4: GALLERY LIGHTBOX
-  // =========================================================================
-
-  let lightboxIndex = 0;
-  let lightboxPool = [];
+  // --- 3e. Gallery Lightbox ------------------------------------------------
 
   function initLightbox() {
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
+    var lightbox = document.getElementById("lightbox");
+    var lightboxImg = document.getElementById("lightbox-img");
     if (!lightbox || !lightboxImg) return;
 
-    const { gallery } = WEDDING_CONFIG;
-    const verticalImages = gallery.images;
-    const horizontalImages = gallery.horizontalImages || [];
+    var gallery = WEDDING_CONFIG.gallery;
+    var pools = {
+      vertical: gallery.images,
+      horizontal: gallery.horizontalImages || [],
+    };
+    var currentPool = [];
+    var currentIndex = 0;
 
-    function openLightbox(pool, index) {
-      lightboxPool = pool;
-      lightboxIndex = index;
-      lightboxImg.src = lightboxPool[lightboxIndex].src;
-      lightboxImg.alt = lightboxPool[lightboxIndex].alt;
+    function show(pool, index) {
+      currentPool = pool;
+      currentIndex = index;
+      lightboxImg.src = currentPool[currentIndex].src;
+      lightboxImg.alt = currentPool[currentIndex].alt;
       lightbox.classList.add("lightbox--open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
     }
 
-    function closeLightbox() {
+    function close() {
       lightbox.classList.remove("lightbox--open");
       lightbox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     }
 
-    function showPrev() {
-      lightboxIndex = (lightboxIndex - 1 + lightboxPool.length) % lightboxPool.length;
-      lightboxImg.src = lightboxPool[lightboxIndex].src;
-      lightboxImg.alt = lightboxPool[lightboxIndex].alt;
+    function prev() {
+      currentIndex = (currentIndex - 1 + currentPool.length) % currentPool.length;
+      lightboxImg.src = currentPool[currentIndex].src;
+      lightboxImg.alt = currentPool[currentIndex].alt;
     }
 
-    function showNext() {
-      lightboxIndex = (lightboxIndex + 1) % lightboxPool.length;
-      lightboxImg.src = lightboxPool[lightboxIndex].src;
-      lightboxImg.alt = lightboxPool[lightboxIndex].alt;
+    function next() {
+      currentIndex = (currentIndex + 1) % currentPool.length;
+      lightboxImg.src = currentPool[currentIndex].src;
+      lightboxImg.alt = currentPool[currentIndex].alt;
     }
 
-    document.addEventListener("click", (e) => {
-      const link = e.target.closest("[data-lightbox-index]");
+    document.addEventListener("click", function (e) {
+      var link = e.target.closest("[data-lightbox-index]");
       if (link) {
         e.preventDefault();
-        const idx = parseInt(link.getAttribute("data-lightbox-index"), 10);
-        const poolName = link.getAttribute("data-lightbox-pool");
-        const pool = poolName === "horizontal" ? horizontalImages : verticalImages;
-        openLightbox(pool, idx);
+        var idx = parseInt(link.getAttribute("data-lightbox-index"), 10);
+        var poolName = link.getAttribute("data-lightbox-pool");
+        show(pools[poolName] || pools.vertical, idx);
       }
     });
 
-    lightbox.querySelector(".lightbox__close").addEventListener("click", closeLightbox);
-    lightbox.querySelector(".lightbox__prev").addEventListener("click", showPrev);
-    lightbox.querySelector(".lightbox__next").addEventListener("click", showNext);
+    lightbox.querySelector(".lightbox__close").addEventListener("click", close);
+    lightbox.querySelector(".lightbox__prev").addEventListener("click", prev);
+    lightbox.querySelector(".lightbox__next").addEventListener("click", next);
 
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeLightbox();
+    lightbox.addEventListener("click", function (e) {
+      if (e.target === lightbox) close();
     });
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", function (e) {
       if (!lightbox.classList.contains("lightbox--open")) return;
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowLeft") showPrev();
-      if (e.key === "ArrowRight") showNext();
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
     });
   }
 
-  // =========================================================================
-  // FEATURE 5: WISHES FORM SUBMISSION
-  // =========================================================================
+  // --- 3f. Wishes Form Submission ------------------------------------------
 
   function initWishesForm() {
-    const form = document.getElementById("wishes-form");
+    var form = document.getElementById("wishes-form");
     if (!form) return;
 
-    const { api, wishes } = WEDDING_CONFIG;
+    var api = WEDDING_CONFIG.api;
+    var cfg = WEDDING_CONFIG.wishes;
 
-    function markWishSuccess(submitBtn) {
+    function markSuccess(submitBtn) {
       form.reset();
       if (submitBtn) {
-        submitBtn.textContent = "Đã gửi";
+        submitBtn.textContent = cfg.submittedText;
         submitBtn.disabled = true;
         submitBtn.classList.add("wishes__submit--success");
       }
 
-      const wrapper = form.closest(".wishes__form-wrapper");
-      const target = wrapper || form;
-      const existing = target.parentElement.querySelector(".wishes__success");
-      if (!existing) {
-        const confirmation = document.createElement("div");
+      var wrapper = form.closest(".wishes__form-wrapper");
+      var target = wrapper || form;
+      if (!target.parentElement.querySelector(".wishes__success")) {
+        var confirmation = document.createElement("div");
         confirmation.className = "wishes__success";
         confirmation.innerHTML = '<p class="wishes__success-text"></p>';
-        setText(".wishes__success-text", wishes.successMessage, confirmation);
+        setText(".wishes__success-text", cfg.successMessage, confirmation);
         target.parentElement.insertBefore(confirmation, target);
       }
     }
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const nameInput = document.getElementById("wish-name");
-      const messageInput = document.getElementById("wish-message");
-      const submitBtn = form.querySelector(".wishes__submit");
+      var nameInput = document.getElementById("wish-name");
+      var messageInput = document.getElementById("wish-message");
+      var submitBtn = form.querySelector(".wishes__submit");
 
-      const name = nameInput ? nameInput.value.trim() : "";
-      const message = messageInput ? messageInput.value.trim() : "";
-
+      var name = nameInput ? nameInput.value.trim() : "";
+      var message = messageInput ? messageInput.value.trim() : "";
       if (!name || !message) return;
 
-      if (submitBtn) submitBtn.textContent = "Đang gửi...";
+      if (submitBtn) submitBtn.textContent = cfg.submittingText;
 
-      const payload = { action: "wish", author_name: name, content: message };
+      var payload = { action: "wish", author_name: name, content: message };
 
       if (api && api.baseUrl) {
         fetch(api.baseUrl, {
@@ -635,52 +579,55 @@
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload),
         })
-          .then((res) => res.json())
-          .then(() => {
-            markWishSuccess(submitBtn);
-          })
-          .catch(() => {
-            markWishSuccess(submitBtn);
+          .then(function (res) { return res.json(); })
+          .then(function () { markSuccess(submitBtn); })
+          .catch(function () {
+            showFormMessage(form, cfg.errorMessage, "error");
+            if (submitBtn) submitBtn.textContent = cfg.submitText;
           });
       } else {
-        markWishSuccess(submitBtn);
+        markSuccess(submitBtn);
       }
     });
   }
 
-  // =========================================================================
-  // FEATURE 6: RSVP FORM SUBMISSION
-  // =========================================================================
+  // --- 3g. RSVP Form Submission --------------------------------------------
 
   function initRsvpForm() {
-    const form = document.getElementById("rsvp-form");
+    var form = document.getElementById("rsvp-form");
     if (!form) return;
 
-    const { api } = WEDDING_CONFIG;
+    var api = WEDDING_CONFIG.api;
+    var cfg = WEDDING_CONFIG.rsvp;
 
-    form.addEventListener("submit", (e) => {
+    function markSuccess(submitBtn) {
+      if (submitBtn) {
+        submitBtn.textContent = cfg.submittedText;
+        submitBtn.disabled = true;
+        submitBtn.classList.add("rsvp__submit--success");
+      }
+      showFormMessage(form, cfg.successMessage, "success");
+    }
+
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const submitBtn = form.querySelector(".rsvp__submit");
+      var submitBtn = form.querySelector(".rsvp__submit");
+      var nameInput = document.getElementById("rsvp-name");
+      var attendanceRadio = form.querySelector('input[name="attendance"]:checked');
 
-      // Collect form data
-      const nameInput = document.getElementById("rsvp-name");
-      const attendanceRadio = form.querySelector('input[name="attendance"]:checked');
-
-      // Validate
       if (!nameInput || !nameInput.value.trim() || !attendanceRadio) {
-        showFormMessage(form, "Vui lòng điền đầy đủ thông tin!", "error");
+        showFormMessage(form, cfg.validationError, "error");
         return;
       }
 
-      const payload = {
+      var payload = {
         action: "rsvp",
         guest_name: nameInput.value.trim(),
         attendance: attendanceRadio.value,
       };
 
-      // Update button state
-      if (submitBtn) submitBtn.textContent = "Đang gửi...";
+      if (submitBtn) submitBtn.textContent = cfg.submittingText;
 
       if (api && api.baseUrl) {
         fetch(api.baseUrl, {
@@ -688,65 +635,33 @@
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload),
         })
-          .then((res) => res.json())
-          .then(() => {
-            markRsvpSuccess(submitBtn, form);
-          })
-          .catch(() => {
-            // API not available – still show success locally
-            markRsvpSuccess(submitBtn, form);
+          .then(function (res) { return res.json(); })
+          .then(function () { markSuccess(submitBtn); })
+          .catch(function () {
+            showFormMessage(form, cfg.errorMessage, "error");
+            if (submitBtn) submitBtn.textContent = cfg.submitText;
           });
       } else {
-        // No API configured – show success locally
-        markRsvpSuccess(submitBtn, form);
+        markSuccess(submitBtn);
       }
     });
   }
 
-  function markRsvpSuccess(submitBtn, form) {
-    if (submitBtn) {
-      submitBtn.textContent = "Đã xác nhận";
-      submitBtn.disabled = true;
-      submitBtn.classList.add("rsvp__submit--success");
-    }
-    showFormMessage(form, "Chúng mình xin chân thành cám ơn!", "success");
-  }
-
-  function showFormMessage(form, text, type) {
-    // Remove existing message
-    const existing = form.querySelector(".form-message");
-    if (existing) existing.remove();
-
-    const msg = document.createElement("p");
-    msg.className = `form-message form-message--${type}`;
-    msg.textContent = text;
-    form.appendChild(msg);
-
-    // Auto-hide after 5 seconds for error messages
-    if (type === "error") {
-      setTimeout(() => msg.remove(), 5000);
-    }
-  }
-
-  // =========================================================================
-  // FEATURE 7: GIFT CARD QR TOGGLE
-  // =========================================================================
+  // --- 3h. Gift Card QR Toggle ---------------------------------------------
 
   function initGifts() {
-    const cards = document.querySelectorAll(".gifts__card");
-    cards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const panel = card.querySelector(".gifts__qr-panel");
-        const isOpen = panel && panel.classList.contains("gifts__qr-panel--open");
+    var cards = document.querySelectorAll(".gifts__card");
+    cards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        var panel = card.querySelector(".gifts__qr-panel");
+        var isOpen = panel && panel.classList.contains("gifts__qr-panel--open");
 
-        // Close all panels first
-        cards.forEach((c) => {
-          const p = c.querySelector(".gifts__qr-panel");
+        cards.forEach(function (c) {
+          var p = c.querySelector(".gifts__qr-panel");
           if (p) p.classList.remove("gifts__qr-panel--open");
           c.classList.remove("gifts__card--active");
         });
 
-        // Toggle the clicked one (if it wasn't already open)
         if (!isOpen && panel) {
           panel.classList.add("gifts__qr-panel--open");
           card.classList.add("gifts__card--active");
@@ -755,10 +670,11 @@
     });
   }
 
-  // --- Initialize ------------------------------------------------------------
+  // =========================================================================
+  // REGION 4: INITIALIZATION
+  // =========================================================================
 
   function init() {
-    // Populate DOM from config
     populateMeta();
     populateCover();
     populateUntilTheDay();
@@ -771,8 +687,7 @@
     populateRsvp();
     populateThankYou();
 
-    // Interactive features
-    startCountdownTimer();
+    initCountdown();
     initGallerySwiper();
     initLightbox();
     initScrollAnimations();
@@ -781,10 +696,8 @@
     initRsvpForm();
   }
 
-  // Preloader must run immediately (before DOMContentLoaded)
   initPreloader();
 
-  // Run the rest when DOM is ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

@@ -16,7 +16,7 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // COUPLE (names used on cover only)
+  // COUPLE (names used on cover)
   // ──────────────────────────────────────────────
   couple: {
     groom: { shortName: "Phuc" },
@@ -24,36 +24,20 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // COVER (opening section: names + date only)
-  // Canva-style: looped video bg, staggered text animations
-  // Uses hero date values. Set videoUrl for looped video, or backgroundImage as fallback
+  // WEDDING DATE (single source of truth)
+  // All date displays derive from or reference this value
   // ──────────────────────────────────────────────
-  cover: {
-    videoUrl: "https://assets.mixkit.co/videos/48527/48527-720.mp4", // aerial ocean waves; leave "" for image only
-    posterImage: "", // optional poster before video loads
-    backgroundImage: "", // fallback when no video; leave empty to use hero.backgroundImage
-    // Canva-style date format; leave empty to build from hero
-    dateLine1: "Thứ Năm, 28 Tháng 5 Năm 2026",
-    dateLine2: "11h00",
-  },
+  weddingDate: "2026-01-12T11:00:00+07:00",
 
   // ──────────────────────────────────────────────
-  // HERO / HEADER
+  // COVER (opening section: names + date)
+  // Set videoUrl for looped video, or backgroundImage as fallback
   // ──────────────────────────────────────────────
-  hero: {
+  cover: {
+    videoUrl: "https://assets.mixkit.co/videos/48527/48527-720.mp4",
+    posterImage: "",
     backgroundImage: "assets/images/placeholder.jpg",
-    dayOfWeek: "Thứ Hai",
-    day: "12",
-    time: "11h00",
-    monthYear: "01.2026",
-    venueLabel: "Địa điểm tổ chức",
-    venueName: "Trung tâm Tổ chức sự kiện Bách Đại Dũng",
-    venueAddress: "TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
-    actionButtons: [
-      { type: "phone", icon: "ri-phone-fill", href: "tel:+84", ariaLabel: "Gọi điện" },
-      { type: "gift", icon: "ri-gift-2-fill", href: "#wishes", ariaLabel: "Gửi lời chúc" },
-      { type: "map", icon: "ri-map-2-line", href: "https://maps.app.goo.gl/TmKBaF94cfrp9q8V7?g_st=ipc", ariaLabel: "Xem bản đồ", external: true },
-    ],
+    dateLine: "Thứ Năm, 28 Tháng 5 Năm 2026",
   },
 
   // ──────────────────────────────────────────────
@@ -63,7 +47,6 @@ const WEDDING_CONFIG = {
     backgroundImage: "assets/images/placeholder.jpg",
     dateLine: "Thứ Hai, 12 Tháng 1",
     heading: "Until The Big Day!",
-    weddingDateISO: "2026-01-12T11:00:00+07:00",
     labels: {
       days: "Ngày",
       hours: "Giờ",
@@ -100,36 +83,6 @@ const WEDDING_CONFIG = {
       { time: "13:00", label: "Tiệc trà" },
     ],
   },
-
-  // ──────────────────────────────────────────────
-  // EVENTS
-  // ──────────────────────────────────────────────
-  events: [
-    {
-      title: "Lễ ăn hỏi & Lễ Cưới tại nhà gái",
-      location: "Nhà văn hóa thôn Tòng Chú 3 - xã Cốc San, tỉnh Lào Cai",
-      time: "10:30",
-      dayOfWeek: "Thứ Bảy",
-      day: "10",
-      month: "01",
-      year: "2026",
-      dateISO: "2026-01-10",
-      lunar: "(22/11 Âm lịch)",
-      rsvpValue: "nha-gai",
-    },
-    {
-      title: "Lễ thành hôn nhà trai",
-      location: "Trung tâm Tổ chức sự kiện Bách Đại Dũng - TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
-      time: "11:00",
-      dayOfWeek: "Thứ Hai",
-      day: "12",
-      month: "01",
-      year: "2026",
-      dateISO: "2026-01-12",
-      lunar: "(24/11 Âm lịch)",
-      rsvpValue: "nha-trai",
-    },
-  ],
 
   // ──────────────────────────────────────────────
   // GALLERY
@@ -183,7 +136,10 @@ const WEDDING_CONFIG = {
     messageLabel: "Lời nhắn gửi",
     messagePlaceholder: "Lời nhắn gửi",
     submitText: "Gửi lời chúc",
+    submittingText: "Đang gửi...",
+    submittedText: "Đã gửi",
     successMessage: "Lời chúc của bạn đã được gửi đến cô dâu và chú rể!",
+    errorMessage: "Có lỗi xảy ra, vui lòng thử lại!",
   },
 
   // ──────────────────────────────────────────────
@@ -223,6 +179,11 @@ const WEDDING_CONFIG = {
       { value: "no", label: "Xin Lỗi tôi không tham dự được !" },
     ],
     submitText: "Xác nhận",
+    submittingText: "Đang gửi...",
+    submittedText: "Đã xác nhận",
+    validationError: "Vui lòng điền đầy đủ thông tin!",
+    successMessage: "Chúng mình xin chân thành cám ơn!",
+    errorMessage: "Có lỗi xảy ra, vui lòng thử lại!",
   },
 
   // ──────────────────────────────────────────────
