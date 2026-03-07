@@ -240,13 +240,7 @@
 
     setSectionBackground("wishes", cfg.backgroundImage);
 
-    var headingEl = document.querySelector(".wishes__heading");
-    if (headingEl) {
-      var iconSpan = headingEl.querySelector(".wishes__icon");
-      headingEl.textContent = "";
-      if (iconSpan) headingEl.appendChild(iconSpan);
-      headingEl.appendChild(document.createTextNode(" " + cfg.heading));
-    }
+    setText(".wishes__heading", cfg.heading);
 
     populateText({
       ".wishes__form-title": cfg.formTitle,
@@ -266,10 +260,13 @@
 
     populateText({
       ".rsvp__heading": cfg.heading,
-      ".rsvp__description": cfg.description,
+      ".rsvp__description": cfg.description || "",
       '.rsvp__label[for="rsvp-name"]': cfg.guestNameLabel,
       ".rsvp__submit": cfg.submitText,
     });
+
+    var descEl = document.querySelector(".rsvp__description");
+    if (descEl && !cfg.description) descEl.style.display = "none";
 
     setAttr("#rsvp-name", "placeholder", cfg.guestNamePlaceholder);
 
@@ -455,9 +452,12 @@
       spaceBetween: 16,
       grabCursor: true,
       freeMode: true,
+      loop: true,
+      loopAdditionalSlides: 3,
       autoplay: { delay: 0, disableOnInteraction: false, reverseDirection: true },
       speed: 4000,
-      loop: true,
+      observer: true,
+      observeParents: true,
     });
   }
 

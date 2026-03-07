@@ -62,9 +62,9 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   saveTheDate: {
     backgroundImage: "assets/images/placeholder.jpg",
-    line1: "Save",
-    line2: "the",
-    line3: "Date",
+    line1: "Save the Date",
+    line2: "",
+    line3: "",
     dateLine: "Thứ Hai, 12 Tháng 1",
     timeLine: "11 giờ sáng",
   },
@@ -170,13 +170,13 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   rsvp: {
     heading: "Xác nhận tham dự",
-    description: "Hãy cho chúng tôi biết bạn sẽ đến tham dự nhé!",
+    description: "",
     guestNameLabel: "Tên Khách Mời",
     guestNamePlaceholder: "Tên Khách Mời",
     attendanceLegend: "Xác nhận",
     attendanceOptions: [
-      { value: "yes", label: "Có tôi sẽ đến" },
-      { value: "no", label: "Xin Lỗi tôi không tham dự được !" },
+      { value: "yes", label: "Co, toi se den!" },
+      { value: "no", label: "Xin loi, toi khong tham du duoc!" },
     ],
     submitText: "Xác nhận",
     submittingText: "Đang gửi...",

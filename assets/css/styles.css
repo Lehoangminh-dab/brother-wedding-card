@@ -16,6 +16,9 @@
   --color-error: #8E3E38;
   --text-white: #F2EAE0;
   --text-white-muted: rgba(242, 234, 224, 0.8);
+  --text-white-pure: #fff;
+  --text-white-pure-muted: rgba(255, 255, 255, 0.8);
+  --text-white-pure-faint: rgba(255, 255, 255, 0.7);
   --text-black: #1C1E1A;
   --text-gray: #9E9688;
   --text-dark: #2C2118;
@@ -27,8 +30,20 @@
   --section-margin: 80px;
   --section-padding: 40px;
   --gap: 20px;
+  --radius: 30px;
   --transition: .3s;
   --overlay-dark: rgba(0, 0, 0, 0.55);
+
+  /* Location map + sketch: shared dimensions */
+  --location-media-aspect-ratio: 16 / 9;
+  --location-inner-max-width: 900px;
+
+  /* Section heights (viewport-based) */
+  --section-height-standard: 100vh;
+  --section-height-gallery: 200vh;
+  --section-height-location: 300vh;
+  --section-height-rsvp: 100vh;
+  --section-height-wishes: 300vh;
 }
 
 @media only screen and (min-width: 540px) {
@@ -125,14 +140,15 @@ main {
   box-shadow: inset 0 0 0 2000px var(--overlay-dark);
 }
 
-/* --- 4b. Submit buttons (shared between wishes + RSVP) ------------------ */
+/* --- 4b. Submit buttons + map link (shared styling) ---------------------- */
 .wishes__submit,
-.rsvp__submit {
+.rsvp__submit,
+.location__map-link {
   padding: 12px 24px;
   background-color: var(--secondary-color);
   color: var(--bg-light);
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 1px solid var(--secondary-color);
   font-family: var(--primary-font);
   font-weight: 600;
@@ -140,7 +156,8 @@ main {
 }
 
 .wishes__submit:hover,
-.rsvp__submit:hover {
+.rsvp__submit:hover,
+.location__map-link:hover {
   box-shadow: 0 0 10px var(--secondary-color);
 }
 
@@ -163,7 +180,7 @@ main {
 .rsvp__input {
   border: 1px solid var(--primary-color);
   padding: 8px 20px;
-  border-radius: 6px;
+  border-radius: var(--radius);
   font-family: var(--primary-font);
   font-size: 14px;
   color: var(--text-dark);
@@ -352,7 +369,7 @@ main {
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   padding: 48px 24px 56px;
   box-sizing: border-box;
 }
@@ -385,6 +402,7 @@ main {
   line-height: 1.1;
   letter-spacing: 0em;
   margin: 0;
+  color: var(--text-white-pure);
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
@@ -434,7 +452,7 @@ main {
 }
 
 .cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__content {
-  color: var(--text-white);
+  color: var(--text-white-pure);
 }
 
 .cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__bg--fallback {
@@ -449,8 +467,12 @@ main {
    9. UNTIL THE BIG DAY SECTION
    ========================================================================== */
 .until {
-  margin-top: var(--section-margin);
-  padding: 80px 20px;
+  margin-top: 0;
+  min-height: var(--section-height-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
   position: relative;
   text-align: center;
   color: var(--text-white);
@@ -474,7 +496,7 @@ main {
   font-family: var(--script-font);
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 400;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   margin-bottom: 32px;
 }
 
@@ -524,8 +546,11 @@ main {
    10. GALLERY SECTION
    ========================================================================== */
 .gallery {
+  min-height: var(--section-height-gallery);
   padding: var(--section-margin) 0;
   overflow: hidden;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
 }
 
 .gallery__heading {
@@ -538,7 +563,7 @@ main {
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 400;
   font-family: var(--script-font);
-  color: var(--text-white);
+  color: var(--secondary-color);
 }
 
 /* Vertical (portrait) coverflow carousel */
@@ -551,7 +576,7 @@ main {
 .gallery__slider .swiper-slide {
   width: 280px;
   height: 380px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
@@ -575,7 +600,7 @@ main {
   object-fit: cover;
   object-position: center 30%;
   display: block;
-  border-radius: 12px;
+  border-radius: var(--radius);
   transition: transform var(--transition);
 }
 
@@ -588,11 +613,13 @@ main {
 }
 
 .gallery__slider .swiper-pagination-bullet-active {
-  background-color: var(--text-white);
+  background-color: var(--secondary-color);
 }
 
 /* Horizontal (landscape) filmstrip carousel */
 .gallery__horizontal-slider {
+  width: 100%;
+  min-height: 220px;
   margin-top: 16px;
   overflow: hidden;
 }
@@ -600,11 +627,16 @@ main {
 .gallery__horizontal-slider .swiper-slide {
   width: 340px;
   height: 220px;
-  border-radius: 12px;
+  flex-shrink: 0;
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
 @media only screen and (min-width: 768px) {
+  .gallery__horizontal-slider {
+    min-height: 260px;
+  }
+
   .gallery__horizontal-slider .swiper-slide {
     width: 400px;
     height: 260px;
@@ -619,10 +651,14 @@ main {
    11. SAVE THE DATE SECTION
    ========================================================================== */
 .save-date {
-  padding: 100px 20px;
+  min-height: var(--section-height-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
   position: relative;
   text-align: center;
-  color: var(--text-white);
+  color: var(--text-white-pure);
 }
 
 .save-date__inner {
@@ -632,29 +668,35 @@ main {
 
 .save-date__heading {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
+  justify-content: center;
   gap: 0;
   margin-bottom: 32px;
 }
 
 .save-date__line1,
+.save-date__line2,
 .save-date__line3 {
   font-family: var(--script-font);
   font-size: clamp(56px, 10vw, 96px);
   font-weight: 400;
   line-height: 1.1;
+  color: var(--text-white-pure);
 }
 
-.save-date__line2 {
-  font-family: var(--title-font);
-  font-size: clamp(18px, 2.5vw, 26px);
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  line-height: 1;
-  margin: -4px 0;
+@media only screen and (min-width: 768px) {
+  .save-date__line1,
+  .save-date__line2,
+  .save-date__line3 {
+    white-space: nowrap;
+  }
+}
+
+.save-date__line2:empty,
+.save-date__line3:empty {
+  display: none;
 }
 
 .save-date__divider {
@@ -685,7 +727,11 @@ main {
    12. WEDDING TIMELINE SECTION
    ========================================================================== */
 .timeline {
-  padding: var(--section-margin) 20px;
+  min-height: var(--section-height-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
   background-color: var(--bg-light);
   color: var(--text-dark);
 }
@@ -804,15 +850,19 @@ main {
    13. LOCATION SECTION
    ========================================================================== */
 .location {
+  min-height: var(--section-height-location);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--section-margin) 20px;
   position: relative;
   text-align: center;
   box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
-  color: var(--text-white);
+  color: var(--text-white-pure);
 }
 
 .location__inner {
-  max-width: 600px;
+  max-width: var(--location-inner-max-width);
   margin: 0 auto;
 }
 
@@ -821,7 +871,7 @@ main {
   font-size: clamp(56px, 10vw, 96px);
   font-weight: 400;
   line-height: 1.1;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   margin-bottom: 16px;
 }
 
@@ -830,7 +880,7 @@ main {
   font-size: clamp(18px, 3vw, 24px);
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   margin-bottom: 4px;
 }
 
@@ -838,17 +888,21 @@ main {
   font-family: var(--primary-font);
   font-size: clamp(14px, 2vw, 17px);
   font-weight: 400;
-  color: var(--text-white-muted);
+  color: var(--text-white-pure-muted);
   margin-bottom: 28px;
 }
 
-.location__map-wrapper {
+.location__map-wrapper,
+.location__sketch-wrapper {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%;
-  border-radius: 12px;
+  aspect-ratio: var(--location-media-aspect-ratio);
+  border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.location__map-wrapper {
   margin-bottom: 16px;
 }
 
@@ -863,21 +917,8 @@ main {
 
 .location__map-link {
   display: inline-block;
-  font-family: var(--primary-font);
-  font-size: clamp(14px, 2vw, 16px);
-  font-weight: 500;
-  color: var(--text-white);
   text-decoration: none;
-  padding: 10px 28px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 30px;
-  transition: background-color var(--transition), border-color var(--transition);
   margin-bottom: 36px;
-}
-
-.location__map-link:hover {
-  background-color: rgba(255, 255, 255, 0.15);
-  border-color: var(--text-white);
 }
 
 .location__divider {
@@ -892,14 +933,11 @@ main {
   font-size: clamp(20px, 3vw, 28px);
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   margin-bottom: 20px;
 }
 
 .location__sketch-wrapper {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   margin-bottom: 12px;
   background-color: rgba(255, 255, 255, 0.08);
 }
@@ -907,8 +945,9 @@ main {
 .location__sketch-img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
+  object-position: center;
 }
 
 .location__sketch-caption {
@@ -916,7 +955,7 @@ main {
   font-size: clamp(13px, 1.8vw, 15px);
   font-weight: 400;
   font-style: italic;
-  color: rgba(242, 234, 224, 0.7);
+  color: var(--text-white-pure-faint);
   margin-top: 8px;
 }
 
@@ -924,6 +963,11 @@ main {
    14. RSVP SECTION
    ========================================================================== */
 .rsvp {
+  min-height: var(--section-height-rsvp);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: var(--section-margin) 20px;
   background-color: var(--bg-light);
   color: var(--text-dark);
@@ -952,7 +996,7 @@ main {
   padding: 20px;
   text-align: center;
   margin: 0 auto;
-  border-radius: 12px;
+  border-radius: var(--radius);
   display: grid;
   gap: 20px;
   justify-items: center;
@@ -989,7 +1033,7 @@ main {
   left: 0;
   width: 20px;
   height: 20px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   border: 1px solid var(--secondary-color);
   display: flex;
   justify-content: center;
@@ -1004,7 +1048,7 @@ main {
   width: 10px;
   height: 10px;
   background-color: var(--secondary-color);
-  border-radius: 2px;
+  border-radius: var(--radius);
   display: none;
 }
 
@@ -1047,17 +1091,22 @@ main {
    15. WISHES & GIFTS SECTION
    ========================================================================== */
 .wishes {
+  min-height: var(--section-height-wishes);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
   padding: var(--section-margin) 20px;
   text-align: center;
-  color: var(--text-white);
+  color: var(--text-white-pure);
 }
 
 .wishes__heading {
   font-size: clamp(36px, 6vw, 56px);
   font-weight: 400;
   font-family: var(--script-font);
-  color: var(--text-white);
+  color: var(--text-white-pure);
   margin-bottom: 40px;
   display: block;
 }
@@ -1073,7 +1122,7 @@ main {
   max-width: 600px;
   margin: 0 auto 32px;
   padding: 20px 28px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   background-color: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(4px);
@@ -1085,21 +1134,22 @@ main {
   font-family: var(--primary-font);
   font-size: clamp(16px, 2vw, 20px);
   font-weight: 400;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   line-height: 1.8;
   letter-spacing: 0.01em;
 }
 
 /* Wish form */
 .wishes__form-wrapper {
+  width: 680px;
+  max-width: 90%;
   display: grid;
   padding: clamp(20px, 20px + 1vw, 40px);
   justify-items: center;
   text-align: center;
   border: 1px solid var(--primary-color);
   background-color: var(--bg-light);
-  border-radius: 12px;
-  max-width: 600px;
+  border-radius: var(--radius);
   margin: 40px auto 0;
   color: var(--text-dark);
 }
@@ -1146,15 +1196,16 @@ main {
 
 /* Gifts subsection */
 .wishes__gifts {
+  width: 100%;
   text-align: center;
-  color: var(--text-white);
+  color: var(--text-white-pure);
 }
 
 .gifts__heading {
   font-size: clamp(30px, 5vw, 48px);
   font-weight: 400;
   font-family: var(--script-font);
-  color: var(--text-white);
+  color: var(--text-white-pure);
   margin-bottom: 8px;
 }
 
@@ -1163,26 +1214,26 @@ main {
   font-size: clamp(15px, 2vw, 19px);
   font-weight: 400;
   letter-spacing: 0.01em;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   opacity: 0.85;
   margin-bottom: 40px;
 }
 
 .gifts__cards {
   display: flex;
-  gap: 24px;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  gap: 40px;
   max-width: 700px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .gifts__card {
-  flex: 1 1 280px;
-  max-width: 320px;
+  flex: 0 1 320px;
+  min-width: 0;
   padding: 28px 24px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   border: 1px solid rgba(255, 255, 255, 0.35);
   background-color: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(6px);
@@ -1237,7 +1288,7 @@ main {
   width: 200px;
   height: 200px;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: var(--radius);
   background-color: #fff;
   padding: 8px;
   margin-bottom: 16px;
@@ -1270,6 +1321,7 @@ main {
   .gifts__cards {
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
   }
 
   .gifts__card {
@@ -1287,8 +1339,8 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  color: var(--text-white);
+  min-height: var(--section-height-standard);
+  color: var(--text-white-pure);
   text-align: center;
   padding: 40px 20px;
   background-position: center top;
@@ -1299,6 +1351,7 @@ main {
   font-family: var(--script-font);
   font-weight: 400;
   line-height: 1.3;
+  color: var(--text-white-pure);
 }
 
 .thank-you__message {
@@ -1339,7 +1392,7 @@ main {
   max-width: 90%;
   max-height: 85vh;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: var(--radius);
   user-select: none;
 }
 
@@ -1395,7 +1448,7 @@ main {
 .form-message {
   margin-top: 12px;
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 14px;
   text-align: center;
   animation: fadeIn 0.3s ease;
