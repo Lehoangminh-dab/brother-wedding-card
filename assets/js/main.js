@@ -430,7 +430,7 @@
   function initGallerySwiper() {
     if (typeof Swiper === "undefined") return;
 
-    new Swiper(".gallery__slider", {
+    var verticalSwiper = new Swiper(".gallery__slider", {
       effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
@@ -442,23 +442,42 @@
         modifier: 1,
         slideShadows: true,
       },
-      autoplay: { delay: 3000, disableOnInteraction: false },
+      autoplay: { delay: 3000, disableOnInteraction: false, reverseDirection: false },
       pagination: { el: ".swiper-pagination", clickable: true },
       loop: true,
+      loopAdditionalSlides: 6,
+      observer: true,
+      observeParents: true,
+      on: {
+        slideChangeTransitionEnd: function () {
+          if (this.loopFix) this.loopFix();
+        },
+      },
     });
 
-    new Swiper(".gallery__horizontal-slider", {
+    var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
       spaceBetween: 16,
       grabCursor: true,
       freeMode: true,
       loop: true,
-      loopAdditionalSlides: 3,
-      autoplay: { delay: 0, disableOnInteraction: false, reverseDirection: true },
-      speed: 4000,
+      loopAdditionalSlides: 6,
+      autoplay: { delay: 0, disableOnInteraction: false, reverseDirection: false },
+      speed: 8000,
       observer: true,
       observeParents: true,
+      on: {
+        slideChangeTransitionEnd: function () {
+          if (this.loopFix) this.loopFix();
+        },
+      },
     });
+
+    // Periodic loopFix to prevent loop state drift after extended autoplay
+    setInterval(function () {
+      if (verticalSwiper && verticalSwiper.loopFix) verticalSwiper.loopFix();
+      if (horizontalSwiper && horizontalSwiper.loopFix) horizontalSwiper.loopFix();
+    }, 15000);
   }
 
   // --- 3e. Gallery Lightbox ------------------------------------------------
