@@ -553,6 +553,12 @@ main {
   align-items: baseline;
   flex-wrap: wrap;
   margin-bottom: var(--space-40);
+  font-size: var(--text-date);
+  font-family: var(--primary-font);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-date);
+  text-transform: uppercase;
+  line-height: 1.45;
 }
 
 .until__item {
@@ -563,18 +569,18 @@ main {
 
 .until__value {
   font-family: var(--title-font);
-  font-size: var(--text-display);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--leading-none);
+  font-size: var(--text-script-title);
+  font-weight: 700;
+  line-height: inherit;
   letter-spacing: var(--tracking-normal);
 }
 
 .until__label {
-  font-family: var(--primary-font);
-  font-size: var(--text-caption);
+  font-family: inherit;
+  font-size: inherit;
   font-weight: var(--font-weight-normal);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-uppercase);
+  letter-spacing: inherit;
 }
 
 .until__message {
