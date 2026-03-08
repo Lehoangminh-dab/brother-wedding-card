@@ -479,6 +479,7 @@
       grabCursor: true,
       centeredSlides: true,
       slidesPerView: "auto",
+      initialSlide: Math.floor(WEDDING_CONFIG.gallery.images.length / 2),
       coverflowEffect: {
         rotate: 50,
         stretch: 0,
@@ -486,17 +487,11 @@
         modifier: 1,
         slideShadows: true,
       },
-      autoplay: { delay: GALLERY_AUTOPLAY_DELAY, disableOnInteraction: false, reverseDirection: false },
-      pagination: { el: ".swiper-pagination", clickable: true },
-      loop: true,
-      loopAdditionalSlides: 6,
+      autoplay: { delay: GALLERY_AUTOPLAY_DELAY, disableOnInteraction: false },
+      pagination: { el: ".gallery__slider .swiper-pagination", clickable: true },
+      rewind: true,
       observer: true,
       observeParents: true,
-      on: {
-        slideChangeTransitionEnd: function () {
-          if (this.loopFix) this.loopFix();
-        },
-      },
     });
 
     var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
@@ -517,9 +512,7 @@
       },
     });
 
-    // Periodic loopFix to prevent loop state drift after extended autoplay
     setInterval(function () {
-      if (verticalSwiper && verticalSwiper.loopFix) verticalSwiper.loopFix();
       if (horizontalSwiper && horizontalSwiper.loopFix) horizontalSwiper.loopFix();
     }, GALLERY_LOOPFIX_INTERVAL);
   }
