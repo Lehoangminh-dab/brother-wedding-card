@@ -37,7 +37,7 @@
   var GALLERY_SPACING          = 16;    // px gap between horizontal slides (= --space-16)
 
   // Scroll animations
-  var SCROLL_ANIM_THRESHOLD = 0.1; // fraction of element visible before animating
+  var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
 
   // =========================================================================
   // REGION 1: HELPERS
@@ -192,7 +192,7 @@
 
     cfg.items.forEach(function (item) {
       var row = document.createElement("div");
-      row.className = "timeline__item";
+      row.className = "timeline__item stagger-item";
 
       var time = document.createElement("span");
       time.className = "timeline__time";
@@ -394,38 +394,48 @@
     }
   }
 
-  // --- 3b. Scroll Animations (AOS-like) ------------------------------------
+  // --- 3b. Scroll Stagger Animations --------------------------------------
 
-  function initScrollAnimations() {
-    var animTargets = document.querySelectorAll(
-      ".wishes__form-wrapper, .wishes__gifts, .gallery__heading, .location__inner"
-    );
+  var STAGGER_DELAY = 150; // ms between each sibling in a batch
 
-    animTargets.forEach(function (el) {
-      el.setAttribute("data-aos", "fade-up");
-    });
+  function initStaggerAnimations() {
+    var items = document.querySelectorAll("[data-stagger] .stagger-item");
 
     if (!("IntersectionObserver" in window)) {
-      animTargets.forEach(function (el) { el.classList.add("aos-animate"); });
+      items.forEach(function (el) { el.classList.add("stagger--visible"); });
       return;
+    }
+
+    var revealQueue = [];
+    var frameScheduled = false;
+
+    function processQueue() {
+      var batch = revealQueue.slice();
+      revealQueue = [];
+      frameScheduled = false;
+      batch.forEach(function (item, i) {
+        item.style.transitionDelay = (i * STAGGER_DELAY) + "ms";
+        item.classList.add("stagger--visible");
+      });
     }
 
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            var delay = parseInt(entry.target.getAttribute("data-aos-delay") || "0", 10);
-            setTimeout(function () {
-              entry.target.classList.add("aos-animate");
-            }, delay);
+            revealQueue.push(entry.target);
             observer.unobserve(entry.target);
           }
         });
+        if (revealQueue.length && !frameScheduled) {
+          frameScheduled = true;
+          requestAnimationFrame(processQueue);
+        }
       },
-      { threshold: SCROLL_ANIM_THRESHOLD }
+      { threshold: SCROLL_ANIM_THRESHOLD, rootMargin: "-10% 0px" }
     );
 
-    animTargets.forEach(function (el) { observer.observe(el); });
+    items.forEach(function (el) { observer.observe(el); });
   }
 
   // --- 3c. Countdown Timer -------------------------------------------------
@@ -735,7 +745,7 @@
     initCountdown();
     initGallerySwiper();
     initLightbox();
-    initScrollAnimations();
+    initStaggerAnimations();
     initWishesForm();
     initGifts();
     initRsvpForm();

@@ -64,9 +64,9 @@
 
     <!-- 9. UNTIL THE BIG DAY -->
     <section id="until-the-day" class="until">
-      <div class="until__inner">
-        <h2 class="until__heading"></h2>
-        <div class="until__timer" data-wedding-date="">
+      <div class="until__inner" data-stagger>
+        <h2 class="until__heading stagger-item"></h2>
+        <div class="until__timer stagger-item" data-wedding-date="">
           <span class="until__item">
             <span class="until__value" id="countdown-days">00</span>
             <span class="until__label"></span>
@@ -84,77 +84,77 @@
             <span class="until__label"></span>
           </span>
         </div>
-        <p class="until__message"></p>
+        <p class="until__message stagger-item"></p>
       </div>
     </section>
 
     <!-- 10. PHOTO GALLERY -->
-    <section id="gallery" class="gallery">
-      <div class="gallery__heading">
+    <section id="gallery" class="gallery" data-stagger>
+      <div class="gallery__heading stagger-item">
         <h2 class="gallery__title"></h2>
       </div>
 
-      <div class="gallery__slider swiper">
+      <div class="gallery__slider swiper stagger-item">
         <div class="swiper-wrapper"></div>
         <div class="swiper-pagination"></div>
       </div>
 
-      <div class="gallery__horizontal-slider swiper">
+      <div class="gallery__horizontal-slider swiper stagger-item">
         <div class="swiper-wrapper"></div>
       </div>
     </section>
 
     <!-- 11. SAVE THE DATE -->
     <section id="save-the-date" class="save-date">
-      <div class="save-date__inner">
-        <h2 class="save-date__heading">
+      <div class="save-date__inner" data-stagger>
+        <h2 class="save-date__heading stagger-item">
           <span class="save-date__line1"></span>
           <span class="save-date__line2"></span>
           <span class="save-date__line3"></span>
         </h2>
-        <div class="save-date__divider"></div>
-        <time class="save-date__date" datetime="2026-01-12"></time>
-        <p class="save-date__time"></p>
+        <div class="save-date__divider stagger-item"></div>
+        <time class="save-date__date stagger-item" datetime="2026-01-12"></time>
+        <p class="save-date__time stagger-item"></p>
       </div>
     </section>
 
     <!-- 12. WEDDING TIMELINE -->
     <section id="timeline" class="timeline">
-      <div class="timeline__inner">
-        <p class="timeline__subtitle"></p>
-        <h2 class="timeline__heading"></h2>
+      <div class="timeline__inner" data-stagger>
+        <p class="timeline__subtitle stagger-item"></p>
+        <h2 class="timeline__heading stagger-item"></h2>
         <div class="timeline__track"></div>
       </div>
     </section>
 
     <!-- 13. LOCATION -->
     <section id="location" class="location">
-      <div class="location__inner">
-        <h2 class="location__heading"></h2>
-        <p class="location__venue-name"></p>
-        <address class="location__venue-address"></address>
+      <div class="location__inner" data-stagger>
+        <h2 class="location__heading stagger-item"></h2>
+        <p class="location__venue-name stagger-item"></p>
+        <address class="location__venue-address stagger-item"></address>
 
-        <div class="location__map-wrapper">
+        <div class="location__map-wrapper stagger-item">
           <iframe class="location__map-iframe" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <a class="location__map-link" href="" target="_blank" rel="noopener noreferrer"></a>
+        <a class="location__map-link stagger-item" href="" target="_blank" rel="noopener noreferrer"></a>
 
-        <div class="location__divider"></div>
+        <div class="location__divider stagger-item"></div>
 
-        <h3 class="location__sketch-heading"></h3>
-        <div class="location__sketch-wrapper">
+        <h3 class="location__sketch-heading stagger-item"></h3>
+        <div class="location__sketch-wrapper stagger-item">
           <img class="location__sketch-img" src="" alt="" loading="lazy">
         </div>
-        <p class="location__sketch-caption"></p>
+        <p class="location__sketch-caption stagger-item"></p>
       </div>
     </section>
 
     <!-- 14. RSVP -->
-    <section id="rsvp" class="rsvp">
-      <h2 class="rsvp__heading"></h2>
-      <p class="rsvp__description"></p>
+    <section id="rsvp" class="rsvp" data-stagger>
+      <h2 class="rsvp__heading stagger-item"></h2>
+      <p class="rsvp__description stagger-item"></p>
 
-      <form class="rsvp__form" id="rsvp-form" action="#" method="post">
+      <form class="rsvp__form stagger-item" id="rsvp-form" action="#" method="post">
         <div class="rsvp__form-group">
           <label class="rsvp__label" for="rsvp-name"></label>
           <input
@@ -176,10 +176,10 @@
     </section>
 
     <!-- 15. WISHES & GIFTS -->
-    <section id="wishes" class="wishes">
-      <h2 class="wishes__heading"></h2>
+    <section id="wishes" class="wishes" data-stagger>
+      <h2 class="wishes__heading stagger-item"></h2>
 
-      <div class="wishes__form-wrapper">
+      <div class="wishes__form-wrapper stagger-item">
         <form class="wishes__form" id="wishes-form" action="#" method="post">
           <div class="wishes__form-group">
             <label class="wishes__label" for="wish-name"></label>
@@ -207,9 +207,9 @@
         </form>
       </div>
 
-      <div class="wishes__divider"></div>
+      <div class="wishes__divider stagger-item"></div>
 
-      <div id="gifts" class="wishes__gifts">
+      <div id="gifts" class="wishes__gifts stagger-item">
         <h3 class="gifts__heading"></h3>
         <p class="gifts__subtitle"></p>
 
@@ -242,9 +242,9 @@
   </main>
 
   <!-- 16. THANK YOU -->
-  <footer id="thank-you" class="thank-you">
-    <h2 class="thank-you__heading"></h2>
-    <p class="thank-you__message"></p>
+  <footer id="thank-you" class="thank-you" data-stagger>
+    <h2 class="thank-you__heading stagger-item"></h2>
+    <p class="thank-you__message stagger-item"></p>
   </footer>
 
   <!-- 17. LIGHTBOX -->
