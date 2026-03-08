@@ -211,7 +211,9 @@
     var cfg = WEDDING_CONFIG.gallery;
 
     setText(".gallery__title", cfg.title);
-    buildSlides(".gallery__slider .swiper-wrapper", cfg.images, "vertical");
+    var vImages = cfg.images;
+    var loopImages = vImages.concat(vImages).concat(vImages);
+    buildSlides(".gallery__slider .swiper-wrapper", loopImages, "vertical");
     var hImages = cfg.horizontalImages || [];
     var marqueeImages = hImages.concat(hImages).concat(hImages);
     buildSlides(".gallery__horizontal-slider .swiper-wrapper", marqueeImages, "horizontal");
@@ -490,7 +492,7 @@
       },
       autoplay: { delay: GALLERY_AUTOPLAY_DELAY, disableOnInteraction: false },
       pagination: { el: ".gallery__slider .swiper-pagination", clickable: true },
-      rewind: true,
+      loop: true,
       observer: true,
       observeParents: true,
     });
