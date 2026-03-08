@@ -713,12 +713,17 @@
 
         cards.forEach(function (c) {
           var p = c.querySelector(".gifts__qr-panel");
-          if (p) p.classList.remove("gifts__qr-panel--open");
+          if (p) {
+            p.classList.remove("gifts__qr-panel--open");
+            p.style.maxHeight = "0px";
+            p.style.marginTop = "0px";
+          }
           c.classList.remove("gifts__card--active");
         });
 
         if (!isOpen && panel) {
           panel.classList.add("gifts__qr-panel--open");
+          panel.style.maxHeight = panel.scrollHeight + "px";
           card.classList.add("gifts__card--active");
         }
       });

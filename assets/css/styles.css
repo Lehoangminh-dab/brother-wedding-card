@@ -1278,6 +1278,7 @@ main {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: flex-start;
   gap: var(--space-40);
   max-width: 700px;
   margin: 0 auto;
@@ -1380,6 +1381,7 @@ main {
   }
 
   .gifts__card {
+    flex: 0 0 auto;
     width: 100%;
     max-width: 340px;
   }
