@@ -37,7 +37,7 @@ const WEDDING_CONFIG = {
   // Set videoUrl for looped video, or backgroundImage as fallback
   // ──────────────────────────────────────────────
   cover: {
-    videoUrl: "https://assets.mixkit.co/videos/48527/48527-720.mp4",
+    videoUrl: "assets/videos/Beach video asset.mp4",
     posterImage: "",
     backgroundImage: PLACEHOLDER_IMAGE,
     dateLine: "Thứ Năm, 28 Tháng 5 Năm 2026",

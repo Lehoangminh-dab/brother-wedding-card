@@ -127,8 +127,21 @@
 
     var coverVideo = document.querySelector(".cover__video");
     if (coverVideo && cover.videoUrl) {
+      // Keep playback settings explicit for cross-browser consistency.
+      coverVideo.preload = "auto";
+      coverVideo.muted = true;
+      coverVideo.defaultMuted = true;
+      coverVideo.loop = true;
+      coverVideo.playsInline = true;
+      coverVideo.setAttribute("playsinline", "");
+      coverVideo.setAttribute("webkit-playsinline", "");
       coverVideo.src = cover.videoUrl;
       coverVideo.poster = cover.posterImage || cover.backgroundImage || "";
+      // Fallback in case a browser intermittently misses native loop behavior.
+      coverVideo.addEventListener("ended", function () {
+        coverVideo.currentTime = 0;
+        coverVideo.play().catch(function () {});
+      });
       coverVideo.play().catch(function () {});
     }
 
