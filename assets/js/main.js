@@ -716,7 +716,7 @@
           if (p) {
             p.classList.remove("gifts__qr-panel--open");
             p.style.maxHeight = "0px";
-            p.style.marginTop = "0px";
+            p.style.removeProperty("margin-top");
           }
           c.classList.remove("gifts__card--active");
         });

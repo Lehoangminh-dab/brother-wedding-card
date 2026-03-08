@@ -1337,7 +1337,7 @@ main {
 .gifts__qr-panel--open {
   max-height: 520px;
   opacity: 1;
-  margin-top: var(--space-20);
+  margin-top: var(--space-32);
 }
 
 .gifts__qr-img {
