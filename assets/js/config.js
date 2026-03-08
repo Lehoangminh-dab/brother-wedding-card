@@ -133,7 +133,6 @@ const WEDDING_CONFIG = {
   wishes: {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Gửi lời chúc đến cặp đôi",
-    formTitle: "Gửi lời chúc",
     nameLabel: "Tên của bạn",
     namePlaceholder: "Tên của bạn",
     messageLabel: "Lời nhắn gửi",
@@ -149,7 +148,6 @@ const WEDDING_CONFIG = {
   // GIFTS / MONEY TRANSFER
   // ──────────────────────────────────────────────
   gifts: {
-    backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Mừng cưới",
     subtitle: "Gửi quà tặng đến cô dâu & chú rể",
     groom: {
