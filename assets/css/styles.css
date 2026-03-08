@@ -107,6 +107,10 @@
   --location-inner-max-width: 1024px;
   --location-subsection-gap: var(--space-24);
 
+  /* Shared content width for forms and text blocks */
+  --content-width: 680px;
+  --content-max-width: 90%;
+
   /* Section heights (viewport-based) */
   --section-height-standard: 100vh;
   --section-height-save-date: 200vh;
@@ -589,7 +593,8 @@ main {
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-relaxed);
   letter-spacing: var(--tracking-tight);
-  max-width: 520px;
+  width: var(--content-width);
+  max-width: var(--content-max-width);
   margin: 0 auto;
   opacity: 0.9;
 }
@@ -1050,8 +1055,8 @@ main {
 }
 
 .rsvp__form {
-  width: 680px;
-  max-width: 90%;
+  width: var(--content-width);
+  max-width: var(--content-max-width);
   background-color: var(--bg-form);
   padding: var(--space-20);
   text-align: center;
@@ -1202,8 +1207,8 @@ main {
 
 /* Wish form */
 .wishes__form-wrapper {
-  width: 680px;
-  max-width: 90%;
+  width: var(--content-width);
+  max-width: var(--content-max-width);
   display: grid;
   padding: clamp(var(--space-20), 20px + 1vw, var(--space-40));
   justify-items: center;
