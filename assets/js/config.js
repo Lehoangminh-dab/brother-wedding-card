@@ -66,7 +66,7 @@ const WEDDING_CONFIG = {
     line2: "",
     line3: "",
     dateLine: "Thứ Hai, 12 Tháng 1",
-    timeLine: "11 giờ sáng",
+    timeLine: "11 GIỜ SÁNG",
   },
 
   // ──────────────────────────────────────────────
@@ -113,12 +113,12 @@ const WEDDING_CONFIG = {
   location: {
     backgroundImage: "assets/images/placeholder.jpg",
     heading: "Địa điểm",
-    venueName: "Trung tâm Tổ chức sự kiện Bách Đại Dũng",
+    venueName: "TRUNG TÂM TỔ CHỨC SỰ KIỆN BÁCH ĐẠI DŨNG",
     venueAddress: "TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
     googleMapsEmbedUrl: "https://maps.google.com/maps?q=Trung+t%C3%A2m+T%E1%BB%95+ch%E1%BB%A9c+s%E1%BB%B1+ki%E1%BB%87n+B%C3%A1ch+%C4%90%E1%BA%A1i+D%C5%A9ng+H%C6%B0%C6%A1ng+S%C6%A1n+H%C3%A0+T%C4%A9nh&output=embed",
-    mapLinkText: "Mở trong Google Maps",
+    mapLinkText: "Mở Trong Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/TmKBaF94cfrp9q8V7?g_st=ipc",
-    sketchHeading: "Sơ đồ nội bộ",
+    sketchHeading: "SƠ ĐỒ NỘI BỘ",
     sketchMapImage: "https://upload.wikimedia.org/wikipedia/en/4/4d/Shrek_%28character%29.png",
     sketchMapAlt: "Sơ đồ chỉ dẫn nội bộ",
     sketchMapCaption: "Sơ đồ chỉ dẫn lối đi trong khu vực tổ chức",
@@ -175,14 +175,14 @@ const WEDDING_CONFIG = {
     guestNamePlaceholder: "Tên Khách Mời",
     attendanceLegend: "Xác nhận",
     attendanceOptions: [
-      { value: "yes", label: "Co, toi se den!" },
-      { value: "no", label: "Xin loi, toi khong tham du duoc!" },
+      { value: "yes", label: "Có, tôi sẽ đến!" },
+      { value: "no", label: "Xin lỗi, tôi không tham dự được!" },
     ],
     submitText: "Xác nhận",
     submittingText: "Đang gửi...",
     submittedText: "Đã xác nhận",
     validationError: "Vui lòng điền đầy đủ thông tin!",
-    successMessage: "Chúng mình xin chân thành cám ơn!",
+    successMessage: "Chúng mình xin chân thành cảm ơn!",
     errorMessage: "Có lỗi xảy ra, vui lòng thử lại!",
   },
 

@@ -116,7 +116,6 @@
     setAttr(".until__timer", "data-wedding-date", WEDDING_CONFIG.weddingDate);
 
     populateText({
-      ".until__date": cfg.dateLine,
       ".until__heading": cfg.heading,
       ".until__message": cfg.message,
     });
