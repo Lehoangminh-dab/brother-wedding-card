@@ -32,6 +32,16 @@
   --gap: var(--space-20);
   --radius: 30px;
 
+  /* Section layout: gap between heading and content (matches RSVP heading → form) */
+  --section-heading-gap: var(--space-24);
+  --section-content-margin-top: var(--space-8);
+
+  /* Save the date: gap between heading and divider, and between divider and date (same value) */
+  --save-date-gap: var(--space-12);
+
+  /* Save the date: gap between the date line and the time line */
+  --save-date-date-to-time: var(--space-40);
+
   /* Spacing scale (multiples of 4) */
   --space-4: 4px;
   --space-8: 8px;
@@ -52,22 +62,15 @@
   --overlay-dark: rgba(0, 0, 0, 0.55);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
-  --text-hero-script: clamp(56px, 10vw, 96px);
-  --text-hero-script-sm: clamp(48px, 8vw, 80px);
-  --text-section-title: clamp(36px, 6vw, 56px);
-  --text-section-title-sm: clamp(30px, 5vw, 48px);
-  --text-section-title-xs: clamp(24px, 4vw, 36px);
+  --text-script-display: clamp(87px, 12.3vw, 147px);
+  --text-script-title: clamp(56px, 9vw, 88px);
+  --text-script-conjunction: clamp(21px, 2.8vw, 33px);
+  --text-date: clamp(18px, 2.6vw, 30px);
   --text-display: clamp(32px, 6vw, 48px);
-  --text-h2: clamp(20px, 3vw, 28px);
-  --text-h3: clamp(18px, 3vw, 24px);
-  --text-subtitle: clamp(18px, 2.8vw, 26px);
-  --text-subtitle-sm: clamp(18px, 2.5vw, 22px);
-  --text-body-lg: clamp(16px, 2vw, 20px);
-  --text-body: clamp(15px, 2vw, 19px);
-  --text-body-sm: clamp(15px, 2vw, 18px);
-  --text-body-xs: clamp(14px, 1.8vw, 17px);
+  --text-heading: clamp(20px, 3vw, 28px);
+  --text-body: clamp(16px, 2vw, 20px);
+  --text-body-sm: clamp(14px, 1.8vw, 17px);
   --text-caption: clamp(13px, 1.8vw, 16px);
-  --text-caption-sm: clamp(13px, 1.7vw, 15px);
   --text-form: 14px;
   --text-icon: 32px;
   --text-icon-lg: 40px;
@@ -366,10 +369,8 @@ main {
    ========================================================================== */
 .cover {
   --cover-font-name: var(--script-font);
-  --cover-font-sans: 'Cormorant Garamond', serif;
-  --cover-name-size: clamp(87px, 12.3vw, 147px);
-  --cover-and-size: clamp(21px, 2.8vw, 33px);
-  --cover-date-size: clamp(18px, 2.6vw, 30px);
+  --cover-and-size: var(--text-script-conjunction);
+  --cover-date-size: var(--text-date);
 
   position: relative;
   width: 100%;
@@ -457,7 +458,7 @@ main {
 
 .cover__groom-name,
 .cover__bride-name {
-  font-size: var(--cover-name-size);
+  font-size: var(--text-script-display);
   font-family: var(--cover-font-name);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
@@ -540,13 +541,13 @@ main {
 }
 
 .until__inner {
-  max-width: 640px;
+  max-width: 1024px;
   margin: 0 auto;
 }
 
 .until__heading {
   font-family: var(--script-font);
-  font-size: var(--text-section-title);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure);
   margin-bottom: var(--space-32);
@@ -612,7 +613,7 @@ main {
 }
 
 .gallery__title {
-  font-size: var(--text-section-title);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   font-family: var(--script-font);
   color: var(--secondary-color);
@@ -720,30 +721,34 @@ main {
 
 .save-date__heading {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0;
-  margin-bottom: var(--space-32);
+  margin-bottom: var(--save-date-gap);
 }
 
 .save-date__line1,
-.save-date__line2,
 .save-date__line3 {
   font-family: var(--script-font);
-  font-size: var(--text-hero-script);
+  font-size: var(--text-script-display);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-none);
   color: var(--text-white-pure);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
 }
 
-@media only screen and (min-width: 768px) {
-  .save-date__line1,
-  .save-date__line2,
-  .save-date__line3 {
-    white-space: nowrap;
-  }
+.save-date__line2 {
+  font-family: var(--title-font);
+  font-size: var(--text-script-conjunction);
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+  line-height: var(--leading-none);
+  color: var(--text-white-pure);
+  margin: var(--space-8) 0;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
 .save-date__line2:empty,
@@ -755,23 +760,23 @@ main {
   width: 60px;
   height: 1px;
   background-color: rgba(255, 255, 255, 0.5);
-  margin: 0 auto var(--space-28);
+  margin: 0 auto var(--save-date-gap);
 }
 
 .save-date__date {
   font-family: var(--primary-font);
-  font-size: var(--text-subtitle);
+  font-size: var(--text-date);
   font-weight: var(--font-weight-normal);
-  letter-spacing: var(--tracking-subtitle);
+  letter-spacing: var(--tracking-date);
   text-transform: uppercase;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--save-date-date-to-time);
 }
 
 .save-date__time {
   font-family: var(--primary-font);
-  font-size: var(--text-subtitle);
+  font-size: var(--text-date);
   font-weight: var(--font-weight-normal);
-  letter-spacing: var(--tracking-subtitle);
+  letter-spacing: var(--tracking-date);
   text-transform: uppercase;
   opacity: 0.85;
 }
@@ -790,14 +795,14 @@ main {
 }
 
 .timeline__inner {
-  max-width: 600px;
+  max-width: 1024px;
   margin: 0 auto;
   text-align: center;
 }
 
 .timeline__subtitle {
   font-family: var(--title-font);
-  font-size: var(--text-subtitle-sm);
+  font-size: var(--text-heading);
   font-weight: var(--font-weight-light);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -807,7 +812,7 @@ main {
 
 .timeline__heading {
   font-family: var(--script-font);
-  font-size: var(--text-section-title);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   color: var(--secondary-color);
   margin-bottom: var(--space-48);
@@ -870,7 +875,7 @@ main {
   text-align: left;
   padding-left: var(--space-32);
   font-family: var(--primary-font);
-  font-size: var(--text-body-xs);
+  font-size: var(--text-body-sm);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-form);
   color: var(--text-dark);
@@ -921,7 +926,7 @@ main {
 
 .location__heading {
   font-family: var(--script-font);
-  font-size: var(--text-hero-script);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
   color: var(--text-white-pure);
@@ -930,7 +935,7 @@ main {
 
 .location__venue-name {
   font-family: var(--title-font);
-  font-size: var(--text-h2);
+  font-size: var(--text-heading);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-wider);
   color: var(--text-white-pure);
@@ -939,7 +944,7 @@ main {
 
 .location__venue-address {
   font-family: var(--primary-font);
-  font-size: var(--text-body-xs);
+  font-size: var(--text-body-sm);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure-muted);
   margin-bottom: var(--location-subsection-gap);
@@ -983,7 +988,7 @@ main {
 
 .location__sketch-heading {
   font-family: var(--title-font);
-  font-size: var(--text-h2);
+  font-size: var(--text-heading);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-wide);
   color: var(--text-white-pure);
@@ -1005,7 +1010,7 @@ main {
 
 .location__sketch-caption {
   font-family: var(--primary-font);
-  font-size: var(--text-body-xs);
+  font-size: var(--text-body-sm);
   font-weight: var(--font-weight-normal);
   font-style: italic;
   color: var(--text-white-pure-faint);
@@ -1027,7 +1032,7 @@ main {
 }
 
 .rsvp__heading {
-  font-size: var(--text-section-title);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   font-family: var(--script-font);
   color: var(--secondary-color);
@@ -1036,8 +1041,8 @@ main {
 
 .rsvp__description {
   text-align: center;
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-24);
+  margin-top: var(--section-content-margin-top);
+  margin-bottom: var(--section-heading-gap);
   color: var(--secondary-color);
   letter-spacing: var(--tracking-form);
 }
@@ -1157,11 +1162,11 @@ main {
 }
 
 .wishes__heading {
-  font-size: var(--text-section-title);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   font-family: var(--script-font);
   color: var(--text-white-pure);
-  margin-bottom: var(--space-40);
+  margin-bottom: var(--section-heading-gap);
   display: block;
 }
 
@@ -1186,7 +1191,7 @@ main {
 
 .wishes__success-text {
   font-family: var(--primary-font);
-  font-size: var(--text-body-lg);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure);
   line-height: var(--leading-relaxed);
@@ -1204,15 +1209,8 @@ main {
   border: 1px solid var(--primary-color);
   background-color: var(--bg-light);
   border-radius: var(--radius);
-  margin: var(--space-40) auto 0;
+  margin: var(--section-content-margin-top) auto 0;
   color: var(--text-dark);
-}
-
-.wishes__form-title {
-  font-size: var(--text-section-title-xs);
-  color: var(--secondary-color);
-  font-family: var(--script-font);
-  font-weight: var(--font-weight-normal);
 }
 
 .wishes__form {
@@ -1257,7 +1255,7 @@ main {
 }
 
 .gifts__heading {
-  font-size: var(--text-section-title-sm);
+  font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   font-family: var(--script-font);
   color: var(--text-white-pure);
@@ -1317,7 +1315,7 @@ main {
 .gifts__card-label {
   display: block;
   font-family: var(--primary-font);
-  font-size: var(--text-subtitle-sm);
+  font-size: var(--text-heading);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-uppercase);
   text-transform: uppercase;
@@ -1359,7 +1357,7 @@ main {
 
 .gifts__bank-name {
   font-family: var(--primary-font);
-  font-size: var(--text-caption-sm);
+  font-size: var(--text-caption);
   opacity: 0.8;
   margin-bottom: var(--space-4);
 }
@@ -1402,7 +1400,7 @@ main {
 }
 
 .thank-you__heading {
-  font-size: var(--text-hero-script-sm);
+  font-size: var(--text-script-title);
   font-family: var(--script-font);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-snug);
@@ -1411,7 +1409,7 @@ main {
 
 .thank-you__message {
   font-family: var(--primary-font);
-  font-size: var(--text-body-lg);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   text-align: center;

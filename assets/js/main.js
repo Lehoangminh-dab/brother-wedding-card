@@ -242,7 +242,6 @@
     setText(".wishes__heading", cfg.heading);
 
     populateText({
-      ".wishes__form-title": cfg.formTitle,
       '.wishes__label[for="wish-name"]': cfg.nameLabel,
       '.wishes__label[for="wish-message"]': cfg.messageLabel,
       ".wishes__submit": cfg.submitText,

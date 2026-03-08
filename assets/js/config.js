@@ -62,9 +62,9 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   saveTheDate: {
     backgroundImage: "assets/images/placeholder.jpg",
-    line1: "Save the Date",
-    line2: "",
-    line3: "",
+    line1: "Save",
+    line2: "the",
+    line3: "Date",
     dateLine: "Thứ Hai, 12 Tháng 1",
     timeLine: "11 GIỜ SÁNG",
   },
