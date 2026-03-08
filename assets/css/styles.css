@@ -37,10 +37,10 @@
   --section-content-margin-top: var(--space-8);
 
   /* Save the date: gap between heading and divider, and between divider and date (same value) */
-  --save-date-gap: var(--space-12);
+  --save-date-gap: var(--space-56);
 
   /* Save the date: gap between the date line and the time line */
-  --save-date-date-to-time: var(--space-40);
+  --save-date-date-to-time: var(--space-48);
 
   /* Spacing scale (multiples of 4) */
   --space-4: 4px;
@@ -104,6 +104,7 @@
 
   /* Section heights (viewport-based) */
   --section-height-standard: 100vh;
+  --section-height-save-date: 200vh;
   --section-height-gallery: 200vh;
   --section-height-location: 300vh;
   --section-height-rsvp: 100vh;
@@ -704,7 +705,7 @@ main {
    11. SAVE THE DATE SECTION
    ========================================================================== */
 .save-date {
-  min-height: var(--section-height-standard);
+  min-height: var(--section-height-save-date);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -770,6 +771,7 @@ main {
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
   margin-bottom: var(--save-date-date-to-time);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 }
 
 .save-date__time {
@@ -779,6 +781,8 @@ main {
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
   opacity: 0.85;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  padding-top: var(--save-date-date-to-time);
 }
 
 /* ==========================================================================
