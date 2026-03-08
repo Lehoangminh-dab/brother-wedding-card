@@ -368,7 +368,6 @@ main {
    ========================================================================== */
 .cover {
   --cover-font-name: var(--script-font);
-  --cover-and-size: var(--text-script-conjunction);
   --cover-date-size: var(--text-date);
 
   position: relative;
@@ -468,7 +467,7 @@ main {
 }
 
 .cover__and {
-  font-size: var(--cover-and-size);
+  font-size: var(--cover-date-size);
   font-family: var(--title-font);
   font-weight: var(--font-weight-light);
   letter-spacing: var(--tracking-display);
@@ -751,7 +750,7 @@ main {
 
 .save-date__line2 {
   font-family: var(--title-font);
-  font-size: var(--text-script-conjunction);
+  font-size: var(--text-date);
   font-weight: var(--font-weight-light);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -1664,10 +1663,19 @@ main {
 
   /* Keep cover and save-date date typography consistent on smaller screens. */
   .cover__date,
+  .cover__and,
   .save-date__date,
-  .save-date__time {
+  .save-date__time,
+  .save-date__line2 {
     font-size: clamp(20px, 4.8vw, 30px);
     line-height: 1.25;
+  }
+
+  .cover__groom-name,
+  .cover__bride-name,
+  .save-date__line1,
+  .save-date__line3 {
+    font-size: clamp(58px, 19vw, 147px);
   }
 
   .timeline__item {
