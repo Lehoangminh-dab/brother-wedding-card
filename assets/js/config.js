@@ -30,7 +30,7 @@ const WEDDING_CONFIG = {
   // WEDDING DATE (single source of truth)
   // All date displays derive from or reference this value
   // ──────────────────────────────────────────────
-  weddingDate: "2026-01-12T11:00:00+07:00",
+  weddingDate: "2026-05-28T11:00:00+07:00",
 
   // ──────────────────────────────────────────────
   // COVER (opening section: names + date)
@@ -48,7 +48,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    dateLine: "Thứ Hai, 12 Tháng 1",
+    dateLine: "Thứ Năm, 28 Tháng 5",
     heading: "Until The Big Day!",
     labels: {
       days: "Ngày",
@@ -68,7 +68,7 @@ const WEDDING_CONFIG = {
     line1: "Save",
     line2: "the",
     line3: "Date",
-    dateLine: "Thứ Hai, 12 Tháng 1",
+    dateLine: "Thứ Năm, 28 Tháng 5",
     timeLine: "11 GIỜ SÁNG",
   },
 
