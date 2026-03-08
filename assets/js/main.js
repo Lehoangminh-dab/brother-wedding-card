@@ -16,6 +16,30 @@
   "use strict";
 
   // =========================================================================
+  // CONSTANTS
+  // =========================================================================
+
+  // Time durations (milliseconds)
+  var MS_PER_DAY  = 86400000;
+  var MS_PER_HOUR = 3600000;
+  var MS_PER_MIN  = 60000;
+  var MS_PER_SEC  = 1000;
+
+  // UI timing
+  var PRELOADER_HIDE_DELAY    = 800;   // ms after load before starting fade
+  var PRELOADER_FADE_DURATION = 400;   // ms CSS fade duration + cleanup
+  var ERROR_MSG_TTL           = 5000;  // ms before error message auto-removes
+
+  // Gallery Swiper
+  var GALLERY_AUTOPLAY_DELAY   = 3000;  // ms between vertical carousel slides
+  var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
+  var GALLERY_LOOPFIX_INTERVAL = 15000; // ms between loop-drift prevention ticks
+  var GALLERY_SPACING          = 16;    // px gap between horizontal slides (= --space-16)
+
+  // Scroll animations
+  var SCROLL_ANIM_THRESHOLD = 0.1; // fraction of element visible before animating
+
+  // =========================================================================
   // REGION 1: HELPERS
   // =========================================================================
 
@@ -61,6 +85,18 @@
     if (section) section.style.backgroundImage = "url('" + imageUrl + "')";
   }
 
+  /** Submit a JSON payload to the API; calls onSuccess or onError. */
+  function submitFormToApi(api, payload, onSuccess, onError) {
+    fetch(api.baseUrl, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+    })
+      .then(function (res) { return res.json(); })
+      .then(onSuccess)
+      .catch(onError);
+  }
+
   /** Show a temporary message inside a form. */
   function showFormMessage(form, text, type) {
     var existing = form.querySelector(".form-message");
@@ -72,7 +108,7 @@
     form.appendChild(msg);
 
     if (type === "error") {
-      setTimeout(function () { msg.remove(); }, 5000);
+      setTimeout(function () { msg.remove(); }, ERROR_MSG_TTL);
     }
   }
 
@@ -347,8 +383,8 @@
           document.body.style.overflow = "";
           var cover = document.getElementById("cover");
           if (cover) cover.classList.add("cover--ready");
-        }, 400);
-      }, 800);
+        }, PRELOADER_FADE_DURATION);
+      }, PRELOADER_HIDE_DELAY);
     }
 
     if (document.readyState === "complete") {
@@ -386,7 +422,7 @@
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: SCROLL_ANIM_THRESHOLD }
     );
 
     animTargets.forEach(function (el) { observer.observe(el); });
@@ -408,10 +444,10 @@
 
     function update() {
       var diff = Math.max(0, weddingDate - new Date());
-      var d = Math.floor(diff / 86400000);
-      var h = Math.floor((diff / 3600000) % 24);
-      var m = Math.floor((diff / 60000) % 60);
-      var s = Math.floor((diff / 1000) % 60);
+      var d = Math.floor(diff / MS_PER_DAY);
+      var h = Math.floor((diff / MS_PER_HOUR) % 24);
+      var m = Math.floor((diff / MS_PER_MIN) % 60);
+      var s = Math.floor((diff / MS_PER_SEC) % 60);
 
       if (els.days) els.days.textContent = String(d).padStart(2, "0");
       if (els.hours) els.hours.textContent = String(h).padStart(2, "0");
@@ -420,7 +456,7 @@
     }
 
     update();
-    setInterval(update, 1000);
+    setInterval(update, MS_PER_SEC);
   }
 
   // --- 3d. Gallery Swiper Carousel -----------------------------------------
@@ -440,7 +476,7 @@
         modifier: 1,
         slideShadows: true,
       },
-      autoplay: { delay: 3000, disableOnInteraction: false, reverseDirection: false },
+      autoplay: { delay: GALLERY_AUTOPLAY_DELAY, disableOnInteraction: false, reverseDirection: false },
       pagination: { el: ".swiper-pagination", clickable: true },
       loop: true,
       loopAdditionalSlides: 6,
@@ -455,13 +491,13 @@
 
     var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
-      spaceBetween: 16, // matches --space-16 in styles.css
+      spaceBetween: GALLERY_SPACING, // matches --space-16 in styles.css
       grabCursor: true,
       freeMode: true,
       loop: true,
       loopAdditionalSlides: 6,
       autoplay: { delay: 0, disableOnInteraction: false, reverseDirection: false },
-      speed: 8000,
+      speed: GALLERY_SCROLL_SPEED,
       observer: true,
       observeParents: true,
       on: {
@@ -475,7 +511,7 @@
     setInterval(function () {
       if (verticalSwiper && verticalSwiper.loopFix) verticalSwiper.loopFix();
       if (horizontalSwiper && horizontalSwiper.loopFix) horizontalSwiper.loopFix();
-    }, 15000);
+    }, GALLERY_LOOPFIX_INTERVAL);
   }
 
   // --- 3e. Gallery Lightbox ------------------------------------------------
@@ -591,17 +627,13 @@
       var payload = { action: "wish", author_name: name, content: message };
 
       if (api && api.baseUrl) {
-        fetch(api.baseUrl, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload),
-        })
-          .then(function (res) { return res.json(); })
-          .then(function () { markSuccess(submitBtn); })
-          .catch(function () {
+        submitFormToApi(api, payload,
+          function () { markSuccess(submitBtn); },
+          function () {
             showFormMessage(form, cfg.errorMessage, "error");
             if (submitBtn) submitBtn.textContent = cfg.submitText;
-          });
+          }
+        );
       } else {
         markSuccess(submitBtn);
       }
@@ -647,17 +679,13 @@
       if (submitBtn) submitBtn.textContent = cfg.submittingText;
 
       if (api && api.baseUrl) {
-        fetch(api.baseUrl, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload),
-        })
-          .then(function (res) { return res.json(); })
-          .then(function () { markSuccess(submitBtn); })
-          .catch(function () {
+        submitFormToApi(api, payload,
+          function () { markSuccess(submitBtn); },
+          function () {
             showFormMessage(form, cfg.errorMessage, "error");
             if (submitBtn) submitBtn.textContent = cfg.submitText;
-          });
+          }
+        );
       } else {
         markSuccess(submitBtn);
       }

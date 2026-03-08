@@ -5,6 +5,9 @@
  * for easy modification. Change any value below to customize the card.
  */
 
+// Default placeholder used until real photos are provided
+const PLACEHOLDER_IMAGE = "assets/images/placeholder.jpg";
+
 const WEDDING_CONFIG = {
 
   // ──────────────────────────────────────────────
@@ -36,7 +39,7 @@ const WEDDING_CONFIG = {
   cover: {
     videoUrl: "https://assets.mixkit.co/videos/48527/48527-720.mp4",
     posterImage: "",
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     dateLine: "Thứ Năm, 28 Tháng 5 Năm 2026",
   },
 
@@ -44,7 +47,7 @@ const WEDDING_CONFIG = {
   // UNTIL THE BIG DAY (countdown + welcome)
   // ──────────────────────────────────────────────
   untilTheDay: {
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     dateLine: "Thứ Hai, 12 Tháng 1",
     heading: "Until The Big Day!",
     labels: {
@@ -61,7 +64,7 @@ const WEDDING_CONFIG = {
   // SAVE THE DATE (elegant date display)
   // ──────────────────────────────────────────────
   saveTheDate: {
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     line1: "Save",
     line2: "the",
     line3: "Date",
@@ -90,20 +93,20 @@ const WEDDING_CONFIG = {
   gallery: {
     title: "Cherish our moments",
     images: [
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 1" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 2" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 3" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 4" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 5" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 6" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 1" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 2" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 3" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 4" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 5" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 6" },
     ],
     horizontalImages: [
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 7" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 8" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 9" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 10" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 11" },
-      { src: "assets/images/placeholder.jpg", alt: "Ảnh cưới Phuc và Van - 12" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 7" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 8" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 9" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 10" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 11" },
+      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 12" },
     ],
   },
 
@@ -111,7 +114,7 @@ const WEDDING_CONFIG = {
   // LOCATION (Google Maps + sketch map)
   // ──────────────────────────────────────────────
   location: {
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Địa điểm",
     venueName: "TRUNG TÂM TỔ CHỨC SỰ KIỆN BÁCH ĐẠI DŨNG",
     venueAddress: "TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
@@ -128,7 +131,7 @@ const WEDDING_CONFIG = {
   // WISHES / GUESTBOOK
   // ──────────────────────────────────────────────
   wishes: {
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Gửi lời chúc đến cặp đôi",
     formTitle: "Gửi lời chúc",
     nameLabel: "Tên của bạn",
@@ -146,7 +149,7 @@ const WEDDING_CONFIG = {
   // GIFTS / MONEY TRANSFER
   // ──────────────────────────────────────────────
   gifts: {
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Mừng cưới",
     subtitle: "Gửi quà tặng đến cô dâu & chú rể",
     groom: {
@@ -154,14 +157,14 @@ const WEDDING_CONFIG = {
       name: "NGUYEN VAN PHUC",
       bank: "Vietcombank",
       accountNumber: "0123456789",
-      qrImage: "assets/images/placeholder.jpg",
+      qrImage: PLACEHOLDER_IMAGE,
     },
     bride: {
       label: "Cô dâu",
       name: "NGUYEN THI VAN",
       bank: "Vietcombank",
       accountNumber: "0123456789",
-      qrImage: "assets/images/placeholder.jpg",
+      qrImage: PLACEHOLDER_IMAGE,
     },
   },
 
@@ -190,7 +193,7 @@ const WEDDING_CONFIG = {
   // THANK YOU
   // ──────────────────────────────────────────────
   thankYou: {
-    backgroundImage: "assets/images/placeholder.jpg",
+    backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Thank you",
     message: "Sự xuất hiện của bạn là niềm vui đối với chúng tôi!",
   },

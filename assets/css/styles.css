@@ -59,6 +59,12 @@
   --space-80: 80px;
   --transition: .3s;
   --overlay-dark: rgba(0, 0, 0, 0.55);
+  --overlay-location: rgba(0, 0, 0, 0.6);
+  --text-shadow-strong: 0 2px 20px rgba(0, 0, 0, 0.6);
+  --text-shadow-soft: 0 1px 12px rgba(0, 0, 0, 0.4);
+  --z-preloader: 99999;
+  --z-lightbox: 99998;
+  --spinner-ring: rgba(139, 145, 126, 0.2);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
   --text-script-display: clamp(87px, 12.3vw, 147px);
@@ -235,7 +241,7 @@ main {
   font-family: var(--primary-font);
   font-size: var(--text-form);
   color: var(--text-dark);
-  background-color: #fff;
+  background-color: var(--text-white-pure);
 }
 
 /* ==========================================================================
@@ -332,7 +338,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99999;
+  z-index: var(--z-preloader);
   opacity: 1;
   transition: opacity 0.4s ease;
 }
@@ -345,7 +351,7 @@ main {
 .loader__spinner {
   width: var(--space-48);
   height: var(--space-48);
-  border: 3px solid rgba(139, 145, 126, 0.2);
+  border: 3px solid var(--spinner-ring);
   border-top-color: var(--primary-color);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -452,7 +458,7 @@ main {
   letter-spacing: var(--tracking-none);
   margin: 0;
   color: var(--text-white-pure);
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+  text-shadow: var(--text-shadow-strong);
 }
 
 .cover__and {
@@ -463,7 +469,7 @@ main {
   text-transform: uppercase;
   line-height: var(--leading-none);
   margin: var(--space-8) 0 var(--space-32) 0;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--text-shadow-soft);
 }
 
 .cover__date {
@@ -474,7 +480,7 @@ main {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--text-shadow-soft);
 }
 
 /* Staggered entrance */
@@ -528,7 +534,7 @@ main {
 }
 
 .until__inner {
-  max-width: 1024px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
@@ -723,7 +729,7 @@ main {
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-none);
   color: var(--text-white-pure);
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+  text-shadow: var(--text-shadow-strong);
 }
 
 .save-date__line2 {
@@ -735,7 +741,7 @@ main {
   line-height: var(--leading-none);
   color: var(--text-white-pure);
   margin: var(--space-8) 0;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--text-shadow-soft);
 }
 
 .save-date__line2:empty,
@@ -757,7 +763,7 @@ main {
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
   margin-bottom: var(--save-date-date-to-time);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--text-shadow-soft);
 }
 
 .save-date__time {
@@ -767,7 +773,7 @@ main {
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
   opacity: 0.85;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--text-shadow-soft);
   padding-top: var(--save-date-date-to-time);
 }
 
@@ -785,7 +791,7 @@ main {
 }
 
 .timeline__inner {
-  max-width: 1024px;
+  max-width: var(--max-width);
   margin: 0 auto;
   text-align: center;
 }
@@ -905,7 +911,7 @@ main {
   padding: var(--section-margin) var(--space-20);
   position: relative;
   text-align: center;
-  box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 0 0 2000px var(--overlay-location);
   color: var(--text-white-pure);
 }
 
@@ -1332,7 +1338,7 @@ main {
   height: 200px;
   object-fit: contain;
   border-radius: var(--radius);
-  background-color: #fff;
+  background-color: var(--text-white-pure);
   padding: var(--space-8);
   margin-bottom: var(--space-16);
 }
@@ -1417,7 +1423,7 @@ main {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.92);
-  z-index: 99998;
+  z-index: var(--z-lightbox);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1444,7 +1450,7 @@ main {
   top: var(--space-16);
   right: var(--space-20);
   font-size: var(--text-icon-lg);
-  color: #fff;
+  color: var(--text-white-pure);
   background: none;
   border: none;
   cursor: pointer;
@@ -1463,7 +1469,7 @@ main {
   top: 50%;
   transform: translateY(-50%);
   font-size: var(--text-icon);
-  color: #fff;
+  color: var(--text-white-pure);
   background: rgba(255, 255, 255, 0.15);
   border: none;
   cursor: pointer;
