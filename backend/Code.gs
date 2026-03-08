@@ -11,7 +11,7 @@
  *    - Rename the first sheet tab (bottom) to: Wishes
  *    - Add headers in row 1:  Timestamp | Author Name | Message
  *    - Create a second sheet tab and name it: RSVP
- *    - Add headers in row 1:  Timestamp | Event | Guest Name | Attendance | Guest Count
+ *    - Add headers in row 1:  Timestamp | Guest Name | Attendance
  *
  * 2. Copy the Sheet ID from the URL:
  *    https://docs.google.com/spreadsheets/d/  <<SHEET_ID>>  /edit
@@ -88,6 +88,7 @@ function doGet(e) {
 // ─────────────────────────────────────────────────────────────
 // POST handler — saves a wish or RSVP to the sheet
 // Body must be JSON with an "action" field: "wish" or "rsvp"
+// RSVP payload fields: guest_name, attendance
 // ─────────────────────────────────────────────────────────────
 function doPost(e) {
   try {
@@ -108,10 +109,8 @@ function doPost(e) {
       var sheet = SpreadsheetApp.openById(SHEET_ID).getSheetByName(RSVP_SHEET);
       sheet.appendRow([
         now,
-        body.event       || "",
         body.guest_name  || "",
         body.attendance  || "",
-        body.guest_count || "",
       ]);
       return jsonResponse({ status: "ok" });
     }
