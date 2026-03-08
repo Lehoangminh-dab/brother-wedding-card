@@ -33,7 +33,6 @@
   // Gallery Swiper
   var GALLERY_AUTOPLAY_DELAY   = 3000;  // ms between vertical carousel slides
   var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
-  var GALLERY_LOOPFIX_INTERVAL = 15000; // ms between loop-drift prevention ticks
   var GALLERY_SPACING          = 16;    // px gap between horizontal slides (= --space-16)
 
   // Scroll animations
@@ -213,7 +212,9 @@
 
     setText(".gallery__title", cfg.title);
     buildSlides(".gallery__slider .swiper-wrapper", cfg.images, "vertical");
-    buildSlides(".gallery__horizontal-slider .swiper-wrapper", cfg.horizontalImages || [], "horizontal");
+    var hImages = cfg.horizontalImages || [];
+    var marqueeImages = hImages.concat(hImages).concat(hImages);
+    buildSlides(".gallery__horizontal-slider .swiper-wrapper", marqueeImages, "horizontal");
   }
 
   function buildSlides(wrapperSelector, images, pool) {
@@ -228,7 +229,7 @@
       var a = document.createElement("a");
       a.href = image.src;
       a.className = "gallery__link";
-      a.setAttribute("data-lightbox-index", index);
+      a.setAttribute("data-lightbox-index", index % ((pool === "horizontal" ? (WEDDING_CONFIG.gallery.horizontalImages || []).length : (WEDDING_CONFIG.gallery.images || []).length) || images.length));
       a.setAttribute("data-lightbox-pool", pool);
 
       var img = document.createElement("img");
@@ -496,25 +497,15 @@
 
     var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
-      spaceBetween: GALLERY_SPACING, // matches --space-16 in styles.css
+      spaceBetween: GALLERY_SPACING,
       grabCursor: true,
-      freeMode: true,
       loop: true,
-      loopAdditionalSlides: 6,
-      autoplay: { delay: 0, disableOnInteraction: false, reverseDirection: false },
+      autoplay: { delay: 1, disableOnInteraction: false },
       speed: GALLERY_SCROLL_SPEED,
       observer: true,
       observeParents: true,
-      on: {
-        slideChangeTransitionEnd: function () {
-          if (this.loopFix) this.loopFix();
-        },
-      },
     });
 
-    setInterval(function () {
-      if (horizontalSwiper && horizontalSwiper.loopFix) horizontalSwiper.loopFix();
-    }, GALLERY_LOOPFIX_INTERVAL);
   }
 
   // --- 3e. Gallery Lightbox ------------------------------------------------

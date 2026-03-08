@@ -681,6 +681,10 @@ main {
   overflow: hidden;
 }
 
+.gallery__horizontal-slider .swiper-wrapper {
+  transition-timing-function: linear;
+}
+
 .gallery__horizontal-slider .swiper-slide {
   width: 340px;
   height: 220px;
