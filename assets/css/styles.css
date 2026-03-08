@@ -1405,7 +1405,7 @@ main {
 }
 
 .thank-you__heading {
-  font-size: var(--text-script-title);
+  font-size: var(--text-script-display);
   font-family: var(--script-font);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-snug);
