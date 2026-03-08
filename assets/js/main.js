@@ -455,7 +455,7 @@
 
     var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
-      spaceBetween: 16,
+      spaceBetween: 16, // matches --space-16 in styles.css
       grabCursor: true,
       freeMode: true,
       loop: true,

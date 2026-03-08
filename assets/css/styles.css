@@ -22,8 +22,7 @@
   --text-black: #1C1E1A;
   --text-gray: #9E9688;
   --text-dark: #2C2118;
-  --biger-size: 44px;
-  --title-fs: 24px;
+  --size-divider: 60px;
   --script-font: 'WindSong', cursive;
   --primary-font: 'Cormorant Garamond', serif;
   --title-font: 'Cormorant Garamond', serif;
@@ -111,20 +110,8 @@
   --section-height-wishes: 300vh;
 }
 
-@media only screen and (min-width: 540px) {
-  :root { --biger-size: 56px; }
-}
-
-@media only screen and (min-width: 768px) {
-  :root {
-    --biger-size: 58px;
-    --title-fs: 32px;
-  }
-}
-
 @media only screen and (min-width: 1024px) {
   :root {
-    --biger-size: min(64px, 8vh);
     --section-margin: 100px;
     --gap: var(--space-40);
   }
@@ -132,7 +119,6 @@
 
 @media only screen and (min-width: 1280px) {
   :root {
-    --biger-size: min(68px, 8vh);
     --section-margin: 120px;
   }
 }
@@ -357,8 +343,8 @@ main {
 }
 
 .loader__spinner {
-  width: 48px;
-  height: 48px;
+  width: var(--space-48);
+  height: var(--space-48);
   border: 3px solid rgba(139, 145, 126, 0.2);
   border-top-color: var(--primary-color);
   border-radius: 50%;
@@ -758,7 +744,7 @@ main {
 }
 
 .save-date__divider {
-  width: 60px;
+  width: var(--size-divider);
   height: 1px;
   background-color: rgba(255, 255, 255, 0.5);
   margin: 0 auto var(--save-date-gap);
@@ -855,8 +841,8 @@ main {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 12px;
-  height: 12px;
+  width: var(--space-12);
+  height: var(--space-12);
   background-color: var(--secondary-color);
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -984,7 +970,7 @@ main {
 }
 
 .location__divider {
-  width: 60px;
+  width: var(--size-divider);
   height: 1px;
   background-color: rgba(255, 255, 255, 0.4);
   margin: 0 auto var(--location-subsection-gap);
@@ -1093,8 +1079,8 @@ main {
   position: absolute;
   top: 2px;
   left: 0;
-  width: 20px;
-  height: 20px;
+  width: var(--space-20);
+  height: var(--space-20);
   border-radius: var(--radius);
   border: 1px solid var(--secondary-color);
   display: flex;
@@ -1132,7 +1118,7 @@ main {
 
 .rsvp__attendance-option {
   position: relative;
-  padding-left: 28px;
+  padding-left: var(--space-28);
   cursor: pointer;
 }
 
@@ -1160,7 +1146,7 @@ main {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: var(--section-margin) 20px;
+  padding: var(--section-margin) var(--space-20);
   text-align: center;
   color: var(--text-white-pure);
 }
@@ -1207,7 +1193,7 @@ main {
   width: 680px;
   max-width: 90%;
   display: grid;
-  padding: clamp(20px, 20px + 1vw, 40px);
+  padding: clamp(var(--space-20), 20px + 1vw, var(--space-40));
   justify-items: center;
   text-align: center;
   border: 1px solid var(--primary-color);
@@ -1240,12 +1226,12 @@ main {
 
 .wishes__textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: var(--space-80);
 }
 
 /* Divider between wishes form and gifts */
 .wishes__divider {
-  width: 60px;
+  width: var(--size-divider);
   height: 1px;
   background-color: rgba(255, 255, 255, 0.4);
   margin: var(--space-56) auto;
@@ -1481,8 +1467,8 @@ main {
   background: rgba(255, 255, 255, 0.15);
   border: none;
   cursor: pointer;
-  width: 48px;
-  height: 48px;
+  width: var(--space-48);
+  height: var(--space-48);
   border-radius: 50%;
   display: flex;
   justify-content: center;
