@@ -13,6 +13,8 @@
   --primary-color: #8B917E;
   --secondary-color: #5C4A3A;
   --color-success: #4A5540;
+  --color-success-surface: rgba(226, 234, 218, 0.94);
+  --color-success-border: rgba(74, 85, 64, 0.45);
   --color-error: #8E3E38;
   --text-white: #F2EAE0;
   --text-white-muted: rgba(242, 234, 224, 0.8);
@@ -1126,15 +1128,19 @@ main {
 }
 
 .rsvp__attendance {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-16);
-  justify-content: center;
+  display: grid;
+  justify-items: center;
 }
 
 .rsvp__attendance .rsvp__legend {
   width: 100%;
-  flex-basis: 100%;
+}
+
+.rsvp__attendance-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-16);
 }
 
 .rsvp__attendance-option {
@@ -1187,24 +1193,26 @@ main {
   font-size: var(--text-icon);
 }
 
-/* Wish success confirmation */
+/* Shared section success confirmation (RSVP + Wishes) */
+.section-success,
 .wishes__success {
   max-width: 600px;
   margin: 0 auto var(--space-32);
   padding: var(--space-20) var(--space-28);
   border-radius: var(--radius);
-  background-color: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background-color: var(--color-success-surface);
+  border: 1px solid var(--color-success-border);
   backdrop-filter: blur(4px);
   text-align: center;
   animation: fadeInUp 0.6s ease both;
 }
 
+.section-success__text,
 .wishes__success-text {
   font-family: var(--primary-font);
   font-size: var(--text-body);
   font-weight: var(--font-weight-normal);
-  color: var(--text-white-pure);
+  color: var(--color-success);
   line-height: var(--leading-relaxed);
   letter-spacing: var(--tracking-tight);
 }
@@ -1654,6 +1662,14 @@ main {
     letter-spacing: var(--tracking-wide);
   }
 
+  /* Keep cover and save-date date typography consistent on smaller screens. */
+  .cover__date,
+  .save-date__date,
+  .save-date__time {
+    font-size: clamp(20px, 4.8vw, 30px);
+    line-height: 1.25;
+  }
+
   .timeline__item {
     margin-bottom: var(--space-32);
   }
@@ -1676,8 +1692,11 @@ main {
   }
 
   .rsvp__attendance {
-    align-items: flex-start;
-    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .rsvp__attendance-options {
+    justify-content: center;
     row-gap: var(--space-12);
     column-gap: var(--space-20);
   }
@@ -1696,6 +1715,7 @@ main {
     margin-top: var(--space-12);
   }
 
+  .section-success,
   .wishes__success {
     max-width: 100%;
     padding: var(--space-16) var(--space-16);

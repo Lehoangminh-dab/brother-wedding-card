@@ -111,6 +111,29 @@
     }
   }
 
+  /** Show a persistent section-level success confirmation below a heading. */
+  function showSectionSuccess(section, heading, text) {
+    if (!section || !heading) return;
+
+    var existing = section.querySelector(".section-success");
+    if (existing) {
+      setText(".section-success__text", text, existing);
+      return;
+    }
+
+    var confirmation = document.createElement("div");
+    confirmation.className = "section-success";
+    confirmation.innerHTML = '<p class="section-success__text"></p>';
+    setText(".section-success__text", text, confirmation);
+
+    var insertBefore = heading.nextElementSibling;
+    if (insertBefore) {
+      section.insertBefore(confirmation, insertBefore);
+    } else {
+      section.appendChild(confirmation);
+    }
+  }
+
   // =========================================================================
   // REGION 2: POPULATE FUNCTIONS (config -> DOM)
   // =========================================================================
@@ -327,6 +350,9 @@
       var legend = attendanceFieldset.querySelector(".rsvp__legend");
       attendanceFieldset.innerHTML = "";
       if (legend) attendanceFieldset.appendChild(legend);
+      var optionsGroup = document.createElement("div");
+      optionsGroup.className = "rsvp__attendance-options";
+      attendanceFieldset.appendChild(optionsGroup);
 
       cfg.attendanceOptions.forEach(function (option) {
         var label = document.createElement("label");
@@ -336,7 +362,7 @@
           "<span></span>";
         label.querySelector("input").value = option.value;
         label.querySelector("span").textContent = option.label;
-        attendanceFieldset.appendChild(label);
+        optionsGroup.appendChild(label);
       });
     }
   }
@@ -600,6 +626,8 @@
 
     var api = WEDDING_CONFIG.api;
     var cfg = WEDDING_CONFIG.wishes;
+    var section = document.getElementById("wishes");
+    var heading = section ? section.querySelector(".wishes__heading") : null;
 
     function markSuccess(submitBtn) {
       form.reset();
@@ -608,16 +636,7 @@
         submitBtn.disabled = true;
         submitBtn.classList.add("wishes__submit--success");
       }
-
-      var wrapper = form.closest(".wishes__form-wrapper");
-      var target = wrapper || form;
-      if (!target.parentElement.querySelector(".wishes__success")) {
-        var confirmation = document.createElement("div");
-        confirmation.className = "wishes__success";
-        confirmation.innerHTML = '<p class="wishes__success-text"></p>';
-        setText(".wishes__success-text", cfg.successMessage, confirmation);
-        target.parentElement.insertBefore(confirmation, target);
-      }
+      showSectionSuccess(section, heading, cfg.successMessage);
     }
 
     form.addEventListener("submit", function (e) {
@@ -657,6 +676,8 @@
 
     var api = WEDDING_CONFIG.api;
     var cfg = WEDDING_CONFIG.rsvp;
+    var section = document.getElementById("rsvp");
+    var heading = section ? section.querySelector(".rsvp__heading") : null;
 
     function markSuccess(submitBtn) {
       if (submitBtn) {
@@ -664,7 +685,10 @@
         submitBtn.disabled = true;
         submitBtn.classList.add("rsvp__submit--success");
       }
-      showFormMessage(form, cfg.successMessage, "success");
+
+      var existingMessage = form.querySelector(".form-message");
+      if (existingMessage) existingMessage.remove();
+      showSectionSuccess(section, heading, cfg.successMessage);
     }
 
     form.addEventListener("submit", function (e) {
