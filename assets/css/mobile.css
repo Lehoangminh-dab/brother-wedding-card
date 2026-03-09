@@ -38,7 +38,6 @@
     --mobile-space-section: var(--space-32);
     --mobile-type-script: clamp(72px, 20vw, 108px);
     --mobile-type-date: clamp(22px, 5.8vw, 30px);
-    --mobile-type-body: clamp(18px, 4.8vw, 22px);
     --mobile-type-label: clamp(16px, 4vw, 18px);
     --mobile-type-timer: clamp(48px, 14vw, 62px);
   }
@@ -88,8 +87,6 @@
   .until__message {
     width: 100%;
     max-width: 100%;
-    font-size: var(--mobile-type-body);
-    line-height: 1.65;
   }
 
   .gallery {
