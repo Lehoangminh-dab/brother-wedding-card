@@ -6,6 +6,7 @@
    1. DESIGN TOKENS (CSS Custom Properties)
    ========================================================================== */
 :root {
+  color-scheme: only light;
   --max-width: 1024px;
   --bg: #2B2F26;
   --bg-light: #E6DFD4;
@@ -171,6 +172,8 @@
 }
 
 html {
+  color-scheme: only light;
+  background-color: var(--bg);
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
@@ -282,6 +285,14 @@ main {
   font-size: var(--text-form);
   color: var(--text-dark);
   background-color: var(--text-white-pure);
+  caret-color: var(--text-dark);
+}
+
+.wishes__input::placeholder,
+.wishes__textarea::placeholder,
+.rsvp__input::placeholder {
+  color: var(--text-gray);
+  opacity: 1;
 }
 
 /* ==========================================================================
