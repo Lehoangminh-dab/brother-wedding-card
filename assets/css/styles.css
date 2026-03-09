@@ -71,6 +71,7 @@
   --text-shadow-soft: 0 1px 12px rgba(0, 0, 0, 0.4);
   --z-preloader: 99999;
   --z-lightbox: 99998;
+  --z-ambient-audio: 99997;
   --spinner-ring: rgba(139, 145, 126, 0.2);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
@@ -1715,7 +1716,59 @@ main {
 .lightbox__next { right: var(--space-16); }
 
 /* ==========================================================================
-   18. FORM MESSAGES
+   18. AMBIENT AUDIO CONSENT
+   ========================================================================== */
+.ambient-audio {
+  position: fixed;
+  right: var(--space-16);
+  bottom: var(--space-16);
+  z-index: var(--z-ambient-audio);
+  opacity: 0;
+  transform: translateY(var(--space-8));
+  pointer-events: none;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.ambient-audio--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.ambient-audio__button {
+  padding: var(--space-12) var(--space-16);
+  border-radius: 999px;
+  border: 1px solid rgba(230, 223, 212, 0.4);
+  background: rgba(28, 30, 26, 0.88);
+  color: var(--text-white-pure);
+  font-family: var(--primary-font);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-tight);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  transition: transform var(--transition), background-color var(--transition);
+}
+
+.ambient-audio__button:hover {
+  transform: translateY(-1px);
+  background: rgba(44, 33, 24, 0.95);
+}
+
+@media only screen and (max-width: 767px) {
+  .ambient-audio {
+    right: var(--space-12);
+    bottom: var(--space-12);
+  }
+
+  .ambient-audio__button {
+    padding: var(--space-12) var(--space-14);
+    font-size: 15px;
+  }
+}
+
+/* ==========================================================================
+   19. FORM MESSAGES
    ========================================================================== */
 .form-message {
   margin-top: var(--space-12);

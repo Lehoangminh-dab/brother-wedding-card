@@ -35,6 +35,11 @@
   var GALLERY_AUTOPLAY_DELAY   = 3000;  // ms between vertical carousel slides
   var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
 
+  // Ambient audio
+  var AMBIENT_AUDIO_SRC = "assets/audio/ocean_waves_sound.mp3";
+  var AMBIENT_AUDIO_VOLUME = 0.08;
+  var AMBIENT_AUDIO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
+
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
 
@@ -521,7 +526,88 @@
     }
   }
 
-  // --- 3b. Scroll Stagger Animations --------------------------------------
+  // --- 3b. Ambient Audio ---------------------------------------------------
+
+  function initAmbientAudio() {
+    var consentWrap = document.getElementById("ambient-audio-consent");
+    var consentBtn = consentWrap
+      ? consentWrap.querySelector(".ambient-audio__button")
+      : null;
+
+    var ambientAudio = new Audio(AMBIENT_AUDIO_SRC);
+    ambientAudio.loop = true;
+    ambientAudio.preload = "auto";
+    ambientAudio.volume = AMBIENT_AUDIO_VOLUME;
+
+    var audioStarted = false;
+    var retryAttached = false;
+
+    function showConsent() {
+      if (!consentWrap) return;
+      consentWrap.classList.add("ambient-audio--visible");
+      consentWrap.setAttribute("aria-hidden", "false");
+    }
+
+    function hideConsent() {
+      if (!consentWrap) return;
+      consentWrap.classList.remove("ambient-audio--visible");
+      consentWrap.setAttribute("aria-hidden", "true");
+    }
+
+    function removeRetryListeners() {
+      if (!retryAttached) return;
+      AMBIENT_AUDIO_RETRY_EVENTS.forEach(function (evt) {
+        document.removeEventListener(evt, onFirstGesture);
+      });
+      retryAttached = false;
+    }
+
+    function addRetryListeners() {
+      if (retryAttached) return;
+      AMBIENT_AUDIO_RETRY_EVENTS.forEach(function (evt) {
+        document.addEventListener(evt, onFirstGesture);
+      });
+      retryAttached = true;
+    }
+
+    function markSuccess() {
+      audioStarted = true;
+      hideConsent();
+      removeRetryListeners();
+    }
+
+    function tryPlay() {
+      if (audioStarted) return;
+      var playAttempt = ambientAudio.play();
+
+      // Older engines may not return a Promise from play().
+      if (!playAttempt || typeof playAttempt.then !== "function") {
+        markSuccess();
+        return;
+      }
+
+      playAttempt
+        .then(markSuccess)
+        .catch(function () {
+          showConsent();
+          addRetryListeners();
+        });
+    }
+
+    function onFirstGesture() {
+      tryPlay();
+    }
+
+    if (consentBtn) {
+      consentBtn.addEventListener("click", function () {
+        tryPlay();
+      });
+    }
+
+    tryPlay();
+  }
+
+  // --- 3c. Scroll Stagger Animations --------------------------------------
 
   var STAGGER_DELAY = 150; // ms between each sibling in a batch
 
@@ -565,7 +651,7 @@
     items.forEach(function (el) { observer.observe(el); });
   }
 
-  // --- 3c. Countdown Timer -------------------------------------------------
+  // --- 3d. Countdown Timer -------------------------------------------------
 
   function initCountdown() {
     var timerEl = document.querySelector(".until__timer");
@@ -596,7 +682,7 @@
     setInterval(update, MS_PER_SEC);
   }
 
-  // --- 3d. Gallery Swiper Carousel -----------------------------------------
+  // --- 3e. Gallery Swiper Carousel -----------------------------------------
 
   function initGallerySwiper() {
     if (typeof Swiper === "undefined") return;
@@ -635,7 +721,7 @@
 
   }
 
-  // --- 3e. Gallery Lightbox ------------------------------------------------
+  // --- 3f. Gallery Lightbox ------------------------------------------------
 
   function initLightbox() {
     var lightbox = document.getElementById("lightbox");
@@ -704,7 +790,7 @@
     });
   }
 
-  // --- 3f. Wishes Form Submission ------------------------------------------
+  // --- 3g. Wishes Form Submission ------------------------------------------
 
   function initWishesForm() {
     var form = document.getElementById("wishes-form");
@@ -754,7 +840,7 @@
     });
   }
 
-  // --- 3g. RSVP Form Submission --------------------------------------------
+  // --- 3h. RSVP Form Submission --------------------------------------------
 
   function initRsvpForm() {
     var form = document.getElementById("rsvp-form");
@@ -811,7 +897,7 @@
     });
   }
 
-  // --- 3i. Auto-scroll Hint (discoverability for scrollable page) -----------
+  // --- 3j. Auto-scroll Hint (discoverability for scrollable page) -----------
 
   var AUTO_SCROLL_FALLBACK_MS = 4000; // if transitionend never fires
 
@@ -909,7 +995,7 @@
     }
   }
 
-  // --- 3j. Cover viewport fit (cover-only special rule) ----------------------
+  // --- 3k. Cover viewport fit (cover-only special rule) ----------------------
 
   function initCoverViewportFit() {
     var coverSection = document.getElementById("cover");
@@ -1007,7 +1093,7 @@
     }
   }
 
-  // --- 3h. Gift Card QR Toggle ---------------------------------------------
+  // --- 3i. Gift Card QR Toggle ---------------------------------------------
 
   function initGifts() {
     var cards = document.querySelectorAll(".gifts__card");
@@ -1130,6 +1216,7 @@
     populateContactInfo();
     populateThankYou();
 
+    initAmbientAudio();
     initCountdown();
     initGallerySwiper();
     initLightbox();
