@@ -4,6 +4,7 @@
  * Reads from WEDDING_CONFIG (defined in config.js) and populates all
  * text content and image sources in the HTML. Also handles:
  *  - Page preloader
+ *  - Auto-scroll hint (after cover fade-in, until user interaction)
  *  - Scroll animations (AOS-like)
  *  - Gallery Swiper carousel + lightbox
  *  - Wishes form AJAX submission
@@ -463,7 +464,10 @@
           loader.style.display = "none";
           document.body.style.overflow = "";
           var cover = document.getElementById("cover");
-          if (cover) cover.classList.add("cover--ready");
+          if (cover) {
+            cover.classList.add("cover--ready");
+            initAutoScrollHint(cover);
+          }
         }, PRELOADER_FADE_DURATION);
       }, PRELOADER_HIDE_DELAY);
     }
@@ -762,6 +766,104 @@
         markSuccess(submitBtn);
       }
     });
+  }
+
+  // --- 3i. Auto-scroll Hint (discoverability for scrollable page) -----------
+
+  var AUTO_SCROLL_FALLBACK_MS = 4000; // if transitionend never fires
+
+  function initAutoScrollHint(coverSection) {
+    if (!coverSection || !coverSection.classList.contains("cover--ready")) return;
+
+    var cfg = (WEDDING_CONFIG.autoScrollHint || {});
+    if (cfg.enabled === false) return;
+
+    var prefersReducedMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    var bufferMs = typeof cfg.bufferAfterFadeMs === "number" ? cfg.bufferAfterFadeMs : 500;
+    var speedPxPerSec = typeof cfg.speedPxPerSec === "number" ? cfg.speedPxPerSec : 50;
+
+    var lastEl = coverSection.querySelector('.cover__animate[data-cover-delay="900"]');
+    if (!lastEl) {
+      var all = coverSection.querySelectorAll(".cover__animate");
+      for (var i = 0; i < all.length; i++) {
+        var d = parseInt(all[i].getAttribute("data-cover-delay") || "0", 10);
+        if (!lastEl || d > parseInt(lastEl.getAttribute("data-cover-delay") || "0", 10)) {
+          lastEl = all[i];
+        }
+      }
+    }
+    if (!lastEl) return;
+
+    var scheduled = false;
+    var fallbackId = null;
+
+    function startAutoScroll() {
+      if (scheduled) return;
+      scheduled = true;
+      if (fallbackId) clearTimeout(fallbackId);
+      lastEl.removeEventListener("transitionend", onTransitionEnd);
+
+      setTimeout(function () {
+        runAutoScroll();
+      }, bufferMs);
+    }
+
+    function onTransitionEnd() {
+      startAutoScroll();
+    }
+
+    lastEl.addEventListener("transitionend", onTransitionEnd);
+    fallbackId = setTimeout(startAutoScroll, AUTO_SCROLL_FALLBACK_MS);
+
+    function runAutoScroll() {
+      var rafId = null;
+      var lastTime = performance.now();
+      var stopped = false;
+
+      function stop() {
+        stopped = true;
+        if (rafId) cancelAnimationFrame(rafId);
+        document.removeEventListener("touchstart", stop, { passive: true });
+        document.removeEventListener("touchmove", stop, { passive: true });
+        document.removeEventListener("wheel", stop, { passive: true });
+        document.removeEventListener("keydown", onKeyDown);
+      }
+
+      function onKeyDown(e) {
+        var scrollKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", " ", "Space"];
+        if (scrollKeys.indexOf(e.key) !== -1) stop();
+      }
+
+      document.addEventListener("touchstart", stop, { passive: true });
+      document.addEventListener("touchmove", stop, { passive: true });
+      document.addEventListener("wheel", stop, { passive: true });
+      document.addEventListener("keydown", onKeyDown);
+
+      function tick(now) {
+        if (stopped) return;
+        var raw = (now - lastTime) / 1000;
+        var dt = raw <= 0 ? 0.016 : Math.min(raw, 0.05);
+        lastTime = now;
+        var maxScroll = Math.max(
+          document.documentElement.scrollHeight,
+          document.body.scrollHeight
+        ) - window.innerHeight;
+        if (maxScroll <= 0) return;
+        var current = window.scrollY || window.pageYOffset;
+        if (current >= maxScroll) {
+          stop();
+          return;
+        }
+        var step = speedPxPerSec * dt;
+        window.scrollTo({ top: Math.min(current + step, maxScroll), behavior: "auto" });
+        rafId = requestAnimationFrame(tick);
+      }
+
+      rafId = requestAnimationFrame(tick);
+    }
   }
 
   // --- 3h. Gift Card QR Toggle ---------------------------------------------

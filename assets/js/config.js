@@ -197,6 +197,16 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
+  // AUTO-SCROLL HINT (helps users discover scrollable content)
+  // Starts after cover text fades in, stops on first user interaction
+  // ──────────────────────────────────────────────
+  autoScrollHint: {
+    enabled: true,
+    bufferAfterFadeMs: 500,
+    speedPxPerSec: 180,
+  },
+
+  // ──────────────────────────────────────────────
   // API — Google Apps Script Web App
   // Replace the URL below with your deployed Apps Script URL
   // (see backend/Code.gs for full setup instructions)
