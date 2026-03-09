@@ -143,7 +143,7 @@ const WEDDING_CONFIG = {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Địa điểm",
     venueName: "KHÁCH SẠN HOLIDAY",
-    venueAddress: "Trong Hòn Dáu, Đồ Sơn, Hải Phòng",
+    venueAddress: "Trong Hòn Dáu Resort, Đồ Sơn, Hải Phòng",
     googleMapsEmbedUrl: "https://maps.google.com/maps?q=Trung+t%C3%A2m+T%E1%BB%95+ch%E1%BB%A9c+s%E1%BB%B1+ki%E1%BB%87n+B%C3%A1ch+%C4%90%E1%BA%A1i+D%C5%A9ng+H%C6%B0%C6%A1ng+S%C6%A1n+H%C3%A0+T%C4%A9nh&output=embed",
     mapLinkText: "Mở trên Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/TmKBaF94cfrp9q8V7?g_st=ipc",
@@ -219,7 +219,7 @@ const WEDDING_CONFIG = {
   // CONTACT INFO
   // ──────────────────────────────────────────────
   contactInfo: {
-    heading: "Liên Lạc",
+    heading: "Thông Tin Liên Lạc",
     phone: "0913041410",
     name: "Lê Tự Khanh",
   },
@@ -229,7 +229,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   thankYou: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    heading: "Cảm ơn",
+    heading: "Trân trọng cảm ơn",
     message: "Sự xuất hiện của bạn là niềm vui của chúng tôi!",
   },
 
