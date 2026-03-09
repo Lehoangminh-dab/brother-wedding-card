@@ -8,12 +8,12 @@
      fallback, then prefer dynamic viewport units where supported. */
   .cover,
   .cover__content {
-    height: 100vh;
-    height: 100svh;
-    height: 100dvh;
-    min-height: 100vh;
-    min-height: 100svh;
-    min-height: 100dvh;
+    height: 125vh;
+    height: 125svh;
+    height: 125dvh;
+    min-height: 125vh;
+    min-height: 125svh;
+    min-height: 125dvh;
   }
 
   :root {

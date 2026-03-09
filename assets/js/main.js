@@ -37,7 +37,7 @@
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
-  var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/a_town_with_an_ocean_view.mp3";
+  var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/ghibli.mp3";
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var AMBIENT_AUDIO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
