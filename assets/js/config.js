@@ -110,7 +110,7 @@ const WEDDING_CONFIG = {
   // GALLERY
   // ──────────────────────────────────────────────
   gallery: {
-    title: "Những kỷ niệm của chúng mình",
+    title: "Kỷ niệm của chúng mình",
     images: [
       { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 1" },
       { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 2" },
@@ -135,8 +135,8 @@ const WEDDING_CONFIG = {
   location: {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Địa điểm",
-    venueName: "TRUNG TÂM TỔ CHỨC SỰ KIỆN BÁCH ĐẠI DŨNG",
-    venueAddress: "TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
+    venueName: "KHÁCH SẠN HOLIDAY",
+    venueAddress: "Trong Hòn Dáu, Đồ Sơn, Hải Phòng",
     googleMapsEmbedUrl: "https://maps.google.com/maps?q=Trung+t%C3%A2m+T%E1%BB%95+ch%E1%BB%A9c+s%E1%BB%B1+ki%E1%BB%87n+B%C3%A1ch+%C4%90%E1%BA%A1i+D%C5%A9ng+H%C6%B0%C6%A1ng+S%C6%A1n+H%C3%A0+T%C4%A9nh&output=embed",
     mapLinkText: "Mở trên Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/TmKBaF94cfrp9q8V7?g_st=ipc",
