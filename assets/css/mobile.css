@@ -179,7 +179,6 @@
   .cover__and,
   .save-date__date,
   .save-date__time,
-  .save-date__line2,
   .location__venue-name,
   .location__sketch-heading,
   .timeline__subtitle {
@@ -189,6 +188,7 @@
 
   .cover__groom-name,
   .cover__bride-name,
+  .save-date__line2,
   .save-date__line1,
   .save-date__line3 {
     font-size: var(--text-script-display-role);
