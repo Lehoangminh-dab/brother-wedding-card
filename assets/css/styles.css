@@ -26,13 +26,13 @@
   --primary-font: 'Cormorant Garamond', serif;
   --title-font: 'Cormorant Garamond', serif;
   --section-margin: 80px;
-  --section-padding: var(--space-40);
   --gap: var(--space-20);
   --radius: 30px;
 
-  /* Section layout: gap between heading and content (matches RSVP heading → form) */
-  --section-heading-gap: var(--space-24);
-  --section-content-margin-top: var(--space-8);
+  /* Canonical WindSong spacing to the immediate next element. */
+  --windsong-gap-desktop: var(--space-24);
+  --windsong-gap-mobile: var(--space-20);
+  --windsong-next-gap: var(--windsong-gap-desktop);
 
   /* Horizontal divider: gap above and below (same value, all sections) */
   --divider-gap: var(--space-48);
@@ -482,7 +482,7 @@ main {
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   line-height: var(--leading-none);
-  margin: var(--space-8) 0 var(--space-32) 0;
+  margin: var(--windsong-next-gap) 0 var(--space-32) 0;
   text-shadow: var(--text-shadow-soft);
 }
 
@@ -557,7 +557,7 @@ main {
   font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure);
-  margin-bottom: var(--space-32);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .until__timer {
@@ -622,7 +622,7 @@ main {
 
 .gallery__heading {
   text-align: center;
-  margin-bottom: var(--space-40);
+  margin-bottom: var(--windsong-next-gap);
   padding: 0 var(--space-20);
 }
 
@@ -635,7 +635,7 @@ main {
 
 /* Vertical (portrait) coverflow carousel */
 .gallery__slider {
-  margin-top: var(--space-20);
+  margin-top: 0;
   padding-bottom: var(--space-40);
   overflow: hidden;
 }
@@ -743,7 +743,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 0;
-  margin-bottom: var(--divider-gap);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .save-date__line1,
@@ -839,7 +839,7 @@ main {
   font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   color: var(--secondary-color);
-  margin-bottom: var(--space-48);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .timeline__track {
@@ -992,7 +992,7 @@ main {
   font-size: var(--text-script-title);
   font-weight: var(--font-weight-normal);
   color: var(--secondary-color);
-  margin-bottom: var(--space-20);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .contact-info__phone {
@@ -1038,7 +1038,7 @@ main {
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
   color: var(--text-white-pure);
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .location__venue-name {
@@ -1136,12 +1136,13 @@ main {
   font-family: var(--script-font);
   color: var(--secondary-color);
   text-align: center;
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .rsvp__description {
   text-align: center;
-  margin-top: var(--section-content-margin-top);
-  margin-bottom: var(--section-heading-gap);
+  margin-top: 0;
+  margin-bottom: var(--space-24);
   color: var(--secondary-color);
   letter-spacing: var(--tracking-form);
 }
@@ -1269,7 +1270,7 @@ main {
   font-weight: var(--font-weight-normal);
   font-family: var(--script-font);
   color: var(--text-white-pure);
-  margin-bottom: var(--section-heading-gap);
+  margin-bottom: var(--windsong-next-gap);
   display: block;
 }
 
@@ -1306,7 +1307,7 @@ main {
   border: 1px solid var(--primary-color);
   background-color: var(--bg-light);
   border-radius: var(--radius);
-  margin: var(--section-content-margin-top) auto 0;
+  margin: 0 auto;
   color: var(--text-dark);
 }
 
@@ -1354,7 +1355,7 @@ main {
   font-weight: var(--font-weight-normal);
   font-family: var(--script-font);
   color: var(--text-white-pure);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .gifts__subtitle {
@@ -1516,6 +1517,7 @@ main {
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-snug);
   color: var(--text-white-pure);
+  margin-bottom: var(--windsong-next-gap);
 }
 
 .thank-you__message {
@@ -1524,7 +1526,7 @@ main {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   text-align: center;
-  margin-top: var(--space-12);
+  margin-top: 0;
   line-height: var(--leading-relaxed);
 }
 

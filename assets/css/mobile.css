@@ -15,9 +15,7 @@
 @media only screen and (max-width: 768px) {
   :root {
     --section-margin: var(--space-56);
-    --section-padding: var(--space-24);
-    --section-heading-gap: var(--space-20);
-    --section-content-margin-top: var(--space-4);
+    --windsong-next-gap: var(--windsong-gap-mobile);
     --content-width: 100%;
     --content-max-width: 100%;
     --radius: 24px;
@@ -75,7 +73,6 @@
     width: min(100%, 16ch);
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: var(--mobile-space-section);
     text-align: center;
     overflow-wrap: anywhere;
     text-wrap: balance;
@@ -105,12 +102,10 @@
   }
 
   .gallery__heading {
-    margin-bottom: var(--space-24);
     padding: 0 var(--space-16);
   }
 
   .gallery__slider {
-    margin-top: var(--mobile-space-tight);
     padding-bottom: var(--mobile-space-block);
   }
 
@@ -334,7 +329,6 @@
 
   .cover__and {
     letter-spacing: var(--tracking-subtitle);
-    margin: var(--space-4) 0 var(--mobile-space-tight) 0;
   }
 
   .cover__date,
@@ -353,14 +347,6 @@
   .until__timer { justify-content: center; }
 
   .until__heading { width: min(100%, 15ch); }
-
-  .timeline__heading {
-    margin-bottom: var(--space-32);
-  }
-
-  .contact-info__heading {
-    margin-bottom: var(--space-16);
-  }
 
   .timeline__track::before { left: 50%; }
   .timeline__item::before { left: 50%; }
