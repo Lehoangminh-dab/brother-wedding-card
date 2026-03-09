@@ -664,9 +664,10 @@
     ambientAudio.loop = true;
     ambientAudio.preload = "auto";
     ambientAudio.volume = AMBIENT_AUDIO_VOLUME;
-    var AUDIO_LABEL_ON = "Bật Âm Thanh";
-    var AUDIO_LABEL_OFF = "Tắt Âm Thanh";
-    var isAudioOn = true;
+    var AUDIO_LABEL_WHEN_ON = "Tắt Âm Thanh";
+    var AUDIO_LABEL_WHEN_OFF = "Bật Âm Thanh";
+    var isAudioOn = false;
+    var hasUserEnabledAudio = false;
     // Fallback in case a browser intermittently misses native loop behavior.
     ambientAudio.addEventListener("ended", function () {
       if (!isAudioOn) return;
@@ -700,7 +701,9 @@
         consentIcon.classList.toggle("ri-volume-mute-line", !isOn);
       }
       if (consentLabel) {
-        consentLabel.textContent = isOn ? AUDIO_LABEL_ON : AUDIO_LABEL_OFF;
+        consentLabel.textContent = isOn
+          ? AUDIO_LABEL_WHEN_ON
+          : AUDIO_LABEL_WHEN_OFF;
       }
     }
 
@@ -713,6 +716,7 @@
     }
 
     function addRetryListeners() {
+      if (!isAudioOn || !hasUserEnabledAudio) return;
       if (retryAttached) return;
       AMBIENT_AUDIO_RETRY_EVENTS.forEach(function (evt) {
         document.addEventListener(evt, onFirstGesture);
@@ -739,6 +743,7 @@
     }
 
     function onFirstGesture() {
+      if (!isAudioOn || !hasUserEnabledAudio) return;
       tryPlay();
     }
 
@@ -747,6 +752,7 @@
       setButtonState(isAudioOn);
 
       if (isAudioOn) {
+        hasUserEnabledAudio = true;
         tryPlay();
         return;
       }
@@ -762,8 +768,7 @@
     }
 
     showControl();
-    setButtonState(true);
-    tryPlay();
+    setButtonState(false);
 
     function switchAmbientTrack(nextSrc) {
       if (!nextSrc || nextSrc === currentTrackSrc) return;
