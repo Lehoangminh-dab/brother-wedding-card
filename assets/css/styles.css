@@ -394,7 +394,7 @@ main {
   z-index: 0;
 }
 
-.cover__media:has(.cover__video[src]) .cover__bg--fallback {
+.cover.cover--video-ready .cover__bg--fallback {
   display: none;
 }
 

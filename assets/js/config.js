@@ -37,9 +37,9 @@ const WEDDING_CONFIG = {
   // Set videoUrl for looped video, or backgroundImage as fallback
   // ──────────────────────────────────────────────
   cover: {
-    videoUrl: "assets/videos/Beach video asset.mp4",
-    posterImage: "",
-    backgroundImage: PLACEHOLDER_IMAGE,
+    videoUrl: "assets/videos/ocean_waves_background.mp4",
+    posterImage: "assets/images/ocean_waves_background.png",
+    backgroundImage: "assets/images/ocean_waves_background.png",
     dateLine: "Thứ Năm, 28 Tháng 5 Năm 2026",
   },
 

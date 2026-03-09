@@ -148,6 +148,7 @@
     var couple = WEDDING_CONFIG.couple;
     var cover = WEDDING_CONFIG.cover;
 
+    var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
     if (coverVideo && cover.videoUrl) {
       // Keep playback settings explicit for cross-browser consistency.
@@ -158,14 +159,52 @@
       coverVideo.playsInline = true;
       coverVideo.setAttribute("playsinline", "");
       coverVideo.setAttribute("webkit-playsinline", "");
-      coverVideo.src = cover.videoUrl;
-      coverVideo.poster = cover.posterImage || cover.backgroundImage || "";
-      // Fallback in case a browser intermittently misses native loop behavior.
-      coverVideo.addEventListener("ended", function () {
-        coverVideo.currentTime = 0;
-        coverVideo.play().catch(function () {});
-      });
-      coverVideo.play().catch(function () {});
+
+      var poster = cover.posterImage || cover.backgroundImage || "";
+      if (poster) {
+        coverVideo.poster = poster;
+      }
+
+      var canPlayMp4 = typeof coverVideo.canPlayType === "function" &&
+        coverVideo.canPlayType("video/mp4");
+
+      if (canPlayMp4 === "probably" || canPlayMp4 === "maybe") {
+        coverVideo.src = cover.videoUrl;
+
+        var markVideoReady = function () {
+          if (coverSection && !coverSection.classList.contains("cover--video-ready")) {
+            coverSection.classList.add("cover--video-ready");
+          }
+        };
+
+        coverVideo.addEventListener("loadeddata", markVideoReady, { once: true });
+        coverVideo.addEventListener("canplay", markVideoReady, { once: true });
+
+        coverVideo.addEventListener("error", function () {
+          if (coverSection) {
+            coverSection.classList.remove("cover--video-ready");
+          }
+        });
+
+        // Fallback in case a browser intermittently misses native loop behavior.
+        coverVideo.addEventListener("ended", function () {
+          try {
+            coverVideo.currentTime = 0;
+          } catch (e) {}
+          coverVideo.play().catch(function () {});
+        });
+
+        var prefersReducedMotion = window.matchMedia &&
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (!prefersReducedMotion) {
+          coverVideo.play().catch(function () {
+            if (coverSection) {
+              coverSection.classList.remove("cover--video-ready");
+            }
+          });
+        }
+      }
     }
 
     var coverBg = document.querySelector(".cover__bg--fallback");
