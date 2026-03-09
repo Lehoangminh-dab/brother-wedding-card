@@ -422,14 +422,6 @@
 
   .until__heading { width: min(100%, 15ch); }
 
-  .timeline__track::before { left: 50%; }
-  .timeline__item::before { left: 50%; }
-
-  .timeline__item {
-    flex: 1;
-    min-height: 0;
-  }
-
   .timeline__entry {
     width: 100%;
     column-gap: 40px;

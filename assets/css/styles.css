@@ -301,41 +301,6 @@ main {
 /* ==========================================================================
    5. KEYFRAME ANIMATIONS
    ========================================================================== */
-@keyframes kenburns-top {
-  0% {
-    transform: scale(1) translateY(0);
-    transform-origin: 50% 16%;
-  }
-  100% {
-    transform: scale(1.25) translateY(-15px);
-    transform-origin: top;
-  }
-}
-
-@keyframes heartbeat {
-  from {
-    transform: scale(1);
-    transform-origin: center center;
-    animation-timing-function: ease-out;
-  }
-  10% {
-    transform: scale(0.91);
-    animation-timing-function: ease-in;
-  }
-  17% {
-    transform: scale(0.98);
-    animation-timing-function: ease-out;
-  }
-  33% {
-    transform: scale(0.87);
-    animation-timing-function: ease-in;
-  }
-  45% {
-    transform: scale(1);
-    animation-timing-function: ease-out;
-  }
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -1821,12 +1786,6 @@ main {
   font-size: var(--text-form);
   text-align: center;
   animation: fadeIn 0.3s ease;
-}
-
-.form-message--success {
-  background-color: rgba(74, 85, 64, 0.15);
-  color: var(--color-success);
-  border: 1px solid var(--color-success);
 }
 
 .form-message--error {

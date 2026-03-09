@@ -50,7 +50,6 @@ const WEDDING_CONFIG = {
     videoUrl: "assets/videos/ocean_waves_background.mp4",
     posterImage: "assets/images/ocean_waves_background.png",
     backgroundImage: "assets/images/ocean_waves_background.png",
-    dateLine: "28-05-2026",
   },
 
   // ──────────────────────────────────────────────
@@ -58,7 +57,6 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    dateLine: "Thứ 5, 28 Tháng 5",
     heading: "Thời gian cho đến ngày cưới",
     labels: {
       days: "Ngày",
@@ -78,7 +76,6 @@ const WEDDING_CONFIG = {
     line1: "Lưu",
     line2: "lại",
     line3: "ngày\nvui",
-    dateLine: "Thứ 5, 28 Tháng 5",
     timeLine: "3 GIỜ CHIỀU",
   },
 

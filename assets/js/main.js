@@ -39,9 +39,8 @@
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
   var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/ghibli.mp3";
   var AMBIENT_AUDIO_VOLUME = 0.08;
-  var AMBIENT_AUDIO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
+  var GESTURE_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
-  var COVER_VIDEO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var COVER_VIDEO_FAIL_TIMEOUT = 3500;
 
   // Scroll animations
@@ -66,6 +65,54 @@
     var raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
     var value = parseFloat(raw);
     return Number.isFinite(value) ? value : fallbackPx;
+  }
+
+  function addDocumentListeners(events, handler) {
+    events.forEach(function (evt) {
+      document.addEventListener(evt, handler);
+    });
+  }
+
+  function removeDocumentListeners(events, handler) {
+    events.forEach(function (evt) {
+      document.removeEventListener(evt, handler);
+    });
+  }
+
+  function getConfiguredWeddingDate() {
+    var parsed = new Date(WEDDING_CONFIG.weddingDate);
+    if (Number.isNaN(parsed.getTime())) return null;
+    return parsed;
+  }
+
+  function formatDateAsNumericVi(date) {
+    var day = String(date.getDate()).padStart(2, "0");
+    var month = String(date.getMonth() + 1).padStart(2, "0");
+    var year = date.getFullYear();
+    return day + "-" + month + "-" + year;
+  }
+
+  function formatDateAsLongVi(date) {
+    var weekdays = [
+      "Chủ nhật",
+      "Thứ 2",
+      "Thứ 3",
+      "Thứ 4",
+      "Thứ 5",
+      "Thứ 6",
+      "Thứ 7",
+    ];
+    var weekday = weekdays[date.getDay()] || "";
+    var day = String(date.getDate()).padStart(2, "0");
+    var month = date.getMonth() + 1;
+    return weekday + ", " + day + " Tháng " + month;
+  }
+
+  function formatDateForDateTimeAttr(date) {
+    var year = date.getFullYear();
+    var month = String(date.getMonth() + 1).padStart(2, "0");
+    var day = String(date.getDate()).padStart(2, "0");
+    return year + "-" + month + "-" + day;
   }
 
   /** Bulk-set textContent from a { selector: text } map. */
@@ -110,6 +157,28 @@
       .then(function (res) { return res.json(); })
       .then(onSuccess)
       .catch(onError);
+  }
+
+  function submitFormWithFallback(options) {
+    var submitBtn = options.submitBtn;
+    if (submitBtn && options.submittingText) {
+      submitBtn.textContent = options.submittingText;
+    }
+
+    if (options.api && options.api.baseUrl) {
+      submitFormToApi(
+        options.api,
+        options.payload,
+        options.onSuccess,
+        function () {
+          if (typeof options.onError === "function") options.onError();
+          if (submitBtn && options.submitText) submitBtn.textContent = options.submitText;
+        }
+      );
+      return;
+    }
+
+    options.onSuccess();
   }
 
   /** Show a temporary message inside a form. */
@@ -175,10 +244,15 @@
       coverBg.style.removeProperty("background-image");
     }
 
+    var configuredWeddingDate = getConfiguredWeddingDate();
+    var coverDateText = cover.dateLine || (configuredWeddingDate
+      ? formatDateAsNumericVi(configuredWeddingDate)
+      : "");
+
     populateText({
       ".cover__groom-name": coverGroomName,
       ".cover__bride-name": coverBrideName,
-      ".cover__date": (cover.dateLine || "").toUpperCase(),
+      ".cover__date": coverDateText.toUpperCase(),
       ".cover__venue": (cover.locationLine || "").toUpperCase(),
     });
 
@@ -260,17 +334,13 @@
 
     function removeRetryListeners() {
       if (!retryAttached) return;
-      COVER_VIDEO_RETRY_EVENTS.forEach(function (evt) {
-        document.removeEventListener(evt, onFirstGesture);
-      });
+      removeDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = false;
     }
 
     function addRetryListeners() {
       if (retryAttached || prefersReducedMotion) return;
-      COVER_VIDEO_RETRY_EVENTS.forEach(function (evt) {
-        document.addEventListener(evt, onFirstGesture);
-      });
+      addDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = true;
     }
 
@@ -372,6 +442,10 @@
 
   function populateSaveTheDate() {
     var cfg = WEDDING_CONFIG.saveTheDate;
+    var configuredWeddingDate = getConfiguredWeddingDate();
+    var saveDateText = cfg.dateLine || (configuredWeddingDate
+      ? formatDateAsLongVi(configuredWeddingDate)
+      : "");
 
     setSectionBackground("save-the-date", cfg.backgroundImage);
 
@@ -379,9 +453,17 @@
       ".save-date__line1": cfg.line1,
       ".save-date__line2": cfg.line2,
       ".save-date__line3": cfg.line3,
-      ".save-date__date": cfg.dateLine,
+      ".save-date__date": saveDateText,
       ".save-date__time": cfg.timeLine,
     });
+
+    if (configuredWeddingDate) {
+      setAttr(
+        ".save-date__date",
+        "datetime",
+        formatDateForDateTimeAttr(configuredWeddingDate)
+      );
+    }
   }
 
   function populateTimeline() {
@@ -709,18 +791,14 @@
 
     function removeRetryListeners() {
       if (!retryAttached) return;
-      AMBIENT_AUDIO_RETRY_EVENTS.forEach(function (evt) {
-        document.removeEventListener(evt, onFirstGesture);
-      });
+      removeDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = false;
     }
 
     function addRetryListeners() {
       if (!isAudioOn || !hasUserEnabledAudio) return;
       if (retryAttached) return;
-      AMBIENT_AUDIO_RETRY_EVENTS.forEach(function (evt) {
-        document.addEventListener(evt, onFirstGesture);
-      });
+      addDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = true;
     }
 
@@ -918,7 +996,7 @@
     if (typeof Swiper === "undefined") return;
     var gallerySpacing = getCssPixelVar("--gallery-track-spacing", 16);
 
-    var verticalSwiper = new Swiper(".gallery__slider", {
+    new Swiper(".gallery__slider", {
       effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
@@ -938,7 +1016,7 @@
       observeParents: true,
     });
 
-    var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
+    new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
       spaceBetween: gallerySpacing,
       grabCursor: true,
@@ -948,7 +1026,6 @@
       observer: true,
       observeParents: true,
     });
-
   }
 
   // --- 3f. Gallery Lightbox ------------------------------------------------
@@ -1052,21 +1129,18 @@
       var message = messageInput ? messageInput.value.trim() : "";
       if (!name || !message) return;
 
-      if (submitBtn) submitBtn.textContent = cfg.submittingText;
-
       var payload = { action: "wish", author_name: name, content: message };
-
-      if (api && api.baseUrl) {
-        submitFormToApi(api, payload,
-          function () { markSuccess(submitBtn); },
-          function () {
-            showFormMessage(form, cfg.errorMessage, "error");
-            if (submitBtn) submitBtn.textContent = cfg.submitText;
-          }
-        );
-      } else {
-        markSuccess(submitBtn);
-      }
+      submitFormWithFallback({
+        api: api,
+        payload: payload,
+        submitBtn: submitBtn,
+        submittingText: cfg.submittingText,
+        submitText: cfg.submitText,
+        onSuccess: function () { markSuccess(submitBtn); },
+        onError: function () {
+          showFormMessage(form, cfg.errorMessage, "error");
+        },
+      });
     });
   }
 
@@ -1111,19 +1185,17 @@
         attendance: attendanceRadio.value,
       };
 
-      if (submitBtn) submitBtn.textContent = cfg.submittingText;
-
-      if (api && api.baseUrl) {
-        submitFormToApi(api, payload,
-          function () { markSuccess(submitBtn); },
-          function () {
-            showFormMessage(form, cfg.errorMessage, "error");
-            if (submitBtn) submitBtn.textContent = cfg.submitText;
-          }
-        );
-      } else {
-        markSuccess(submitBtn);
-      }
+      submitFormWithFallback({
+        api: api,
+        payload: payload,
+        submitBtn: submitBtn,
+        submittingText: cfg.submittingText,
+        submitText: cfg.submitText,
+        onSuccess: function () { markSuccess(submitBtn); },
+        onError: function () {
+          showFormMessage(form, cfg.errorMessage, "error");
+        },
+      });
     });
   }
 
