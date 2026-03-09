@@ -1105,14 +1105,14 @@
     var bufferMs = typeof cfg.bufferAfterFadeMs === "number" ? cfg.bufferAfterFadeMs : 500;
     var speedPxPerSec = typeof cfg.speedPxPerSec === "number" ? cfg.speedPxPerSec : 50;
 
-    var lastEl = coverSection.querySelector('.cover__animate[data-cover-delay="900"]');
-    if (!lastEl) {
-      var all = coverSection.querySelectorAll(".cover__animate");
-      for (var i = 0; i < all.length; i++) {
-        var d = parseInt(all[i].getAttribute("data-cover-delay") || "0", 10);
-        if (!lastEl || d > parseInt(lastEl.getAttribute("data-cover-delay") || "0", 10)) {
-          lastEl = all[i];
-        }
+    var lastEl = null;
+    var maxDelay = -1;
+    var all = coverSection.querySelectorAll(".cover__animate");
+    for (var i = 0; i < all.length; i++) {
+      var d = parseInt(all[i].getAttribute("data-cover-delay") || "0", 10);
+      if (d > maxDelay) {
+        maxDelay = d;
+        lastEl = all[i];
       }
     }
     if (!lastEl) return;

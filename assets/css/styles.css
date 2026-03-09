@@ -577,6 +577,7 @@ main {
 .cover__animate[data-cover-delay="600"] { transition-delay: 600ms; }
 .cover__animate[data-cover-delay="900"] { transition-delay: 900ms; }
 .cover__animate[data-cover-delay="1200"] { transition-delay: 1200ms; }
+.cover__animate[data-cover-delay="1500"] { transition-delay: 1500ms; }
 
 /* JS-driven fallback classes (avoids :has() compatibility gaps). */
 .cover:not(.cover--has-video-src) .cover__video,
