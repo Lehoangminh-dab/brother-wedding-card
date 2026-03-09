@@ -80,10 +80,9 @@ const WEDDING_CONFIG = {
     heading: "Wedding Day",
     items: [
       { time: "10:00", label: "Đón khách" },
-      { time: "10:30", label: "Lễ thành hôn" },
-      { time: "11:00", label: "Tiệc cưới" },
-      { time: "12:00", label: "Cắt bánh" },
-      { time: "13:00", label: "Tiệc trà" },
+      { time: "10:30", label: "Tiệc trà" },
+      { time: "11:00", label: "Lễ thành hôn" },
+      { time: "12:00", label: "Tiệc cưới" },
     ],
   },
 
