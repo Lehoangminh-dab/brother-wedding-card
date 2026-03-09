@@ -397,13 +397,19 @@
 
     track.innerHTML = "";
 
-    cfg.items.forEach(function (item, index) {
+    cfg.items.forEach(function (item) {
       var row = document.createElement("div");
-      var side = index % 2 === 0 ? "left" : "right";
-      row.className = "timeline__item timeline__item--" + side + " stagger-item";
+      row.className = "timeline__item stagger-item";
 
       var entry = document.createElement("div");
       entry.className = "timeline__entry";
+
+      var time = document.createElement("span");
+      time.className = "timeline__time";
+      time.textContent = item.time;
+
+      var detail = document.createElement("div");
+      detail.className = "timeline__detail";
 
       var iconWrap = document.createElement("div");
       iconWrap.className = "timeline__icon-wrap";
@@ -414,22 +420,15 @@
       icon.alt = item.iconAlt || item.label || "Biểu tượng sự kiện";
       icon.loading = "lazy";
 
-      var time = document.createElement("span");
-      time.className = "timeline__time";
-      time.textContent = item.time;
-
       var event = document.createElement("span");
       event.className = "timeline__event";
       event.textContent = item.label;
 
-      var copy = document.createElement("div");
-      copy.className = "timeline__copy";
-
       iconWrap.appendChild(icon);
-      copy.appendChild(time);
-      copy.appendChild(event);
-      entry.appendChild(iconWrap);
-      entry.appendChild(copy);
+      detail.appendChild(iconWrap);
+      detail.appendChild(event);
+      entry.appendChild(time);
+      entry.appendChild(detail);
       row.appendChild(entry);
       track.appendChild(row);
     });

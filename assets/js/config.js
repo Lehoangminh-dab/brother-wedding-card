@@ -91,15 +91,9 @@ const WEDDING_CONFIG = {
     items: [
       {
         time: "15:00",
-        label: "ĐÓN KHÁCH",
-        iconSrc: "assets/images/timeline-icons/fireworks.svg",
-        iconAlt: "Biểu tượng pháo hoa",
-      },
-      {
-        time: "15:30",
-        label: "TIỆC TRÀ",
-        iconSrc: "assets/images/timeline-icons/welcome-toast.svg",
-        iconAlt: "Biểu tượng tiệc trà",
+        label: "TIỆC TRÀ VIEW BIỂN",
+        iconSrc: "assets/images/timeline-icons/cocktail-hour.svg",
+        iconAlt: "Biểu tượng tiệc trà view biển",
       },
       {
         time: "17:00",
@@ -109,7 +103,7 @@ const WEDDING_CONFIG = {
       },
       {
         time: "17:30",
-        label: "TIỆC CƯỚI",
+        label: "TIỆC CƯỚI PHÚC VÂN",
         iconSrc: "assets/images/timeline-icons/wedding-lunch.svg",
         iconAlt: "Biểu tượng tiệc cưới",
       },

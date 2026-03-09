@@ -858,8 +858,8 @@ main {
    12. WEDDING TIMELINE SECTION
    ========================================================================== */
 .timeline {
-  height: 150vh;
-  min-height: 150vh;
+  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -921,6 +921,7 @@ main {
 .timeline__item {
   position: relative;
   display: flex;
+  align-items: center;
   flex: 1;
   min-height: 0;
   width: 100%;
@@ -941,39 +942,33 @@ main {
 
 .timeline__entry {
   position: relative;
-  width: calc(50% - 56px);
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-20);
+  column-gap: 96px;
 }
 
 .timeline__entry::before {
   content: "";
   position: absolute;
   top: 50%;
+  left: calc(50% - 48px);
   width: 48px;
   height: 2px;
   background-color: var(--secondary-color);
   opacity: 0.45;
 }
 
-.timeline__item--left .timeline__entry {
-  margin-right: auto;
-  text-align: right;
-  flex-direction: row-reverse;
-}
-
-.timeline__item--left .timeline__entry::before {
-  right: -48px;
-}
-
-.timeline__item--right .timeline__entry {
-  margin-left: auto;
-  text-align: left;
-}
-
-.timeline__item--right .timeline__entry::before {
-  left: -48px;
+.timeline__entry::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 48px;
+  height: 2px;
+  background-color: var(--secondary-color);
+  opacity: 0.45;
 }
 
 .timeline__icon-wrap {
@@ -993,25 +988,32 @@ main {
   filter: brightness(0) saturate(100%) invert(23%) sepia(22%) saturate(782%) hue-rotate(348deg) brightness(95%) contrast(89%);
 }
 
-.timeline__copy {
+.timeline__detail {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  align-items: center;
+  gap: var(--space-12);
+  justify-self: start;
+  text-align: center;
+  padding-left: var(--space-20);
   max-width: 18ch;
 }
 
 .timeline__time {
   font-family: var(--primary-font);
-  font-size: var(--text-label-role);
+  font-size: var(--text-date-role);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-form);
   color: var(--secondary-color);
   text-transform: uppercase;
+  justify-self: end;
+  text-align: left;
+  padding-right: var(--space-20);
 }
 
 .timeline__event {
   font-family: var(--primary-font);
-  font-size: var(--text-label-role);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-form);
   color: var(--text-dark);
