@@ -804,7 +804,8 @@ main {
    12. WEDDING TIMELINE SECTION
    ========================================================================== */
 .timeline {
-  min-height: var(--section-height-standard);
+  height: 150vh;
+  min-height: 150vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -815,8 +816,12 @@ main {
 
 .timeline__inner {
   max-width: var(--max-width);
+  width: min(100%, var(--max-width));
+  height: 100%;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .timeline__subtitle {
@@ -839,7 +844,12 @@ main {
 
 .timeline__track {
   position: relative;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  min-height: 0;
+  padding: var(--space-12) 0;
 }
 
 .timeline__track::before {
@@ -857,12 +867,9 @@ main {
 .timeline__item {
   position: relative;
   display: flex;
-  align-items: center;
-  margin-bottom: var(--space-40);
-}
-
-.timeline__item:last-child {
-  margin-bottom: 0;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
 }
 
 .timeline__item::before {
@@ -875,24 +882,80 @@ main {
   background-color: var(--secondary-color);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 2;
+}
+
+.timeline__entry {
+  position: relative;
+  width: calc(50% - 56px);
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+}
+
+.timeline__entry::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 48px;
+  height: 2px;
+  background-color: var(--secondary-color);
+  opacity: 0.45;
+}
+
+.timeline__item--left .timeline__entry {
+  margin-right: auto;
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+.timeline__item--left .timeline__entry::before {
+  right: -48px;
+}
+
+.timeline__item--right .timeline__entry {
+  margin-left: auto;
+  text-align: left;
+}
+
+.timeline__item--right .timeline__entry::before {
+  left: -48px;
+}
+
+.timeline__icon-wrap {
+  flex: 0 0 92px;
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline__icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Keep icons visible across browsers while tinting to heading color. */
+  filter: brightness(0) saturate(100%) invert(23%) sepia(22%) saturate(782%) hue-rotate(348deg) brightness(95%) contrast(89%);
+}
+
+.timeline__copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 18ch;
 }
 
 .timeline__time {
-  flex: 1;
-  text-align: right;
-  padding-right: var(--space-32);
   font-family: var(--primary-font);
   font-size: var(--text-body-sm);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-form);
   color: var(--secondary-color);
+  text-transform: uppercase;
 }
 
 .timeline__event {
-  flex: 1;
-  text-align: left;
-  padding-left: var(--space-32);
   font-family: var(--primary-font);
   font-size: var(--text-body-sm);
   font-weight: var(--font-weight-normal);

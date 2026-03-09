@@ -79,10 +79,30 @@ const WEDDING_CONFIG = {
     subtitle: "Timeline",
     heading: "Wedding Day",
     items: [
-      { time: "10:00", label: "Đón khách" },
-      { time: "10:30", label: "Tiệc trà" },
-      { time: "11:00", label: "Lễ thành hôn" },
-      { time: "12:00", label: "Tiệc cưới" },
+      {
+        time: "10:00",
+        label: "ĐÓN KHÁCH",
+        iconSrc: "assets/images/timeline-icons/fireworks.svg",
+        iconAlt: "Biểu tượng pháo hoa",
+      },
+      {
+        time: "10:30",
+        label: "TIỆC TRÀ",
+        iconSrc: "assets/images/timeline-icons/welcome-toast.svg",
+        iconAlt: "Biểu tượng tiệc trà",
+      },
+      {
+        time: "11:00",
+        label: "LỄ THÀNH HÔN",
+        iconSrc: "assets/images/timeline-icons/wedding-rings.svg",
+        iconAlt: "Biểu tượng lễ thành hôn",
+      },
+      {
+        time: "12:00",
+        label: "TIỆC CƯỚI",
+        iconSrc: "assets/images/timeline-icons/wedding-lunch.svg",
+        iconAlt: "Biểu tượng tiệc cưới",
+      },
     ],
   },
 

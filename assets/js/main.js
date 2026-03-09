@@ -265,9 +265,22 @@
 
     track.innerHTML = "";
 
-    cfg.items.forEach(function (item) {
+    cfg.items.forEach(function (item, index) {
       var row = document.createElement("div");
-      row.className = "timeline__item stagger-item";
+      var side = index % 2 === 0 ? "left" : "right";
+      row.className = "timeline__item timeline__item--" + side + " stagger-item";
+
+      var entry = document.createElement("div");
+      entry.className = "timeline__entry";
+
+      var iconWrap = document.createElement("div");
+      iconWrap.className = "timeline__icon-wrap";
+
+      var icon = document.createElement("img");
+      icon.className = "timeline__icon";
+      icon.src = item.iconSrc || "";
+      icon.alt = item.iconAlt || item.label || "Biểu tượng sự kiện";
+      icon.loading = "lazy";
 
       var time = document.createElement("span");
       time.className = "timeline__time";
@@ -277,8 +290,15 @@
       event.className = "timeline__event";
       event.textContent = item.label;
 
-      row.appendChild(time);
-      row.appendChild(event);
+      var copy = document.createElement("div");
+      copy.className = "timeline__copy";
+
+      iconWrap.appendChild(icon);
+      copy.appendChild(time);
+      copy.appendChild(event);
+      entry.appendChild(iconWrap);
+      entry.appendChild(copy);
+      row.appendChild(entry);
       track.appendChild(row);
     });
   }
