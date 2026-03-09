@@ -493,6 +493,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--space-32);
 }
 
 @media only screen and (min-width: 540px) {
@@ -538,13 +539,13 @@ main {
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   line-height: var(--leading-none);
-  margin: var(--cover-windsong-next-gap, var(--windsong-next-gap)) 0 var(--space-32) 0;
+  margin: 0;
   text-shadow: var(--text-shadow-soft);
 }
 
 .cover__date,
 .cover__venue {
-  margin: var(--cover-windsong-next-gap, var(--windsong-next-gap)) 0 0 0;
+  margin: calc(var(--cover-windsong-next-gap, var(--windsong-next-gap)) + var(--space-4)) 0 0 0;
   padding: 0;
   font-size: var(--cover-date-size);
   font-family: var(--primary-font);
@@ -555,7 +556,7 @@ main {
 }
 
 .cover__venue {
-  margin-top: var(--space-8);
+  margin-top: var(--space-16);
 }
 
 /* Staggered entrance */
