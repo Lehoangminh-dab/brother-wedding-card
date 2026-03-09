@@ -858,7 +858,7 @@
           return;
         }
         var step = speedPxPerSec * dt;
-        window.scrollTo({ top: Math.min(current + step, maxScroll), behavior: "auto" });
+        document.documentElement.scrollTop = Math.min(current + step, maxScroll);
         rafId = requestAnimationFrame(tick);
       }
 
