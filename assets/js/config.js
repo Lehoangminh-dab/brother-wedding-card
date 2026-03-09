@@ -86,8 +86,8 @@ const WEDDING_CONFIG = {
   // WEDDING TIMELINE
   // ──────────────────────────────────────────────
   timeline: {
-    subtitle: "Lịch trình",
-    heading: "Ngày cưới",
+    subtitle: "Chương trình",
+    heading: "Lễ cưới",
     items: [
       {
         time: "15:00",
