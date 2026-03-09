@@ -18,7 +18,6 @@
   --color-error: #8E3E38;
   --text-white-pure: #fff;
   --text-white-pure-muted: rgba(255, 255, 255, 0.8);
-  --text-white-pure-faint: rgba(255, 255, 255, 0.7);
   --text-black: #1C1E1A;
   --text-gray: #9E9688;
   --text-dark: #2C2118;
@@ -70,6 +69,7 @@
   --text-script-display: clamp(87px, 12.3vw, 147px);
   --text-script-title: clamp(56px, 9vw, 88px);
   --text-date: clamp(18px, 2.6vw, 30px);
+  --cover-date-size: var(--text-date);
   --text-display: clamp(32px, 6vw, 48px);
   --text-heading: clamp(20px, 3vw, 28px);
   --text-body: clamp(16px, 2vw, 20px);
@@ -358,7 +358,6 @@ main {
    ========================================================================== */
 .cover {
   --cover-font-name: var(--script-font);
-  --cover-date-size: var(--text-date);
 
   position: relative;
   width: 100%;
@@ -764,12 +763,12 @@ main {
 
 .save-date__date {
   font-family: var(--primary-font);
-  font-size: var(--text-date);
+  font-size: var(--cover-date-size);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
-  margin-bottom: var(--save-date-date-to-time);
   text-shadow: var(--text-shadow-soft);
+  margin-bottom: var(--save-date-date-to-time);
 }
 
 .save-date__time {
@@ -804,7 +803,7 @@ main {
 
 .timeline__subtitle {
   font-family: var(--title-font);
-  font-size: var(--text-heading);
+  font-size: var(--cover-date-size);
   font-weight: var(--font-weight-light);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -915,7 +914,7 @@ main {
 
 .location__venue-name {
   font-family: var(--title-font);
-  font-size: var(--text-heading);
+  font-size: var(--cover-date-size);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-wider);
   color: var(--text-white-pure);
@@ -968,7 +967,7 @@ main {
 
 .location__sketch-heading {
   font-family: var(--title-font);
-  font-size: var(--text-heading);
+  font-size: var(--cover-date-size);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-wide);
   color: var(--text-white-pure);
@@ -992,8 +991,7 @@ main {
   font-family: var(--primary-font);
   font-size: var(--text-body-sm);
   font-weight: var(--font-weight-normal);
-  font-style: italic;
-  color: var(--text-white-pure-faint);
+  color: var(--text-white-pure-muted);
   margin-top: var(--space-8);
 }
 

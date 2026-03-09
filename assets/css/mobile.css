@@ -139,20 +139,21 @@
 
   .save-date__date {
     margin-bottom: var(--mobile-space-block);
-    letter-spacing: var(--tracking-wide);
   }
 
   .save-date__time {
     padding-top: var(--mobile-space-block);
-    letter-spacing: var(--tracking-wide);
   }
 
-  /* Keep cover and save-date date typography consistent on smaller screens. */
+  /* Keep cover, save-date, location, and timeline date typography consistent on smaller screens. */
   .cover__date,
   .cover__and,
   .save-date__date,
   .save-date__time,
-  .save-date__line2 {
+  .save-date__line2,
+  .location__venue-name,
+  .location__sketch-heading,
+  .timeline__subtitle {
     font-size: var(--mobile-type-date);
     line-height: 1.25;
   }
@@ -184,6 +185,7 @@
 
   .location__venue-name,
   .location__venue-address,
+  .location__sketch-heading,
   .location__sketch-caption {
     overflow-wrap: anywhere;
     word-break: break-word;
@@ -298,7 +300,9 @@
     margin: var(--space-4) 0 var(--mobile-space-tight) 0;
   }
 
-  .cover__date {
+  .cover__date,
+  .save-date__date,
+  .save-date__time {
     letter-spacing: var(--tracking-wide);
   }
 
