@@ -285,6 +285,12 @@
     letter-spacing: var(--tracking-uppercase);
   }
 
+  .gifts__download-btn {
+    margin-top: var(--space-16);
+    padding: var(--space-12) var(--space-12);
+    font-size: var(--text-body);
+  }
+
   /* --- Lightbox --- */
   .lightbox__prev,
   .lightbox__next {

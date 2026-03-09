@@ -1495,6 +1495,54 @@ main {
   opacity: 0.95;
 }
 
+.gifts__download-btn {
+  width: 100%;
+  margin-top: var(--space-20);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  color: var(--text-white-pure);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  font-family: var(--primary-font);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  transition: background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition), color var(--transition);
+}
+
+.gifts__download-btn:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.65);
+  transform: translateY(-1px);
+}
+
+.gifts__download-btn:active {
+  transform: translateY(0);
+}
+
+.gifts__download-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.gifts__download-btn--success {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--text-white-pure);
+}
+
+.gifts__download-btn--success:hover {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  box-shadow: none;
+  transform: none;
+}
+
 /* ==========================================================================
    16. THANK YOU SECTION
    ========================================================================== */

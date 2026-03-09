@@ -906,27 +906,104 @@
 
   function initGifts() {
     var cards = document.querySelectorAll(".gifts__card");
+
+    function refreshPanelHeight(panel) {
+      if (!panel || !panel.classList.contains("gifts__qr-panel--open")) return;
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+
+    function closeAllCards() {
+      cards.forEach(function (c) {
+        var p = c.querySelector(".gifts__qr-panel");
+        if (p) {
+          p.classList.remove("gifts__qr-panel--open");
+          p.style.maxHeight = "0px";
+          p.style.removeProperty("margin-top");
+        }
+        c.classList.remove("gifts__card--active");
+      });
+    }
+
+    function resolveDownloadFilename(card, imageSrc) {
+      var role = card.getAttribute("data-gift");
+      var fallbackName = role === "bride" ? "qr-nha-gai.png" : "qr-nha-trai.png";
+      try {
+        var parsed = new URL(imageSrc, window.location.href);
+        var pathName = parsed.pathname || "";
+        var fromPath = pathName.slice(pathName.lastIndexOf("/") + 1);
+        return fromPath ? decodeURIComponent(fromPath) : fallbackName;
+      } catch (err) {
+        return fallbackName;
+      }
+    }
+
+    function triggerQrDownload(card) {
+      var qrImg = card.querySelector(".gifts__qr-img");
+      if (!qrImg) return false;
+
+      var src = qrImg.currentSrc || qrImg.getAttribute("src") || qrImg.src;
+      if (!src) return false;
+
+      var link = document.createElement("a");
+      link.href = src;
+      link.download = resolveDownloadFilename(card, src);
+      link.rel = "noopener";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      return true;
+    }
+
+    function markDownloadSuccess(button, panel) {
+      if (!button) return;
+
+      var icon = button.querySelector(".gifts__download-icon");
+      var text = button.querySelector(".gifts__download-text");
+
+      button.classList.add("gifts__download-btn--success");
+      button.setAttribute("aria-label", "Tải về thành công");
+
+      if (icon) {
+        icon.classList.remove("ri-download-2-line");
+        icon.classList.add("ri-check-line");
+      }
+      if (text) text.textContent = "Tải về thành công";
+
+      refreshPanelHeight(panel);
+    }
+
     cards.forEach(function (card) {
+      var panel = card.querySelector(".gifts__qr-panel");
+      var qrImg = card.querySelector(".gifts__qr-img");
+      var downloadBtn = card.querySelector(".gifts__download-btn");
+
       card.addEventListener("click", function () {
-        var panel = card.querySelector(".gifts__qr-panel");
         var isOpen = panel && panel.classList.contains("gifts__qr-panel--open");
 
-        cards.forEach(function (c) {
-          var p = c.querySelector(".gifts__qr-panel");
-          if (p) {
-            p.classList.remove("gifts__qr-panel--open");
-            p.style.maxHeight = "0px";
-            p.style.removeProperty("margin-top");
-          }
-          c.classList.remove("gifts__card--active");
-        });
+        closeAllCards();
 
         if (!isOpen && panel) {
           panel.classList.add("gifts__qr-panel--open");
-          panel.style.maxHeight = panel.scrollHeight + "px";
+          refreshPanelHeight(panel);
           card.classList.add("gifts__card--active");
         }
       });
+
+      if (downloadBtn) {
+        downloadBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (triggerQrDownload(card)) {
+            markDownloadSuccess(downloadBtn, panel);
+          }
+        });
+      }
+
+      if (qrImg) {
+        qrImg.addEventListener("load", function () {
+          refreshPanelHeight(panel);
+        });
+      }
     });
   }
 
