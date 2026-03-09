@@ -134,7 +134,7 @@
   }
 
   .gallery__slider {
-    padding-bottom: var(--space-stack-block);
+    padding-bottom: calc(var(--space-stack-block) + var(--space-4));
   }
 
   .gallery__slider .swiper-slide {
