@@ -151,6 +151,11 @@
     max-width: 100%;
   }
 
+  .save-date {
+    padding-left: var(--space-12);
+    padding-right: var(--space-12);
+  }
+
   .save-date__date {
     margin-bottom: var(--save-date-date-to-time);
   }
@@ -433,6 +438,11 @@
 
   .gifts__card {
     max-width: 100%;
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+
+  .save-date {
     padding-left: var(--space-8);
     padding-right: var(--space-8);
   }

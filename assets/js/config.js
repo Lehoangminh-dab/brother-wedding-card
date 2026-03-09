@@ -222,7 +222,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   thankYou: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    heading: "Thank you",
+    heading: "Cảm ơn",
     message: "Sự xuất hiện của bạn là niềm vui của chúng tôi!",
   },
 
