@@ -39,6 +39,7 @@
   var AMBIENT_AUDIO_SRC = "assets/audio/ocean_waves_sound.mp3";
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var AMBIENT_AUDIO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
+  var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
@@ -951,8 +952,17 @@
       var rafId = null;
       var lastTime = performance.now();
       var stopped = false;
+      var consentElement = document.querySelector(AMBIENT_AUDIO_CONSENT_SELECTOR);
 
-      function stop() {
+      function isAudioConsentInteraction(event) {
+        if (!event || !event.target || !consentElement) return false;
+        if (typeof event.target.closest !== "function") return false;
+        return !!event.target.closest(AMBIENT_AUDIO_CONSENT_SELECTOR);
+      }
+
+      function stop(event) {
+        // Let users enable ambient audio without canceling auto-scroll hint.
+        if (isAudioConsentInteraction(event)) return;
         stopped = true;
         if (rafId) cancelAnimationFrame(rafId);
         document.removeEventListener("touchstart", stop, { passive: true });

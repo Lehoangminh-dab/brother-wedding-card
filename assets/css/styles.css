@@ -238,7 +238,8 @@ main {
 /* --- 4b. Submit buttons + map link (shared styling) ---------------------- */
 .wishes__submit,
 .rsvp__submit,
-.location__map-link {
+.location__map-link,
+.ambient-audio__button {
   padding: var(--space-12) var(--space-24);
   background-color: var(--secondary-color);
   color: var(--bg-light);
@@ -258,7 +259,8 @@ main {
 
 .wishes__submit:hover,
 .rsvp__submit:hover,
-.location__map-link:hover {
+.location__map-link:hover,
+.ambient-audio__button:hover {
   box-shadow: 0 0 10px var(--secondary-color);
 }
 
@@ -1736,23 +1738,9 @@ main {
 }
 
 .ambient-audio__button {
-  padding: var(--space-12) var(--space-16);
-  border-radius: 999px;
-  border: 1px solid rgba(230, 223, 212, 0.4);
-  background: rgba(28, 30, 26, 0.88);
-  color: var(--text-white-pure);
-  font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  line-height: var(--leading-tight);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-  transition: transform var(--transition), background-color var(--transition);
-}
-
-.ambient-audio__button:hover {
-  transform: translateY(-1px);
-  background: rgba(44, 33, 24, 0.95);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1761,10 +1749,6 @@ main {
     bottom: var(--space-12);
   }
 
-  .ambient-audio__button {
-    padding: var(--space-12) var(--space-14);
-    font-size: 15px;
-  }
 }
 
 /* ==========================================================================
