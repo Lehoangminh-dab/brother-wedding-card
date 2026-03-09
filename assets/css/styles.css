@@ -177,6 +177,20 @@ main {
   overflow: hidden;
 }
 
+/* Utility: allow long words to wrap (addresses, account numbers, etc.) */
+.text-wrap--allow {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Shared divider base (section dividers) */
+[class*="__divider"] {
+  width: var(--size-divider);
+  height: 1px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* ==========================================================================
    4. SHARED COMPONENTS
    ========================================================================== */
@@ -755,10 +769,8 @@ main {
 }
 
 .save-date__divider {
-  width: var(--size-divider);
-  height: 1px;
   background-color: rgba(255, 255, 255, 0.5);
-  margin: 0 auto var(--save-date-gap);
+  margin-bottom: var(--save-date-gap);
 }
 
 .save-date__date {
@@ -959,10 +971,8 @@ main {
 }
 
 .location__divider {
-  width: var(--size-divider);
-  height: 1px;
   background-color: rgba(255, 255, 255, 0.4);
-  margin: 0 auto var(--location-subsection-gap);
+  margin-bottom: var(--location-subsection-gap);
 }
 
 .location__sketch-heading {
@@ -1217,8 +1227,6 @@ main {
 
 /* Divider between wishes form and gifts */
 .wishes__divider {
-  width: var(--size-divider);
-  height: 1px;
   background-color: rgba(255, 255, 255, 0.4);
   margin: var(--space-56) auto;
 }

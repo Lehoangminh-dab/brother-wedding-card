@@ -40,19 +40,23 @@
     --mobile-type-date: clamp(22px, 5.8vw, 30px);
     --mobile-type-label: clamp(16px, 4vw, 18px);
     --mobile-type-timer: clamp(48px, 14vw, 62px);
+    --lightbox-nav-size: 42px;
+    --lightbox-nav-icon: 24px;
+    --gallery-slide-width: clamp(220px, 74vw, 300px);
+    --gallery-slide-aspect: 14 / 19;
+    --gallery-h-slide-width: clamp(220px, 86vw, 340px);
+    --gallery-h-slide-aspect: 17 / 11;
+    --gallery-h-min-height: clamp(160px, 42vw, 220px);
+    --gifts-qr-size: min(68vw, 220px);
   }
 
-  .until,
-  .save-date,
-  .timeline,
-  .location,
-  .rsvp,
-  .wishes,
-  .thank-you {
+  /* Shared section padding (low specificity for easier overrides) */
+  :where(.until, .save-date, .timeline, .location, .rsvp, .wishes, .thank-you) {
     padding-left: var(--space-16);
     padding-right: var(--space-16);
   }
 
+  /* --- Until --- */
   .until__timer {
     gap: var(--mobile-space-tight);
     margin-bottom: var(--mobile-space-block);
@@ -94,6 +98,7 @@
     font-size: var(--text-heading);
   }
 
+  /* --- Gallery --- */
   .gallery {
     padding: var(--section-margin) 0;
   }
@@ -109,22 +114,23 @@
   }
 
   .gallery__slider .swiper-slide {
-    width: clamp(220px, 74vw, 300px);
+    width: var(--gallery-slide-width);
     height: auto;
-    aspect-ratio: 14 / 19;
+    aspect-ratio: var(--gallery-slide-aspect);
   }
 
   .gallery__horizontal-slider {
-    min-height: clamp(160px, 42vw, 220px);
+    min-height: var(--gallery-h-min-height);
     margin-top: var(--mobile-space-section);
   }
 
   .gallery__horizontal-slider .swiper-slide {
-    width: clamp(220px, 86vw, 340px);
+    width: var(--gallery-h-slide-width);
     height: auto;
-    aspect-ratio: 17 / 11;
+    aspect-ratio: var(--gallery-h-slide-aspect);
   }
 
+  /* --- Save the date --- */
   .save-date__inner {
     max-width: 100%;
   }
@@ -165,6 +171,7 @@
     font-size: var(--mobile-type-script);
   }
 
+  /* --- Timeline --- */
   .timeline__item {
     margin-bottom: var(--mobile-space-section);
   }
@@ -179,18 +186,12 @@
     font-size: var(--mobile-type-label);
   }
 
+  /* --- Location --- */
   .location__inner {
     max-width: 100%;
   }
 
-  .location__venue-name,
-  .location__venue-address,
-  .location__sketch-heading,
-  .location__sketch-caption {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
+  /* --- RSVP --- */
   .rsvp__form,
   .wishes__form-wrapper {
     width: 100%;
@@ -226,6 +227,7 @@
     padding: var(--space-16) var(--space-16);
   }
 
+  /* --- Wishes & gifts --- */
   .gifts__cards {
     gap: var(--space-20);
     max-width: 100%;
@@ -246,27 +248,27 @@
   }
 
   .gifts__qr-img {
-    width: min(68vw, 220px);
-    height: min(68vw, 220px);
+    width: var(--gifts-qr-size);
+    height: var(--gifts-qr-size);
   }
 
   .gifts__account-number {
     letter-spacing: var(--tracking-uppercase);
-    overflow-wrap: anywhere;
-    word-break: break-word;
   }
 
+  /* --- Lightbox --- */
   .lightbox__prev,
   .lightbox__next {
-    width: 42px;
-    height: 42px;
-    font-size: 24px;
+    width: var(--lightbox-nav-size);
+    height: var(--lightbox-nav-size);
+    font-size: var(--lightbox-nav-icon);
   }
 
   .lightbox__prev { left: var(--space-8); }
   .lightbox__next { right: var(--space-8); }
 }
 
+/* Gifts cards: stack vertically on narrow screens (between 480–768px). */
 @media only screen and (max-width: 620px) {
   .gifts__cards {
     flex-direction: column;
@@ -281,6 +283,7 @@
   }
 }
 
+/* Small phones: tighter spacing, centered timeline, full-width gifts. */
 @media only screen and (max-width: 480px) {
   :root {
     --section-margin: var(--space-48);
@@ -329,15 +332,7 @@
 
   .timeline__time {
     text-align: right;
-    padding-right: var(--mobile-space-block);
     margin-bottom: 0;
-    font-size: var(--mobile-type-label);
-  }
-
-  .timeline__event {
-    text-align: left;
-    padding-left: var(--mobile-space-block);
-    font-size: var(--mobile-type-label);
   }
 
   .rsvp__form {
