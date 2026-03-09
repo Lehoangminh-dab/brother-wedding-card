@@ -965,6 +965,54 @@ main {
 }
 
 /* ==========================================================================
+   12.5 CONTACT INFO SECTION
+   ========================================================================== */
+.contact-info {
+  height: 100vh;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--section-margin) var(--space-20);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.contact-info__inner {
+  max-width: var(--max-width);
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+}
+
+.contact-info__heading {
+  font-family: var(--script-font);
+  font-size: var(--text-script-title);
+  font-weight: var(--font-weight-normal);
+  color: var(--secondary-color);
+  margin-bottom: var(--space-20);
+}
+
+.contact-info__phone {
+  font-family: var(--title-font);
+  font-size: var(--cover-date-size);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-date);
+  color: var(--secondary-color);
+  margin-bottom: var(--space-8);
+}
+
+.contact-info__name {
+  font-family: var(--title-font);
+  font-size: var(--cover-date-size);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-date);
+  color: var(--text-dark);
+}
+
+/* ==========================================================================
    13. LOCATION SECTION
    ========================================================================== */
 .location {

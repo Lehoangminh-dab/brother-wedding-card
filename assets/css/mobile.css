@@ -52,7 +52,7 @@
   }
 
   /* Shared section padding (low specificity for easier overrides) */
-  :where(.until, .save-date, .timeline, .location, .rsvp, .wishes, .thank-you) {
+  :where(.until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
     padding-left: var(--space-16);
     padding-right: var(--space-16);
   }
@@ -213,6 +213,13 @@
     line-height: 1.3;
   }
 
+  /* --- Contact info --- */
+  .contact-info__phone,
+  .contact-info__name {
+    font-size: var(--mobile-type-date);
+    line-height: 1.25;
+  }
+
   /* --- Location --- */
   .location__inner {
     max-width: 100%;
@@ -332,7 +339,9 @@
 
   .cover__date,
   .save-date__date,
-  .save-date__time {
+  .save-date__time,
+  .contact-info__phone,
+  .contact-info__name {
     letter-spacing: var(--tracking-wide);
   }
 
@@ -347,6 +356,10 @@
 
   .timeline__heading {
     margin-bottom: var(--space-32);
+  }
+
+  .contact-info__heading {
+    margin-bottom: var(--space-16);
   }
 
   .timeline__track::before { left: 50%; }

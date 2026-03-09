@@ -459,6 +459,17 @@
     });
   }
 
+  function populateContactInfo() {
+    var cfg = WEDDING_CONFIG.contactInfo;
+    if (!cfg) return;
+
+    populateText({
+      ".contact-info__heading": cfg.heading,
+      ".contact-info__phone": cfg.phone,
+      ".contact-info__name": cfg.name,
+    });
+  }
+
   function populateThankYou() {
     var cfg = WEDDING_CONFIG.thankYou;
 
@@ -934,6 +945,7 @@
     populateWishes();
     populateGifts();
     populateRsvp();
+    populateContactInfo();
     populateThankYou();
 
     initCountdown();
