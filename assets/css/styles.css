@@ -25,7 +25,7 @@
   --script-font: 'WindSong', cursive;
   --primary-font: 'Cormorant Garamond', serif;
   --title-font: 'Cormorant Garamond', serif;
-  --section-margin: 80px;
+  --section-margin: var(--space-80);
   --gap: var(--space-20);
   --radius: 30px;
 
@@ -39,6 +39,11 @@
 
   /* Save the date: gap between the date line and the time line */
   --save-date-date-to-time: var(--space-48);
+
+  /* Cross-breakpoint semantic spacing roles (same taxonomy, different values). */
+  --space-stack-tight: var(--space-12);
+  --space-stack-block: var(--space-24);
+  --space-stack-section: var(--space-32);
 
   /* Spacing scale (multiples of 4) */
   --space-4: 4px;
@@ -56,6 +61,8 @@
   --space-64: 64px;
   --space-72: 72px;
   --space-80: 80px;
+  --space-100: 100px;
+  --space-120: 120px;
   --transition: .3s;
   --overlay-dark: rgba(0, 0, 0, 0.55);
   --overlay-location: rgba(0, 0, 0, 0.6);
@@ -69,7 +76,7 @@
   --text-script-display: clamp(87px, 12.3vw, 147px);
   --text-script-title: clamp(56px, 9vw, 88px);
   --text-date: clamp(18px, 2.6vw, 30px);
-  --cover-date-size: var(--text-date);
+  --cover-date-size: var(--text-date-role);
   --text-display: clamp(32px, 6vw, 48px);
   --text-heading: clamp(20px, 3vw, 28px);
   --text-body: clamp(16px, 2vw, 20px);
@@ -78,6 +85,23 @@
   --text-form: 14px;
   --text-icon: 32px;
   --text-icon-lg: 40px;
+
+  /* Cross-breakpoint semantic typography roles (same taxonomy, different values). */
+  /* Token role map:
+     - --text-script-display-role: cover/save-date script names
+     - --text-date-role: date/meta lines (cover/save-date/location/timeline subtitle/contact)
+     - --text-label-role: compact UI labels (timeline time/event, countdown label)
+     - --text-countdown-value: countdown numeric value
+     - --text-icon-nav / --text-icon-download: control and inline icon sizing */
+  --text-script-display-role: var(--text-script-display);
+  --text-date-role: var(--text-date);
+  --text-label-role: var(--text-body-sm);
+  --text-countdown-value: var(--text-script-title);
+  --text-icon-nav: var(--text-icon);
+  --text-icon-download: 18px;
+
+  /* Shared JS/CSS sizing token. */
+  --gallery-track-spacing: var(--space-16);
 
   --font-weight-light: 300;
   --font-weight-normal: 400;
@@ -121,14 +145,14 @@
 
 @media only screen and (min-width: 1024px) {
   :root {
-    --section-margin: 100px;
+    --section-margin: var(--space-100);
     --gap: var(--space-40);
   }
 }
 
 @media only screen and (min-width: 1280px) {
   :root {
-    --section-margin: 120px;
+    --section-margin: var(--space-120);
   }
 }
 
@@ -464,7 +488,7 @@ main {
 
 .cover__groom-name,
 .cover__bride-name {
-  font-size: var(--text-script-display);
+  font-size: var(--text-script-display-role);
   font-family: var(--cover-font-name);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
@@ -582,7 +606,7 @@ main {
 
 .until__value {
   font-family: var(--title-font);
-  font-size: var(--text-script-title);
+  font-size: var(--text-countdown-value);
   font-weight: 700;
   line-height: inherit;
   letter-spacing: var(--tracking-normal);
@@ -748,7 +772,7 @@ main {
 .save-date__line1,
 .save-date__line3 {
   font-family: var(--script-font);
-  font-size: var(--text-script-display);
+  font-size: var(--text-script-display-role);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-none);
@@ -947,7 +971,7 @@ main {
 
 .timeline__time {
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--text-label-role);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-form);
   color: var(--secondary-color);
@@ -956,7 +980,7 @@ main {
 
 .timeline__event {
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--text-label-role);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-form);
   color: var(--text-dark);
@@ -1531,7 +1555,7 @@ main {
 }
 
 .gifts__download-icon {
-  font-size: 18px;
+  font-size: var(--text-icon-download);
   line-height: 1;
 }
 
@@ -1638,7 +1662,7 @@ main {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: var(--text-icon);
+  font-size: var(--text-icon-nav);
   color: var(--text-white-pure);
   background: rgba(255, 255, 255, 0.15);
   border: none;

@@ -34,7 +34,6 @@
   // Gallery Swiper
   var GALLERY_AUTOPLAY_DELAY   = 3000;  // ms between vertical carousel slides
   var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
-  var GALLERY_SPACING          = 16;    // px gap between horizontal slides (= --space-16)
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
@@ -51,6 +50,13 @@
   function setAttr(selector, attr, value, parent) {
     var el = (parent || document).querySelector(selector);
     if (el) el.setAttribute(attr, value);
+  }
+
+  /** Read a CSS custom property as px number, with numeric fallback. */
+  function getCssPixelVar(varName, fallbackPx) {
+    var raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    var value = parseFloat(raw);
+    return Number.isFinite(value) ? value : fallbackPx;
   }
 
   /** Bulk-set textContent from a { selector: text } map. */
@@ -594,6 +600,7 @@
 
   function initGallerySwiper() {
     if (typeof Swiper === "undefined") return;
+    var gallerySpacing = getCssPixelVar("--gallery-track-spacing", 16);
 
     var verticalSwiper = new Swiper(".gallery__slider", {
       effect: "coverflow",
@@ -617,7 +624,7 @@
 
     var horizontalSwiper = new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
-      spaceBetween: GALLERY_SPACING,
+      spaceBetween: gallerySpacing,
       grabCursor: true,
       loop: true,
       autoplay: { delay: 1, disableOnInteraction: false },
