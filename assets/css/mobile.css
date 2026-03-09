@@ -290,7 +290,7 @@
   .gifts__card {
     width: 100%;
     max-width: 420px;
-    padding: var(--space-20) var(--space-16);
+    padding: var(--space-20) var(--space-12);
   }
 
   .gifts__card-label {
@@ -433,5 +433,7 @@
 
   .gifts__card {
     max-width: 100%;
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
   }
 }
