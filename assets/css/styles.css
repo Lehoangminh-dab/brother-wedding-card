@@ -1744,6 +1744,10 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: var(--space-16) var(--space-32);
+  font-size: var(--text-body);
+  background-color: var(--color-success);
+  border-color: var(--color-success);
   box-shadow:
     0 0 0 1.5px rgba(28, 30, 26, 0.45),
     0 8px 18px rgba(0, 0, 0, 0.28);
@@ -1752,7 +1756,7 @@ main {
 .ambient-audio__button:hover {
   box-shadow:
     0 0 0 1.5px rgba(28, 30, 26, 0.58),
-    0 0 10px var(--secondary-color),
+    0 0 10px var(--color-success),
     0 10px 22px rgba(0, 0, 0, 0.32);
 }
 
