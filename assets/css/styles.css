@@ -34,8 +34,8 @@
   --section-heading-gap: var(--space-24);
   --section-content-margin-top: var(--space-8);
 
-  /* Save the date: gap between heading and divider, and between divider and date (same value) */
-  --save-date-gap: var(--space-56);
+  /* Horizontal divider: gap above and below (same value, all sections) */
+  --divider-gap: var(--space-48);
 
   /* Save the date: gap between the date line and the time line */
   --save-date-date-to-time: var(--space-48);
@@ -737,7 +737,7 @@ main {
   align-items: center;
   justify-content: center;
   gap: 0;
-  margin-bottom: var(--save-date-gap);
+  margin-bottom: var(--divider-gap);
 }
 
 .save-date__line1,
@@ -770,7 +770,7 @@ main {
 
 .save-date__divider {
   background-color: rgba(255, 255, 255, 0.5);
-  margin-bottom: var(--save-date-gap);
+  margin-bottom: var(--divider-gap);
 }
 
 .save-date__date {
@@ -967,12 +967,12 @@ main {
 .location__map-link {
   display: inline-block;
   text-decoration: none;
-  margin-bottom: var(--location-subsection-gap);
+  margin-bottom: var(--divider-gap);
 }
 
 .location__divider {
   background-color: rgba(255, 255, 255, 0.4);
-  margin-bottom: var(--location-subsection-gap);
+  margin-bottom: var(--divider-gap);
 }
 
 .location__sketch-heading {
@@ -1228,7 +1228,7 @@ main {
 /* Divider between wishes form and gifts */
 .wishes__divider {
   background-color: rgba(255, 255, 255, 0.4);
-  margin: var(--space-56) auto;
+  margin: var(--divider-gap) auto;
 }
 
 /* Gifts subsection */

@@ -33,6 +33,7 @@
     --section-height-wishes: 220svh;
 
     /* Shared mobile spacing and type tokens (consistency-first). */
+    --divider-gap: var(--mobile-space-section);
     --mobile-space-tight: var(--space-12);
     --mobile-space-block: var(--space-24);
     --mobile-space-section: var(--space-32);
@@ -133,14 +134,6 @@
   /* --- Save the date --- */
   .save-date__inner {
     max-width: 100%;
-  }
-
-  .save-date__heading {
-    margin-bottom: var(--mobile-space-section);
-  }
-
-  .save-date__divider {
-    margin-bottom: var(--mobile-space-section);
   }
 
   .save-date__date {
@@ -342,10 +335,6 @@
 
   .rsvp__legend {
     margin-bottom: var(--space-8);
-  }
-
-  .wishes__divider {
-    margin: var(--space-40) auto;
   }
 
   .gifts__subtitle {
