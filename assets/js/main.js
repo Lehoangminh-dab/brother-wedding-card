@@ -659,6 +659,13 @@
     ambientAudio.loop = true;
     ambientAudio.preload = "auto";
     ambientAudio.volume = AMBIENT_AUDIO_VOLUME;
+    // Fallback in case a browser intermittently misses native loop behavior.
+    ambientAudio.addEventListener("ended", function () {
+      try {
+        ambientAudio.currentTime = 0;
+      } catch (e) {}
+      tryPlay();
+    });
 
     var currentTrackSrc = AMBIENT_AUDIO_SRC_COVER;
     var retryAttached = false;
