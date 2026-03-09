@@ -40,6 +40,8 @@
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var AMBIENT_AUDIO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
+  var COVER_VIDEO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
+  var COVER_VIDEO_FAIL_TIMEOUT = 3500;
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
@@ -163,66 +165,11 @@
 
     var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
-    if (coverVideo && cover.videoUrl) {
-      // Keep playback settings explicit for cross-browser consistency.
-      coverVideo.preload = "auto";
-      coverVideo.muted = true;
-      coverVideo.defaultMuted = true;
-      coverVideo.loop = true;
-      coverVideo.playsInline = true;
-      coverVideo.setAttribute("playsinline", "");
-      coverVideo.setAttribute("webkit-playsinline", "");
-
-      var poster = cover.posterImage || cover.backgroundImage || "";
-      if (poster) {
-        coverVideo.poster = poster;
-      }
-
-      var canPlayMp4 = typeof coverVideo.canPlayType === "function" &&
-        coverVideo.canPlayType("video/mp4");
-
-      if (canPlayMp4 === "probably" || canPlayMp4 === "maybe") {
-        coverVideo.src = cover.videoUrl;
-
-        var markVideoReady = function () {
-          if (coverSection && !coverSection.classList.contains("cover--video-ready")) {
-            coverSection.classList.add("cover--video-ready");
-          }
-        };
-
-        coverVideo.addEventListener("loadeddata", markVideoReady, { once: true });
-        coverVideo.addEventListener("canplay", markVideoReady, { once: true });
-
-        coverVideo.addEventListener("error", function () {
-          if (coverSection) {
-            coverSection.classList.remove("cover--video-ready");
-          }
-        });
-
-        // Fallback in case a browser intermittently misses native loop behavior.
-        coverVideo.addEventListener("ended", function () {
-          try {
-            coverVideo.currentTime = 0;
-          } catch (e) {}
-          coverVideo.play().catch(function () {});
-        });
-
-        var prefersReducedMotion = window.matchMedia &&
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        if (!prefersReducedMotion) {
-          coverVideo.play().catch(function () {
-            if (coverSection) {
-              coverSection.classList.remove("cover--video-ready");
-            }
-          });
-        }
-      }
-    }
-
     var coverBg = document.querySelector(".cover__bg--fallback");
     if (coverBg && cover.backgroundImage) {
       coverBg.style.backgroundImage = "url('" + cover.backgroundImage + "')";
+    } else if (coverBg) {
+      coverBg.style.removeProperty("background-image");
     }
 
     populateText({
@@ -230,6 +177,175 @@
       ".cover__bride-name": couple.bride.shortName,
       ".cover__date": (cover.dateLine || "").toUpperCase(),
     });
+
+    if (!coverSection || !coverVideo) return;
+
+    coverSection.classList.remove("cover--video-ready");
+    coverSection.classList.remove("cover--video-unavailable");
+    coverSection.classList.remove("cover--has-video-src");
+    coverSection.classList.remove("cover--no-fallback-image");
+    if (!cover.backgroundImage) {
+      coverSection.classList.add("cover--no-fallback-image");
+    }
+
+    // Keep playback settings explicit for cross-browser consistency.
+    coverVideo.preload = "metadata";
+    coverVideo.muted = true;
+    coverVideo.defaultMuted = true;
+    coverVideo.loop = true;
+    coverVideo.playsInline = true;
+    coverVideo.setAttribute("playsinline", "");
+    coverVideo.setAttribute("webkit-playsinline", "");
+
+    var poster = cover.posterImage || cover.backgroundImage || "";
+    if (poster) {
+      coverVideo.poster = poster;
+    }
+
+    var prefersReducedMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var configuredSources = [];
+    if (Array.isArray(cover.videoSources)) {
+      configuredSources = cover.videoSources.slice();
+    } else if (cover.videoUrl) {
+      configuredSources = [{ src: cover.videoUrl, type: "video/mp4" }];
+    }
+
+    var usableSources = configuredSources.filter(function (source) {
+      return source && typeof source.src === "string" && source.src.trim() !== "";
+    });
+    if (!usableSources.length) {
+      coverSection.classList.add("cover--video-unavailable");
+      return;
+    }
+
+    if (typeof coverVideo.canPlayType === "function") {
+      var playableSources = usableSources.filter(function (source) {
+        if (!source.type) return true;
+        var support = coverVideo.canPlayType(source.type);
+        return support === "probably" || support === "maybe";
+      });
+      if (playableSources.length) usableSources = playableSources;
+    }
+
+    // Let the browser choose the best source from an ordered list.
+    coverVideo.removeAttribute("src");
+    while (coverVideo.firstChild) {
+      coverVideo.removeChild(coverVideo.firstChild);
+    }
+    usableSources.forEach(function (source) {
+      var sourceEl = document.createElement("source");
+      sourceEl.src = source.src;
+      if (source.type) sourceEl.type = source.type;
+      coverVideo.appendChild(sourceEl);
+    });
+    coverSection.classList.add("cover--has-video-src");
+    coverVideo.load();
+
+    var playbackConfirmed = false;
+    var retryAttached = false;
+    var failureTimeoutId = null;
+
+    function clearFailureTimeout() {
+      if (failureTimeoutId) {
+        clearTimeout(failureTimeoutId);
+        failureTimeoutId = null;
+      }
+    }
+
+    function removeRetryListeners() {
+      if (!retryAttached) return;
+      COVER_VIDEO_RETRY_EVENTS.forEach(function (evt) {
+        document.removeEventListener(evt, onFirstGesture);
+      });
+      retryAttached = false;
+    }
+
+    function addRetryListeners() {
+      if (retryAttached || prefersReducedMotion) return;
+      COVER_VIDEO_RETRY_EVENTS.forEach(function (evt) {
+        document.addEventListener(evt, onFirstGesture);
+      });
+      retryAttached = true;
+    }
+
+    function setUnavailable() {
+      clearFailureTimeout();
+      removeRetryListeners();
+      coverSection.classList.remove("cover--video-ready");
+      coverSection.classList.remove("cover--has-video-src");
+      coverSection.classList.add("cover--video-unavailable");
+    }
+
+    function onPlaybackStarted() {
+      playbackConfirmed = true;
+      clearFailureTimeout();
+      removeRetryListeners();
+      coverSection.classList.remove("cover--video-unavailable");
+      coverSection.classList.add("cover--video-ready");
+    }
+
+    function scheduleFailureFallback() {
+      clearFailureTimeout();
+      failureTimeoutId = setTimeout(function () {
+        if (!playbackConfirmed) setUnavailable();
+      }, COVER_VIDEO_FAIL_TIMEOUT);
+    }
+
+    function attemptPlay() {
+      if (prefersReducedMotion) return;
+      var playAttempt;
+      try {
+        playAttempt = coverVideo.play();
+      } catch (e) {
+        addRetryListeners();
+        scheduleFailureFallback();
+        return;
+      }
+
+      // Older engines may not return a Promise from play().
+      if (!playAttempt || typeof playAttempt.then !== "function") {
+        onPlaybackStarted();
+        return;
+      }
+
+      playAttempt
+        .then(onPlaybackStarted)
+        .catch(function () {
+          addRetryListeners();
+          scheduleFailureFallback();
+        });
+    }
+
+    function onFirstGesture() {
+      attemptPlay();
+    }
+
+    coverVideo.addEventListener("loadedmetadata", scheduleFailureFallback);
+    coverVideo.addEventListener("canplay", attemptPlay);
+    coverVideo.addEventListener("playing", onPlaybackStarted);
+    coverVideo.addEventListener("error", function () {
+      if (!playbackConfirmed) setUnavailable();
+    });
+    coverVideo.addEventListener("stalled", function () {
+      if (!playbackConfirmed) scheduleFailureFallback();
+    });
+
+    // Fallback in case a browser intermittently misses native loop behavior.
+    coverVideo.addEventListener("ended", function () {
+      try {
+        coverVideo.currentTime = 0;
+      } catch (e) {}
+      attemptPlay();
+    });
+
+    if (!prefersReducedMotion) {
+      scheduleFailureFallback();
+      attemptPlay();
+    } else {
+      setUnavailable();
+    }
   }
 
   function populateUntilTheDay() {

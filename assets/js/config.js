@@ -34,9 +34,16 @@ const WEDDING_CONFIG = {
 
   // ──────────────────────────────────────────────
   // COVER (opening section: names + date)
-  // Set videoUrl for looped video, or backgroundImage as fallback
+  // Prefer videoSources (ordered by browser compatibility).
+  // Keep videoUrl for backward compatibility with older script logic.
+  // For broad support, encode MP4 as H.264 + AAC (+faststart).
   // ──────────────────────────────────────────────
   cover: {
+    videoSources: [
+      { src: "assets/videos/ocean_waves_background.mp4", type: "video/mp4" },
+      // Optional modern format (add file before enabling):
+      // { src: "assets/videos/ocean_waves_background.webm", type: "video/webm" },
+    ],
     videoUrl: "assets/videos/ocean_waves_background.mp4",
     posterImage: "assets/images/ocean_waves_background.png",
     backgroundImage: "assets/images/ocean_waves_background.png",

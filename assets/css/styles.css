@@ -437,6 +437,8 @@ main {
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
 
 .cover__bg--fallback {
@@ -450,6 +452,10 @@ main {
 
 .cover.cover--video-ready .cover__bg--fallback {
   display: none;
+}
+
+.cover.cover--video-ready .cover__video {
+  opacity: 1;
 }
 
 .cover__overlay {
@@ -565,20 +571,17 @@ main {
 .cover__animate[data-cover-delay="900"] { transition-delay: 900ms; }
 .cover__animate[data-cover-delay="1200"] { transition-delay: 1200ms; }
 
-/* Fallbacks when no video/image */
-.cover:not(:has(.cover__video[src])) .cover__bg--fallback {
-  display: block;
+/* JS-driven fallback classes (avoids :has() compatibility gaps). */
+.cover:not(.cover--has-video-src) .cover__video,
+.cover.cover--video-unavailable .cover__video {
+  opacity: 0;
 }
 
-.cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__content {
-  color: var(--text-white-pure);
-}
-
-.cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__bg--fallback {
+.cover.cover--no-fallback-image .cover__bg--fallback {
   background-color: var(--bg);
 }
 
-.cover:not(:has(.cover__video[src])):not(:has(.cover__bg--fallback[style*="background-image"])) .cover__overlay {
+.cover.cover--no-fallback-image .cover__overlay {
   background: transparent;
 }
 
