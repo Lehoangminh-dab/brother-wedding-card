@@ -509,6 +509,18 @@ main {
   text-shadow: var(--text-shadow-strong);
 }
 
+.cover__intro-line {
+  margin: 0 0 calc(var(--windsong-next-gap) + var(--space-4)) 0;
+  padding: 0;
+  font-size: var(--cover-date-size);
+  font-family: var(--primary-font);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-date);
+  text-transform: uppercase;
+  color: var(--text-white-pure);
+  text-shadow: var(--text-shadow-soft);
+}
+
 .cover__and {
   font-size: var(--cover-date-size);
   font-family: var(--title-font);
@@ -516,12 +528,12 @@ main {
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
   line-height: var(--leading-none);
-  margin: var(--windsong-next-gap) 0 var(--space-32) 0;
+  margin: var(--cover-windsong-next-gap, var(--windsong-next-gap)) 0 var(--space-32) 0;
   text-shadow: var(--text-shadow-soft);
 }
 
 .cover__date {
-  margin: var(--windsong-next-gap) 0 0 0;
+  margin: var(--cover-windsong-next-gap, var(--windsong-next-gap)) 0 0 0;
   padding: 0;
   font-size: var(--cover-date-size);
   font-family: var(--primary-font);
@@ -548,6 +560,7 @@ main {
 .cover__animate[data-cover-delay="300"] { transition-delay: 300ms; }
 .cover__animate[data-cover-delay="600"] { transition-delay: 600ms; }
 .cover__animate[data-cover-delay="900"] { transition-delay: 900ms; }
+.cover__animate[data-cover-delay="1200"] { transition-delay: 1200ms; }
 
 /* Fallbacks when no video/image */
 .cover:not(:has(.cover__video[src])) .cover__bg--fallback {

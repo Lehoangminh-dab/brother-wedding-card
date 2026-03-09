@@ -170,6 +170,7 @@
   }
 
   /* Keep cover, save-date, location, and timeline date typography consistent on smaller screens. */
+  .cover__intro-line,
   .cover__date,
   .cover__and,
   .save-date__date,
@@ -187,6 +188,10 @@
   .save-date__line1,
   .save-date__line3 {
     font-size: var(--text-script-display-role);
+  }
+
+  .cover__intro-line {
+    margin-bottom: var(--space-16);
   }
 
   /* --- Timeline --- */
@@ -374,6 +379,11 @@
 
   .cover__and {
     letter-spacing: var(--tracking-subtitle);
+  }
+
+  .cover__intro-line {
+    margin-bottom: var(--space-12);
+    letter-spacing: var(--tracking-wide);
   }
 
   .cover__date,

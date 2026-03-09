@@ -909,6 +909,104 @@
     }
   }
 
+  // --- 3j. Cover viewport fit (cover-only special rule) ----------------------
+
+  function initCoverViewportFit() {
+    var coverSection = document.getElementById("cover");
+    if (!coverSection) return;
+
+    var coverContent = coverSection.querySelector(".cover__content");
+    var andEl = coverSection.querySelector(".cover__and");
+    var dateEl = coverSection.querySelector(".cover__date");
+    if (!coverContent || !andEl || !dateEl) return;
+
+    var resizeTimer = null;
+    var rafId = null;
+
+    function getViewportHeight() {
+      // On mobile, visualViewport tracks the visible area after browser UI changes.
+      var vv = window.visualViewport;
+      if (vv && typeof vv.height === "number" && vv.height > 0) return vv.height;
+      return window.innerHeight || document.documentElement.clientHeight || 0;
+    }
+
+    function applyCoverViewportFit() {
+      if (rafId) cancelAnimationFrame(rafId);
+
+      rafId = requestAnimationFrame(function () {
+        // Reset first so each pass starts from the default design spacing.
+        coverSection.style.removeProperty("--cover-windsong-next-gap");
+        coverContent.style.removeProperty("padding-top");
+
+        var viewportHeight = getViewportHeight();
+        if (!viewportHeight) return;
+
+        var coverHeight = Math.ceil(coverSection.getBoundingClientRect().height);
+        var overflow = coverHeight - viewportHeight;
+        if (overflow <= 0) return;
+
+        var andGap = parseFloat(window.getComputedStyle(andEl).marginTop) || 0;
+        var dateGap = parseFloat(window.getComputedStyle(dateEl).marginTop) || 0;
+        var baseTopPadding = parseFloat(window.getComputedStyle(coverContent).paddingTop) || 0;
+        var baseBottomPadding = parseFloat(window.getComputedStyle(coverContent).paddingBottom) || 0;
+
+        var remainingOverflow = overflow;
+
+        // Preserve a visible gap rhythm while trimming only what is necessary.
+        var minWindsongGap = 6;
+        var minTopPadding = 8;
+        var minBottomPadding = 8;
+
+        // 1) Reduce the two windsong-following gaps first (shared by AND + date).
+        var currentSharedGap = Math.min(andGap, dateGap);
+        var maxSharedGapTrim = Math.max(0, currentSharedGap - minWindsongGap);
+        if (maxSharedGapTrim > 0 && remainingOverflow > 0) {
+          var trimPerSpot = Math.min(maxSharedGapTrim, remainingOverflow / 2);
+          var nextSharedGap = currentSharedGap - trimPerSpot;
+          coverSection.style.setProperty("--cover-windsong-next-gap", nextSharedGap.toFixed(3) + "px");
+          remainingOverflow -= trimPerSpot * 2;
+        }
+
+        if (remainingOverflow <= 0) return;
+
+        // 2) Then reduce date-to-bottom spacing (cover bottom padding).
+        var maxBottomTrim = Math.max(0, baseBottomPadding - minBottomPadding);
+        if (maxBottomTrim > 0 && remainingOverflow > 0) {
+          var bottomTrim = Math.min(maxBottomTrim, remainingOverflow);
+          coverContent.style.paddingBottom = (baseBottomPadding - bottomTrim).toFixed(3) + "px";
+          remainingOverflow -= bottomTrim;
+        }
+
+        if (remainingOverflow <= 0) return;
+
+        // 3) Last resort: reduce top spacing above "ĐÁM CƯỚI".
+        var maxTopTrim = Math.max(0, baseTopPadding - minTopPadding);
+        if (maxTopTrim > 0 && remainingOverflow > 0) {
+          var topTrim = Math.min(maxTopTrim, remainingOverflow);
+          coverContent.style.paddingTop = (baseTopPadding - topTrim).toFixed(3) + "px";
+        }
+      });
+    }
+
+    function scheduleCoverViewportFit() {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(applyCoverViewportFit, 60);
+    }
+
+    window.addEventListener("resize", scheduleCoverViewportFit);
+    window.addEventListener("orientationchange", scheduleCoverViewportFit);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", scheduleCoverViewportFit);
+    }
+
+    applyCoverViewportFit();
+    window.setTimeout(applyCoverViewportFit, 250);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(applyCoverViewportFit).catch(function () {});
+    }
+  }
+
   // --- 3h. Gift Card QR Toggle ---------------------------------------------
 
   function initGifts() {
@@ -1039,6 +1137,7 @@
     initWishesForm();
     initGifts();
     initRsvpForm();
+    initCoverViewportFit();
   }
 
   initPreloader();
