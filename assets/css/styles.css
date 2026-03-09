@@ -1744,7 +1744,7 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-16) var(--space-32);
+  padding: var(--space-16) var(--space-24);
   font-size: var(--text-body);
   background-color: var(--color-success);
   border-color: var(--color-success);
