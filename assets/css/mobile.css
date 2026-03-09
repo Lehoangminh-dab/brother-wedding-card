@@ -67,6 +67,11 @@
     padding-right: var(--space-16);
   }
 
+  .cover__content {
+    padding-left: var(--space-12);
+    padding-right: var(--space-12);
+  }
+
   /* --- Until --- */
   .until__timer {
     display: grid;
@@ -364,7 +369,7 @@
   }
 
   .cover__content {
-    padding: var(--space-36) var(--space-16) var(--space-32);
+    padding: var(--space-36) var(--space-8) var(--space-32);
   }
 
   .cover__and {
