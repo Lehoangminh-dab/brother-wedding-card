@@ -49,7 +49,7 @@ const WEDDING_CONFIG = {
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
     dateLine: "Thứ Năm, 28 Tháng 5",
-    heading: "Cho đến ngày cưới!",
+    heading: "Thời gian cho đến ngày cưới",
     labels: {
       days: "Ngày",
       hours: "Giờ",
@@ -110,7 +110,7 @@ const WEDDING_CONFIG = {
   // GALLERY
   // ──────────────────────────────────────────────
   gallery: {
-    title: "Trân trọng những khoảnh khắc của chúng mình",
+    title: "Những kỷ niệm của chúng mình",
     images: [
       { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 1" },
       { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 2" },
