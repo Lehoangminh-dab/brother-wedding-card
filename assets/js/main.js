@@ -162,6 +162,8 @@
   function populateCover() {
     var couple = WEDDING_CONFIG.couple;
     var cover = WEDDING_CONFIG.cover;
+    var coverGroomName = cover.groomName || (couple.groom && couple.groom.shortName) || "";
+    var coverBrideName = cover.brideName || (couple.bride && couple.bride.shortName) || "";
 
     var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
@@ -173,9 +175,10 @@
     }
 
     populateText({
-      ".cover__groom-name": couple.groom.shortName,
-      ".cover__bride-name": couple.bride.shortName,
+      ".cover__groom-name": coverGroomName,
+      ".cover__bride-name": coverBrideName,
       ".cover__date": (cover.dateLine || "").toUpperCase(),
+      ".cover__venue": (cover.locationLine || "").toUpperCase(),
     });
 
     if (!coverSection || !coverVideo) return;

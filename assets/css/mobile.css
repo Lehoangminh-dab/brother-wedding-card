@@ -3,16 +3,19 @@
    Loaded after styles.css
    ========================================================================== */
 
-/* Mobile browser viewport bars can make 100vh unreliable. Keep 100vh as
-   fallback, then prefer dynamic viewport units where supported. */
-.cover,
-.cover__content {
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
-}
-
 @media only screen and (max-width: 768px) {
+  /* Mobile browser viewport bars can make 100vh unreliable. Keep 100vh as
+     fallback, then prefer dynamic viewport units where supported. */
+  .cover,
+  .cover__content {
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
   :root {
     --section-margin: var(--space-56);
     --windsong-next-gap: var(--windsong-gap-mobile);
@@ -172,6 +175,7 @@
   /* Keep cover, save-date, location, and timeline date typography consistent on smaller screens. */
   .cover__intro-line,
   .cover__date,
+  .cover__venue,
   .cover__and,
   .save-date__date,
   .save-date__time,
@@ -378,6 +382,7 @@
   }
 
   .cover__and {
+    font-size: calc(var(--text-date-role) * 1.6);
     letter-spacing: var(--tracking-subtitle);
   }
 
@@ -387,6 +392,7 @@
   }
 
   .cover__date,
+  .cover__venue,
   .save-date__date,
   .save-date__time,
   .contact-info__phone,
