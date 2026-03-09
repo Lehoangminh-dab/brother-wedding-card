@@ -283,8 +283,11 @@
   </div>
 
   <!-- 19. AMBIENT AUDIO CONSENT -->
-  <div class="ambient-audio" id="ambient-audio-consent" aria-hidden="true">
-    <button class="ambient-audio__button" type="button">Bật âm thanh nền</button>
+  <div class="ambient-audio ambient-audio--visible" id="ambient-audio-consent" aria-hidden="false">
+    <button class="ambient-audio__button ambient-audio__button--on" type="button" aria-pressed="true">
+      <i class="ambient-audio__icon ri-volume-up-line" aria-hidden="true"></i>
+      <span class="ambient-audio__label">Bật Âm Thanh</span>
+    </button>
   </div>
 
   <!-- Scripts: Swiper must load before main -->

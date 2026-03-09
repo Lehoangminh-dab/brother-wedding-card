@@ -1750,8 +1750,10 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-8);
   padding: var(--space-16) var(--space-24);
   font-size: var(--text-body);
+  line-height: 1;
   background-color: var(--color-success);
   border-color: var(--color-success);
   box-shadow:
@@ -1759,11 +1761,46 @@ main {
     0 8px 18px rgba(0, 0, 0, 0.28);
 }
 
-.ambient-audio__button:hover {
+.ambient-audio__icon {
+  font-size: calc(var(--text-body) + 2px);
+}
+
+.ambient-audio__label {
+  line-height: var(--leading-tight);
+}
+
+.ambient-audio__button--on {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--text-white-pure);
+}
+
+.ambient-audio__button--off {
+  background-color: rgba(92, 74, 58, 0.96);
+  border-color: rgba(230, 223, 212, 0.45);
+  color: var(--bg-light);
+  box-shadow:
+    0 0 0 1.5px rgba(28, 30, 26, 0.36),
+    0 8px 18px rgba(0, 0, 0, 0.24);
+}
+
+.ambient-audio__button--on:hover {
   box-shadow:
     0 0 0 1.5px rgba(28, 30, 26, 0.58),
     0 0 10px var(--color-success),
     0 10px 22px rgba(0, 0, 0, 0.32);
+}
+
+.ambient-audio__button--off:hover {
+  box-shadow:
+    0 0 0 1.5px rgba(230, 223, 212, 0.52),
+    0 0 10px rgba(230, 223, 212, 0.35),
+    0 10px 22px rgba(0, 0, 0, 0.3);
+}
+
+.ambient-audio__button:focus-visible {
+  outline: 2px solid var(--bg-light);
+  outline-offset: 2px;
 }
 
 @media only screen and (max-width: 767px) {

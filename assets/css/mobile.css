@@ -352,6 +352,16 @@
 
   .lightbox__prev { left: var(--space-8); }
   .lightbox__next { right: var(--space-8); }
+
+  .ambient-audio__button {
+    padding: var(--space-12) var(--space-16);
+    font-size: var(--text-body-sm);
+    gap: var(--space-4);
+  }
+
+  .ambient-audio__icon {
+    font-size: calc(var(--text-body-sm) + 2px);
+  }
 }
 
 /* Gifts cards: stack vertically on narrow screens (between 480–768px). */

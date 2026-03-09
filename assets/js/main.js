@@ -653,13 +653,23 @@
     var consentBtn = consentWrap
       ? consentWrap.querySelector(".ambient-audio__button")
       : null;
+    var consentIcon = consentBtn
+      ? consentBtn.querySelector(".ambient-audio__icon")
+      : null;
+    var consentLabel = consentBtn
+      ? consentBtn.querySelector(".ambient-audio__label")
+      : null;
 
     var ambientAudio = new Audio(AMBIENT_AUDIO_SRC_COVER);
     ambientAudio.loop = true;
     ambientAudio.preload = "auto";
     ambientAudio.volume = AMBIENT_AUDIO_VOLUME;
+    var AUDIO_LABEL_ON = "Bật Âm Thanh";
+    var AUDIO_LABEL_OFF = "Tắt Âm Thanh";
+    var isAudioOn = true;
     // Fallback in case a browser intermittently misses native loop behavior.
     ambientAudio.addEventListener("ended", function () {
+      if (!isAudioOn) return;
       try {
         ambientAudio.currentTime = 0;
       } catch (e) {}
@@ -669,16 +679,29 @@
     var currentTrackSrc = AMBIENT_AUDIO_SRC_COVER;
     var retryAttached = false;
 
-    function showConsent() {
+    function showControl() {
       if (!consentWrap) return;
       consentWrap.classList.add("ambient-audio--visible");
       consentWrap.setAttribute("aria-hidden", "false");
     }
 
-    function hideConsent() {
-      if (!consentWrap) return;
-      consentWrap.classList.remove("ambient-audio--visible");
-      consentWrap.setAttribute("aria-hidden", "true");
+    function setButtonState(isOn) {
+      if (consentWrap) {
+        consentWrap.classList.toggle("ambient-audio--on", isOn);
+        consentWrap.classList.toggle("ambient-audio--off", !isOn);
+      }
+      if (!consentBtn) return;
+      consentBtn.classList.toggle("ambient-audio__button--on", isOn);
+      consentBtn.classList.toggle("ambient-audio__button--off", !isOn);
+      consentBtn.setAttribute("aria-pressed", isOn ? "true" : "false");
+
+      if (consentIcon) {
+        consentIcon.classList.toggle("ri-volume-up-line", isOn);
+        consentIcon.classList.toggle("ri-volume-mute-line", !isOn);
+      }
+      if (consentLabel) {
+        consentLabel.textContent = isOn ? AUDIO_LABEL_ON : AUDIO_LABEL_OFF;
+      }
     }
 
     function removeRetryListeners() {
@@ -697,24 +720,20 @@
       retryAttached = true;
     }
 
-    function markSuccess() {
-      hideConsent();
-      removeRetryListeners();
-    }
-
     function tryPlay() {
+      if (!isAudioOn) return;
       var playAttempt = ambientAudio.play();
 
       // Older engines may not return a Promise from play().
       if (!playAttempt || typeof playAttempt.then !== "function") {
-        markSuccess();
+        removeRetryListeners();
         return;
       }
 
       playAttempt
-        .then(markSuccess)
+        .then(removeRetryListeners)
         .catch(function () {
-          showConsent();
+          showControl();
           addRetryListeners();
         });
     }
@@ -723,12 +742,27 @@
       tryPlay();
     }
 
+    function setAudioState(nextIsOn) {
+      isAudioOn = !!nextIsOn;
+      setButtonState(isAudioOn);
+
+      if (isAudioOn) {
+        tryPlay();
+        return;
+      }
+
+      removeRetryListeners();
+      ambientAudio.pause();
+    }
+
     if (consentBtn) {
       consentBtn.addEventListener("click", function () {
-        tryPlay();
+        setAudioState(!isAudioOn);
       });
     }
 
+    showControl();
+    setButtonState(true);
     tryPlay();
 
     function switchAmbientTrack(nextSrc) {
@@ -737,7 +771,7 @@
 
       ambientAudio.src = nextSrc;
       ambientAudio.load();
-      tryPlay();
+      if (isAudioOn) tryPlay();
     }
 
     return {
