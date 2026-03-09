@@ -202,8 +202,8 @@
   .timeline {
     --timeline-icon-size: 62px;
     --timeline-icon-event-gap: var(--space-8);
-    height: 150vh;
-    min-height: 150vh;
+    height: 125vh;
+    min-height: 125vh;
   }
 
   .timeline__track {
