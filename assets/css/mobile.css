@@ -89,6 +89,11 @@
     max-width: 100%;
   }
 
+  .until__message,
+  .thank-you__message {
+    font-size: var(--text-heading);
+  }
+
   .gallery {
     padding: var(--section-margin) 0;
   }
