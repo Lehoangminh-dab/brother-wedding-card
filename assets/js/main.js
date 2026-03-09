@@ -428,6 +428,11 @@
         ".gifts__account-number": data.accountNumber,
       }, card);
 
+      var subtitleEl = card.querySelector(".gifts__card-subtitle");
+      if (subtitleEl && data.subtitle) {
+        subtitleEl.innerHTML = data.subtitle;
+      }
+
       populateAttrs({
         ".gifts__qr-img": { src: data.qrImage, alt: "QR " + data.label },
       }, card);

@@ -1268,7 +1268,7 @@ main {
 }
 
 .gifts__card {
-  flex: 0 1 320px;
+  flex: 0 1 340px;
   min-width: 0;
   padding: var(--space-28) var(--space-24);
   border-radius: var(--radius);
@@ -1304,6 +1304,34 @@ main {
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-uppercase);
   text-transform: uppercase;
+}
+
+.gifts__card-subtitle {
+  display: block;
+  font-family: var(--primary-font);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--text-white-pure);
+  opacity: 0.9;
+  margin-top: var(--space-12);
+  line-height: 1.5;
+  letter-spacing: var(--tracking-tight);
+  text-align: center;
+}
+
+.gifts__card-subtitle em {
+  font-style: italic;
+  font-weight: var(--font-weight-medium);
+}
+
+.gifts__card-subtitle .gifts__card-cta {
+  display: block;
+  margin-top: var(--space-12);
+  font-size: var(--text-body-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 1;
+  color: var(--text-white-pure);
 }
 
 .gifts__qr-panel {

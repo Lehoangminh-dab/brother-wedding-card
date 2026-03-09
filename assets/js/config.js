@@ -150,14 +150,16 @@ const WEDDING_CONFIG = {
     heading: "Mừng cưới",
     subtitle: "Gửi quà tặng đến cô dâu & chú rể",
     groom: {
-      label: "Chú rể",
+      label: "NHÀ TRAI",
+      subtitle: "Lê Tự Khanh, Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
       name: "NGUYEN VAN PHUC",
       bank: "Vietcombank",
       accountNumber: "0123456789",
       qrImage: PLACEHOLDER_IMAGE,
     },
     bride: {
-      label: "Cô dâu",
+      label: "NHÀ GÁI",
+      subtitle: "Nguyễn Trung Toàn, Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
       name: "NGUYEN THI VAN",
       bank: "Vietcombank",
       accountNumber: "0123456789",
