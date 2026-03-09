@@ -73,7 +73,7 @@ const WEDDING_CONFIG = {
   saveTheDate: {
     backgroundImage: PLACEHOLDER_IMAGE,
     line1: "Lưu",
-    line2: "LẠI",
+    line2: "lại",
     line3: "ngày\nvui",
     dateLine: "Thứ Năm, 28 Tháng 5",
     timeLine: "5 GIỜ CHIỀU",

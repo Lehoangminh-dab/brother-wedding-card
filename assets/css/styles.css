@@ -800,6 +800,7 @@ main {
 }
 
 .save-date__line1,
+.save-date__line2,
 .save-date__line3 {
   font-family: var(--script-font);
   font-size: var(--text-script-display-role);
@@ -813,18 +814,6 @@ main {
 .save-date__line3 {
   white-space: pre-line;
   text-align: center;
-}
-
-.save-date__line2 {
-  font-family: var(--title-font);
-  font-size: var(--text-date);
-  font-weight: var(--font-weight-light);
-  letter-spacing: var(--tracking-display);
-  text-transform: uppercase;
-  line-height: var(--leading-none);
-  color: var(--text-white-pure);
-  margin: var(--space-8) 0;
-  text-shadow: var(--text-shadow-soft);
 }
 
 .save-date__line2:empty,
