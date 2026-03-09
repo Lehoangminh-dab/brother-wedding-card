@@ -961,8 +961,9 @@ main {
   display: flex;
   align-items: center;
   justify-self: start;
+  width: var(--timeline-icon-size);
   min-height: var(--timeline-icon-size);
-  padding-left: var(--space-20);
+  margin-left: var(--space-20);
 }
 
 .timeline__time {
@@ -980,7 +981,7 @@ main {
 .timeline__event {
   position: absolute;
   top: calc(50% + (var(--timeline-icon-size) / 2) + var(--timeline-icon-event-gap));
-  left: calc(var(--space-20) + (var(--timeline-icon-size) / 2));
+  left: 50%;
   transform: translateX(-50%);
   width: max-content;
   max-width: 24ch;
