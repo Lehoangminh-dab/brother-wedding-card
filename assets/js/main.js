@@ -36,7 +36,8 @@
   var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
 
   // Ambient audio
-  var AMBIENT_AUDIO_SRC = "assets/audio/ocean_waves_sound.mp3";
+  var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
+  var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/a_town_with_an_ocean_view.mp3";
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var AMBIENT_AUDIO_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
@@ -654,12 +655,12 @@
       ? consentWrap.querySelector(".ambient-audio__button")
       : null;
 
-    var ambientAudio = new Audio(AMBIENT_AUDIO_SRC);
+    var ambientAudio = new Audio(AMBIENT_AUDIO_SRC_COVER);
     ambientAudio.loop = true;
     ambientAudio.preload = "auto";
     ambientAudio.volume = AMBIENT_AUDIO_VOLUME;
 
-    var audioStarted = false;
+    var currentTrackSrc = AMBIENT_AUDIO_SRC_COVER;
     var retryAttached = false;
 
     function showConsent() {
@@ -691,13 +692,11 @@
     }
 
     function markSuccess() {
-      audioStarted = true;
       hideConsent();
       removeRetryListeners();
     }
 
     function tryPlay() {
-      if (audioStarted) return;
       var playAttempt = ambientAudio.play();
 
       // Older engines may not return a Promise from play().
@@ -725,9 +724,75 @@
     }
 
     tryPlay();
+
+    function switchAmbientTrack(nextSrc) {
+      if (!nextSrc || nextSrc === currentTrackSrc) return;
+      currentTrackSrc = nextSrc;
+
+      ambientAudio.src = nextSrc;
+      ambientAudio.load();
+      tryPlay();
+    }
+
+    return {
+      switchAmbientTrack: switchAmbientTrack,
+    };
   }
 
-  // --- 3c. Scroll Stagger Animations --------------------------------------
+  // --- 3c. Cover Exit Audio Switch ----------------------------------------
+
+  function initCoverExitAudioSwitch(ambientControl) {
+    if (!ambientControl || typeof ambientControl.switchAmbientTrack !== "function") return;
+
+    var cover = document.getElementById("cover");
+    if (!cover) return;
+
+    var hasSwitchedAfterCover = false;
+
+    function switchOnce() {
+      if (hasSwitchedAfterCover) return;
+      hasSwitchedAfterCover = true;
+      ambientControl.switchAmbientTrack(AMBIENT_AUDIO_SRC_AFTER_COVER);
+    }
+
+    function isCoverOutOfView() {
+      var rect = cover.getBoundingClientRect();
+      return rect.bottom <= 0;
+    }
+
+    if ("IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (hasSwitchedAfterCover) return;
+            if (!entry.isIntersecting && entry.boundingClientRect.bottom <= 0) {
+              switchOnce();
+              observer.unobserve(cover);
+            }
+          });
+        },
+        { threshold: 0 }
+      );
+
+      observer.observe(cover);
+      return;
+    }
+
+    function onViewportChange() {
+      if (!isCoverOutOfView()) return;
+      switchOnce();
+      window.removeEventListener("scroll", onViewportChange);
+      window.removeEventListener("resize", onViewportChange);
+      window.removeEventListener("orientationchange", onViewportChange);
+    }
+
+    window.addEventListener("scroll", onViewportChange, { passive: true });
+    window.addEventListener("resize", onViewportChange);
+    window.addEventListener("orientationchange", onViewportChange);
+    onViewportChange();
+  }
+
+  // --- 3d. Scroll Stagger Animations --------------------------------------
 
   var STAGGER_DELAY = 150; // ms between each sibling in a batch
 
@@ -1345,7 +1410,8 @@
     populateContactInfo();
     populateThankYou();
 
-    initAmbientAudio();
+    var ambientControl = initAmbientAudio();
+    initCoverExitAudioSwitch(ambientControl);
     initCountdown();
     initGallerySwiper();
     initLightbox();

@@ -50,7 +50,7 @@ const WEDDING_CONFIG = {
     videoUrl: "assets/videos/ocean_waves_background.mp4",
     posterImage: "assets/images/ocean_waves_background.png",
     backgroundImage: "assets/images/ocean_waves_background.png",
-    dateLine: "Thứ Năm, 28 Tháng 5, Năm 2026",
+    dateLine: "Thứ 5, 28 Tháng 5, Năm 2026",
   },
 
   // ──────────────────────────────────────────────
@@ -58,7 +58,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    dateLine: "Thứ Năm, 28 Tháng 5",
+    dateLine: "Thứ 5, 28 Tháng 5",
     heading: "Thời gian cho đến ngày cưới",
     labels: {
       days: "Ngày",
@@ -78,7 +78,7 @@ const WEDDING_CONFIG = {
     line1: "Lưu",
     line2: "lại",
     line3: "ngày\nvui",
-    dateLine: "Thứ Năm, 28 Tháng 5",
+    dateLine: "Thứ 5, 28 Tháng 5",
     timeLine: "5 GIỜ CHIỀU",
   },
 
@@ -189,7 +189,7 @@ const WEDDING_CONFIG = {
     },
     bride: {
       label: "NHÀ GÁI",
-      subtitle: "Nguyễn Trung Toàn - Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
+      subtitle: "Nguyễn Trung Toản - Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
       name: "NGUYEN THI VAN",
       bank: "Vietcombank",
       accountNumber: "0123456789",
