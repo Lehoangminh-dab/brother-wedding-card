@@ -14,16 +14,16 @@ const WEDDING_CONFIG = {
   // META / PAGE-LEVEL
   // ──────────────────────────────────────────────
   meta: {
-    title: "Phuc – Van | Wedding Invitation",
-    description: "Thiệp cưới Phuc & Van - Wedding Invitation",
+    title: "Phúc – Vân | Thiệp Cưới",
+    description: "Thiệp cưới Phúc & Vân",
   },
 
   // ──────────────────────────────────────────────
   // COUPLE (names used on cover)
   // ──────────────────────────────────────────────
   couple: {
-    groom: { shortName: "Phuc" },
-    bride: { shortName: "Van" },
+    groom: { shortName: "Phúc" },
+    bride: { shortName: "Vân" },
   },
 
   // ──────────────────────────────────────────────
@@ -49,7 +49,7 @@ const WEDDING_CONFIG = {
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
     dateLine: "Thứ Năm, 28 Tháng 5",
-    heading: "Until The Big Day!",
+    heading: "Cho đến ngày cưới!",
     labels: {
       days: "Ngày",
       hours: "Giờ",
@@ -65,9 +65,9 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   saveTheDate: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    line1: "Save",
-    line2: "the",
-    line3: "Date",
+    line1: "Lưu",
+    line2: "LẠI",
+    line3: "ngày\nvui",
     dateLine: "Thứ Năm, 28 Tháng 5",
     timeLine: "11 GIỜ SÁNG",
   },
@@ -76,8 +76,8 @@ const WEDDING_CONFIG = {
   // WEDDING TIMELINE
   // ──────────────────────────────────────────────
   timeline: {
-    subtitle: "Timeline",
-    heading: "Wedding Day",
+    subtitle: "Lịch trình",
+    heading: "Ngày cưới",
     items: [
       {
         time: "10:00",
@@ -110,7 +110,7 @@ const WEDDING_CONFIG = {
   // GALLERY
   // ──────────────────────────────────────────────
   gallery: {
-    title: "Cherish our moments",
+    title: "Trân trọng những khoảnh khắc của chúng mình",
     images: [
       { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 1" },
       { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 2" },
@@ -138,7 +138,7 @@ const WEDDING_CONFIG = {
     venueName: "TRUNG TÂM TỔ CHỨC SỰ KIỆN BÁCH ĐẠI DŨNG",
     venueAddress: "TDP 6, xã Hương Sơn, tỉnh Hà Tĩnh",
     googleMapsEmbedUrl: "https://maps.google.com/maps?q=Trung+t%C3%A2m+T%E1%BB%95+ch%E1%BB%A9c+s%E1%BB%B1+ki%E1%BB%87n+B%C3%A1ch+%C4%90%E1%BA%A1i+D%C5%A9ng+H%C6%B0%C6%A1ng+S%C6%A1n+H%C3%A0+T%C4%A9nh&output=embed",
-    mapLinkText: "Mở Trong Google Maps",
+    mapLinkText: "Mở trên Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/TmKBaF94cfrp9q8V7?g_st=ipc",
     sketchHeading: "SƠ ĐỒ NỘI BỘ",
     sketchMapImage: "https://upload.wikimedia.org/wikipedia/en/4/4d/Shrek_%28character%29.png",

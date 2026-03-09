@@ -804,6 +804,11 @@ main {
   text-shadow: var(--text-shadow-strong);
 }
 
+.save-date__line3 {
+  white-space: pre-line;
+  text-align: center;
+}
+
 .save-date__line2 {
   font-family: var(--title-font);
   font-size: var(--text-date);

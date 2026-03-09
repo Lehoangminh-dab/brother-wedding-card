@@ -460,7 +460,7 @@
       }
 
       populateAttrs({
-        ".gifts__qr-img": { src: data.qrImage, alt: "QR " + data.label },
+        ".gifts__qr-img": { src: data.qrImage, alt: "Mã QR " + data.label },
       }, card);
     });
   }
