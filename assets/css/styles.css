@@ -1404,9 +1404,15 @@ main {
 
 .gifts__card-icon {
   display: block;
-  font-size: var(--text-icon);
   margin-bottom: var(--space-12);
   opacity: 0.9;
+}
+
+.gifts__card-icon img {
+  width: 32px;
+  height: 32px;
+  display: block;
+  margin: 0 auto;
 }
 
 .gifts__card-label {
