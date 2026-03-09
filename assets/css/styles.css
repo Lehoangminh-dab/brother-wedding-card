@@ -859,6 +859,8 @@ main {
    12. WEDDING TIMELINE SECTION
    ========================================================================== */
 .timeline {
+  --timeline-icon-size: 92px;
+  --timeline-icon-event-gap: var(--space-12);
   height: 150vh;
   min-height: 150vh;
   display: flex;
@@ -973,9 +975,9 @@ main {
 }
 
 .timeline__icon-wrap {
-  flex: 0 0 92px;
-  width: 92px;
-  height: 92px;
+  flex: 0 0 var(--timeline-icon-size);
+  width: var(--timeline-icon-size);
+  height: var(--timeline-icon-size);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -990,14 +992,12 @@ main {
 }
 
 .timeline__detail {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--space-12);
   justify-self: start;
-  text-align: center;
+  min-height: var(--timeline-icon-size);
   padding-left: var(--space-20);
-  max-width: 18ch;
 }
 
 .timeline__time {
@@ -1013,11 +1013,18 @@ main {
 }
 
 .timeline__event {
+  position: absolute;
+  top: calc(50% + (var(--timeline-icon-size) / 2) + var(--timeline-icon-event-gap));
+  left: calc(var(--space-20) + (var(--timeline-icon-size) / 2));
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 18ch;
   font-family: var(--primary-font);
   font-size: var(--text-body);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-form);
   color: var(--text-dark);
+  text-align: center;
   text-transform: uppercase;
 }
 
