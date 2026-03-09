@@ -40,7 +40,7 @@ const WEDDING_CONFIG = {
     videoUrl: "assets/videos/ocean_waves_background.mp4",
     posterImage: "assets/images/ocean_waves_background.png",
     backgroundImage: "assets/images/ocean_waves_background.png",
-    dateLine: "Thứ Năm, 28 Tháng 5 Năm 2026",
+    dateLine: "Thứ Năm, 28 Tháng 5, Năm 2026",
   },
 
   // ──────────────────────────────────────────────
