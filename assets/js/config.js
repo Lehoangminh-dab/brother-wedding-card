@@ -193,7 +193,7 @@ const WEDDING_CONFIG = {
   thankYou: {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Thank you",
-    message: "Sự xuất hiện của bạn là niềm vui đối với chúng tôi!",
+    message: "Sự xuất hiện của bạn là niềm vui của chúng tôi!",
   },
 
   // ──────────────────────────────────────────────
