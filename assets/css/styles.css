@@ -222,6 +222,12 @@ main {
   transition: box-shadow var(--transition);
 }
 
+.location__map-link {
+  display: inline-block;
+  text-decoration: none;
+  margin-bottom: var(--divider-gap);
+}
+
 .wishes__submit:hover,
 .rsvp__submit:hover,
 .location__map-link:hover {
@@ -964,12 +970,6 @@ main {
   border: 0;
 }
 
-.location__map-link {
-  display: inline-block;
-  text-decoration: none;
-  margin-bottom: var(--divider-gap);
-}
-
 .location__divider {
   background-color: rgba(255, 255, 255, 0.4);
   margin-bottom: var(--divider-gap);
@@ -1334,7 +1334,7 @@ main {
 
 .gifts__account-name {
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--space-8);
   letter-spacing: var(--tracking-uppercase);
@@ -1342,14 +1342,14 @@ main {
 
 .gifts__bank-name {
   font-family: var(--primary-font);
-  font-size: var(--text-caption);
+  font-size: var(--text-body);
   opacity: 0.8;
   margin-bottom: var(--space-4);
 }
 
 .gifts__account-number {
   font-family: var(--primary-font);
-  font-size: var(--text-caption);
+  font-size: var(--text-body);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-uppercase-lg);
   opacity: 0.95;
