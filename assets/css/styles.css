@@ -16,8 +16,6 @@
   --color-success-surface: rgba(226, 234, 218, 0.94);
   --color-success-border: rgba(74, 85, 64, 0.45);
   --color-error: #8E3E38;
-  --text-white: #F2EAE0;
-  --text-white-muted: rgba(242, 234, 224, 0.8);
   --text-white-pure: #fff;
   --text-white-pure-muted: rgba(255, 255, 255, 0.8);
   --text-white-pure-faint: rgba(255, 255, 255, 0.7);
@@ -171,7 +169,7 @@ body {
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;
-  color: var(--text-white);
+  color: var(--text-white-pure);
   background-color: var(--bg);
 }
 
@@ -527,7 +525,7 @@ main {
   padding: var(--space-40) var(--space-20);
   position: relative;
   text-align: center;
-  color: var(--text-white);
+  color: var(--text-white-pure);
 }
 
 .until__inner {
