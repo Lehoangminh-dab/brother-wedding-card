@@ -1741,6 +1741,16 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  box-shadow:
+    0 0 0 2px rgba(28, 30, 26, 0.45),
+    0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.ambient-audio__button:hover {
+  box-shadow:
+    0 0 0 2px rgba(28, 30, 26, 0.58),
+    0 0 10px var(--secondary-color),
+    0 10px 22px rgba(0, 0, 0, 0.32);
 }
 
 @media only screen and (max-width: 767px) {
