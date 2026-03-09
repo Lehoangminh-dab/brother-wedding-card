@@ -24,13 +24,13 @@
   --text-dark: #2C2118;
   --size-divider: 60px;
   --script-font: 'WindSong', cursive;
-  --primary-font: 'Cormorant Garamond', serif;
-  --title-font: 'Cormorant Garamond', serif;
+  --primary-font: 'Source Sans 3', sans-serif;
+  --title-font: 'Source Sans 3', sans-serif;
   --section-margin: var(--space-80);
   --gap: var(--space-20);
   --radius: 30px;
 
-  /* Canonical WindSong spacing to the immediate next element. */
+  /* Canonical script-text spacing to the immediate next element. */
   --windsong-gap-desktop: var(--space-24);
   --windsong-gap-mobile: var(--space-20);
   --windsong-next-gap: var(--windsong-gap-desktop);
