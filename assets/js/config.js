@@ -69,7 +69,7 @@ const WEDDING_CONFIG = {
     line2: "LẠI",
     line3: "ngày\nvui",
     dateLine: "Thứ Năm, 28 Tháng 5",
-    timeLine: "11 GIỜ SÁNG",
+    timeLine: "5 GIỜ CHIỀU",
   },
 
   // ──────────────────────────────────────────────
@@ -80,25 +80,25 @@ const WEDDING_CONFIG = {
     heading: "Ngày cưới",
     items: [
       {
-        time: "10:00",
+        time: "15:00",
         label: "ĐÓN KHÁCH",
         iconSrc: "assets/images/timeline-icons/fireworks.svg",
         iconAlt: "Biểu tượng pháo hoa",
       },
       {
-        time: "10:30",
+        time: "15:30",
         label: "TIỆC TRÀ",
         iconSrc: "assets/images/timeline-icons/welcome-toast.svg",
         iconAlt: "Biểu tượng tiệc trà",
       },
       {
-        time: "11:00",
+        time: "17:00",
         label: "LỄ THÀNH HÔN",
         iconSrc: "assets/images/timeline-icons/wedding-rings.svg",
         iconAlt: "Biểu tượng lễ thành hôn",
       },
       {
-        time: "12:00",
+        time: "17:30",
         label: "TIỆC CƯỚI",
         iconSrc: "assets/images/timeline-icons/wedding-lunch.svg",
         iconAlt: "Biểu tượng tiệc cưới",
