@@ -1057,6 +1057,7 @@ main {
   --timeline-icon-event-gap: var(--space-12);
   --timeline-axis-gap: 140px;
   --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
+  --timeline-time-axis-offset: var(--space-32);
   height: 125vh;
   min-height: 125vh;
   display: flex;
@@ -1206,7 +1207,7 @@ main {
   text-transform: uppercase;
   justify-self: end;
   text-align: left;
-  padding-right: var(--space-36);
+  padding-right: var(--timeline-time-axis-offset);
 }
 
 .timeline__event {

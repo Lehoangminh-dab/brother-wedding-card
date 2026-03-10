@@ -326,6 +326,7 @@
     --timeline-icon-event-gap: var(--space-8);
     --timeline-axis-gap: 96px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
+    --timeline-time-axis-offset: var(--space-12);
     height: 125vh;
     min-height: 125vh;
   }
@@ -370,7 +371,6 @@
   .timeline__time {
     font-size: var(--text-date-role);
     line-height: 1.3;
-    padding-right: var(--space-24);
     text-align: right;
   }
 
@@ -753,6 +753,7 @@
     --timeline-icon-event-gap: var(--space-8);
     --timeline-axis-gap: 124px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
+    --timeline-time-axis-offset: var(--space-16);
     height: 125vh;
     min-height: 125vh;
   }
@@ -797,7 +798,6 @@
   .timeline__time {
     font-size: var(--text-date-role);
     line-height: 1.3;
-    padding-right: var(--space-28);
     text-align: right;
   }
 
@@ -984,6 +984,7 @@
     --timeline-icon-event-gap: var(--space-4);
     --timeline-axis-gap: 76px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
+    --timeline-time-axis-offset: var(--space-8);
   }
 
   .timeline__entry::before {
@@ -1009,11 +1010,6 @@
 
   .timeline__event {
     max-width: 10ch;
-  }
-
-  .timeline__time {
-    padding-right: var(--space-20);
-    text-align: right;
   }
 
   .rsvp__form {
@@ -1046,6 +1042,7 @@
   .timeline {
     --timeline-axis-gap: 92px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
+    --timeline-time-axis-offset: var(--space-12);
   }
 
   .timeline__entry {
@@ -1067,8 +1064,6 @@
   }
 
   .timeline__time {
-    padding-right: var(--space-24);
-    text-align: right;
     max-width: 12ch;
     overflow-wrap: anywhere;
   }
