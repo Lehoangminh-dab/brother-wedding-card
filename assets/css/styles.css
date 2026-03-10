@@ -102,7 +102,7 @@
   --text-icon-nav: var(--text-icon);
   --text-icon-download: 18px;
   --heading-icon-size: 0.63em;
-  --heading-icon-gap: 0.16em;
+  --heading-icon-gap: 0.15em;
   --heart-icon-size: 40px;
 
   /* Shared JS/CSS sizing token. */

@@ -47,7 +47,7 @@
     --text-icon-nav: 28.98px;
     --text-icon-download: 21.74px;
     --heading-icon-size: 0.57em;
-    --heading-icon-gap: 0.14em;
+    --heading-icon-gap: 0.16em;
     --heart-icon-size: 32px;
     --text-script-display: clamp(105.05px, 14.85vw, 177.5px);
     --text-script-title: clamp(67.62px, 10.87vw, 106.26px);
@@ -147,6 +147,11 @@
     font-size: var(--text-date-role);
     letter-spacing: var(--tracking-wide);
     margin-bottom: var(--space-8);
+    max-width: 14ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.35;
+    text-wrap: balance;
   }
 
   .family__invite-divider {
@@ -218,6 +223,18 @@
   .until__message,
   .thank-you__message {
     font-size: var(--text-heading);
+  }
+
+  .thank-you {
+    padding-bottom: calc(var(--space-72) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .thank-you__heading {
+    margin-bottom: calc(var(--windsong-next-gap) + var(--space-8));
+  }
+
+  .thank-you__message {
+    margin-bottom: var(--space-12);
   }
 
   /* --- Gallery --- */
@@ -389,15 +406,18 @@
   }
 
   .rsvp__attendance-options {
-    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
     row-gap: var(--space-12);
-    column-gap: var(--space-20);
+    column-gap: 0;
   }
 
   .rsvp__attendance-option {
     max-width: 100%;
     text-align: left;
     line-height: 1.35;
+    white-space: nowrap;
+    padding-left: 0;
   }
 
   .wishes__form-wrapper {
@@ -488,6 +508,7 @@
   }
 
   :root {
+    --heading-icon-gap: 0.16em;
     --section-margin: var(--space-64);
     --windsong-next-gap: var(--space-24);
     --content-width: 100%;
@@ -577,6 +598,11 @@
 
   .family__invite-title {
     margin-bottom: var(--space-8);
+    max-width: 14ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.35;
+    text-wrap: balance;
   }
 
   .family__center--top {
@@ -640,6 +666,18 @@
   .until__message,
   .thank-you__message {
     font-size: var(--text-heading);
+  }
+
+  .thank-you {
+    padding-bottom: calc(var(--space-64) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .thank-you__heading {
+    margin-bottom: calc(var(--windsong-next-gap) + var(--space-8));
+  }
+
+  .thank-you__message {
+    margin-bottom: var(--space-8);
   }
 
   .gallery {
@@ -790,15 +828,18 @@
   }
 
   .rsvp__attendance-options {
-    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
     row-gap: var(--space-12);
-    column-gap: var(--space-24);
+    column-gap: 0;
   }
 
   .rsvp__attendance-option {
     max-width: 100%;
     text-align: left;
     line-height: 1.35;
+    white-space: nowrap;
+    padding-left: 0;
   }
 
   .wishes__form-wrapper {

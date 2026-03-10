@@ -31,7 +31,7 @@ const WEDDING_CONFIG = {
   // If any field is blank, JS falls back to parsing gifts subtitles.
   // ──────────────────────────────────────────────
   family: {
-    heading: "Đám Cưới",
+    heading: "Lễ Cưới",
     inviteTitle: "Trân trọng kính mời",
     inviteLine: "Tham dự lễ thành hôn của chúng mình",
     topCenterSymbol: "♡",
