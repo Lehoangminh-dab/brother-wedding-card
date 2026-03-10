@@ -1048,7 +1048,7 @@ main {
 .timeline {
   --timeline-icon-size: 92px;
   --timeline-icon-event-gap: var(--space-12);
-  --timeline-axis-gap: 120px;
+  --timeline-axis-gap: 140px;
   --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
   height: 125vh;
   min-height: 125vh;
@@ -1187,7 +1187,7 @@ main {
   justify-self: start;
   width: var(--timeline-icon-size);
   min-height: var(--timeline-icon-size);
-  margin-left: var(--space-28);
+  margin-left: var(--space-36);
 }
 
 .timeline__time {
@@ -1199,7 +1199,7 @@ main {
   text-transform: uppercase;
   justify-self: end;
   text-align: left;
-  padding-right: var(--space-28);
+  padding-right: var(--space-36);
 }
 
 .timeline__event {
