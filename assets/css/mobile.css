@@ -407,17 +407,21 @@
 
   .rsvp__attendance-options {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
     row-gap: var(--space-12);
     column-gap: 0;
   }
 
   .rsvp__attendance-option {
+    display: block;
+    width: 100%;
     max-width: 100%;
     text-align: left;
     line-height: 1.35;
-    white-space: nowrap;
-    padding-left: 0;
+    white-space: normal;
+    padding-left: var(--space-28);
   }
 
   .wishes__form-wrapper {
@@ -829,17 +833,21 @@
 
   .rsvp__attendance-options {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
     row-gap: var(--space-12);
     column-gap: 0;
   }
 
   .rsvp__attendance-option {
+    display: block;
+    width: 100%;
     max-width: 100%;
     text-align: left;
     line-height: 1.35;
-    white-space: nowrap;
-    padding-left: 0;
+    white-space: normal;
+    padding-left: var(--space-28);
   }
 
   .wishes__form-wrapper {
