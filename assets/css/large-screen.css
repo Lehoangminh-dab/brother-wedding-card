@@ -76,6 +76,10 @@
     max-width: 780px;
   }
 
+  .timeline {
+    --timeline-axis-gap: 156px;
+  }
+
   .gallery__slider .swiper-slide {
     width: 416px;
     height: 546px;

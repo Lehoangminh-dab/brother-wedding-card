@@ -161,6 +161,11 @@
 
   .family__invite-line {
     font-size: var(--text-body);
+    display: block;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .family__center-icon--top {
