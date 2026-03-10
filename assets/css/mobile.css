@@ -220,6 +220,7 @@
     max-width: 100%;
   }
 
+  .family__invite-line,
   .until__message,
   .thank-you__message {
     font-size: var(--text-heading);
@@ -665,6 +666,7 @@
     max-width: 100%;
   }
 
+  .family__invite-line,
   .until__message,
   .thank-you__message {
     font-size: var(--text-heading);
