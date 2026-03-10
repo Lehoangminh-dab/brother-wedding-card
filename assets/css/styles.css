@@ -845,6 +845,8 @@ main {
 .timeline {
   --timeline-icon-size: 92px;
   --timeline-icon-event-gap: var(--space-12);
+  --timeline-axis-gap: 112px;
+  --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
   height: 125vh;
   min-height: 125vh;
   display: flex;
@@ -933,15 +935,15 @@ main {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  column-gap: 96px;
+  column-gap: var(--timeline-axis-gap);
 }
 
 .timeline__entry::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: calc(50% - 48px);
-  width: 48px;
+  left: calc(50% - var(--timeline-axis-bridge));
+  width: var(--timeline-axis-bridge);
   height: 2px;
   background-color: var(--secondary-color);
   opacity: 0.45;
@@ -952,7 +954,7 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 48px;
+  width: var(--timeline-axis-bridge);
   height: 2px;
   background-color: var(--secondary-color);
   opacity: 0.45;
@@ -982,7 +984,7 @@ main {
   justify-self: start;
   width: var(--timeline-icon-size);
   min-height: var(--timeline-icon-size);
-  margin-left: var(--space-20);
+  margin-left: var(--space-28);
 }
 
 .timeline__time {
@@ -994,7 +996,7 @@ main {
   text-transform: uppercase;
   justify-self: end;
   text-align: left;
-  padding-right: var(--space-20);
+  padding-right: var(--space-28);
 }
 
 .timeline__event {
