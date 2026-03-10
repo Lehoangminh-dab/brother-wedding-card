@@ -234,20 +234,12 @@
     function tightenUntilMatches(el) {
       var steps = 0;
       var maxWidthPercent = 100;
-      var baseFontSize = parseFloat(window.getComputedStyle(el).fontSize) || 56;
       var currentLines = getElementLineCount(el);
 
-      while (currentLines < targetLines && steps < 80) {
+      while (currentLines < targetLines && steps < 80 && maxWidthPercent > 64) {
         steps += 1;
-
-        if (maxWidthPercent > 64) {
-          maxWidthPercent -= 2;
-          el.style.maxWidth = maxWidthPercent + "%";
-        } else {
-          baseFontSize -= 1;
-          if (baseFontSize < 32) break;
-          el.style.fontSize = baseFontSize + "px";
-        }
+        maxWidthPercent -= 2;
+        el.style.maxWidth = maxWidthPercent + "%";
 
         currentLines = getElementLineCount(el);
       }

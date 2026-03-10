@@ -661,7 +661,10 @@ main {
   max-width: var(--family-name-max-width, 100%);
   margin-left: auto;
   margin-right: auto;
-  transition: font-size 0.15s ease, max-width 0.15s ease;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+              font-size 0.15s ease,
+              max-width 0.15s ease;
 }
 
 .family__center--bottom {
@@ -1030,7 +1033,7 @@ main {
 .timeline {
   --timeline-icon-size: 92px;
   --timeline-icon-event-gap: var(--space-12);
-  --timeline-axis-gap: 112px;
+  --timeline-axis-gap: 120px;
   --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
   height: 125vh;
   min-height: 125vh;
