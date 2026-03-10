@@ -195,9 +195,9 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   gifts: {
     heading: "Gửi gắm yêu thương",
-    subtitle: "Sự hiện diện của bạn là món quà quý giá với chúng mình. Nhưng nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới, bạn có thể gửi qua đây nhé!",
+    subtitle: "Nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới, bạn có thể gửi qua đây nhé!",
     groom: {
-      label: "NHÀ TRAI",
+      label: "CHÚ RỂ\nHOÀNG PHÚC",
       subtitle: "Bố: Lê Tự Khanh - Mẹ: Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
       name: "NGUYEN VAN PHUC",
       bank: "Vietcombank",
@@ -205,7 +205,7 @@ const WEDDING_CONFIG = {
       qrImage: PLACEHOLDER_IMAGE,
     },
     bride: {
-      label: "NHÀ GÁI",
+      label: "CÔ DÂU\nHỒNG VÂN",
       subtitle: "Bố: Nguyễn Trung Toản - Mẹ: Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
       name: "NGUYEN THI VAN",
       bank: "Vietcombank",
@@ -250,7 +250,7 @@ const WEDDING_CONFIG = {
   thankYou: {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Trân trọng cảm ơn",
-    message: "Sự xuất hiện của bạn là niềm vui của chúng tôi!",
+    message: "Sự xuất hiện của bạn là niềm vui của chúng mình!",
   },
 
   // ──────────────────────────────────────────────
