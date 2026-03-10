@@ -256,6 +256,23 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
+  // HEADING ICONS (Remix Icons prepended by selector)
+  // ──────────────────────────────────────────────
+  headingIcons: {
+    ".family__heading": "ri-heart-3-line",
+    ".until__heading": "ri-time-line",
+    ".gallery__title": "ri-image-line",
+    ".save-date__line3": "ri-calendar-check-line",
+    ".timeline__heading": "ri-calendar-event-line",
+    ".location__heading": "ri-map-pin-line",
+    ".rsvp__heading": "ri-mail-send-line",
+    ".wishes__heading": "ri-chat-heart-line",
+    ".gifts__heading": "ri-gift-2-line",
+    ".contact-info__heading": "ri-phone-line",
+    ".thank-you__heading": "ri-hearts-line",
+  },
+
+  // ──────────────────────────────────────────────
   // AUTO-SCROLL HINT (helps users discover scrollable content)
   // Starts after cover text fades in, stops on first user interaction
   // ──────────────────────────────────────────────

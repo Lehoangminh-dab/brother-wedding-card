@@ -101,6 +101,8 @@
   --text-countdown-value: var(--text-script-title);
   --text-icon-nav: var(--text-icon);
   --text-icon-download: 18px;
+  --heading-icon-size: 0.42em;
+  --heading-icon-gap: 0.16em;
 
   /* Shared JS/CSS sizing token. */
   --gallery-track-spacing: var(--space-16);
@@ -156,6 +158,21 @@
   :root {
     --section-margin: var(--space-120);
   }
+}
+
+.section-heading-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--heading-icon-gap);
+}
+
+.section-heading-icon {
+  font-size: var(--heading-icon-size);
+  line-height: 1;
+  color: currentColor;
+  font-style: normal;
 }
 
 /* ==========================================================================

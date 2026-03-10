@@ -140,6 +140,42 @@
     }
   }
 
+  /** Append configured Remix icons below section titles. */
+  function applyHeadingIcons() {
+    var iconMap = WEDDING_CONFIG.headingIcons || {};
+    var selectors = Object.keys(iconMap);
+    if (!selectors.length) return;
+
+    selectors.forEach(function (selector) {
+      var iconClass = iconMap[selector];
+      if (!iconClass) return;
+
+      var elements = document.querySelectorAll(selector);
+      elements.forEach(function (el) {
+        if (!el) return;
+
+        var hasVisibleText = (el.textContent || "").trim() !== "";
+        if (!hasVisibleText) return;
+
+        var firstChild = el.firstElementChild;
+        if (firstChild && firstChild.classList.contains("section-heading-icon-wrap")) {
+          return;
+        }
+
+        var iconWrap = document.createElement("span");
+        iconWrap.className = "section-heading-icon-wrap";
+        iconWrap.setAttribute("aria-hidden", "true");
+
+        var icon = document.createElement("i");
+        icon.className = "section-heading-icon " + iconClass;
+
+        iconWrap.appendChild(icon);
+        el.appendChild(iconWrap);
+        el.classList.add("section-heading-with-icon");
+      });
+    });
+  }
+
   /** Set background-image on a section element by ID. */
   function setSectionBackground(sectionId, imageUrl) {
     if (!imageUrl) return;
@@ -1725,6 +1761,7 @@
     populateRsvp();
     populateContactInfo();
     populateThankYou();
+    applyHeadingIcons();
 
     var ambientControl = initAmbientAudio();
     initCoverExitAudioSwitch(ambientControl);

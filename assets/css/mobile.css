@@ -46,6 +46,8 @@
     --lightbox-nav-size: 42px;
     --text-icon-nav: 28.98px;
     --text-icon-download: 21.74px;
+    --heading-icon-size: 0.38em;
+    --heading-icon-gap: 0.14em;
     --text-script-display: clamp(105.05px, 14.85vw, 177.5px);
     --text-script-title: clamp(67.62px, 10.87vw, 106.26px);
     --text-date: clamp(21.74px, 3.14vw, 36.23px);
