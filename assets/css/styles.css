@@ -72,6 +72,9 @@
   --z-preloader: 99999;
   --z-lightbox: 99998;
   --z-ambient-audio: 99997;
+  --ambient-audio-bottom-offset: var(--space-16);
+  --ambient-audio-button-height: 52px;
+  --thank-you-credit-audio-gap: 2px;
   --spinner-ring: rgba(139, 145, 126, 0.2);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
@@ -1859,6 +1862,29 @@ main {
   text-align: center;
   margin-top: 0;
   line-height: var(--leading-relaxed);
+}
+
+.thank-you__credit {
+  position: absolute;
+  left: var(--space-20);
+  right: var(--space-20);
+  bottom: calc(
+    env(safe-area-inset-bottom, 0px)
+    + var(--ambient-audio-bottom-offset)
+    + var(--ambient-audio-button-height)
+    + var(--thank-you-credit-audio-gap)
+  );
+  transform: none;
+  width: auto;
+  margin: 0;
+  text-align: center;
+  font-family: var(--primary-font);
+  font-size: clamp(10px, 1.6vw, 12px);
+  font-style: italic;
+  font-weight: var(--font-weight-normal);
+  line-height: 1.35;
+  letter-spacing: var(--tracking-normal);
+  opacity: 0.92;
 }
 
 /* ==========================================================================

@@ -65,6 +65,8 @@
     --gallery-h-slide-aspect: 16 / 9;
     --gallery-h-min-height: clamp(160px, 42vw, 220px);
     --gifts-qr-size: min(68vw, 220px);
+    --ambient-audio-bottom-offset: var(--space-12);
+    --ambient-audio-button-height: 44px;
   }
 
   /* Shared section padding (low specificity for easier overrides) */
@@ -250,6 +252,24 @@
 
   .thank-you__message {
     margin-bottom: var(--space-12);
+  }
+
+  .thank-you__credit {
+    position: absolute;
+    left: var(--space-16);
+    right: var(--space-16);
+    bottom: calc(
+      env(safe-area-inset-bottom, 0px)
+      + var(--ambient-audio-bottom-offset)
+      + var(--ambient-audio-button-height)
+      + var(--thank-you-credit-audio-gap)
+    );
+    transform: none;
+    width: auto;
+    margin: 0;
+    padding-top: 0;
+    font-size: clamp(8px, 2.35vw, 9.5px);
+    line-height: 1.35;
   }
 
   /* --- Gallery --- */
@@ -570,6 +590,8 @@
     --gallery-h-slide-aspect: 16 / 9;
     --gallery-h-min-height: clamp(190px, 29vw, 270px);
     --gifts-qr-size: min(44vw, 230px);
+    --ambient-audio-bottom-offset: var(--space-12);
+    --ambient-audio-button-height: 46px;
   }
 
   :where(.family, .until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
@@ -696,6 +718,24 @@
 
   .thank-you__message {
     margin-bottom: var(--space-8);
+  }
+
+  .thank-you__credit {
+    position: absolute;
+    left: var(--space-20);
+    right: var(--space-20);
+    bottom: calc(
+      env(safe-area-inset-bottom, 0px)
+      + var(--ambient-audio-bottom-offset)
+      + var(--ambient-audio-button-height)
+      + var(--thank-you-credit-audio-gap)
+    );
+    transform: none;
+    width: auto;
+    margin: 0;
+    padding-top: 0;
+    font-size: clamp(8px, 1.8vw, 9.5px);
+    line-height: 1.35;
   }
 
   .gallery {
