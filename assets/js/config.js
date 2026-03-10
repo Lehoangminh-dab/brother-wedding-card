@@ -58,7 +58,7 @@ const WEDDING_CONFIG = {
   // WEDDING DATE (single source of truth)
   // All date displays derive from or reference this value
   // ──────────────────────────────────────────────
-  weddingDate: "2026-05-28T17:00:00+07:00",
+  weddingDate: "2026-05-28T15:00:00+07:00",
 
   // ──────────────────────────────────────────────
   // COVER (opening section: names + date)
@@ -102,7 +102,7 @@ const WEDDING_CONFIG = {
   saveTheDate: {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Hẹn gặp bạn vào ngày",
-    timeLine: "5 giờ chiều",
+    timeLine: "3 giờ chiều",
   },
 
   // ──────────────────────────────────────────────
