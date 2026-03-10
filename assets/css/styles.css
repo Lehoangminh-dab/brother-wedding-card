@@ -880,7 +880,7 @@ main {
    10. GALLERY SECTION
    ========================================================================== */
 .gallery {
-  min-height: var(--section-height-gallery);
+  min-height: 0;
   padding: var(--section-margin) 0;
   overflow: hidden;
   background-color: var(--bg-light);
@@ -953,7 +953,7 @@ main {
 /* Horizontal (landscape) filmstrip carousel */
 .gallery__horizontal-slider {
   width: 100%;
-  min-height: 220px;
+  min-height: 0;
   margin-top: var(--space-16);
   overflow: hidden;
 }
@@ -964,7 +964,8 @@ main {
 
 .gallery__horizontal-slider .swiper-slide {
   width: 340px;
-  height: 220px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   flex-shrink: 0;
   border-radius: var(--radius);
   overflow: hidden;
@@ -972,12 +973,11 @@ main {
 
 @media only screen and (min-width: 768px) {
   .gallery__horizontal-slider {
-    min-height: 260px;
+    min-height: 0;
   }
 
   .gallery__horizontal-slider .swiper-slide {
     width: 400px;
-    height: 260px;
   }
 }
 

@@ -34,6 +34,7 @@
   // Gallery Swiper
   var GALLERY_AUTOPLAY_DELAY   = 3000;  // ms between vertical carousel slides
   var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
+  var GALLERY_RELAYOUT_DELAY   = 80;    // debounce window for viewport/layout changes
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
@@ -45,6 +46,12 @@
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
+
+  // Gallery swiper references (kept for relayout updates)
+  var galleryVerticalSwiper = null;
+  var galleryHorizontalSwiper = null;
+  var galleryRelayoutTimer = null;
+  var galleryRelayoutRaf = null;
 
   // =========================================================================
   // REGION 1: HELPERS
@@ -1228,7 +1235,7 @@
     if (typeof Swiper === "undefined") return;
     var gallerySpacing = getCssPixelVar("--gallery-track-spacing", 16);
 
-    new Swiper(".gallery__slider", {
+    galleryVerticalSwiper = new Swiper(".gallery__slider", {
       effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
@@ -1248,7 +1255,7 @@
       observeParents: true,
     });
 
-    new Swiper(".gallery__horizontal-slider", {
+    galleryHorizontalSwiper = new Swiper(".gallery__horizontal-slider", {
       slidesPerView: "auto",
       spaceBetween: gallerySpacing,
       grabCursor: true,
@@ -1258,6 +1265,54 @@
       observer: true,
       observeParents: true,
     });
+
+    function scheduleGalleryRelayout(delayMs) {
+      if (!galleryVerticalSwiper && !galleryHorizontalSwiper) return;
+      if (galleryRelayoutTimer) clearTimeout(galleryRelayoutTimer);
+
+      galleryRelayoutTimer = setTimeout(function () {
+        if (galleryRelayoutRaf) cancelAnimationFrame(galleryRelayoutRaf);
+
+        galleryRelayoutRaf = requestAnimationFrame(function () {
+          if (galleryHorizontalSwiper && galleryHorizontalSwiper.autoplay) {
+            galleryHorizontalSwiper.autoplay.stop();
+          }
+
+          if (galleryVerticalSwiper) galleryVerticalSwiper.update();
+          if (galleryHorizontalSwiper) galleryHorizontalSwiper.update();
+
+          if (galleryHorizontalSwiper && galleryHorizontalSwiper.autoplay) {
+            galleryHorizontalSwiper.autoplay.start();
+          }
+        });
+      }, Number.isFinite(delayMs) ? delayMs : GALLERY_RELAYOUT_DELAY);
+    }
+
+    function onGalleryViewportChange() {
+      scheduleGalleryRelayout(GALLERY_RELAYOUT_DELAY);
+    }
+
+    window.addEventListener("load", onGalleryViewportChange);
+    window.addEventListener("resize", onGalleryViewportChange);
+    window.addEventListener("orientationchange", onGalleryViewportChange);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", onGalleryViewportChange);
+    }
+
+    var galleryImages = document.querySelectorAll(".gallery .gallery__img");
+    galleryImages.forEach(function (img) {
+      if (!img.complete) {
+        img.addEventListener("load", onGalleryViewportChange, { once: true });
+        img.addEventListener("error", onGalleryViewportChange, { once: true });
+      }
+    });
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(onGalleryViewportChange).catch(function () {});
+    }
+
+    scheduleGalleryRelayout(0);
+    window.setTimeout(onGalleryViewportChange, 120);
   }
 
   // --- 3f. Gallery Lightbox ------------------------------------------------

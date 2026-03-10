@@ -82,12 +82,13 @@
   }
 
   .gallery__horizontal-slider {
-    min-height: 338px;
+    min-height: 0;
   }
 
   .gallery__horizontal-slider .swiper-slide {
     width: 520px;
-    height: 338px;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
   .section-success {
