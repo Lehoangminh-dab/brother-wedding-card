@@ -1879,7 +1879,7 @@ main {
   margin: 0;
   text-align: center;
   font-family: var(--primary-font);
-  font-size: clamp(10px, 1.6vw, 12px);
+  font-size: clamp(7px, 1.12vw, 8.4px);
   font-style: italic;
   font-weight: var(--font-weight-normal);
   line-height: 1.35;

@@ -268,7 +268,7 @@
     width: auto;
     margin: 0;
     padding-top: 0;
-    font-size: clamp(8px, 2.35vw, 9.5px);
+    font-size: clamp(5.6px, 1.645vw, 6.65px);
     line-height: 1.35;
   }
 
@@ -350,7 +350,6 @@
     width: 100%;
     max-width: none;
     white-space: nowrap;
-    font-size: clamp(14px, 4.5vw, 20px);
     letter-spacing: 0.08em;
     line-height: 1.2;
   }
@@ -734,7 +733,7 @@
     width: auto;
     margin: 0;
     padding-top: 0;
-    font-size: clamp(8px, 1.8vw, 9.5px);
+    font-size: clamp(5.6px, 1.26vw, 6.65px);
     line-height: 1.35;
   }
 
