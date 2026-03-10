@@ -65,9 +65,81 @@
   }
 
   /* Shared section padding (low specificity for easier overrides) */
-  :where(.until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
+  :where(.family, .until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
     padding-left: var(--space-16);
     padding-right: var(--space-16);
+  }
+
+  .family {
+    min-height: 150vh;
+    min-height: 150svh;
+    min-height: 150dvh;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .family__inner {
+    row-gap: var(--space-16);
+  }
+
+  .family__heading {
+    margin-bottom: var(--space-4);
+  }
+
+  .family__top,
+  .family__bottom {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-8);
+    column-gap: 0;
+  }
+
+  .family__column {
+    width: 100%;
+  }
+
+  .family__house-label {
+    font-size: var(--text-heading);
+    margin-bottom: var(--space-8);
+  }
+
+  .family__parent-line {
+    font-size: var(--text-body);
+    line-height: 1.5;
+  }
+
+  .family__center--top {
+    min-height: 56px;
+    padding: 0;
+  }
+
+  .family__center--top::before {
+    display: none;
+  }
+
+  .family__name {
+    font-size: clamp(56px, 14vw, 78px);
+  }
+
+  .family__invite-title {
+    font-size: var(--text-date-role);
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-8);
+  }
+
+  .family__invite-divider {
+    margin-bottom: var(--space-12);
+  }
+
+  .family__invite-line {
+    font-size: var(--text-body);
+  }
+
+  .family__center-icon--top {
+    font-size: var(--space-28);
+  }
+
+  .family__center-icon--bottom {
+    font-size: var(--space-32);
   }
 
   .cover__content {
@@ -425,9 +497,59 @@
     --gifts-qr-size: min(44vw, 230px);
   }
 
-  :where(.until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
+  :where(.family, .until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
     padding-left: var(--space-20);
     padding-right: var(--space-20);
+  }
+
+  .family {
+    min-height: 150vh;
+    min-height: 150svh;
+    min-height: 150dvh;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .family__inner {
+    row-gap: var(--space-20);
+  }
+
+  .family__heading {
+    margin-bottom: var(--space-8);
+  }
+
+  .family__top,
+  .family__bottom {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: var(--space-16);
+    row-gap: 0;
+  }
+
+  .family__house-label {
+    font-size: var(--text-heading);
+    margin-bottom: var(--space-8);
+  }
+
+  .family__parent-line {
+    font-size: var(--text-body-sm);
+  }
+
+  .family__name {
+    font-size: clamp(56px, 8.8vw, 72px);
+  }
+
+  .family__invite-title {
+    margin-bottom: var(--space-8);
+  }
+
+  .family__center--top {
+    min-height: 88px;
+    padding: 0 var(--space-8);
+  }
+
+  .family__center--top::before {
+    top: var(--space-4);
+    bottom: var(--space-4);
   }
 
   .cover__content {
@@ -739,6 +861,10 @@
 
   .cover__content {
     padding: var(--space-36) var(--space-8) var(--space-32);
+  }
+
+  .family__name {
+    font-size: clamp(50px, 15.5vw, 66px);
   }
 
   .cover__and {

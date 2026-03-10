@@ -559,6 +559,191 @@ main {
 }
 
 /* ==========================================================================
+   8.5 FAMILY SECTION
+   ========================================================================== */
+.family {
+  min-height: 150vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-24) var(--space-4);
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.family__inner {
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  display: grid;
+  row-gap: var(--space-24);
+}
+
+.family__heading {
+  font-size: var(--text-script-title);
+  font-weight: var(--font-weight-normal);
+  font-family: var(--script-font);
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.family__top,
+.family__bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--space-24);
+}
+
+.family__column {
+  text-align: center;
+}
+
+.family__house-label {
+  font-family: var(--title-font);
+  font-size: var(--text-display);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-normal);
+  color: var(--text-black);
+  margin-bottom: var(--space-8);
+}
+
+.family__parent-line {
+  font-family: var(--primary-font);
+  font-size: var(--text-heading);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-relaxed);
+  color: var(--text-black);
+}
+
+.family__center {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.family__center--top {
+  min-height: 112px;
+  padding: 0 var(--space-12);
+}
+
+.family__center--top::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  width: 1px;
+  background-color: rgba(92, 74, 58, 0.5);
+  transform: translateX(-50%);
+}
+
+.family__center-icon {
+  line-height: var(--leading-none);
+}
+
+.family__center-icon--top {
+  position: relative;
+  z-index: 1;
+  font-size: var(--space-36);
+  color: var(--secondary-color);
+}
+
+.family__name {
+  text-align: center;
+  font-family: var(--script-font);
+  font-size: var(--family-name-size, clamp(58px, 7.2vw, 90px));
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-tight);
+  color: var(--secondary-color);
+  max-width: var(--family-name-max-width, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  transition: font-size 0.15s ease, max-width 0.15s ease;
+}
+
+.family__center--bottom {
+  min-width: var(--space-56);
+}
+
+.family__center-icon--bottom {
+  font-size: var(--space-40);
+  color: #b31b25;
+}
+
+.family__invite {
+  width: min(100%, 680px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.family__invite-title {
+  font-family: var(--title-font);
+  font-size: var(--cover-date-size);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-date);
+  text-transform: uppercase;
+  color: var(--secondary-color);
+  margin-bottom: var(--space-12);
+}
+
+.save-date__divider.family__invite-divider {
+  background-color: rgba(92, 74, 58, 0.5);
+  margin-bottom: var(--space-16);
+}
+
+.family__invite-line {
+  font-family: var(--primary-font);
+  font-size: var(--text-body);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-relaxed);
+  color: var(--secondary-color);
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .family__inner {
+    row-gap: var(--space-20);
+  }
+
+  .family__heading {
+    margin-bottom: var(--space-8);
+  }
+
+  .family__house-label {
+    font-size: var(--text-heading);
+    margin-bottom: var(--space-8);
+  }
+
+  .family__parent-line {
+    font-size: var(--text-body);
+  }
+
+  .family__name {
+    font-size: clamp(52px, 8.5vw, 76px);
+  }
+
+  .family__center--top {
+    min-height: 96px;
+  }
+
+  .family__invite-divider {
+    margin-bottom: var(--space-12);
+  }
+
+  .family__invite-title {
+    font-size: var(--text-date-role);
+    margin-bottom: var(--space-8);
+  }
+
+  .family__invite-line {
+    font-size: var(--text-body-sm);
+  }
+}
+
+/* ==========================================================================
    9. UNTIL THE BIG DAY SECTION
    ========================================================================== */
 .until {

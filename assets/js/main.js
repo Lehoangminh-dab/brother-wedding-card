@@ -147,6 +147,148 @@
     if (section) section.style.backgroundImage = "url('" + imageUrl + "')";
   }
 
+  function firstNonEmpty(values) {
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+      if (typeof value === "string" && value.trim() !== "") return value.trim();
+    }
+    return "";
+  }
+
+  function extractFamilyPartsFromGiftSubtitle(subtitleHtml, role) {
+    if (!subtitleHtml) return { fatherName: "", motherName: "", personName: "" };
+
+    var wrapper = document.createElement("div");
+    var htmlWithBreaks = String(subtitleHtml).replace(/<br\s*\/?>/gi, "\n");
+    wrapper.innerHTML = htmlWithBreaks;
+
+    var text = (wrapper.textContent || wrapper.innerText || "")
+      .replace(/\u00a0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    var fatherMatch = text.match(/Bố\s*:\s*([^-\n]+?)(?=\s*-\s*Mẹ\s*:|\s*Mẹ\s*:|$)/i);
+    var motherMatch = text.match(/Mẹ\s*:\s*([^-\n]+?)(?=(?:\s*(?:Chú rể|Cô dâu)\s*:)|$)/i);
+    var roleRegex = role === "groom"
+      ? /Chú rể\s*:\s*([^\n(]+)/i
+      : /Cô dâu\s*:\s*([^\n(]+)/i;
+    var personMatch = text.match(roleRegex) || text.match(/(?:Chú rể|Cô dâu)\s*:\s*([^\n(]+)/i);
+
+    return {
+      fatherName: fatherMatch ? fatherMatch[1].trim() : "",
+      motherName: motherMatch ? motherMatch[1].trim() : "",
+      personName: personMatch ? personMatch[1].trim() : "",
+    };
+  }
+
+  function getGiftCtaText(subtitleHtml) {
+    var fallback = "(Bấm vào đây để gửi quà)";
+    if (!subtitleHtml) return fallback;
+
+    var wrapper = document.createElement("div");
+    wrapper.innerHTML = String(subtitleHtml);
+
+    var ctaEl = wrapper.querySelector(".gifts__card-cta");
+    if (ctaEl && ctaEl.textContent) {
+      var ctaText = ctaEl.textContent.trim();
+      if (ctaText) return ctaText;
+    }
+
+    var text = (wrapper.textContent || wrapper.innerText || "")
+      .replace(/\u00a0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    var ctaMatch = text.match(/\(Bấm vào đây để gửi quà\)/i);
+    return ctaMatch ? ctaMatch[0] : fallback;
+  }
+
+  function getElementLineHeight(el) {
+    var styles = window.getComputedStyle(el);
+    var lineHeight = parseFloat(styles.lineHeight);
+    if (Number.isFinite(lineHeight)) return lineHeight;
+    var fontSize = parseFloat(styles.fontSize);
+    return Number.isFinite(fontSize) ? fontSize * 1.2 : 20;
+  }
+
+  function getElementLineCount(el) {
+    if (!el) return 0;
+    var lineHeight = getElementLineHeight(el);
+    if (!lineHeight) return 0;
+    return Math.max(1, Math.round(el.getBoundingClientRect().height / lineHeight));
+  }
+
+  function syncFamilyNameLineCounts() {
+    var groomName = document.querySelector(".family__name--groom");
+    var brideName = document.querySelector(".family__name--bride");
+    if (!groomName || !brideName) return;
+
+    [groomName, brideName].forEach(function (el) {
+      el.style.removeProperty("font-size");
+      el.style.removeProperty("max-width");
+    });
+
+    var groomLines = getElementLineCount(groomName);
+    var brideLines = getElementLineCount(brideName);
+    var targetLines = Math.max(groomLines, brideLines);
+
+    function tightenUntilMatches(el) {
+      var steps = 0;
+      var maxWidthPercent = 100;
+      var baseFontSize = parseFloat(window.getComputedStyle(el).fontSize) || 56;
+      var currentLines = getElementLineCount(el);
+
+      while (currentLines < targetLines && steps < 80) {
+        steps += 1;
+
+        if (maxWidthPercent > 64) {
+          maxWidthPercent -= 2;
+          el.style.maxWidth = maxWidthPercent + "%";
+        } else {
+          baseFontSize -= 1;
+          if (baseFontSize < 32) break;
+          el.style.fontSize = baseFontSize + "px";
+        }
+
+        currentLines = getElementLineCount(el);
+      }
+    }
+
+    if (groomLines < targetLines) tightenUntilMatches(groomName);
+    if (brideLines < targetLines) tightenUntilMatches(brideName);
+
+    // Safety pass for rounding differences after iterative constraints.
+    groomLines = getElementLineCount(groomName);
+    brideLines = getElementLineCount(brideName);
+    targetLines = Math.max(groomLines, brideLines);
+    if (groomLines < targetLines) tightenUntilMatches(groomName);
+    if (brideLines < targetLines) tightenUntilMatches(brideName);
+  }
+
+  function initFamilyNameLineSync() {
+    var scheduled = false;
+
+    function runSync() {
+      scheduled = false;
+      syncFamilyNameLineCounts();
+    }
+
+    function scheduleSync() {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(runSync);
+    }
+
+    window.addEventListener("resize", scheduleSync);
+    window.addEventListener("orientationchange", scheduleSync);
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(scheduleSync).catch(function () {});
+    }
+
+    scheduleSync();
+    window.setTimeout(scheduleSync, 120);
+  }
+
   /** Submit a JSON payload to the API; calls onSuccess or onError. */
   function submitFormToApi(api, payload, onSuccess, onError) {
     fetch(api.baseUrl, {
@@ -422,6 +564,66 @@
     }
   }
 
+  function populateFamily() {
+    var familySection = document.getElementById("family");
+    if (!familySection) return;
+
+    var familyCfg = WEDDING_CONFIG.family || {};
+    var giftsCfg = WEDDING_CONFIG.gifts || {};
+    var coverCfg = WEDDING_CONFIG.cover || {};
+
+    var groomGiftFallback = extractFamilyPartsFromGiftSubtitle(
+      giftsCfg.groom && giftsCfg.groom.subtitle,
+      "groom"
+    );
+    var brideGiftFallback = extractFamilyPartsFromGiftSubtitle(
+      giftsCfg.bride && giftsCfg.bride.subtitle,
+      "bride"
+    );
+
+    var groomCfg = familyCfg.groom || {};
+    var brideCfg = familyCfg.bride || {};
+
+    var groomHouse = firstNonEmpty([groomCfg.houseLabel, giftsCfg.groom && giftsCfg.groom.label, "Nhà Trai"]);
+    var brideHouse = firstNonEmpty([brideCfg.houseLabel, giftsCfg.bride && giftsCfg.bride.label, "Nhà Gái"]);
+    var groomFatherLabel = firstNonEmpty([groomCfg.fatherLabel, "Bố"]);
+    var groomMotherLabel = firstNonEmpty([groomCfg.motherLabel, "Mẹ"]);
+    var brideFatherLabel = firstNonEmpty([brideCfg.fatherLabel, "Bố"]);
+    var brideMotherLabel = firstNonEmpty([brideCfg.motherLabel, "Mẹ"]);
+
+    var groomFatherName = firstNonEmpty([groomCfg.fatherName, groomGiftFallback.fatherName]);
+    var groomMotherName = firstNonEmpty([groomCfg.motherName, groomGiftFallback.motherName]);
+    var brideFatherName = firstNonEmpty([brideCfg.fatherName, brideGiftFallback.fatherName]);
+    var brideMotherName = firstNonEmpty([brideCfg.motherName, brideGiftFallback.motherName]);
+
+    var groomPersonName = firstNonEmpty([
+      groomCfg.personName,
+      groomGiftFallback.personName,
+      coverCfg.groomName,
+    ]);
+    var bridePersonName = firstNonEmpty([
+      brideCfg.personName,
+      brideGiftFallback.personName,
+      coverCfg.brideName,
+    ]);
+
+    populateText({
+      ".family__heading": firstNonEmpty([familyCfg.heading, "Đám Cưới"]),
+      ".family__house-label--groom": groomHouse,
+      ".family__house-label--bride": brideHouse,
+      ".family__parent-line--groom-father": groomFatherLabel + " : " + groomFatherName,
+      ".family__parent-line--groom-mother": groomMotherLabel + " : " + groomMotherName,
+      ".family__parent-line--bride-father": brideFatherLabel + " : " + brideFatherName,
+      ".family__parent-line--bride-mother": brideMotherLabel + " : " + brideMotherName,
+      ".family__name--groom": groomPersonName,
+      ".family__name--bride": bridePersonName,
+      ".family__invite-title": firstNonEmpty([familyCfg.inviteTitle, "Trân trọng kính mời"]),
+      ".family__invite-line": firstNonEmpty([familyCfg.inviteLine, "Tham dự lễ thành hôn của hai con chúng tôi"]),
+      ".family__center-icon--top": firstNonEmpty([familyCfg.topCenterSymbol, "♡"]),
+      ".family__center-icon--bottom": firstNonEmpty([familyCfg.bottomCenterSymbol, "❤"]),
+    }, familySection);
+  }
+
   function populateUntilTheDay() {
     var cfg = WEDDING_CONFIG.untilTheDay;
 
@@ -662,8 +864,12 @@
       }, card);
 
       var subtitleEl = card.querySelector(".gifts__card-subtitle");
-      if (subtitleEl && data.subtitle) {
-        subtitleEl.innerHTML = data.subtitle;
+      if (subtitleEl) {
+        subtitleEl.innerHTML = "";
+        var cta = document.createElement("span");
+        cta.className = "gifts__card-cta";
+        cta.textContent = getGiftCtaText(data.subtitle);
+        subtitleEl.appendChild(cta);
       }
 
       populateAttrs({
@@ -1516,6 +1722,7 @@
   function init() {
     populateMeta();
     populateCover();
+    populateFamily();
     populateUntilTheDay();
     populateSaveTheDate();
     populateTimeline();
@@ -1537,6 +1744,7 @@
     initGifts();
     initRsvpForm();
     initCoverViewportFit();
+    initFamilyNameLineSync();
   }
 
   initPreloader();

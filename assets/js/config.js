@@ -27,6 +27,34 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
+  // FAMILY (standalone house information section)
+  // If any field is blank, JS falls back to parsing gifts subtitles.
+  // ──────────────────────────────────────────────
+  family: {
+    heading: "Đám Cưới",
+    inviteTitle: "Trân trọng kính mời",
+    inviteLine: "Tham dự lễ thành hôn của hai con chúng tôi",
+    topCenterSymbol: "♡",
+    bottomCenterSymbol: "❤",
+    groom: {
+      houseLabel: "Nhà Trai",
+      fatherLabel: "Bố",
+      fatherName: "Lê Tự Khanh",
+      motherLabel: "Mẹ",
+      motherName: "Nguyễn Thị Thanh Thủy",
+      personName: "Lê Hoàng Phúc",
+    },
+    bride: {
+      houseLabel: "Nhà Gái",
+      fatherLabel: "Bố",
+      fatherName: "Nguyễn Trung Toản",
+      motherLabel: "Mẹ",
+      motherName: "Đặng Thị Thắng",
+      personName: "Nguyễn Thị Hồng Vân",
+    },
+  },
+
+  // ──────────────────────────────────────────────
   // WEDDING DATE (single source of truth)
   // All date displays derive from or reference this value
   // ──────────────────────────────────────────────
