@@ -659,7 +659,7 @@ main {
 .family__name {
   text-align: center;
   font-family: var(--script-font);
-  font-size: var(--family-name-size, clamp(58px, 7.2vw, 90px));
+  font-size: var(--family-name-size, clamp(46.4px, 5.76vw, 72px));
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
   color: var(--secondary-color);
@@ -678,7 +678,11 @@ main {
 
 .family__center-icon--bottom {
   font-size: var(--heart-icon-size);
-  color: #b31b25;
+  color: #F3CD6B;
+  text-shadow:
+    0 1px 0 #fff4c9,
+    0 0 10px rgba(255, 226, 145, 0.75),
+    0 0 20px rgba(212, 176, 106, 0.5);
 }
 
 .section-heading-icon.ri-heart-3-line {
@@ -735,7 +739,7 @@ main {
   }
 
   .family__name {
-    font-size: clamp(52px, 8.5vw, 76px);
+    font-size: clamp(41.6px, 6.8vw, 60.8px);
   }
 
   .family__center--top {
@@ -994,9 +998,7 @@ main {
   margin-bottom: var(--windsong-next-gap);
 }
 
-.save-date__line1,
-.save-date__line2,
-.save-date__line3 {
+.save-date__title {
   font-family: var(--script-font);
   font-size: var(--text-script-display-role);
   font-weight: var(--font-weight-normal);
@@ -1006,13 +1008,7 @@ main {
   text-shadow: var(--text-shadow-strong);
 }
 
-.save-date__line3 {
-  white-space: pre-line;
-  text-align: center;
-}
-
-.save-date__line2:empty,
-.save-date__line3:empty {
+.save-date__title:empty {
   display: none;
 }
 
@@ -1620,6 +1616,14 @@ main {
   color: var(--text-white-pure);
   opacity: 0.85;
   margin-bottom: var(--space-40);
+}
+
+@media only screen and (min-width: 1024px) {
+  .gifts__subtitle {
+    width: min(100%, 900px);
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .gifts__cards {

@@ -37,7 +37,7 @@
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
-  var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/ghibli.mp3";
+  var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/interstellar.mp3";
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var GESTURE_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
@@ -680,9 +680,7 @@
     setSectionBackground("save-the-date", cfg.backgroundImage);
 
     populateText({
-      ".save-date__line1": cfg.line1,
-      ".save-date__line2": cfg.line2,
-      ".save-date__line3": cfg.line3,
+      ".save-date__title": cfg.heading,
       ".save-date__date": saveDateText,
       ".save-date__time": cfg.timeLine,
     });

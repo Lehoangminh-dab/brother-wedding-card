@@ -58,7 +58,7 @@ const WEDDING_CONFIG = {
   // WEDDING DATE (single source of truth)
   // All date displays derive from or reference this value
   // ──────────────────────────────────────────────
-  weddingDate: "2026-05-28T15:00:00+07:00",
+  weddingDate: "2026-05-28T17:00:00+07:00",
 
   // ──────────────────────────────────────────────
   // COVER (opening section: names + date)
@@ -85,7 +85,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    heading: "Thời gian cho đến ngày cưới",
+    heading: "Đếm ngược ngày cưới cùng chúng mình nhé",
     labels: {
       days: "Ngày",
       hours: "Giờ",
@@ -101,10 +101,8 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   saveTheDate: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    line1: "Lưu",
-    line2: "lại",
-    line3: "ngày\nvui",
-    timeLine: "3 GIỜ CHIỀU",
+    heading: "Hẹn gặp bạn vào ngày",
+    timeLine: "5 giờ chiều",
   },
 
   // ──────────────────────────────────────────────
@@ -180,7 +178,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   wishes: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    heading: "Gửi lời chúc đến cặp đôi",
+    heading: "Gửi lời chúc đến chúng mình nhé",
     nameLabel: "Tên của bạn",
     namePlaceholder: "Tên của bạn",
     messageLabel: "Lời nhắn gửi",
@@ -196,8 +194,8 @@ const WEDDING_CONFIG = {
   // GIFTS / MONEY TRANSFER
   // ──────────────────────────────────────────────
   gifts: {
-    heading: "Mừng cưới",
-    subtitle: "Gửi quà tặng đến cô dâu & chú rể",
+    heading: "Gửi gắm yêu thương",
+    subtitle: "Sự hiện diện của bạn là món quà quý giá với chúng mình. Nhưng nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới, bạn có thể gửi qua đây nhé!",
     groom: {
       label: "NHÀ TRAI",
       subtitle: "Bố: Lê Tự Khanh - Mẹ: Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
@@ -262,7 +260,7 @@ const WEDDING_CONFIG = {
     ".family__heading": "ri-heart-3-line",
     ".until__heading": "ri-hourglass-line",
     ".gallery__title": "ri-gallery-line",
-    ".save-date__line3": "ri-calendar-check-line",
+    ".save-date__title": "ri-calendar-check-line",
     ".timeline__heading": "ri-time-line",
     ".location__heading": "ri-map-pin-line",
     ".rsvp__heading": "ri-checkbox-circle-line",

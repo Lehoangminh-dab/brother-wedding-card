@@ -140,7 +140,7 @@
   }
 
   .family__name {
-    font-size: clamp(56px, 14vw, 78px);
+    font-size: clamp(44.8px, 11.2vw, 62.4px);
   }
 
   .family__invite-title {
@@ -299,9 +299,7 @@
 
   .cover__groom-name,
   .cover__bride-name,
-  .save-date__line2,
-  .save-date__line1,
-  .save-date__line3 {
+  .save-date__title {
     font-size: var(--text-script-display-role);
   }
 
@@ -597,7 +595,7 @@
   }
 
   .family__name {
-    font-size: clamp(56px, 8.8vw, 72px);
+    font-size: clamp(44.8px, 7.04vw, 57.6px);
   }
 
   .family__invite-title {
@@ -738,9 +736,7 @@
 
   .cover__groom-name,
   .cover__bride-name,
-  .save-date__line2,
-  .save-date__line1,
-  .save-date__line3 {
+  .save-date__title {
     font-size: var(--text-script-display-role);
   }
 
@@ -953,7 +949,7 @@
   }
 
   .family__name {
-    font-size: clamp(50px, 15.5vw, 66px);
+    font-size: clamp(40px, 12.4vw, 52.8px);
   }
 
   .cover__and {
