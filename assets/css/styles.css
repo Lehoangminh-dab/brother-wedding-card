@@ -502,18 +502,6 @@ main {
   text-shadow: var(--text-shadow-strong);
 }
 
-.cover__intro-line {
-  margin: 0 0 calc(var(--windsong-next-gap) + var(--space-4)) 0;
-  padding: 0;
-  font-size: var(--cover-date-size);
-  font-family: var(--primary-font);
-  font-weight: var(--font-weight-normal);
-  letter-spacing: var(--tracking-date);
-  text-transform: uppercase;
-  color: var(--text-white-pure);
-  text-shadow: var(--text-shadow-soft);
-}
-
 .cover__and {
   font-size: calc(var(--cover-date-size) * 1.6);
   font-family: var(--title-font);
@@ -559,7 +547,6 @@ main {
 .cover__animate[data-cover-delay="600"] { transition-delay: 600ms; }
 .cover__animate[data-cover-delay="900"] { transition-delay: 900ms; }
 .cover__animate[data-cover-delay="1200"] { transition-delay: 1200ms; }
-.cover__animate[data-cover-delay="1500"] { transition-delay: 1500ms; }
 
 /* JS-driven fallback classes (avoids :has() compatibility gaps). */
 .cover:not(.cover--has-video-src) .cover__video,

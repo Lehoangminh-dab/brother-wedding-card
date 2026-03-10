@@ -268,7 +268,6 @@
   }
 
   /* Keep cover, save-date, location, and timeline date typography consistent on smaller screens. */
-  .cover__intro-line,
   .cover__date,
   .cover__venue,
   .cover__and,
@@ -287,10 +286,6 @@
   .save-date__line1,
   .save-date__line3 {
     font-size: var(--text-script-display-role);
-  }
-
-  .cover__intro-line {
-    margin-bottom: var(--space-16);
   }
 
   /* --- Timeline --- */
@@ -670,7 +665,6 @@
     padding-top: var(--save-date-date-to-time);
   }
 
-  .cover__intro-line,
   .cover__date,
   .cover__venue,
   .cover__and,
@@ -689,10 +683,6 @@
   .save-date__line1,
   .save-date__line3 {
     font-size: var(--text-script-display-role);
-  }
-
-  .cover__intro-line {
-    margin-bottom: var(--space-16);
   }
 
   .timeline {
@@ -895,11 +885,6 @@
   .cover__and {
     font-size: calc(var(--text-date-role) * 1.6);
     letter-spacing: var(--tracking-subtitle);
-  }
-
-  .cover__intro-line {
-    margin-bottom: var(--space-12);
-    letter-spacing: var(--tracking-wide);
   }
 
   .cover__date,
