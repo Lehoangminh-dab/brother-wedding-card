@@ -195,7 +195,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   gifts: {
     heading: "Gửi gắm yêu thương",
-    subtitle: "Nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới, bạn có thể gửi qua đây nhé!",
+    subtitle: "Nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới của chúng mình, bạn có thể gửi qua đây nhé!",
     groom: {
       label: "CHÚ RỂ\nHOÀNG PHÚC",
       subtitle: "Bố: Lê Tự Khanh - Mẹ: Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
