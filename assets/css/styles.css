@@ -101,7 +101,7 @@
   --text-countdown-value: var(--text-script-title);
   --text-icon-nav: var(--text-icon);
   --text-icon-download: 18px;
-  --heading-icon-size: 0.42em;
+  --heading-icon-size: 0.63em;
   --heading-icon-gap: 0.16em;
 
   /* Shared JS/CSS sizing token. */
@@ -503,7 +503,7 @@ main {
 }
 
 .cover__and {
-  font-size: calc(var(--cover-date-size) * 1.6);
+  font-size: calc(var(--cover-date-size) * 2.4);
   font-family: var(--title-font);
   font-weight: var(--font-weight-light);
   letter-spacing: var(--tracking-display);

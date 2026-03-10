@@ -46,7 +46,7 @@
     --lightbox-nav-size: 42px;
     --text-icon-nav: 28.98px;
     --text-icon-download: 21.74px;
-    --heading-icon-size: 0.38em;
+    --heading-icon-size: 0.57em;
     --heading-icon-gap: 0.14em;
     --text-script-display: clamp(105.05px, 14.85vw, 177.5px);
     --text-script-title: clamp(67.62px, 10.87vw, 106.26px);
@@ -270,7 +270,6 @@
   /* Keep cover, save-date, location, and timeline date typography consistent on smaller screens. */
   .cover__date,
   .cover__venue,
-  .cover__and,
   .save-date__date,
   .save-date__time,
   .location__venue-name,
@@ -286,6 +285,10 @@
   .save-date__line1,
   .save-date__line3 {
     font-size: var(--text-script-display-role);
+  }
+
+  .cover__and {
+    font-size: calc(var(--text-date-role) * 2.4);
   }
 
   /* --- Timeline --- */
@@ -667,7 +670,6 @@
 
   .cover__date,
   .cover__venue,
-  .cover__and,
   .save-date__date,
   .save-date__time,
   .location__venue-name,
@@ -683,6 +685,10 @@
   .save-date__line1,
   .save-date__line3 {
     font-size: var(--text-script-display-role);
+  }
+
+  .cover__and {
+    font-size: calc(var(--text-date-role) * 2.4);
   }
 
   .timeline {
@@ -883,7 +889,7 @@
   }
 
   .cover__and {
-    font-size: calc(var(--text-date-role) * 1.6);
+    font-size: calc(var(--text-date-role) * 2.4);
     letter-spacing: var(--tracking-subtitle);
   }
 
