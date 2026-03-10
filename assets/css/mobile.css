@@ -350,6 +350,7 @@
     width: 100%;
     max-width: none;
     white-space: nowrap;
+    font-size: clamp(14px, 4.5vw, 20px);
     letter-spacing: 0.08em;
     line-height: 1.2;
   }
