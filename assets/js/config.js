@@ -260,16 +260,16 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   headingIcons: {
     ".family__heading": "ri-heart-3-line",
-    ".until__heading": "ri-time-line",
-    ".gallery__title": "ri-image-line",
+    ".until__heading": "ri-hourglass-line",
+    ".gallery__title": "ri-gallery-line",
     ".save-date__line3": "ri-calendar-check-line",
-    ".timeline__heading": "ri-calendar-event-line",
+    ".timeline__heading": "ri-time-line",
     ".location__heading": "ri-map-pin-line",
-    ".rsvp__heading": "ri-mail-send-line",
+    ".rsvp__heading": "ri-checkbox-circle-line",
     ".wishes__heading": "ri-chat-heart-line",
     ".gifts__heading": "ri-gift-2-line",
     ".contact-info__heading": "ri-phone-line",
-    ".thank-you__heading": "ri-hearts-line",
+    ".thank-you__heading": "ri-hand-heart-line",
   },
 
   // ──────────────────────────────────────────────
