@@ -103,6 +103,7 @@
   --text-icon-download: 18px;
   --heading-icon-size: 0.63em;
   --heading-icon-gap: 0.16em;
+  --heart-icon-size: 40px;
 
   /* Shared JS/CSS sizing token. */
   --gallery-track-spacing: var(--space-16);
@@ -503,12 +504,12 @@ main {
 }
 
 .cover__and {
-  font-size: calc(var(--cover-date-size) * 2.4);
+  font-size: var(--heart-icon-size);
   font-family: var(--title-font);
   font-weight: var(--font-weight-light);
-  letter-spacing: var(--tracking-display);
+  letter-spacing: var(--tracking-none);
   text-transform: uppercase;
-  line-height: var(--leading-none);
+  line-height: 1;
   margin: 0;
   text-shadow: var(--text-shadow-soft);
 }
@@ -676,8 +677,13 @@ main {
 }
 
 .family__center-icon--bottom {
-  font-size: var(--space-40);
+  font-size: var(--heart-icon-size);
   color: #b31b25;
+}
+
+.section-heading-icon.ri-heart-3-line {
+  font-size: var(--heart-icon-size);
+  line-height: 1;
 }
 
 .family__invite {
@@ -843,6 +849,11 @@ main {
     width: min(100%, 1320px);
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .timeline {
+    height: 150vh;
+    min-height: 150vh;
   }
 }
 

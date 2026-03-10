@@ -48,6 +48,7 @@
     --text-icon-download: 21.74px;
     --heading-icon-size: 0.57em;
     --heading-icon-gap: 0.14em;
+    --heart-icon-size: 32px;
     --text-script-display: clamp(105.05px, 14.85vw, 177.5px);
     --text-script-title: clamp(67.62px, 10.87vw, 106.26px);
     --text-date: clamp(21.74px, 3.14vw, 36.23px);
@@ -162,12 +163,12 @@
   }
 
   .family__center-icon--bottom {
-    font-size: var(--space-32);
+    font-size: var(--heart-icon-size);
   }
 
   .cover__content {
-    padding-left: var(--space-12);
-    padding-right: var(--space-12);
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
   }
 
   /* --- Until --- */
@@ -288,7 +289,20 @@
   }
 
   .cover__and {
-    font-size: calc(var(--text-date-role) * 2.4);
+    font-size: var(--heart-icon-size);
+  }
+
+  .section-heading-icon.ri-heart-3-line {
+    font-size: var(--heart-icon-size);
+  }
+
+  .cover__venue {
+    width: 100%;
+    max-width: none;
+    white-space: nowrap;
+    font-size: clamp(14px, 4.5vw, 20px);
+    letter-spacing: 0.08em;
+    line-height: 1.2;
   }
 
   /* --- Timeline --- */
@@ -501,6 +515,7 @@
     --lightbox-nav-size: 46px;
     --text-icon-nav: 30px;
     --text-icon-download: 22px;
+    --heart-icon-size: 36px;
     --text-script-display: clamp(112px, 13.6vw, 162px);
     --text-script-title: clamp(74px, 9vw, 104px);
     --text-date: clamp(23px, 2.9vw, 34px);
@@ -688,7 +703,11 @@
   }
 
   .cover__and {
-    font-size: calc(var(--text-date-role) * 2.4);
+    font-size: var(--heart-icon-size);
+  }
+
+  .section-heading-icon.ri-heart-3-line {
+    font-size: var(--heart-icon-size);
   }
 
   .timeline {
@@ -889,7 +908,7 @@
   }
 
   .cover__and {
-    font-size: calc(var(--text-date-role) * 2.4);
+    font-size: var(--heart-icon-size);
     letter-spacing: var(--tracking-subtitle);
   }
 
