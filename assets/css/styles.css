@@ -1453,10 +1453,11 @@ main {
 .rsvp__attendance-option::before {
   content: "";
   position: absolute;
-  top: 2px;
+  top: 50%;
   left: 0;
   width: var(--space-20);
   height: var(--space-20);
+  transform: translateY(-50%);
   border-radius: var(--radius);
   border: 1px solid var(--secondary-color);
   display: flex;
@@ -1467,10 +1468,11 @@ main {
 .rsvp__attendance-option::after {
   content: "";
   position: absolute;
-  top: 7px;
+  top: 50%;
   left: 5px;
   width: 10px;
   height: 10px;
+  transform: translateY(-50%);
   background-color: var(--secondary-color);
   border-radius: var(--radius);
   display: none;
