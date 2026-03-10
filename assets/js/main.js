@@ -610,7 +610,7 @@
       ".family__name--groom": groomPersonName,
       ".family__name--bride": bridePersonName,
       ".family__invite-title": firstNonEmpty([familyCfg.inviteTitle, "Trân trọng kính mời"]),
-      ".family__invite-line": firstNonEmpty([familyCfg.inviteLine, "Tham dự lễ thành hôn của hai con chúng tôi"]),
+      ".family__invite-line": firstNonEmpty([familyCfg.inviteLine, "Tham dự lễ thành hôn của chúng mình"]),
       ".family__center-icon--top": firstNonEmpty([familyCfg.topCenterSymbol, "♡"]),
       ".family__center-icon--bottom": firstNonEmpty([familyCfg.bottomCenterSymbol, "❤"]),
     }, familySection);
