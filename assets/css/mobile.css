@@ -909,7 +909,6 @@
 
   .cover__and {
     font-size: var(--heart-icon-size);
-    letter-spacing: var(--tracking-subtitle);
   }
 
   .cover__date,

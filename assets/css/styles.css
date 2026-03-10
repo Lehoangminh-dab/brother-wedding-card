@@ -504,13 +504,13 @@ main {
 }
 
 .cover__and {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--heart-icon-size);
-  font-family: var(--title-font);
-  font-weight: var(--font-weight-light);
-  letter-spacing: var(--tracking-none);
-  text-transform: uppercase;
   line-height: 1;
   margin: 0;
+  color: var(--text-white-pure);
   text-shadow: var(--text-shadow-soft);
 }
 
@@ -2017,5 +2017,12 @@ main {
   background-color: rgba(142, 62, 56, 0.15);
   color: var(--color-error);
   border: 1px solid var(--color-error);
+}
+
+@media only screen and (min-width: 1024px) {
+  .timeline {
+    height: 150vh;
+    min-height: 150vh;
+  }
 }
 
