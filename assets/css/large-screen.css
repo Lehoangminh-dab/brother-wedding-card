@@ -40,20 +40,20 @@
     --space-stack-section: 42px;
 
     /* Typography scale */
-    --text-script-display: clamp(170px, 24vw, 287px);
-    --text-script-title: clamp(110px, 17.55vw, 171px);
-    --text-date: clamp(35px, 5.07vw, 59px);
-    --text-display: clamp(63px, 11.7vw, 93px);
-    --text-heading: clamp(39px, 5.85vw, 54px);
-    --text-body: clamp(32px, 3.9vw, 39px);
-    --text-body-sm: clamp(27px, 3.51vw, 33px);
-    --text-caption: clamp(26px, 3.51vw, 32px);
-    --text-form: 27px;
-    --text-icon: 63px;
-    --text-icon-lg: 78px;
-    --text-icon-download: 35px;
-    --heading-icon-size: 1.23em;
-    --heart-icon-size: 78px;
+    --text-script-display: clamp(136px, 19.2vw, 229px);
+    --text-script-title: clamp(88px, 14.04vw, 137px);
+    --text-date: clamp(28px, 4.06vw, 47px);
+    --text-display: clamp(50px, 9.36vw, 74px);
+    --text-heading: clamp(31px, 4.68vw, 43px);
+    --text-body: clamp(25px, 3.12vw, 31px);
+    --text-body-sm: clamp(22px, 2.81vw, 26px);
+    --text-caption: clamp(20px, 2.81vw, 25px);
+    --text-form: 22px;
+    --text-icon: 50px;
+    --text-icon-lg: 62px;
+    --text-icon-download: 28px;
+    --heading-icon-size: 0.98em;
+    --heart-icon-size: 62px;
 
     /* Shared layout dimensions */
     --content-width: 884px;
