@@ -85,7 +85,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   untilTheDay: {
     backgroundImage: PLACEHOLDER_IMAGE,
-    heading: "Đếm ngược ngày cưới cùng chúng mình nhé",
+    heading: "Đếm ngược cùng chúng mình nhé",
     labels: {
       days: "Ngày",
       hours: "Giờ",
