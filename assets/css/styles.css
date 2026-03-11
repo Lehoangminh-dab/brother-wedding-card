@@ -8,19 +8,19 @@
 :root {
   color-scheme: only light;
   --max-width: 1024px;
-  --bg: #2B2F26;
-  --bg-light: #E6DFD4;
-  --bg-form: #D8D0C4;
-  --primary-color: #8B917E;
-  --secondary-color: #5C4A3A;
-  --color-success: #4A5540;
-  --color-success-surface: rgba(226, 234, 218, 0.94);
-  --color-success-border: rgba(74, 85, 64, 0.45);
-  --color-error: #8E3E38;
+  --bg: #FDF5E8;
+  --bg-light: #FDF5E8;
+  --bg-form: #FFF9EF;
+  --primary-color: #C9A227;
+  --secondary-color: #C9A227;
+  --color-success: #C9A227;
+  --color-success-surface: rgba(201, 162, 39, 0.16);
+  --color-success-border: rgba(201, 162, 39, 0.45);
+  --color-error: #3A2F2A;
   --text-white-pure: #fff;
   --text-white-pure-muted: rgba(255, 255, 255, 0.8);
-  --text-gray: #9E9688;
-  --text-dark: #2C2118;
+  --text-gray: rgba(58, 47, 42, 0.68);
+  --text-dark: #3A2F2A;
   --size-divider: 60px;
   --script-font: 'WindSong', cursive;
   --primary-font: 'Fahkwang', sans-serif;
@@ -74,7 +74,7 @@
   --ambient-audio-bottom-offset: var(--space-16);
   --ambient-audio-button-height: 52px;
   --thank-you-credit-audio-gap: 2px;
-  --spinner-ring: rgba(139, 145, 126, 0.2);
+  --spinner-ring: rgba(201, 162, 39, 0.22);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
   --font-size-title: clamp(18px, 2.6vw, 30px);
@@ -255,7 +255,7 @@ main {
 .ambient-audio__button {
   padding: var(--space-12) var(--space-24);
   background-color: var(--secondary-color);
-  color: var(--bg-light);
+  color: var(--text-dark);
   cursor: pointer;
   border-radius: var(--radius);
   border: 1px solid var(--secondary-color);
@@ -281,6 +281,7 @@ main {
 .rsvp__submit--success {
   background-color: var(--color-success);
   border-color: var(--color-success);
+  color: var(--text-white-pure);
   cursor: default;
   opacity: 0.9;
 }
@@ -604,7 +605,7 @@ main {
   font-size: var(--font-size-title);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-normal);
-  color: var(--text-dark);
+  color: var(--secondary-color);
   margin-bottom: var(--space-8);
 }
 
@@ -636,7 +637,7 @@ main {
   top: var(--space-4);
   bottom: var(--space-4);
   width: 1px;
-  background-color: rgba(92, 74, 58, 0.5);
+  background-color: rgba(58, 47, 42, 0.35);
   transform: translateX(-50%);
 }
 
@@ -677,11 +678,11 @@ main {
 .family__center-icon--bottom {
   font-size: var(--heart-icon-size);
   line-height: 1;
-  color: #F3CD6B;
+  color: var(--secondary-color);
   text-shadow:
-    0 1px 0 #fff4c9,
-    0 0 10px rgba(255, 226, 145, 0.75),
-    0 0 20px rgba(212, 176, 106, 0.5);
+    0 1px 0 rgba(255, 255, 255, 0.7),
+    0 0 10px rgba(201, 162, 39, 0.45),
+    0 0 20px rgba(201, 162, 39, 0.3);
 }
 
 .section-heading-icon.ri-heart-3-line {
@@ -697,7 +698,7 @@ main {
   font-size: 0;
   background: center / contain no-repeat url("../images/timeline-icons/family-heading-icon.svg");
   /* Match the tinting strategy used by timeline icons without flattening SVG linework. */
-  filter: brightness(0) saturate(100%) invert(23%) sepia(22%) saturate(782%) hue-rotate(348deg) brightness(95%) contrast(89%);
+  filter: brightness(0) saturate(100%) invert(69%) sepia(37%) saturate(879%) hue-rotate(8deg) brightness(90%) contrast(86%);
 }
 
 .family__invite {
@@ -717,7 +718,7 @@ main {
 }
 
 .save-date__divider.family__invite-divider {
-  background-color: rgba(92, 74, 58, 0.5);
+  background-color: rgba(58, 47, 42, 0.35);
   margin-bottom: var(--space-16);
 }
 
@@ -1188,7 +1189,7 @@ main {
   height: 100%;
   object-fit: contain;
   /* Keep icons visible across browsers while tinting to heading color. */
-  filter: brightness(0) saturate(100%) invert(23%) sepia(22%) saturate(782%) hue-rotate(348deg) brightness(95%) contrast(89%);
+  filter: brightness(0) saturate(100%) invert(69%) sepia(37%) saturate(879%) hue-rotate(8deg) brightness(90%) contrast(86%);
 }
 
 .timeline__detail {
@@ -1224,7 +1225,7 @@ main {
   font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-form);
-  color: var(--text-dark);
+  color: var(--secondary-color);
   text-align: center;
   text-transform: uppercase;
 }
@@ -1408,7 +1409,7 @@ main {
   text-align: center;
   margin-top: 0;
   margin-bottom: var(--space-24);
-  color: var(--secondary-color);
+  color: var(--text-dark);
   letter-spacing: var(--tracking-form);
 }
 
@@ -1416,10 +1417,12 @@ main {
   width: var(--content-width);
   max-width: var(--content-max-width);
   background-color: var(--bg-form);
+  border: 2px solid var(--secondary-color);
   padding: var(--space-20);
   text-align: center;
   margin: 0 auto;
   border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(58, 47, 42, 0.08);
   display: grid;
   gap: var(--space-20);
   justify-items: center;
@@ -1434,7 +1437,7 @@ main {
 
 .rsvp__legend {
   font-weight: var(--font-weight-semibold);
-  color: var(--secondary-color);
+  color: var(--text-dark);
   margin-bottom: var(--space-12);
   display: block;
   text-align: center;
@@ -1513,7 +1516,7 @@ main {
 
 .rsvp__label {
   font-weight: var(--font-weight-semibold);
-  color: var(--secondary-color);
+  color: var(--text-dark);
   text-align: center;
 }
 
@@ -1571,11 +1574,12 @@ main {
   padding: clamp(var(--space-20), 20px + 1vw, var(--space-40));
   justify-items: center;
   text-align: center;
-  border: 1px solid var(--primary-color);
-  background-color: var(--bg-light);
+  border: 2px solid var(--secondary-color);
+  background-color: var(--bg-form);
   border-radius: var(--radius);
   margin: 0 auto;
   color: var(--text-dark);
+  box-shadow: 0 6px 18px rgba(58, 47, 42, 0.08);
 }
 
 .wishes__form {
@@ -1595,7 +1599,7 @@ main {
 
 .wishes__label {
   font-weight: var(--font-weight-semibold);
-  color: var(--secondary-color);
+  color: var(--text-dark);
   text-align: center;
 }
 
@@ -2003,7 +2007,7 @@ main {
   background-color: var(--color-success);
   border-color: var(--color-success);
   box-shadow:
-    0 0 0 1.5px rgba(28, 30, 26, 0.45),
+    0 0 0 1.5px rgba(58, 47, 42, 0.45),
     0 8px 18px rgba(0, 0, 0, 0.28);
 }
 
@@ -2022,25 +2026,25 @@ main {
 }
 
 .ambient-audio__button--off {
-  background-color: rgba(92, 74, 58, 0.96);
-  border-color: rgba(230, 223, 212, 0.45);
-  color: var(--bg-light);
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--text-dark);
   box-shadow:
-    0 0 0 1.5px rgba(28, 30, 26, 0.36),
+    0 0 0 1.5px rgba(58, 47, 42, 0.36),
     0 8px 18px rgba(0, 0, 0, 0.24);
 }
 
 .ambient-audio__button--on:hover {
   box-shadow:
-    0 0 0 1.5px rgba(28, 30, 26, 0.58),
+    0 0 0 1.5px rgba(58, 47, 42, 0.58),
     0 0 10px var(--color-success),
     0 10px 22px rgba(0, 0, 0, 0.32);
 }
 
 .ambient-audio__button--off:hover {
   box-shadow:
-    0 0 0 1.5px rgba(230, 223, 212, 0.52),
-    0 0 10px rgba(230, 223, 212, 0.35),
+    0 0 0 1.5px rgba(201, 162, 39, 0.55),
+    0 0 10px rgba(201, 162, 39, 0.45),
     0 10px 22px rgba(0, 0, 0, 0.3);
 }
 
@@ -2070,7 +2074,7 @@ main {
 }
 
 .form-message--error {
-  background-color: rgba(142, 62, 56, 0.15);
+  background-color: rgba(58, 47, 42, 0.12);
   color: var(--color-error);
   border: 1px solid var(--color-error);
 }
