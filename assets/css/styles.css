@@ -19,7 +19,6 @@
   --color-error: #8E3E38;
   --text-white-pure: #fff;
   --text-white-pure-muted: rgba(255, 255, 255, 0.8);
-  --text-black: #1C1E1A;
   --text-gray: #9E9688;
   --text-dark: #2C2118;
   --size-divider: 60px;
@@ -605,7 +604,7 @@ main {
   font-size: var(--font-size-title);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-normal);
-  color: var(--text-black);
+  color: var(--text-dark);
   margin-bottom: var(--space-8);
 }
 
@@ -615,7 +614,7 @@ main {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-relaxed);
-  color: var(--text-black);
+  color: var(--text-dark);
 }
 
 .family__center {
