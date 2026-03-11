@@ -46,6 +46,7 @@
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0; // trigger as soon as target crosses reveal line
+  var THANK_YOU_MESSAGE_DELAY = 300; // ms after thank-you heading reveal
   var THANK_YOU_CREDIT_DELAY = 450; // ms after thank-you message reveal
 
   // Gallery swiper references (kept for relayout updates)
@@ -1161,9 +1162,13 @@
 
   function initStaggerAnimations() {
     var items = document.querySelectorAll("[data-stagger] .stagger-item");
+    var thankYouHeading = document.querySelector(".thank-you__heading.stagger-item");
     var thankYouMessage = document.querySelector(".thank-you__message.stagger-item");
     var thankYouCredit = document.querySelector(".thank-you__credit.stagger-item");
+    var messageTimerStarted = false;
     var creditTimerStarted = false;
+    var useThankYouTimerFlow = !!(thankYouHeading && thankYouMessage);
+    var useThankYouCreditTimerFlow = !!(thankYouMessage && thankYouCredit);
 
     if (!("IntersectionObserver" in window)) {
       items.forEach(function (el) { el.classList.add("stagger--visible"); });
@@ -1183,26 +1188,60 @@
       });
     }
 
+    function startCreditTimer() {
+      if (
+        !useThankYouCreditTimerFlow ||
+        creditTimerStarted ||
+        thankYouCredit.classList.contains("stagger--visible")
+      ) return;
+
+      creditTimerStarted = true;
+      setTimeout(function () {
+        thankYouCredit.style.transitionDelay = "0ms";
+        thankYouCredit.classList.add("stagger--visible");
+        observer.unobserve(thankYouCredit);
+      }, THANK_YOU_CREDIT_DELAY);
+    }
+
+    function startThankYouMessageTimer() {
+      if (
+        !useThankYouTimerFlow ||
+        messageTimerStarted ||
+        thankYouMessage.classList.contains("stagger--visible")
+      ) {
+        startCreditTimer();
+        return;
+      }
+
+      messageTimerStarted = true;
+      setTimeout(function () {
+        thankYouMessage.style.transitionDelay = "0ms";
+        thankYouMessage.classList.add("stagger--visible");
+        observer.unobserve(thankYouMessage);
+        startCreditTimer();
+      }, THANK_YOU_MESSAGE_DELAY);
+    }
+
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
+            if (useThankYouTimerFlow && entry.target === thankYouMessage) {
+              observer.unobserve(entry.target);
+              return;
+            }
+            if (useThankYouCreditTimerFlow && entry.target === thankYouCredit) {
+              observer.unobserve(entry.target);
+              return;
+            }
+
             revealQueue.push(entry.target);
             observer.unobserve(entry.target);
 
-            if (
-              !creditTimerStarted &&
-              thankYouMessage &&
-              thankYouCredit &&
-              entry.target === thankYouMessage &&
-              !thankYouCredit.classList.contains("stagger--visible")
-            ) {
-              creditTimerStarted = true;
-              setTimeout(function () {
-                thankYouCredit.style.transitionDelay = "0ms";
-                thankYouCredit.classList.add("stagger--visible");
-                observer.unobserve(thankYouCredit);
-              }, THANK_YOU_CREDIT_DELAY);
+            if (useThankYouTimerFlow && entry.target === thankYouHeading) {
+              startThankYouMessageTimer();
+            } else if (!useThankYouTimerFlow && entry.target === thankYouMessage) {
+              startCreditTimer();
             }
           }
         });
