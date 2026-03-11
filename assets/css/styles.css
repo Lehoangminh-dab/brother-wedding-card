@@ -1059,7 +1059,7 @@ main {
 .timeline {
   --timeline-icon-size: 92px;
   --timeline-icon-event-gap: var(--space-12);
-  --timeline-axis-gap: 140px;
+  --timeline-axis-gap: 156px;
   --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
   --timeline-time-axis-offset: var(--space-32);
   height: 125vh;
