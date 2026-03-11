@@ -852,6 +852,9 @@ main {
   width: var(--content-width);
   max-width: var(--content-max-width);
   margin: 0 auto;
+}
+
+.until__message.stagger--visible {
   opacity: 0.9;
 }
 
@@ -1041,6 +1044,7 @@ main {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
+  color: var(--text-white-pure);
   text-shadow: var(--text-shadow-soft);
   margin-bottom: var(--save-date-date-to-time);
 }
@@ -1051,7 +1055,7 @@ main {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
-  opacity: 0.85;
+  color: var(--text-white-pure);
   text-shadow: var(--text-shadow-soft);
   padding-top: var(--save-date-date-to-time);
 }
@@ -1635,8 +1639,11 @@ main {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   color: var(--text-white-pure);
-  opacity: 0.85;
   margin-bottom: var(--space-40);
+}
+
+.gifts__subtitle.stagger--visible {
+  opacity: 0.85;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -1884,7 +1891,15 @@ main {
   font-weight: var(--font-weight-normal);
   line-height: 1.35;
   letter-spacing: var(--tracking-normal);
+}
+
+.thank-you__credit.stagger-item {
+  transform: translateY(24px);
+}
+
+.thank-you__credit.stagger-item.stagger--visible {
   opacity: 0.92;
+  transform: none;
 }
 
 /* ==========================================================================

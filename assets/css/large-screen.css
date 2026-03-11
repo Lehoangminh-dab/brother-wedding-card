@@ -76,6 +76,11 @@
     max-width: 780px;
   }
 
+  .save-date__date,
+  .save-date__time {
+    color: var(--text-white-pure);
+  }
+
   .timeline {
     --timeline-axis-gap: 240px;
   }

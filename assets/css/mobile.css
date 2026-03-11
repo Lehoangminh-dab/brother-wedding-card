@@ -3,6 +3,11 @@
    Loaded after styles.css
    ========================================================================== */
 
+.save-date__date,
+.save-date__time {
+  color: var(--text-white-pure);
+}
+
 @media only screen and (max-width: 767px) {
   /* Mobile browser viewport bars can make 100vh unreliable. Keep 100vh as
      fallback, then prefer dynamic viewport units where supported. */

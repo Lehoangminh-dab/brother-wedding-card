@@ -45,7 +45,8 @@
   var COVER_VIDEO_FAIL_TIMEOUT = 3500;
 
   // Scroll animations
-  var SCROLL_ANIM_THRESHOLD = 0.15; // fraction of element visible before animating
+  var SCROLL_ANIM_THRESHOLD = 0; // trigger as soon as target crosses reveal line
+  var THANK_YOU_CREDIT_DELAY = 450; // ms after thank-you message reveal
 
   // Gallery swiper references (kept for relayout updates)
   var galleryVerticalSwiper = null;
@@ -1160,6 +1161,9 @@
 
   function initStaggerAnimations() {
     var items = document.querySelectorAll("[data-stagger] .stagger-item");
+    var thankYouMessage = document.querySelector(".thank-you__message.stagger-item");
+    var thankYouCredit = document.querySelector(".thank-you__credit.stagger-item");
+    var creditTimerStarted = false;
 
     if (!("IntersectionObserver" in window)) {
       items.forEach(function (el) { el.classList.add("stagger--visible"); });
@@ -1185,6 +1189,21 @@
           if (entry.isIntersecting) {
             revealQueue.push(entry.target);
             observer.unobserve(entry.target);
+
+            if (
+              !creditTimerStarted &&
+              thankYouMessage &&
+              thankYouCredit &&
+              entry.target === thankYouMessage &&
+              !thankYouCredit.classList.contains("stagger--visible")
+            ) {
+              creditTimerStarted = true;
+              setTimeout(function () {
+                thankYouCredit.style.transitionDelay = "0ms";
+                thankYouCredit.classList.add("stagger--visible");
+                observer.unobserve(thankYouCredit);
+              }, THANK_YOU_CREDIT_DELAY);
+            }
           }
         });
         if (revealQueue.length && !frameScheduled) {
@@ -1192,7 +1211,7 @@
           requestAnimationFrame(processQueue);
         }
       },
-      { threshold: SCROLL_ANIM_THRESHOLD, rootMargin: "-10% 0px" }
+      { threshold: SCROLL_ANIM_THRESHOLD, rootMargin: "0px 0px -45% 0px" }
     );
 
     items.forEach(function (el) { observer.observe(el); });
