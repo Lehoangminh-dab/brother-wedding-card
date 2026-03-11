@@ -40,15 +40,16 @@
     --space-stack-section: 42px;
 
     /* Typography scale */
+    --font-size-title: clamp(28px, 4.06vw, 47px);
+    --font-size-body-lg: clamp(25px, 3.12vw, 31px);
+    --font-size-body-sm: clamp(22px, 2.81vw, 26px);
+    --font-size-credit-xs: clamp(7px, 1.12vw, 8.4px);
+    --font-size-countdown-timer: clamp(28px, 4.06vw, 47px);
+    --font-size-countdown-label: var(--font-size-countdown-timer);
+    --font-size-countdown-value: clamp(88px, 14.04vw, 137px);
     --text-script-display: clamp(136px, 19.2vw, 229px);
     --text-script-title: clamp(88px, 14.04vw, 137px);
-    --text-date: clamp(28px, 4.06vw, 47px);
-    --text-display: clamp(50px, 9.36vw, 74px);
-    --text-heading: clamp(31px, 4.68vw, 43px);
-    --text-body: clamp(25px, 3.12vw, 31px);
-    --text-body-sm: clamp(22px, 2.81vw, 26px);
-    --text-caption: clamp(20px, 2.81vw, 25px);
-    --text-form: 22px;
+    --text-script-display-role: var(--text-script-display);
     --text-icon: 50px;
     --text-icon-lg: 62px;
     --text-icon-download: 28px;

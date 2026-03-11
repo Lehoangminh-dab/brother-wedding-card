@@ -78,30 +78,23 @@
   --spinner-ring: rgba(139, 145, 126, 0.2);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
+  --font-size-title: clamp(18px, 2.6vw, 30px);
+  --font-size-body-lg: clamp(16px, 2vw, 20px);
+  --font-size-body-sm: clamp(14px, 1.8vw, 17px);
+  --font-size-credit-xs: clamp(7px, 1.12vw, 8.4px);
+  --font-size-countdown-timer: clamp(18px, 2.6vw, 30px);
+  --font-size-countdown-label: var(--font-size-countdown-timer);
+  --font-size-countdown-value: var(--text-script-title);
   --text-script-display: clamp(87px, 12.3vw, 147px);
   --text-script-title: clamp(56px, 9vw, 88px);
-  --text-date: clamp(18px, 2.6vw, 30px);
-  --cover-date-size: var(--text-date-role);
-  --text-display: clamp(32px, 6vw, 48px);
-  --text-heading: clamp(20px, 3vw, 28px);
-  --text-body: clamp(16px, 2vw, 20px);
-  --text-body-sm: clamp(14px, 1.8vw, 17px);
-  --text-caption: clamp(13px, 1.8vw, 16px);
-  --text-form: 14px;
   --text-icon: 32px;
   --text-icon-lg: 40px;
 
-  /* Cross-breakpoint semantic typography roles (same taxonomy, different values). */
+  /* Cross-breakpoint semantic typography roles. */
   /* Token role map:
      - --text-script-display-role: cover/save-date script names
-     - --text-date-role: date/meta lines (cover/save-date/location/timeline subtitle/contact)
-     - --text-label-role: compact UI labels (timeline time/event, countdown label)
-     - --text-countdown-value: countdown numeric value
      - --text-icon-nav / --text-icon-download: control and inline icon sizing */
   --text-script-display-role: var(--text-script-display);
-  --text-date-role: var(--text-date);
-  --text-label-role: var(--text-body-sm);
-  --text-countdown-value: var(--text-script-title);
   --text-icon-nav: var(--text-icon);
   --text-icon-download: 18px;
   --heading-icon-size: 0.63em;
@@ -306,7 +299,7 @@ main {
   padding: var(--space-8) var(--space-20);
   border-radius: var(--radius);
   font-family: var(--primary-font);
-  font-size: var(--text-form);
+  font-size: var(--font-size-body-sm);
   color: var(--text-dark);
   background-color: var(--text-white-pure);
   caret-color: var(--text-dark);
@@ -521,7 +514,7 @@ main {
 .cover__venue {
   margin: calc(var(--cover-windsong-next-gap, var(--windsong-next-gap)) + var(--space-4)) 0 0 0;
   padding: 0;
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-family: var(--primary-font);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
@@ -609,7 +602,7 @@ main {
 
 .family__house-label {
   font-family: var(--title-font);
-  font-size: var(--text-display);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-normal);
   color: var(--text-black);
@@ -618,7 +611,7 @@ main {
 
 .family__parent-line {
   font-family: var(--primary-font);
-  font-size: var(--text-heading);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-relaxed);
@@ -716,7 +709,7 @@ main {
 
 .family__invite-title {
   font-family: var(--title-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
@@ -731,7 +724,7 @@ main {
 
 .family__invite-line {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-relaxed);
@@ -748,12 +741,12 @@ main {
   }
 
   .family__house-label {
-    font-size: var(--text-heading);
+    font-size: var(--font-size-title);
     margin-bottom: var(--space-8);
   }
 
   .family__parent-line {
-    font-size: var(--text-body);
+    font-size: var(--font-size-body-lg);
   }
 
   .family__name {
@@ -769,12 +762,12 @@ main {
   }
 
   .family__invite-title {
-    font-size: var(--text-date-role);
+    font-size: var(--font-size-title);
     margin-bottom: var(--space-8);
   }
 
   .family__invite-line {
-    font-size: var(--text-body-sm);
+    font-size: var(--font-size-body-sm);
   }
 }
 
@@ -813,7 +806,7 @@ main {
   align-items: baseline;
   flex-wrap: wrap;
   margin-bottom: var(--space-40);
-  font-size: var(--text-date);
+  font-size: var(--font-size-countdown-timer);
   font-family: var(--primary-font);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
@@ -829,7 +822,7 @@ main {
 
 .until__value {
   font-family: var(--title-font);
-  font-size: var(--text-countdown-value);
+  font-size: var(--font-size-countdown-value);
   font-weight: 700;
   line-height: inherit;
   letter-spacing: var(--tracking-normal);
@@ -837,7 +830,7 @@ main {
 
 .until__label {
   font-family: inherit;
-  font-size: inherit;
+  font-size: var(--font-size-countdown-label);
   font-weight: var(--font-weight-normal);
   text-transform: uppercase;
   letter-spacing: inherit;
@@ -845,7 +838,7 @@ main {
 
 .until__message {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-relaxed);
   letter-spacing: var(--tracking-tight);
@@ -1040,7 +1033,7 @@ main {
 
 .save-date__date {
   font-family: var(--primary-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
@@ -1051,7 +1044,7 @@ main {
 
 .save-date__time {
   font-family: var(--primary-font);
-  font-size: var(--text-date);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
@@ -1091,7 +1084,7 @@ main {
 
 .timeline__subtitle {
   font-family: var(--title-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -1211,7 +1204,7 @@ main {
 
 .timeline__time {
   font-family: var(--primary-font);
-  font-size: var(--text-date-role);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-form);
   color: var(--secondary-color);
@@ -1229,7 +1222,7 @@ main {
   width: max-content;
   max-width: 24ch;
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-form);
   color: var(--text-dark);
@@ -1270,7 +1263,7 @@ main {
 
 .contact-info__phone {
   font-family: var(--title-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   color: var(--secondary-color);
@@ -1279,7 +1272,7 @@ main {
 
 .contact-info__name {
   font-family: var(--title-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   color: var(--secondary-color);
@@ -1316,7 +1309,7 @@ main {
 
 .location__venue-name {
   font-family: var(--title-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-wider);
   color: var(--text-white-pure);
@@ -1325,7 +1318,7 @@ main {
 
 .location__venue-address {
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure-muted);
   margin-bottom: var(--location-subsection-gap);
@@ -1361,7 +1354,7 @@ main {
 
 .location__sketch-heading {
   font-family: var(--title-font);
-  font-size: var(--cover-date-size);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-wide);
   color: var(--text-white-pure);
@@ -1383,7 +1376,7 @@ main {
 
 .location__sketch-caption {
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure-muted);
   margin-top: var(--space-8);
@@ -1564,7 +1557,7 @@ main {
 
 .section-success__text {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   color: var(--color-success);
   line-height: var(--leading-relaxed);
@@ -1635,7 +1628,7 @@ main {
 
 .gifts__subtitle {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   color: var(--text-white-pure);
@@ -1704,7 +1697,7 @@ main {
 .gifts__card-label {
   display: block;
   font-family: var(--primary-font);
-  font-size: var(--text-heading);
+  font-size: var(--font-size-title);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-uppercase);
   text-transform: uppercase;
@@ -1714,7 +1707,7 @@ main {
 .gifts__card-subtitle {
   display: block;
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-normal);
   color: var(--text-white-pure);
   opacity: 0.9;
@@ -1732,7 +1725,7 @@ main {
 .gifts__card-subtitle .gifts__card-cta {
   display: block;
   margin-top: var(--space-12);
-  font-size: var(--text-body-sm);
+  font-size: var(--font-size-body-sm);
   text-decoration: underline;
   text-underline-offset: 3px;
   opacity: 1;
@@ -1767,7 +1760,7 @@ main {
 
 .gifts__account-name {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-medium);
   margin-bottom: var(--space-8);
   letter-spacing: var(--tracking-uppercase);
@@ -1775,14 +1768,14 @@ main {
 
 .gifts__bank-name {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   opacity: 0.8;
   margin-bottom: var(--space-4);
 }
 
 .gifts__account-number {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-uppercase-lg);
   opacity: 0.95;
@@ -1802,7 +1795,7 @@ main {
   justify-content: center;
   gap: var(--space-8);
   font-family: var(--primary-font);
-  font-size: var(--text-body-sm);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-tight);
   transition: background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition), color var(--transition);
@@ -1863,7 +1856,7 @@ main {
 
 .thank-you__message {
   font-family: var(--primary-font);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   text-align: center;
@@ -1886,7 +1879,7 @@ main {
   margin: 0;
   text-align: center;
   font-family: var(--primary-font);
-  font-size: clamp(7px, 1.12vw, 8.4px);
+  font-size: var(--font-size-credit-xs);
   font-style: italic;
   font-weight: var(--font-weight-normal);
   line-height: 1.35;
@@ -2006,7 +1999,7 @@ main {
   justify-content: center;
   gap: var(--space-8);
   padding: var(--space-16) var(--space-24);
-  font-size: var(--text-body);
+  font-size: var(--font-size-body-lg);
   line-height: 1;
   background-color: var(--color-success);
   border-color: var(--color-success);
@@ -2016,7 +2009,7 @@ main {
 }
 
 .ambient-audio__icon {
-  font-size: calc(var(--text-body) + 2px);
+  font-size: calc(var(--font-size-body-lg) + 2px);
 }
 
 .ambient-audio__label {
@@ -2072,7 +2065,7 @@ main {
   margin-top: var(--space-12);
   padding: var(--space-12) var(--space-16);
   border-radius: var(--radius);
-  font-size: var(--text-form);
+  font-size: var(--font-size-body-sm);
   text-align: center;
   animation: fadeIn 0.3s ease;
 }
