@@ -1,0 +1,10 @@
+{
+  "name": "brother-wedding-card",
+  "private": true,
+  "scripts": {
+    "export-cover-names": "node scripts/export-cover-names-to-svg.js"
+  },
+  "dependencies": {
+    "opentype.js": "^1.3.4"
+  }
+}
