@@ -159,18 +159,24 @@
     if (pool === "horizontal") {
       return {
         srcset:
-          toVariantPath(basePath, "640") + " 640w, " +
-          toVariantPath(basePath, "960") + " 960w, " +
-          toVariantPath(basePath, "1280") + " 1280w",
+          toVariantPath(basePath, "640") +
+          " 640w, " +
+          toVariantPath(basePath, "960") +
+          " 960w, " +
+          toVariantPath(basePath, "1280") +
+          " 1280w",
         sizes: "(max-width: 767px) 86vw, 520px",
       };
     }
 
     return {
       srcset:
-        toVariantPath(basePath, "480") + " 480w, " +
-        toVariantPath(basePath, "768") + " 768w, " +
-        toVariantPath(basePath, "960") + " 960w",
+        toVariantPath(basePath, "480") +
+        " 480w, " +
+        toVariantPath(basePath, "768") +
+        " 768w, " +
+        toVariantPath(basePath, "960") +
+        " 960w",
       sizes: "(max-width: 767px) 74vw, 416px",
     };
   }
@@ -2214,10 +2220,15 @@
     }
 
     function triggerQrDownload(card) {
+      var giftsCfg = WEDDING_CONFIG.gifts || {};
+      var role = card.getAttribute("data-gift");
+      var roleCfg = (role && giftsCfg[role]) || null;
       var qrImg = card.querySelector(".gifts__qr-img");
-      if (!qrImg) return false;
+      if (!qrImg && !roleCfg) return false;
 
-      var src = qrImg.currentSrc || qrImg.getAttribute("src") || qrImg.src;
+      var src =
+        (roleCfg && (roleCfg.qrImageDownload || roleCfg.qrImage)) ||
+        (qrImg && (qrImg.currentSrc || qrImg.getAttribute("src") || qrImg.src));
       if (!src) return false;
 
       var link = document.createElement("a");
