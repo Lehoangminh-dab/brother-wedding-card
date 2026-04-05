@@ -256,7 +256,11 @@
     section.setAttribute("data-bg-fallback-src", imageUrl);
   }
 
-  function applyBackgroundImageWithFallback(section, preferredSrc, fallbackSrc) {
+  function applyBackgroundImageWithFallback(
+    section,
+    preferredSrc,
+    fallbackSrc,
+  ) {
     if (!section || !preferredSrc) return;
 
     if (!fallbackSrc || preferredSrc === fallbackSrc) {
@@ -281,7 +285,8 @@
     var preferredSrc = section.getAttribute("data-bg-src");
     if (!preferredSrc) return;
 
-    var fallbackSrc = section.getAttribute("data-bg-fallback-src") || preferredSrc;
+    var fallbackSrc =
+      section.getAttribute("data-bg-fallback-src") || preferredSrc;
 
     applyBackgroundImageWithFallback(section, preferredSrc, fallbackSrc);
     section.setAttribute("data-bg-loaded", "true");
@@ -599,7 +604,9 @@
     coverVideo.setAttribute("playsinline", "");
     coverVideo.setAttribute("webkit-playsinline", "");
 
-    var poster = toOptimizedImagePath(cover.posterImage || cover.backgroundImage || "");
+    var poster = toOptimizedImagePath(
+      cover.posterImage || cover.backgroundImage || "",
+    );
     if (poster) {
       coverVideo.poster = poster;
     }
@@ -1551,7 +1558,8 @@
     var gallerySpacing = getCssPixelVar("--gallery-track-spacing", 16);
     var isMobileViewport =
       window.matchMedia &&
-      window.matchMedia("(max-width: " + GALLERY_MOBILE_MAX_WIDTH + "px)").matches;
+      window.matchMedia("(max-width: " + GALLERY_MOBILE_MAX_WIDTH + "px)")
+        .matches;
     var horizontalPreloadRadius = isMobileViewport
       ? GALLERY_MOBILE_PRELOAD_RADIUS
       : GALLERY_HORIZONTAL_PRELOAD_RADIUS;
@@ -1593,7 +1601,9 @@
       autoplay: isMobileViewport
         ? false
         : { delay: 1, disableOnInteraction: false },
-      speed: isMobileViewport ? GALLERY_MOBILE_SCROLL_SPEED : GALLERY_SCROLL_SPEED,
+      speed: isMobileViewport
+        ? GALLERY_MOBILE_SCROLL_SPEED
+        : GALLERY_SCROLL_SPEED,
       observer: true,
       observeParents: true,
       on: {

@@ -71,7 +71,17 @@
   }
 
   /* Shared section padding (low specificity for easier overrides) */
-  :where(.family, .until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
+  :where(
+    .family,
+    .until,
+    .save-date,
+    .timeline,
+    .location,
+    .rsvp,
+    .wishes,
+    .contact-info,
+    .thank-you
+  ) {
     padding-left: var(--space-16);
     padding-right: var(--space-16);
   }
@@ -260,10 +270,8 @@
     left: var(--space-16);
     right: var(--space-16);
     bottom: calc(
-      env(safe-area-inset-bottom, 0px)
-      + var(--ambient-audio-bottom-offset)
-      + var(--ambient-audio-button-height)
-      + var(--thank-you-credit-audio-gap)
+      env(safe-area-inset-bottom, 0px) + var(--ambient-audio-bottom-offset) +
+        var(--ambient-audio-button-height) + var(--thank-you-credit-audio-gap)
     );
     transform: none;
     width: auto;
@@ -518,8 +526,12 @@
     font-size: var(--text-icon-nav);
   }
 
-  .lightbox__prev { left: var(--space-8); }
-  .lightbox__next { right: var(--space-8); }
+  .lightbox__prev {
+    left: var(--space-8);
+  }
+  .lightbox__next {
+    right: var(--space-8);
+  }
 
   .ambient-audio__button {
     padding: var(--space-12) var(--space-16);
@@ -591,7 +603,17 @@
     --ambient-audio-button-height: 46px;
   }
 
-  :where(.family, .until, .save-date, .timeline, .location, .rsvp, .wishes, .contact-info, .thank-you) {
+  :where(
+    .family,
+    .until,
+    .save-date,
+    .timeline,
+    .location,
+    .rsvp,
+    .wishes,
+    .contact-info,
+    .thank-you
+  ) {
     padding-left: var(--space-20);
     padding-right: var(--space-20);
   }
@@ -722,10 +744,8 @@
     left: var(--space-20);
     right: var(--space-20);
     bottom: calc(
-      env(safe-area-inset-bottom, 0px)
-      + var(--ambient-audio-bottom-offset)
-      + var(--ambient-audio-button-height)
-      + var(--thank-you-credit-audio-gap)
+      env(safe-area-inset-bottom, 0px) + var(--ambient-audio-bottom-offset) +
+        var(--ambient-audio-button-height) + var(--thank-you-credit-audio-gap)
     );
     transform: none;
     width: auto;
@@ -957,8 +977,12 @@
     font-size: var(--text-icon-nav);
   }
 
-  .lightbox__prev { left: var(--space-12); }
-  .lightbox__next { right: var(--space-12); }
+  .lightbox__prev {
+    left: var(--space-12);
+  }
+  .lightbox__next {
+    right: var(--space-12);
+  }
 
   .ambient-audio__button {
     padding: var(--space-12) var(--space-16);
@@ -1023,9 +1047,13 @@
     padding-bottom: var(--space-28);
   }
 
-  .until__timer { justify-content: center; }
+  .until__timer {
+    justify-content: center;
+  }
 
-  .until__heading { width: min(100%, 15ch); }
+  .until__heading {
+    width: min(100%, 15ch);
+  }
 
   .timeline__entry {
     width: 100%;

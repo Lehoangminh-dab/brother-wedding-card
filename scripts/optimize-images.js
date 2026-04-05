@@ -63,14 +63,24 @@ const SECTION_JOBS = [
     quality: 74,
   },
   {
-    sourceFile: path.join(IMAGES_DIR, "phuc_van_pics", "phuc_van_1", "DSC_6293.jpg"),
+    sourceFile: path.join(
+      IMAGES_DIR,
+      "phuc_van_pics",
+      "phuc_van_1",
+      "DSC_6293.jpg",
+    ),
     outputFile: path.join(OUTPUT_DIR, "sections", "save_the_date.jpg"),
     maxWidth: 1280,
     maxHeight: 1920,
     quality: 74,
   },
   {
-    sourceFile: path.join(IMAGES_DIR, "phuc_van_pics", "phuc_van_1", "BRS06403.jpg"),
+    sourceFile: path.join(
+      IMAGES_DIR,
+      "phuc_van_pics",
+      "phuc_van_1",
+      "BRS06403.jpg",
+    ),
     outputFile: path.join(OUTPUT_DIR, "sections", "wishes.jpg"),
     maxWidth: 1280,
     maxHeight: 1920,
@@ -215,7 +225,9 @@ async function main() {
   );
 
   const reductionPct =
-    totalSource > 0 ? ((1 - totalOutput / totalSource) * 100).toFixed(1) : "0.0";
+    totalSource > 0
+      ? ((1 - totalOutput / totalSource) * 100).toFixed(1)
+      : "0.0";
 
   console.log(
     "[optimize-images] done: %s MB -> %s MB (%s%% smaller)",
