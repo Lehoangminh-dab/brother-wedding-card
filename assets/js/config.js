@@ -9,7 +9,6 @@
 const PLACEHOLDER_IMAGE = "assets/images/placeholder.jpg";
 
 const WEDDING_CONFIG = {
-
   // ──────────────────────────────────────────────
   // META / PAGE-LEVEL
   // ──────────────────────────────────────────────
@@ -164,11 +163,13 @@ const WEDDING_CONFIG = {
     heading: "Địa điểm",
     venueName: "KHÁCH SẠN HOLIDAY",
     venueAddress: "Trong Hòn Dáu Resort, Đồ Sơn, Hải Phòng",
-    googleMapsEmbedUrl: "https://maps.google.com/maps?q=Kh%C3%A1ch%20s%E1%BA%A1n%20Holiday%20H%C3%B2n%20D%E1%BA%A5u%20Resort%2C%20%C4%90%E1%BB%93%20S%C6%A1n%2C%20H%E1%BA%A3i%20Ph%C3%B2ng&z=13&output=embed",
+    googleMapsEmbedUrl:
+      "https://maps.google.com/maps?q=Kh%C3%A1ch%20s%E1%BA%A1n%20Holiday%20H%C3%B2n%20D%E1%BA%A5u%20Resort%2C%20%C4%90%E1%BB%93%20S%C6%A1n%2C%20H%E1%BA%A3i%20Ph%C3%B2ng&z=13&output=embed",
     mapLinkText: "Mở trên Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/SRDaoq3A8kUVkyg37",
     sketchHeading: "SƠ ĐỒ NỘI BỘ",
-    sketchMapImage: "https://upload.wikimedia.org/wikipedia/en/4/4d/Shrek_%28character%29.png",
+    sketchMapImage:
+      "https://upload.wikimedia.org/wikipedia/en/4/4d/Shrek_%28character%29.png",
     sketchMapAlt: "Sơ đồ chỉ dẫn nội bộ",
     sketchMapCaption: "Sơ đồ chỉ dẫn lối đi trong khu vực tổ chức",
   },
@@ -195,10 +196,12 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   gifts: {
     heading: "Gửi gắm yêu thương",
-    subtitle: "Nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới của chúng mình, bạn có thể gửi qua đây nhé!",
+    subtitle:
+      "Nếu bạn muốn gửi thêm một chút bất ngờ để tiếp sức cho hành trình mới của chúng mình, bạn có thể gửi qua đây nhé!",
     groom: {
       label: "CHÚ RỂ\nHOÀNG PHÚC",
-      subtitle: "Bố: Lê Tự Khanh - Mẹ: Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
+      subtitle:
+        'Bố: Lê Tự Khanh - Mẹ: Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class="gifts__card-cta">(Bấm vào đây để gửi quà)</span>',
       name: "NGUYEN VAN PHUC",
       bank: "Vietcombank",
       accountNumber: "0123456789",
@@ -206,7 +209,8 @@ const WEDDING_CONFIG = {
     },
     bride: {
       label: "CÔ DÂU\nHỒNG VÂN",
-      subtitle: "Bố: Nguyễn Trung Toản - Mẹ: Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class=\"gifts__card-cta\">(Bấm vào đây để gửi quà)</span>",
+      subtitle:
+        'Bố: Nguyễn Trung Toản - Mẹ: Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class="gifts__card-cta">(Bấm vào đây để gửi quà)</span>',
       name: "NGUYEN THI VAN",
       bank: "Vietcombank",
       accountNumber: "0123456789",
@@ -250,7 +254,7 @@ const WEDDING_CONFIG = {
   thankYou: {
     backgroundImage: PLACEHOLDER_IMAGE,
     heading: "Trân trọng cảm ơn",
-    message: "Sự xuất hiện của bạn là niềm vui của chúng mình!",
+    message: "Sự hiện diện của bạn là niềm vui của chúng mình!",
   },
 
   // ──────────────────────────────────────────────
@@ -286,6 +290,7 @@ const WEDDING_CONFIG = {
   // (see backend/Code.gs for full setup instructions)
   // ──────────────────────────────────────────────
   api: {
-    baseUrl: "https://script.google.com/macros/s/AKfycbxyAjfENKitNWb7mIQjkmVOQYToYsRBquUgb3gnrdn2VYph95bgkDPus6SVDMm447tS/exec",
+    baseUrl:
+      "https://script.google.com/macros/s/AKfycbxyAjfENKitNWb7mIQjkmVOQYToYsRBquUgb3gnrdn2VYph95bgkDPus6SVDMm447tS/exec",
   },
 };
