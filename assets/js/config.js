@@ -5,16 +5,13 @@
  * for easy modification. Change any value below to customize the card.
  */
 
-// Default placeholder used until real photos are provided
-const PLACEHOLDER_IMAGE = "assets/images/placeholder.jpg";
 const UNTIL_THE_BIG_DAY_IMAGE =
   "assets/images/optimized/sections/until_the_day.jpg";
 const SAVE_THE_DATE_IMAGE =
   "assets/images/optimized/sections/save_the_date.jpg";
 const LOCATION_IMAGE = "assets/images/optimized/sections/hon_dau_resort.jpg";
 const WISHES_IMAGE = "assets/images/optimized/sections/wishes.jpg";
-const THANK_YOU_IMAGE =
-  "assets/images/optimized/sections/thank_you.jpg";
+const THANK_YOU_IMAGE = "assets/images/optimized/sections/thank_you.jpg";
 
 const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
@@ -23,14 +20,6 @@ const WEDDING_CONFIG = {
   meta: {
     title: "Phúc – Vân | Thiệp Cưới",
     description: "Thiệp cưới Phúc & Vân",
-  },
-
-  // ──────────────────────────────────────────────
-  // COUPLE (names used on cover)
-  // ──────────────────────────────────────────────
-  couple: {
-    groom: { shortName: "Phúc" },
-    bride: { shortName: "Vân" },
   },
 
   // ──────────────────────────────────────────────
@@ -80,7 +69,8 @@ const WEDDING_CONFIG = {
     ],
     videoUrl: "assets/videos/ocean_waves_background.mp4",
     posterImage: "assets/images/optimized/sections/ocean_waves_background.jpg",
-    backgroundImage: "assets/images/optimized/sections/ocean_waves_background.jpg",
+    backgroundImage:
+      "assets/images/optimized/sections/ocean_waves_background.jpg",
   },
 
   // ──────────────────────────────────────────────
@@ -448,6 +438,13 @@ const WEDDING_CONFIG = {
     enabled: true,
     bufferAfterFadeMs: 500,
     speedPxPerSec: 80,
+  },
+
+  // ──────────────────────────────────────────────
+  // AMBIENT AUDIO
+  // ──────────────────────────────────────────────
+  audio: {
+    afterCoverSrc: "assets/audio/kiki_light.mp3",
   },
 
   // ──────────────────────────────────────────────

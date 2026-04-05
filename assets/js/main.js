@@ -47,7 +47,9 @@
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
-  var AMBIENT_AUDIO_SRC_AFTER_COVER = "assets/audio/interstellar.mp3";
+  var AMBIENT_AUDIO_SRC_AFTER_COVER =
+    (WEDDING_CONFIG.audio && WEDDING_CONFIG.audio.afterCoverSrc) ||
+    "assets/audio/kiki_light.mp3";
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var GESTURE_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
@@ -590,12 +592,9 @@
   }
 
   function populateCover() {
-    var couple = WEDDING_CONFIG.couple;
     var cover = WEDDING_CONFIG.cover;
-    var coverGroomName =
-      cover.groomName || (couple.groom && couple.groom.shortName) || "";
-    var coverBrideName =
-      cover.brideName || (couple.bride && couple.bride.shortName) || "";
+    var coverGroomName = cover.groomName || "";
+    var coverBrideName = cover.brideName || "";
 
     var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
@@ -610,11 +609,9 @@
     }
 
     var configuredWeddingDate = getConfiguredWeddingDate();
-    var coverDateText =
-      cover.dateLine ||
-      (configuredWeddingDate
-        ? formatDateAsNumericVi(configuredWeddingDate)
-        : "");
+    var coverDateText = configuredWeddingDate
+      ? formatDateAsNumericVi(configuredWeddingDate)
+      : "";
 
     populateText({
       ".cover__groom-name": coverGroomName,
@@ -905,9 +902,9 @@
   function populateSaveTheDate() {
     var cfg = WEDDING_CONFIG.saveTheDate;
     var configuredWeddingDate = getConfiguredWeddingDate();
-    var saveDateText =
-      cfg.dateLine ||
-      (configuredWeddingDate ? formatDateAsLongVi(configuredWeddingDate) : "");
+    var saveDateText = configuredWeddingDate
+      ? formatDateAsLongVi(configuredWeddingDate)
+      : "";
 
     setSectionBackground("save-the-date", cfg.backgroundImage);
 
