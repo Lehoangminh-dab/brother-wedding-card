@@ -43,7 +43,11 @@ const GALLERY_JOBS = [
 
 const SECTION_JOBS = [
   {
-    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "ocean_waves_background.png"),
+    sourceFile: path.join(
+      SOURCE_IMAGES_DIR,
+      "sections",
+      "ocean_waves_background.png",
+    ),
     outputFile: path.join(OUTPUT_DIR, "sections", "ocean_waves_background.jpg"),
     maxWidth: 1600,
     maxHeight: 1200,
@@ -138,7 +142,10 @@ async function optimizeVariants(sourceFile, outputFile, variants, quality) {
   }
 
   const defaultVariant = variants[variants.length - 1];
-  const defaultVariantPath = toVariantFilePath(outputFile, defaultVariant.suffix);
+  const defaultVariantPath = toVariantFilePath(
+    outputFile,
+    defaultVariant.suffix,
+  );
   await fs.copyFile(defaultVariantPath, outputFile);
   const baseStat = await fs.stat(outputFile);
   outputBytes += baseStat.size;
@@ -192,6 +199,16 @@ async function optimizeSectionImages() {
     sourceTotal += sourceStat.size;
 
     const variants = [
+      {
+        suffix: "480",
+        maxWidth: 480,
+        maxHeight: Math.min(job.maxHeight, 900),
+      },
+      {
+        suffix: "640",
+        maxWidth: 640,
+        maxHeight: Math.min(job.maxHeight, 1120),
+      },
       {
         suffix: "768",
         maxWidth: 768,

@@ -17,6 +17,8 @@ const BUDGETS = {
   mobileTotalMb: 4.5,
 };
 
+const SECTION_MOBILE_SUFFIX = "-640.jpg";
+
 function toMb(bytes) {
   return bytes / (1024 * 1024);
 }
@@ -82,7 +84,10 @@ async function main() {
 
   const portrait = await sumDirectoryBytesBySuffix(portraitPath, "-480.jpg");
   const landscape = await sumDirectoryBytesBySuffix(landscapePath, "-640.jpg");
-  const sections = await sumDirectoryBytesBySuffix(sectionsPath, "-768.jpg");
+  const sections = await sumDirectoryBytesBySuffix(
+    sectionsPath,
+    SECTION_MOBILE_SUFFIX,
+  );
 
   const totalBytes =
     portrait.totalBytes + landscape.totalBytes + sections.totalBytes;

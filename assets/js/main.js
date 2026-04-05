@@ -42,7 +42,7 @@
   var GALLERY_MOBILE_PRELOAD_RADIUS = 3;
   var GALLERY_MOBILE_SCROLL_SPEED = 14000;
   var SECTION_BG_PRELOAD_MARGIN = "240px 0px";
-  var SECTION_BG_MOBILE_MAX_WIDTH = 480;
+  var SECTION_BG_MOBILE_MAX_WIDTH = 767;
   var SECTION_BG_TABLET_MAX_WIDTH = 1024;
 
   // Ambient audio
@@ -154,10 +154,22 @@
     }
 
     var viewportWidth = getViewportWidth();
-    if (viewportWidth > 0 && viewportWidth <= SECTION_BG_MOBILE_MAX_WIDTH) {
+    var devicePixelRatio = window.devicePixelRatio || 1;
+    var effectiveWidth = viewportWidth * devicePixelRatio;
+
+    if (effectiveWidth > 0 && effectiveWidth <= 480) {
+      return toVariantPath(basePath, "480");
+    }
+    if (effectiveWidth > 0 && effectiveWidth <= 640) {
+      return toVariantPath(basePath, "640");
+    }
+    if (effectiveWidth > 0 && effectiveWidth <= SECTION_BG_MOBILE_MAX_WIDTH) {
       return toVariantPath(basePath, "768");
     }
-    if (viewportWidth > 0 && viewportWidth <= SECTION_BG_TABLET_MAX_WIDTH) {
+    if (effectiveWidth > 0 && effectiveWidth <= SECTION_BG_TABLET_MAX_WIDTH) {
+      return toVariantPath(basePath, "768");
+    }
+    if (effectiveWidth > 0 && effectiveWidth <= 1600) {
       return toVariantPath(basePath, "1280");
     }
     return basePath;
