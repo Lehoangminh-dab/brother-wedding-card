@@ -1911,7 +1911,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: var(--section-height-standard);
+  min-height: 125vh;
   color: var(--text-white-pure);
   text-align: center;
   padding: var(--space-40) var(--space-20);

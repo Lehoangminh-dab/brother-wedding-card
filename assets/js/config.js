@@ -80,7 +80,7 @@ const WEDDING_CONFIG = {
     },
     "thank-you": {
       size: "cover",
-      position: "center top",
+      position: "center center",
       repeat: "no-repeat",
     },
   },
