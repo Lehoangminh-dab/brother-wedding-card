@@ -7,6 +7,14 @@
 
 // Default placeholder used until real photos are provided
 const PLACEHOLDER_IMAGE = "assets/images/placeholder.jpg";
+const UNTIL_THE_BIG_DAY_IMAGE =
+  "assets/images/phuc_van_pics/phuc_van_1/Album 30 x 30 Phuc Van/HL.jpg";
+const SAVE_THE_DATE_IMAGE =
+  "assets/images/phuc_van_pics/phuc_van_1/DSC_6293.jpg";
+const LOCATION_IMAGE = "assets/images/hon_dau_resort.jpg";
+const WISHES_IMAGE = "assets/images/phuc_van_pics/phuc_van_1/BRS06403.jpg";
+const THANK_YOU_IMAGE =
+  "assets/images/phuc_van_pics/phuc_van_1/Album 30 x 30 Phuc Van/G.jpg";
 
 const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
@@ -83,7 +91,7 @@ const WEDDING_CONFIG = {
   // UNTIL THE BIG DAY (countdown + welcome)
   // ──────────────────────────────────────────────
   untilTheDay: {
-    backgroundImage: PLACEHOLDER_IMAGE,
+    backgroundImage: UNTIL_THE_BIG_DAY_IMAGE,
     heading: "Đếm ngược cùng chúng mình nhé",
     labels: {
       days: "Ngày",
@@ -99,7 +107,7 @@ const WEDDING_CONFIG = {
   // SAVE THE DATE (elegant date display)
   // ──────────────────────────────────────────────
   saveTheDate: {
-    backgroundImage: PLACEHOLDER_IMAGE,
+    backgroundImage: SAVE_THE_DATE_IMAGE,
     heading: "Hẹn gặp bạn vào ngày",
     timeLine: "3 giờ chiều",
   },
@@ -159,7 +167,7 @@ const WEDDING_CONFIG = {
   // LOCATION (Google Maps + sketch map)
   // ──────────────────────────────────────────────
   location: {
-    backgroundImage: PLACEHOLDER_IMAGE,
+    backgroundImage: LOCATION_IMAGE,
     heading: "Địa điểm",
     venueName: "KHÁCH SẠN HOLIDAY",
     venueAddress: "Trong Hòn Dáu Resort, Đồ Sơn, Hải Phòng",
@@ -178,7 +186,7 @@ const WEDDING_CONFIG = {
   // WISHES / GUESTBOOK
   // ──────────────────────────────────────────────
   wishes: {
-    backgroundImage: PLACEHOLDER_IMAGE,
+    backgroundImage: WISHES_IMAGE,
     heading: "Gửi lời chúc đến chúng mình nhé",
     nameLabel: "Tên của bạn",
     namePlaceholder: "Tên của bạn",
@@ -252,7 +260,7 @@ const WEDDING_CONFIG = {
   // THANK YOU
   // ──────────────────────────────────────────────
   thankYou: {
-    backgroundImage: PLACEHOLDER_IMAGE,
+    backgroundImage: THANK_YOU_IMAGE,
     heading: "Trân trọng cảm ơn",
     message: "Sự hiện diện của bạn là niềm vui của chúng mình!",
   },
