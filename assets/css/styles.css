@@ -133,7 +133,7 @@
   --content-max-width: 90%;
 
   /* Section heights (viewport-based) */
-  --section-height-standard: 100vh;
+  --section-height-standard: 300vh;
   --section-height-save-date: 200vh;
   --section-height-gallery: 200vh;
   --section-height-location: 300vh;

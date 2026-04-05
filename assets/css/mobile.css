@@ -31,7 +31,7 @@
     --text-icon-lg: 41.06px;
 
     /* Reduce oversized vertical pacing on phones/tablets. */
-    --section-height-standard: 100svh;
+    --section-height-standard: 200svh;
     --section-height-save-date: 140svh;
     --section-height-gallery: 130svh;
     --section-height-location: 150svh;
@@ -568,7 +568,7 @@
     --text-icon: 35px;
     --text-icon-lg: 42px;
 
-    --section-height-standard: 100svh;
+    --section-height-standard: 125svh;
     --section-height-save-date: 150svh;
     --section-height-gallery: 145svh;
     --section-height-location: 175svh;
