@@ -21,20 +21,23 @@
   // =========================================================================
 
   // Time durations (milliseconds)
-  var MS_PER_DAY  = 86400000;
+  var MS_PER_DAY = 86400000;
   var MS_PER_HOUR = 3600000;
-  var MS_PER_MIN  = 60000;
-  var MS_PER_SEC  = 1000;
+  var MS_PER_MIN = 60000;
+  var MS_PER_SEC = 1000;
 
   // UI timing
-  var PRELOADER_HIDE_DELAY    = 800;   // ms after load before starting fade
-  var PRELOADER_FADE_DURATION = 400;   // ms CSS fade duration + cleanup
-  var ERROR_MSG_TTL           = 5000;  // ms before error message auto-removes
+  var PRELOADER_HIDE_DELAY = 800; // ms after load before starting fade
+  var PRELOADER_FADE_DURATION = 400; // ms CSS fade duration + cleanup
+  var ERROR_MSG_TTL = 5000; // ms before error message auto-removes
 
   // Gallery Swiper
-  var GALLERY_AUTOPLAY_DELAY   = 3000;  // ms between vertical carousel slides
-  var GALLERY_SCROLL_SPEED     = 8000;  // ms for one horizontal filmstrip pass
-  var GALLERY_RELAYOUT_DELAY   = 80;    // debounce window for viewport/layout changes
+  var GALLERY_AUTOPLAY_DELAY = 3000; // ms between vertical carousel slides
+  var GALLERY_SCROLL_SPEED = 8000; // ms for one horizontal filmstrip pass
+  var GALLERY_RELAYOUT_DELAY = 80; // debounce window for viewport/layout changes
+  var GALLERY_INITIAL_EAGER_LOAD = 4; // number of slides to load immediately per track
+  var GALLERY_VERTICAL_PRELOAD_RADIUS = 2; // active +/- slides to hydrate
+  var GALLERY_HORIZONTAL_PRELOAD_RADIUS = 6; // active +/- slides to hydrate
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
@@ -71,7 +74,9 @@
 
   /** Read a CSS custom property as px number, with numeric fallback. */
   function getCssPixelVar(varName, fallbackPx) {
-    var raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    var raw = getComputedStyle(document.documentElement)
+      .getPropertyValue(varName)
+      .trim();
     var value = parseFloat(raw);
     return Number.isFinite(value) ? value : fallbackPx;
   }
@@ -167,7 +172,10 @@
         if (!hasVisibleText) return;
 
         var firstChild = el.firstElementChild;
-        if (firstChild && firstChild.classList.contains("section-heading-icon-wrap")) {
+        if (
+          firstChild &&
+          firstChild.classList.contains("section-heading-icon-wrap")
+        ) {
           return;
         }
 
@@ -201,7 +209,8 @@
   }
 
   function extractFamilyPartsFromGiftSubtitle(subtitleHtml, role) {
-    if (!subtitleHtml) return { fatherName: "", motherName: "", personName: "" };
+    if (!subtitleHtml)
+      return { fatherName: "", motherName: "", personName: "" };
 
     var wrapper = document.createElement("div");
     var htmlWithBreaks = String(subtitleHtml).replace(/<br\s*\/?>/gi, "\n");
@@ -212,12 +221,16 @@
       .replace(/\s+/g, " ")
       .trim();
 
-    var fatherMatch = text.match(/Bố\s*:\s*([^-\n]+?)(?=\s*-\s*Mẹ\s*:|\s*Mẹ\s*:|$)/i);
-    var motherMatch = text.match(/Mẹ\s*:\s*([^-\n]+?)(?=(?:\s*(?:Chú rể|Cô dâu)\s*:)|$)/i);
-    var roleRegex = role === "groom"
-      ? /Chú rể\s*:\s*([^\n(]+)/i
-      : /Cô dâu\s*:\s*([^\n(]+)/i;
-    var personMatch = text.match(roleRegex) || text.match(/(?:Chú rể|Cô dâu)\s*:\s*([^\n(]+)/i);
+    var fatherMatch = text.match(
+      /Bố\s*:\s*([^-\n]+?)(?=\s*-\s*Mẹ\s*:|\s*Mẹ\s*:|$)/i,
+    );
+    var motherMatch = text.match(
+      /Mẹ\s*:\s*([^-\n]+?)(?=(?:\s*(?:Chú rể|Cô dâu)\s*:)|$)/i,
+    );
+    var roleRegex =
+      role === "groom" ? /Chú rể\s*:\s*([^\n(]+)/i : /Cô dâu\s*:\s*([^\n(]+)/i;
+    var personMatch =
+      text.match(roleRegex) || text.match(/(?:Chú rể|Cô dâu)\s*:\s*([^\n(]+)/i);
 
     return {
       fatherName: fatherMatch ? fatherMatch[1].trim() : "",
@@ -259,7 +272,10 @@
     if (!el) return 0;
     var lineHeight = getElementLineHeight(el);
     if (!lineHeight) return 0;
-    return Math.max(1, Math.round(el.getBoundingClientRect().height / lineHeight));
+    return Math.max(
+      1,
+      Math.round(el.getBoundingClientRect().height / lineHeight),
+    );
   }
 
   function syncFamilyNameLineCounts() {
@@ -333,7 +349,9 @@
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(payload),
     })
-      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        return res.json();
+      })
       .then(onSuccess)
       .catch(onError);
   }
@@ -351,8 +369,9 @@
         options.onSuccess,
         function () {
           if (typeof options.onError === "function") options.onError();
-          if (submitBtn && options.submitText) submitBtn.textContent = options.submitText;
-        }
+          if (submitBtn && options.submitText)
+            submitBtn.textContent = options.submitText;
+        },
       );
       return;
     }
@@ -371,7 +390,9 @@
     form.appendChild(msg);
 
     if (type === "error") {
-      setTimeout(function () { msg.remove(); }, ERROR_MSG_TTL);
+      setTimeout(function () {
+        msg.remove();
+      }, ERROR_MSG_TTL);
     }
   }
 
@@ -411,8 +432,10 @@
   function populateCover() {
     var couple = WEDDING_CONFIG.couple;
     var cover = WEDDING_CONFIG.cover;
-    var coverGroomName = cover.groomName || (couple.groom && couple.groom.shortName) || "";
-    var coverBrideName = cover.brideName || (couple.bride && couple.bride.shortName) || "";
+    var coverGroomName =
+      cover.groomName || (couple.groom && couple.groom.shortName) || "";
+    var coverBrideName =
+      cover.brideName || (couple.bride && couple.bride.shortName) || "";
 
     var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
@@ -424,9 +447,11 @@
     }
 
     var configuredWeddingDate = getConfiguredWeddingDate();
-    var coverDateText = cover.dateLine || (configuredWeddingDate
-      ? formatDateAsNumericVi(configuredWeddingDate)
-      : "");
+    var coverDateText =
+      cover.dateLine ||
+      (configuredWeddingDate
+        ? formatDateAsNumericVi(configuredWeddingDate)
+        : "");
 
     populateText({
       ".cover__groom-name": coverGroomName,
@@ -459,7 +484,8 @@
       coverVideo.poster = poster;
     }
 
-    var prefersReducedMotion = window.matchMedia &&
+    var prefersReducedMotion =
+      window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     var configuredSources = [];
@@ -470,7 +496,9 @@
     }
 
     var usableSources = configuredSources.filter(function (source) {
-      return source && typeof source.src === "string" && source.src.trim() !== "";
+      return (
+        source && typeof source.src === "string" && source.src.trim() !== ""
+      );
     });
     if (!usableSources.length) {
       coverSection.classList.add("cover--video-unavailable");
@@ -563,12 +591,10 @@
         return;
       }
 
-      playAttempt
-        .then(onPlaybackStarted)
-        .catch(function () {
-          addRetryListeners();
-          scheduleFailureFallback();
-        });
+      playAttempt.then(onPlaybackStarted).catch(function () {
+        addRetryListeners();
+        scheduleFailureFallback();
+      });
     }
 
     function onFirstGesture() {
@@ -611,27 +637,47 @@
 
     var groomGiftFallback = extractFamilyPartsFromGiftSubtitle(
       giftsCfg.groom && giftsCfg.groom.subtitle,
-      "groom"
+      "groom",
     );
     var brideGiftFallback = extractFamilyPartsFromGiftSubtitle(
       giftsCfg.bride && giftsCfg.bride.subtitle,
-      "bride"
+      "bride",
     );
 
     var groomCfg = familyCfg.groom || {};
     var brideCfg = familyCfg.bride || {};
 
-    var groomHouse = firstNonEmpty([groomCfg.houseLabel, giftsCfg.groom && giftsCfg.groom.label, "Nhà Trai"]);
-    var brideHouse = firstNonEmpty([brideCfg.houseLabel, giftsCfg.bride && giftsCfg.bride.label, "Nhà Gái"]);
+    var groomHouse = firstNonEmpty([
+      groomCfg.houseLabel,
+      giftsCfg.groom && giftsCfg.groom.label,
+      "Nhà Trai",
+    ]);
+    var brideHouse = firstNonEmpty([
+      brideCfg.houseLabel,
+      giftsCfg.bride && giftsCfg.bride.label,
+      "Nhà Gái",
+    ]);
     var groomFatherLabel = firstNonEmpty([groomCfg.fatherLabel, "Bố"]);
     var groomMotherLabel = firstNonEmpty([groomCfg.motherLabel, "Mẹ"]);
     var brideFatherLabel = firstNonEmpty([brideCfg.fatherLabel, "Bố"]);
     var brideMotherLabel = firstNonEmpty([brideCfg.motherLabel, "Mẹ"]);
 
-    var groomFatherName = firstNonEmpty([groomCfg.fatherName, groomGiftFallback.fatherName]);
-    var groomMotherName = firstNonEmpty([groomCfg.motherName, groomGiftFallback.motherName]);
-    var brideFatherName = firstNonEmpty([brideCfg.fatherName, brideGiftFallback.fatherName]);
-    var brideMotherName = firstNonEmpty([brideCfg.motherName, brideGiftFallback.motherName]);
+    var groomFatherName = firstNonEmpty([
+      groomCfg.fatherName,
+      groomGiftFallback.fatherName,
+    ]);
+    var groomMotherName = firstNonEmpty([
+      groomCfg.motherName,
+      groomGiftFallback.motherName,
+    ]);
+    var brideFatherName = firstNonEmpty([
+      brideCfg.fatherName,
+      brideGiftFallback.fatherName,
+    ]);
+    var brideMotherName = firstNonEmpty([
+      brideCfg.motherName,
+      brideGiftFallback.motherName,
+    ]);
 
     var groomPersonName = firstNonEmpty([
       groomCfg.personName,
@@ -644,21 +690,40 @@
       coverCfg.brideName,
     ]);
 
-    populateText({
-      ".family__heading": firstNonEmpty([familyCfg.heading, "Đám Cưới"]),
-      ".family__house-label--groom": groomHouse,
-      ".family__house-label--bride": brideHouse,
-      ".family__parent-line--groom-father": groomFatherLabel + " : " + groomFatherName,
-      ".family__parent-line--groom-mother": groomMotherLabel + " : " + groomMotherName,
-      ".family__parent-line--bride-father": brideFatherLabel + " : " + brideFatherName,
-      ".family__parent-line--bride-mother": brideMotherLabel + " : " + brideMotherName,
-      ".family__name--groom": groomPersonName,
-      ".family__name--bride": bridePersonName,
-      ".family__invite-title": firstNonEmpty([familyCfg.inviteTitle, "Trân trọng kính mời"]),
-      ".family__invite-line": firstNonEmpty([familyCfg.inviteLine, "Tham dự lễ thành hôn của chúng mình"]),
-      ".family__center-icon--top": firstNonEmpty([familyCfg.topCenterSymbol, "♡"]),
-      ".family__center-icon--bottom": firstNonEmpty([familyCfg.bottomCenterSymbol, "❤"]),
-    }, familySection);
+    populateText(
+      {
+        ".family__heading": firstNonEmpty([familyCfg.heading, "Đám Cưới"]),
+        ".family__house-label--groom": groomHouse,
+        ".family__house-label--bride": brideHouse,
+        ".family__parent-line--groom-father":
+          groomFatherLabel + " : " + groomFatherName,
+        ".family__parent-line--groom-mother":
+          groomMotherLabel + " : " + groomMotherName,
+        ".family__parent-line--bride-father":
+          brideFatherLabel + " : " + brideFatherName,
+        ".family__parent-line--bride-mother":
+          brideMotherLabel + " : " + brideMotherName,
+        ".family__name--groom": groomPersonName,
+        ".family__name--bride": bridePersonName,
+        ".family__invite-title": firstNonEmpty([
+          familyCfg.inviteTitle,
+          "Trân trọng kính mời",
+        ]),
+        ".family__invite-line": firstNonEmpty([
+          familyCfg.inviteLine,
+          "Tham dự lễ thành hôn của chúng mình",
+        ]),
+        ".family__center-icon--top": firstNonEmpty([
+          familyCfg.topCenterSymbol,
+          "♡",
+        ]),
+        ".family__center-icon--bottom": firstNonEmpty([
+          familyCfg.bottomCenterSymbol,
+          "❤",
+        ]),
+      },
+      familySection,
+    );
   }
 
   function populateUntilTheDay() {
@@ -675,16 +740,17 @@
     var items = document.querySelectorAll(".until__item");
     var labelKeys = ["days", "hours", "minutes", "seconds"];
     for (var i = 0; i < items.length; i++) {
-      if (labelKeys[i]) setText(".until__label", cfg.labels[labelKeys[i]], items[i]);
+      if (labelKeys[i])
+        setText(".until__label", cfg.labels[labelKeys[i]], items[i]);
     }
   }
 
   function populateSaveTheDate() {
     var cfg = WEDDING_CONFIG.saveTheDate;
     var configuredWeddingDate = getConfiguredWeddingDate();
-    var saveDateText = cfg.dateLine || (configuredWeddingDate
-      ? formatDateAsLongVi(configuredWeddingDate)
-      : "");
+    var saveDateText =
+      cfg.dateLine ||
+      (configuredWeddingDate ? formatDateAsLongVi(configuredWeddingDate) : "");
 
     setSectionBackground("save-the-date", cfg.backgroundImage);
 
@@ -698,7 +764,7 @@
       setAttr(
         ".save-date__date",
         "datetime",
-        formatDateForDateTimeAttr(configuredWeddingDate)
+        formatDateForDateTimeAttr(configuredWeddingDate),
       );
     }
   }
@@ -758,11 +824,37 @@
 
     setText(".gallery__title", cfg.title);
     var vImages = cfg.images;
-    var loopImages = vImages.concat(vImages).concat(vImages);
-    buildSlides(".gallery__slider .swiper-wrapper", loopImages, "vertical");
+    buildSlides(".gallery__slider .swiper-wrapper", vImages, "vertical");
     var hImages = cfg.horizontalImages || [];
-    var marqueeImages = hImages.concat(hImages).concat(hImages);
-    buildSlides(".gallery__horizontal-slider .swiper-wrapper", marqueeImages, "horizontal");
+    buildSlides(
+      ".gallery__horizontal-slider .swiper-wrapper",
+      hImages,
+      "horizontal",
+    );
+  }
+
+  function hydrateGalleryImage(img) {
+    if (!img) return;
+    var deferredSrc = img.getAttribute("data-src");
+    if (!deferredSrc) return;
+    img.src = deferredSrc;
+    img.removeAttribute("data-src");
+  }
+
+  function hydrateSwiperNeighborhood(swiper, radius) {
+    if (!swiper || !swiper.slides || !swiper.slides.length) return;
+    var activeIndex = Number.isFinite(swiper.activeIndex)
+      ? swiper.activeIndex
+      : 0;
+    var safeRadius = Number.isFinite(radius) ? Math.max(0, radius) : 0;
+
+    for (var i = 0; i < swiper.slides.length; i++) {
+      if (Math.abs(i - activeIndex) > safeRadius) continue;
+      var imgs = swiper.slides[i].querySelectorAll(".gallery__img[data-src]");
+      for (var j = 0; j < imgs.length; j++) {
+        hydrateGalleryImage(imgs[j]);
+      }
+    }
   }
 
   function buildSlides(wrapperSelector, images, pool) {
@@ -777,14 +869,26 @@
       var a = document.createElement("a");
       a.href = image.src;
       a.className = "gallery__link";
-      a.setAttribute("data-lightbox-index", index % ((pool === "horizontal" ? (WEDDING_CONFIG.gallery.horizontalImages || []).length : (WEDDING_CONFIG.gallery.images || []).length) || images.length));
+      a.setAttribute(
+        "data-lightbox-index",
+        index %
+          ((pool === "horizontal"
+            ? (WEDDING_CONFIG.gallery.horizontalImages || []).length
+            : (WEDDING_CONFIG.gallery.images || []).length) || images.length),
+      );
       a.setAttribute("data-lightbox-pool", pool);
 
       var img = document.createElement("img");
-      img.src = image.src;
+      if (index < GALLERY_INITIAL_EAGER_LOAD) {
+        img.src = image.src;
+      } else {
+        img.setAttribute("data-src", image.src);
+      }
       img.alt = image.alt;
       img.className = "gallery__img";
       img.loading = "lazy";
+      img.decoding = "async";
+      img.setAttribute("fetchpriority", index < 2 ? "high" : "low");
 
       a.appendChild(img);
       slide.appendChild(a);
@@ -815,7 +919,10 @@
     }
 
     populateAttrs({
-      ".location__sketch-img": { src: cfg.sketchMapImage, alt: cfg.sketchMapAlt },
+      ".location__sketch-img": {
+        src: cfg.sketchMapImage,
+        alt: cfg.sketchMapAlt,
+      },
     });
   }
 
@@ -887,16 +994,21 @@
     });
 
     ["groom", "bride"].forEach(function (role) {
-      var card = document.querySelector('.gifts__card[data-gift="' + role + '"]');
+      var card = document.querySelector(
+        '.gifts__card[data-gift="' + role + '"]',
+      );
       if (!card || !cfg[role]) return;
 
       var data = cfg[role];
-      populateText({
-        ".gifts__card-label": data.label,
-        ".gifts__account-name": data.name,
-        ".gifts__bank-name": data.bank,
-        ".gifts__account-number": data.accountNumber,
-      }, card);
+      populateText(
+        {
+          ".gifts__card-label": data.label,
+          ".gifts__account-name": data.name,
+          ".gifts__bank-name": data.bank,
+          ".gifts__account-number": data.accountNumber,
+        },
+        card,
+      );
 
       var subtitleEl = card.querySelector(".gifts__card-subtitle");
       if (subtitleEl) {
@@ -907,9 +1019,12 @@
         subtitleEl.appendChild(cta);
       }
 
-      populateAttrs({
-        ".gifts__qr-img": { src: data.qrImage, alt: "Mã QR " + data.label },
-      }, card);
+      populateAttrs(
+        {
+          ".gifts__qr-img": { src: data.qrImage, alt: "Mã QR " + data.label },
+        },
+        card,
+      );
     });
   }
 
@@ -1053,12 +1168,10 @@
         return;
       }
 
-      playAttempt
-        .then(removeRetryListeners)
-        .catch(function () {
-          showControl();
-          addRetryListeners();
-        });
+      playAttempt.then(removeRetryListeners).catch(function () {
+        showControl();
+        addRetryListeners();
+      });
     }
 
     function onFirstGesture() {
@@ -1106,7 +1219,11 @@
   // --- 3c. Cover Exit Audio Switch ----------------------------------------
 
   function initCoverExitAudioSwitch(ambientControl) {
-    if (!ambientControl || typeof ambientControl.switchAmbientTrack !== "function") return;
+    if (
+      !ambientControl ||
+      typeof ambientControl.switchAmbientTrack !== "function"
+    )
+      return;
 
     var cover = document.getElementById("cover");
     if (!cover) return;
@@ -1135,7 +1252,7 @@
             }
           });
         },
-        { threshold: 0 }
+        { threshold: 0 },
       );
 
       observer.observe(cover);
@@ -1162,16 +1279,24 @@
 
   function initStaggerAnimations() {
     var items = document.querySelectorAll("[data-stagger] .stagger-item");
-    var thankYouHeading = document.querySelector(".thank-you__heading.stagger-item");
-    var thankYouMessage = document.querySelector(".thank-you__message.stagger-item");
-    var thankYouCredit = document.querySelector(".thank-you__credit.stagger-item");
+    var thankYouHeading = document.querySelector(
+      ".thank-you__heading.stagger-item",
+    );
+    var thankYouMessage = document.querySelector(
+      ".thank-you__message.stagger-item",
+    );
+    var thankYouCredit = document.querySelector(
+      ".thank-you__credit.stagger-item",
+    );
     var messageTimerStarted = false;
     var creditTimerStarted = false;
     var useThankYouTimerFlow = !!(thankYouHeading && thankYouMessage);
     var useThankYouCreditTimerFlow = !!(thankYouMessage && thankYouCredit);
 
     if (!("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("stagger--visible"); });
+      items.forEach(function (el) {
+        el.classList.add("stagger--visible");
+      });
       return;
     }
 
@@ -1183,7 +1308,7 @@
       revealQueue = [];
       frameScheduled = false;
       batch.forEach(function (item, i) {
-        item.style.transitionDelay = (i * STAGGER_DELAY) + "ms";
+        item.style.transitionDelay = i * STAGGER_DELAY + "ms";
         item.classList.add("stagger--visible");
       });
     }
@@ -1193,7 +1318,8 @@
         !useThankYouCreditTimerFlow ||
         creditTimerStarted ||
         thankYouCredit.classList.contains("stagger--visible")
-      ) return;
+      )
+        return;
 
       creditTimerStarted = true;
       setTimeout(function () {
@@ -1240,7 +1366,10 @@
 
             if (useThankYouTimerFlow && entry.target === thankYouHeading) {
               startThankYouMessageTimer();
-            } else if (!useThankYouTimerFlow && entry.target === thankYouMessage) {
+            } else if (
+              !useThankYouTimerFlow &&
+              entry.target === thankYouMessage
+            ) {
               startCreditTimer();
             }
           }
@@ -1250,10 +1379,12 @@
           requestAnimationFrame(processQueue);
         }
       },
-      { threshold: SCROLL_ANIM_THRESHOLD, rootMargin: "0px 0px -45% 0px" }
+      { threshold: SCROLL_ANIM_THRESHOLD, rootMargin: "0px 0px -45% 0px" },
     );
 
-    items.forEach(function (el) { observer.observe(el); });
+    items.forEach(function (el) {
+      observer.observe(el);
+    });
   }
 
   // --- 3d. Countdown Timer -------------------------------------------------
@@ -1307,10 +1438,18 @@
         slideShadows: true,
       },
       autoplay: { delay: GALLERY_AUTOPLAY_DELAY, disableOnInteraction: false },
-      pagination: { el: ".gallery__slider .swiper-pagination", clickable: true },
       loop: true,
+      preloadImages: false,
       observer: true,
       observeParents: true,
+      on: {
+        init: function (swiper) {
+          hydrateSwiperNeighborhood(swiper, GALLERY_VERTICAL_PRELOAD_RADIUS);
+        },
+        slideChangeTransitionStart: function (swiper) {
+          hydrateSwiperNeighborhood(swiper, GALLERY_VERTICAL_PRELOAD_RADIUS);
+        },
+      },
     });
 
     galleryHorizontalSwiper = new Swiper(".gallery__horizontal-slider", {
@@ -1318,32 +1457,44 @@
       spaceBetween: gallerySpacing,
       grabCursor: true,
       loop: true,
+      preloadImages: false,
       autoplay: { delay: 1, disableOnInteraction: false },
       speed: GALLERY_SCROLL_SPEED,
       observer: true,
       observeParents: true,
+      on: {
+        init: function (swiper) {
+          hydrateSwiperNeighborhood(swiper, GALLERY_HORIZONTAL_PRELOAD_RADIUS);
+        },
+        slideChangeTransitionStart: function (swiper) {
+          hydrateSwiperNeighborhood(swiper, GALLERY_HORIZONTAL_PRELOAD_RADIUS);
+        },
+      },
     });
 
     function scheduleGalleryRelayout(delayMs) {
       if (!galleryVerticalSwiper && !galleryHorizontalSwiper) return;
       if (galleryRelayoutTimer) clearTimeout(galleryRelayoutTimer);
 
-      galleryRelayoutTimer = setTimeout(function () {
-        if (galleryRelayoutRaf) cancelAnimationFrame(galleryRelayoutRaf);
+      galleryRelayoutTimer = setTimeout(
+        function () {
+          if (galleryRelayoutRaf) cancelAnimationFrame(galleryRelayoutRaf);
 
-        galleryRelayoutRaf = requestAnimationFrame(function () {
-          if (galleryHorizontalSwiper && galleryHorizontalSwiper.autoplay) {
-            galleryHorizontalSwiper.autoplay.stop();
-          }
+          galleryRelayoutRaf = requestAnimationFrame(function () {
+            if (galleryHorizontalSwiper && galleryHorizontalSwiper.autoplay) {
+              galleryHorizontalSwiper.autoplay.stop();
+            }
 
-          if (galleryVerticalSwiper) galleryVerticalSwiper.update();
-          if (galleryHorizontalSwiper) galleryHorizontalSwiper.update();
+            if (galleryVerticalSwiper) galleryVerticalSwiper.update();
+            if (galleryHorizontalSwiper) galleryHorizontalSwiper.update();
 
-          if (galleryHorizontalSwiper && galleryHorizontalSwiper.autoplay) {
-            galleryHorizontalSwiper.autoplay.start();
-          }
-        });
-      }, Number.isFinite(delayMs) ? delayMs : GALLERY_RELAYOUT_DELAY);
+            if (galleryHorizontalSwiper && galleryHorizontalSwiper.autoplay) {
+              galleryHorizontalSwiper.autoplay.start();
+            }
+          });
+        },
+        Number.isFinite(delayMs) ? delayMs : GALLERY_RELAYOUT_DELAY,
+      );
     }
 
     function onGalleryViewportChange() {
@@ -1405,7 +1556,8 @@
     }
 
     function prev() {
-      currentIndex = (currentIndex - 1 + currentPool.length) % currentPool.length;
+      currentIndex =
+        (currentIndex - 1 + currentPool.length) % currentPool.length;
       lightboxImg.src = currentPool[currentIndex].src;
       lightboxImg.alt = currentPool[currentIndex].alt;
     }
@@ -1481,7 +1633,9 @@
         submitBtn: submitBtn,
         submittingText: cfg.submittingText,
         submitText: cfg.submitText,
-        onSuccess: function () { markSuccess(submitBtn); },
+        onSuccess: function () {
+          markSuccess(submitBtn);
+        },
         onError: function () {
           showFormMessage(form, cfg.errorMessage, "error");
         },
@@ -1517,7 +1671,9 @@
 
       var submitBtn = form.querySelector(".rsvp__submit");
       var nameInput = document.getElementById("rsvp-name");
-      var attendanceRadio = form.querySelector('input[name="attendance"]:checked');
+      var attendanceRadio = form.querySelector(
+        'input[name="attendance"]:checked',
+      );
 
       if (!nameInput || !nameInput.value.trim() || !attendanceRadio) {
         showFormMessage(form, cfg.validationError, "error");
@@ -1536,7 +1692,9 @@
         submitBtn: submitBtn,
         submittingText: cfg.submittingText,
         submitText: cfg.submitText,
-        onSuccess: function () { markSuccess(submitBtn); },
+        onSuccess: function () {
+          markSuccess(submitBtn);
+        },
         onError: function () {
           showFormMessage(form, cfg.errorMessage, "error");
         },
@@ -1549,17 +1707,21 @@
   var AUTO_SCROLL_FALLBACK_MS = 4000; // if transitionend never fires
 
   function initAutoScrollHint(coverSection) {
-    if (!coverSection || !coverSection.classList.contains("cover--ready")) return;
+    if (!coverSection || !coverSection.classList.contains("cover--ready"))
+      return;
 
-    var cfg = (WEDDING_CONFIG.autoScrollHint || {});
+    var cfg = WEDDING_CONFIG.autoScrollHint || {};
     if (cfg.enabled === false) return;
 
-    var prefersReducedMotion = window.matchMedia &&
+    var prefersReducedMotion =
+      window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
-    var bufferMs = typeof cfg.bufferAfterFadeMs === "number" ? cfg.bufferAfterFadeMs : 500;
-    var speedPxPerSec = typeof cfg.speedPxPerSec === "number" ? cfg.speedPxPerSec : 50;
+    var bufferMs =
+      typeof cfg.bufferAfterFadeMs === "number" ? cfg.bufferAfterFadeMs : 500;
+    var speedPxPerSec =
+      typeof cfg.speedPxPerSec === "number" ? cfg.speedPxPerSec : 50;
 
     var lastEl = null;
     var maxDelay = -1;
@@ -1598,7 +1760,9 @@
       var rafId = null;
       var lastTime = performance.now();
       var stopped = false;
-      var consentElement = document.querySelector(AMBIENT_AUDIO_CONSENT_SELECTOR);
+      var consentElement = document.querySelector(
+        AMBIENT_AUDIO_CONSENT_SELECTOR,
+      );
 
       function isAudioConsentInteraction(event) {
         if (!event || !event.target || !consentElement) return false;
@@ -1618,7 +1782,14 @@
       }
 
       function onKeyDown(e) {
-        var scrollKeys = ["ArrowUp", "ArrowDown", "PageUp", "PageDown", " ", "Space"];
+        var scrollKeys = [
+          "ArrowUp",
+          "ArrowDown",
+          "PageUp",
+          "PageDown",
+          " ",
+          "Space",
+        ];
         if (scrollKeys.indexOf(e.key) !== -1) stop();
       }
 
@@ -1632,10 +1803,11 @@
         var raw = (now - lastTime) / 1000;
         var dt = raw <= 0 ? 0.016 : Math.min(raw, 0.05);
         lastTime = now;
-        var maxScroll = Math.max(
-          document.documentElement.scrollHeight,
-          document.body.scrollHeight
-        ) - window.innerHeight;
+        var maxScroll =
+          Math.max(
+            document.documentElement.scrollHeight,
+            document.body.scrollHeight,
+          ) - window.innerHeight;
         if (maxScroll <= 0) return;
         var current = window.scrollY || window.pageYOffset;
         if (current >= maxScroll) {
@@ -1643,7 +1815,10 @@
           return;
         }
         var step = speedPxPerSec * dt;
-        document.documentElement.scrollTop = Math.min(current + step, maxScroll);
+        document.documentElement.scrollTop = Math.min(
+          current + step,
+          maxScroll,
+        );
         rafId = requestAnimationFrame(tick);
       }
 
@@ -1668,7 +1843,8 @@
     function getViewportHeight() {
       // On mobile, visualViewport tracks the visible area after browser UI changes.
       var vv = window.visualViewport;
-      if (vv && typeof vv.height === "number" && vv.height > 0) return vv.height;
+      if (vv && typeof vv.height === "number" && vv.height > 0)
+        return vv.height;
       return window.innerHeight || document.documentElement.clientHeight || 0;
     }
 
@@ -1683,14 +1859,19 @@
         var viewportHeight = getViewportHeight();
         if (!viewportHeight) return;
 
-        var coverHeight = Math.ceil(coverSection.getBoundingClientRect().height);
+        var coverHeight = Math.ceil(
+          coverSection.getBoundingClientRect().height,
+        );
         var overflow = coverHeight - viewportHeight;
         if (overflow <= 0) return;
 
         var andGap = parseFloat(window.getComputedStyle(andEl).marginTop) || 0;
-        var dateGap = parseFloat(window.getComputedStyle(dateEl).marginTop) || 0;
-        var baseTopPadding = parseFloat(window.getComputedStyle(coverContent).paddingTop) || 0;
-        var baseBottomPadding = parseFloat(window.getComputedStyle(coverContent).paddingBottom) || 0;
+        var dateGap =
+          parseFloat(window.getComputedStyle(dateEl).marginTop) || 0;
+        var baseTopPadding =
+          parseFloat(window.getComputedStyle(coverContent).paddingTop) || 0;
+        var baseBottomPadding =
+          parseFloat(window.getComputedStyle(coverContent).paddingBottom) || 0;
 
         var remainingOverflow = overflow;
 
@@ -1705,7 +1886,10 @@
         if (maxSharedGapTrim > 0 && remainingOverflow > 0) {
           var trimPerSpot = Math.min(maxSharedGapTrim, remainingOverflow / 2);
           var nextSharedGap = currentSharedGap - trimPerSpot;
-          coverSection.style.setProperty("--cover-windsong-next-gap", nextSharedGap.toFixed(3) + "px");
+          coverSection.style.setProperty(
+            "--cover-windsong-next-gap",
+            nextSharedGap.toFixed(3) + "px",
+          );
           remainingOverflow -= trimPerSpot * 2;
         }
 
@@ -1715,7 +1899,8 @@
         var maxBottomTrim = Math.max(0, baseBottomPadding - minBottomPadding);
         if (maxBottomTrim > 0 && remainingOverflow > 0) {
           var bottomTrim = Math.min(maxBottomTrim, remainingOverflow);
-          coverContent.style.paddingBottom = (baseBottomPadding - bottomTrim).toFixed(3) + "px";
+          coverContent.style.paddingBottom =
+            (baseBottomPadding - bottomTrim).toFixed(3) + "px";
           remainingOverflow -= bottomTrim;
         }
 
@@ -1725,7 +1910,8 @@
         var maxTopTrim = Math.max(0, baseTopPadding - minTopPadding);
         if (maxTopTrim > 0 && remainingOverflow > 0) {
           var topTrim = Math.min(maxTopTrim, remainingOverflow);
-          coverContent.style.paddingTop = (baseTopPadding - topTrim).toFixed(3) + "px";
+          coverContent.style.paddingTop =
+            (baseTopPadding - topTrim).toFixed(3) + "px";
         }
       });
     }
@@ -1738,7 +1924,10 @@
     window.addEventListener("resize", scheduleCoverViewportFit);
     window.addEventListener("orientationchange", scheduleCoverViewportFit);
     if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", scheduleCoverViewportFit);
+      window.visualViewport.addEventListener(
+        "resize",
+        scheduleCoverViewportFit,
+      );
     }
 
     applyCoverViewportFit();
@@ -1773,7 +1962,8 @@
 
     function resolveDownloadFilename(card, imageSrc) {
       var role = card.getAttribute("data-gift");
-      var fallbackName = role === "bride" ? "qr-nha-gai.png" : "qr-nha-trai.png";
+      var fallbackName =
+        role === "bride" ? "qr-nha-gai.png" : "qr-nha-trai.png";
       try {
         var parsed = new URL(imageSrc, window.location.href);
         var pathName = parsed.pathname || "";

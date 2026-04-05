@@ -146,20 +146,180 @@ const WEDDING_CONFIG = {
   gallery: {
     title: "Kỷ niệm của chúng mình",
     images: [
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 1" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 2" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 3" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 4" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 5" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 6" },
+      {
+        src: "assets/images/gallery/portrait/1.jpg",
+        alt: "Ảnh cưới Phuc và Van - 1",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06289.jpg",
+        alt: "Ảnh cưới Phuc và Van - 2",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06318.jpg",
+        alt: "Ảnh cưới Phuc và Van - 3",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06423.jpg",
+        alt: "Ảnh cưới Phuc và Van - 4",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06457.jpg",
+        alt: "Ảnh cưới Phuc và Van - 5",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06650.jpg",
+        alt: "Ảnh cưới Phuc và Van - 6",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06726.jpg",
+        alt: "Ảnh cưới Phuc và Van - 7",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06765.jpg",
+        alt: "Ảnh cưới Phuc và Van - 8",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06793.jpg",
+        alt: "Ảnh cưới Phuc và Van - 9",
+      },
+      {
+        src: "assets/images/gallery/portrait/BRS06889.jpg",
+        alt: "Ảnh cưới Phuc và Van - 10",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_2115.jpg",
+        alt: "Ảnh cưới Phuc và Van - 11",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_2244.jpg",
+        alt: "Ảnh cưới Phuc và Van - 12",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_2463.jpg",
+        alt: "Ảnh cưới Phuc và Van - 13",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_2527.jpg",
+        alt: "Ảnh cưới Phuc và Van - 14",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_2713.jpg",
+        alt: "Ảnh cưới Phuc và Van - 15",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_2754.jpg",
+        alt: "Ảnh cưới Phuc và Van - 16",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_5828.jpg",
+        alt: "Ảnh cưới Phuc và Van - 17",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_5858.jpg",
+        alt: "Ảnh cưới Phuc và Van - 18",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_5962.jpg",
+        alt: "Ảnh cưới Phuc và Van - 19",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_5999.jpg",
+        alt: "Ảnh cưới Phuc và Van - 20",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_6353.jpg",
+        alt: "Ảnh cưới Phuc và Van - 21",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_6576.jpg",
+        alt: "Ảnh cưới Phuc và Van - 22",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_6691.jpg",
+        alt: "Ảnh cưới Phuc và Van - 23",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_6724.jpg",
+        alt: "Ảnh cưới Phuc và Van - 24",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_6868.jpg",
+        alt: "Ảnh cưới Phuc và Van - 25",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_7081.jpg",
+        alt: "Ảnh cưới Phuc và Van - 26",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_7237.jpg",
+        alt: "Ảnh cưới Phuc và Van - 27",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_7257.jpg",
+        alt: "Ảnh cưới Phuc và Van - 28",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_7444.jpg",
+        alt: "Ảnh cưới Phuc và Van - 29",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_7481.jpg",
+        alt: "Ảnh cưới Phuc và Van - 30",
+      },
+      {
+        src: "assets/images/gallery/portrait/DSC_7488.jpg",
+        alt: "Ảnh cưới Phuc và Van - 31",
+      },
     ],
     horizontalImages: [
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 7" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 8" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 9" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 10" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 11" },
-      { src: PLACEHOLDER_IMAGE, alt: "Ảnh cưới Phuc và Van - 12" },
+      {
+        src: "assets/images/gallery/landscape/BRS06089.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 1",
+      },
+      {
+        src: "assets/images/gallery/landscape/BRS06473.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 2",
+      },
+      {
+        src: "assets/images/gallery/landscape/BRS06503.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 3",
+      },
+      {
+        src: "assets/images/gallery/landscape/BRS06525.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 4",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_1864.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 5",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_1938.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 6",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_1994.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 7",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_2491.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 8",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_2562.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 9",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_2882.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 10",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_2907.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 11",
+      },
+      {
+        src: "assets/images/gallery/landscape/DSC_6794.jpg",
+        alt: "Ảnh cưới Phuc và Van - ngang 12",
+      },
     ],
   },
 
