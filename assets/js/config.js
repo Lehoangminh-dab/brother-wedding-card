@@ -8,13 +8,13 @@
 // Default placeholder used until real photos are provided
 const PLACEHOLDER_IMAGE = "assets/images/placeholder.jpg";
 const UNTIL_THE_BIG_DAY_IMAGE =
-  "assets/images/phuc_van_pics/phuc_van_1/Album 30 x 30 Phuc Van/HL.jpg";
+  "assets/images/optimized/sections/until_the_day.jpg";
 const SAVE_THE_DATE_IMAGE =
-  "assets/images/phuc_van_pics/phuc_van_1/DSC_6293.jpg";
-const LOCATION_IMAGE = "assets/images/hon_dau_resort.jpg";
-const WISHES_IMAGE = "assets/images/phuc_van_pics/phuc_van_1/BRS06403.jpg";
+  "assets/images/optimized/sections/save_the_date.jpg";
+const LOCATION_IMAGE = "assets/images/optimized/sections/hon_dau_resort.jpg";
+const WISHES_IMAGE = "assets/images/optimized/sections/wishes.jpg";
 const THANK_YOU_IMAGE =
-  "assets/images/phuc_van_pics/phuc_van_1/Album 30 x 30 Phuc Van/G.jpg";
+  "assets/images/optimized/sections/thank_you.jpg";
 
 const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
@@ -79,8 +79,8 @@ const WEDDING_CONFIG = {
       // { src: "assets/videos/ocean_waves_background.webm", type: "video/webm" },
     ],
     videoUrl: "assets/videos/ocean_waves_background.mp4",
-    posterImage: "assets/images/ocean_waves_background.png",
-    backgroundImage: "assets/images/ocean_waves_background.png",
+    posterImage: "assets/images/optimized/sections/ocean_waves_background.jpg",
+    backgroundImage: "assets/images/optimized/sections/ocean_waves_background.jpg",
   },
 
   // ──────────────────────────────────────────────

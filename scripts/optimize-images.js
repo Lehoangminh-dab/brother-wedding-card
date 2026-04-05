@@ -10,6 +10,7 @@ const path = require("path");
 const sharp = require("sharp");
 
 const ROOT_DIR = path.resolve(__dirname, "..");
+const SOURCE_IMAGES_DIR = path.join(ROOT_DIR, "source-images");
 const IMAGES_DIR = path.join(ROOT_DIR, "assets", "images");
 const OUTPUT_DIR = path.join(IMAGES_DIR, "optimized");
 
@@ -18,82 +19,66 @@ const IMAGE_EXT_RE = /\.(jpe?g|png|webp)$/i;
 const GALLERY_JOBS = [
   {
     name: "gallery-portrait",
-    sourceDir: path.join(IMAGES_DIR, "gallery", "portrait"),
+    sourceDir: path.join(SOURCE_IMAGES_DIR, "gallery", "portrait"),
     outputDir: path.join(OUTPUT_DIR, "gallery", "portrait"),
-    maxWidth: 900,
-    maxHeight: 1400,
+    variants: [
+      { suffix: "480", maxWidth: 480, maxHeight: 720 },
+      { suffix: "768", maxWidth: 768, maxHeight: 1152 },
+      { suffix: "960", maxWidth: 960, maxHeight: 1400 },
+    ],
     quality: 72,
   },
   {
     name: "gallery-landscape",
-    sourceDir: path.join(IMAGES_DIR, "gallery", "landscape"),
+    sourceDir: path.join(SOURCE_IMAGES_DIR, "gallery", "landscape"),
     outputDir: path.join(OUTPUT_DIR, "gallery", "landscape"),
-    maxWidth: 1280,
-    maxHeight: 820,
+    variants: [
+      { suffix: "640", maxWidth: 640, maxHeight: 420 },
+      { suffix: "960", maxWidth: 960, maxHeight: 620 },
+      { suffix: "1280", maxWidth: 1280, maxHeight: 820 },
+    ],
     quality: 72,
   },
 ];
 
 const SECTION_JOBS = [
   {
-    sourceFile: path.join(IMAGES_DIR, "ocean_waves_background.png"),
+    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "ocean_waves_background.png"),
     outputFile: path.join(OUTPUT_DIR, "sections", "ocean_waves_background.jpg"),
     maxWidth: 1600,
     maxHeight: 1200,
     quality: 74,
   },
   {
-    sourceFile: path.join(IMAGES_DIR, "hon_dau_resort.jpg"),
+    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "hon_dau_resort.jpg"),
     outputFile: path.join(OUTPUT_DIR, "sections", "hon_dau_resort.jpg"),
     maxWidth: 1600,
     maxHeight: 1200,
     quality: 74,
   },
   {
-    sourceFile: path.join(
-      IMAGES_DIR,
-      "phuc_van_pics",
-      "phuc_van_1",
-      "Album 30 x 30 Phuc Van",
-      "HL.jpg",
-    ),
+    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "HL.jpg"),
     outputFile: path.join(OUTPUT_DIR, "sections", "until_the_day.jpg"),
     maxWidth: 1280,
     maxHeight: 1920,
     quality: 74,
   },
   {
-    sourceFile: path.join(
-      IMAGES_DIR,
-      "phuc_van_pics",
-      "phuc_van_1",
-      "DSC_6293.jpg",
-    ),
+    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "DSC_6293.jpg"),
     outputFile: path.join(OUTPUT_DIR, "sections", "save_the_date.jpg"),
     maxWidth: 1280,
     maxHeight: 1920,
     quality: 74,
   },
   {
-    sourceFile: path.join(
-      IMAGES_DIR,
-      "phuc_van_pics",
-      "phuc_van_1",
-      "BRS06403.jpg",
-    ),
+    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "BRS06403.jpg"),
     outputFile: path.join(OUTPUT_DIR, "sections", "wishes.jpg"),
     maxWidth: 1280,
     maxHeight: 1920,
     quality: 74,
   },
   {
-    sourceFile: path.join(
-      IMAGES_DIR,
-      "phuc_van_pics",
-      "phuc_van_1",
-      "Album 30 x 30 Phuc Van",
-      "G.jpg",
-    ),
+    sourceFile: path.join(SOURCE_IMAGES_DIR, "sections", "G.jpg"),
     outputFile: path.join(OUTPUT_DIR, "sections", "thank_you.jpg"),
     maxWidth: 1280,
     maxHeight: 1920,
@@ -116,8 +101,6 @@ function toRelative(absPath) {
 async function optimizeImage(sourceFile, outputFile, options) {
   await ensureDir(path.dirname(outputFile));
 
-  const beforeStat = await fs.stat(sourceFile);
-
   await sharp(sourceFile)
     .rotate()
     .resize(options.maxWidth, options.maxHeight, {
@@ -134,11 +117,33 @@ async function optimizeImage(sourceFile, outputFile, options) {
     .toFile(outputFile);
 
   const afterStat = await fs.stat(outputFile);
+  return afterStat.size;
+}
 
-  return {
-    sourceBytes: beforeStat.size,
-    outputBytes: afterStat.size,
-  };
+function toVariantFilePath(baseFilePath, suffix) {
+  return baseFilePath.replace(/\.jpg$/i, "-" + suffix + ".jpg");
+}
+
+async function optimizeVariants(sourceFile, outputFile, variants, quality) {
+  let outputBytes = 0;
+
+  for (const variant of variants) {
+    const variantOutputPath = toVariantFilePath(outputFile, variant.suffix);
+    const variantBytes = await optimizeImage(sourceFile, variantOutputPath, {
+      maxWidth: variant.maxWidth,
+      maxHeight: variant.maxHeight,
+      quality,
+    });
+    outputBytes += variantBytes;
+  }
+
+  const defaultVariant = variants[variants.length - 1];
+  const defaultVariantPath = toVariantFilePath(outputFile, defaultVariant.suffix);
+  await fs.copyFile(defaultVariantPath, outputFile);
+  const baseStat = await fs.stat(outputFile);
+  outputBytes += baseStat.size;
+
+  return outputBytes;
 }
 
 async function optimizeGalleryFolder(job) {
@@ -158,9 +163,16 @@ async function optimizeGalleryFolder(job) {
       path.parse(fileName).name + ".jpg",
     );
 
-    const stats = await optimizeImage(sourceFile, outputFile, job);
-    sourceTotal += stats.sourceBytes;
-    outputTotal += stats.outputBytes;
+    const sourceStat = await fs.stat(sourceFile);
+    sourceTotal += sourceStat.size;
+
+    const bytes = await optimizeVariants(
+      sourceFile,
+      outputFile,
+      job.variants,
+      job.quality,
+    );
+    outputTotal += bytes;
   }
 
   return {
@@ -176,9 +188,34 @@ async function optimizeSectionImages() {
   let fileCount = 0;
 
   for (const job of SECTION_JOBS) {
-    const stats = await optimizeImage(job.sourceFile, job.outputFile, job);
-    sourceTotal += stats.sourceBytes;
-    outputTotal += stats.outputBytes;
+    const sourceStat = await fs.stat(job.sourceFile);
+    sourceTotal += sourceStat.size;
+
+    const variants = [
+      {
+        suffix: "768",
+        maxWidth: 768,
+        maxHeight: Math.min(job.maxHeight, 1280),
+      },
+      {
+        suffix: "1280",
+        maxWidth: 1280,
+        maxHeight: job.maxHeight,
+      },
+      {
+        suffix: "1600",
+        maxWidth: job.maxWidth,
+        maxHeight: job.maxHeight,
+      },
+    ];
+
+    const bytes = await optimizeVariants(
+      job.sourceFile,
+      job.outputFile,
+      variants,
+      job.quality,
+    );
+    outputTotal += bytes;
     fileCount += 1;
   }
 
