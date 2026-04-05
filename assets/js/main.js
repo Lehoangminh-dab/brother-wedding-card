@@ -1943,6 +1943,9 @@
       var rafId = null;
       var lastTime = performance.now();
       var stopped = false;
+      var finished = false;
+      var idleResumeId = null;
+      var IDLE_RESUME_MS = 20000;
       var consentElement = document.querySelector(
         AMBIENT_AUDIO_CONSENT_SELECTOR,
       );
@@ -1953,15 +1956,65 @@
         return !!event.target.closest(AMBIENT_AUDIO_CONSENT_SELECTOR);
       }
 
-      function stop(event) {
+      function clearIdleResume() {
+        if (!idleResumeId) return;
+        clearTimeout(idleResumeId);
+        idleResumeId = null;
+      }
+
+      function removeInteractionListeners() {
+        document.removeEventListener("touchstart", pause, { passive: true });
+        document.removeEventListener("touchmove", pause, { passive: true });
+        document.removeEventListener("wheel", pause, { passive: true });
+        document.removeEventListener("keydown", onKeyDown);
+      }
+
+      function finish() {
+        if (finished) return;
+        finished = true;
+        stopped = true;
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        clearIdleResume();
+        removeInteractionListeners();
+      }
+
+      function scheduleIdleResume() {
+        if (finished) return;
+        clearIdleResume();
+        idleResumeId = setTimeout(function () {
+          idleResumeId = null;
+          if (finished || !stopped) return;
+
+          var maxScroll =
+            Math.max(
+              document.documentElement.scrollHeight,
+              document.body.scrollHeight,
+            ) - window.innerHeight;
+          var current = window.scrollY || window.pageYOffset;
+          if (maxScroll <= 0 || current >= maxScroll) {
+            finish();
+            return;
+          }
+
+          stopped = false;
+          lastTime = performance.now();
+          if (!rafId) rafId = requestAnimationFrame(tick);
+        }, IDLE_RESUME_MS);
+      }
+
+      function pause(event) {
         // Let users enable ambient audio without canceling auto-scroll hint.
         if (isAudioConsentInteraction(event)) return;
+        if (finished) return;
         stopped = true;
-        if (rafId) cancelAnimationFrame(rafId);
-        document.removeEventListener("touchstart", stop, { passive: true });
-        document.removeEventListener("touchmove", stop, { passive: true });
-        document.removeEventListener("wheel", stop, { passive: true });
-        document.removeEventListener("keydown", onKeyDown);
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        scheduleIdleResume();
       }
 
       function onKeyDown(e) {
@@ -1973,16 +2026,16 @@
           " ",
           "Space",
         ];
-        if (scrollKeys.indexOf(e.key) !== -1) stop();
+        if (scrollKeys.indexOf(e.key) !== -1) pause(e);
       }
 
-      document.addEventListener("touchstart", stop, { passive: true });
-      document.addEventListener("touchmove", stop, { passive: true });
-      document.addEventListener("wheel", stop, { passive: true });
+      document.addEventListener("touchstart", pause, { passive: true });
+      document.addEventListener("touchmove", pause, { passive: true });
+      document.addEventListener("wheel", pause, { passive: true });
       document.addEventListener("keydown", onKeyDown);
 
       function tick(now) {
-        if (stopped) return;
+        if (finished || stopped) return;
         var raw = (now - lastTime) / 1000;
         var dt = raw <= 0 ? 0.016 : Math.min(raw, 0.05);
         lastTime = now;
@@ -1991,10 +2044,13 @@
             document.documentElement.scrollHeight,
             document.body.scrollHeight,
           ) - window.innerHeight;
-        if (maxScroll <= 0) return;
+        if (maxScroll <= 0) {
+          finish();
+          return;
+        }
         var current = window.scrollY || window.pageYOffset;
         if (current >= maxScroll) {
-          stop();
+          finish();
           return;
         }
         var step = speedPxPerSec * dt;
