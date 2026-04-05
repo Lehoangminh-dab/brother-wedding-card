@@ -139,6 +139,7 @@
   --section-height-location: 300vh;
   --section-height-rsvp: 100vh;
   --section-height-wishes: 300vh;
+  --section-height-thank-you: 100vh;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -1911,7 +1912,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 125vh;
+  min-height: var(--section-height-thank-you);
   color: var(--text-white-pure);
   text-align: center;
   padding: var(--space-40) var(--space-20);

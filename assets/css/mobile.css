@@ -37,6 +37,7 @@
     --section-height-location: 150svh;
     --section-height-rsvp: 100svh;
     --section-height-wishes: 170svh;
+    --section-height-thank-you: 100vh;
 
     /* Shared semantic roles: same taxonomy as desktop, mobile-tuned values. */
     --divider-gap: var(--space-stack-section);
