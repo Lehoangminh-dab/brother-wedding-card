@@ -1,345 +1,468 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light">
-  <meta name="supported-color-schemes" content="light">
-  <meta name="description" content="Thiệp cưới Phúc &amp; Vân">
-  <link rel="canonical" href="https://brother-wedding-card.vercel.app/">
-  <meta itemprop="name" content="Phúc – Vân | Thiệp Cưới">
-  <meta itemprop="description" content="Thiệp cưới Phúc &amp; Vân">
-  <meta itemprop="image" content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="supported-color-schemes" content="light" />
+    <meta name="description" content="Thiệp cưới Phúc &amp; Vân" />
+    <link rel="canonical" href="https://brother-wedding-card.vercel.app/" />
+    <meta itemprop="name" content="Phúc – Vân | Thiệp Cưới" />
+    <meta itemprop="description" content="Thiệp cưới Phúc &amp; Vân" />
+    <meta
+      itemprop="image"
+      content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg"
+    />
 
-  <title>Phúc – Vân | Thiệp Cưới</title>
+    <title>Phúc – Vân | Thiệp Cưới</title>
 
-  <!-- Open Graph (Facebook, Zalo, Messenger, WhatsApp, iMessage, etc.) -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Phúc – Vân | Thiệp Cưới">
-  <meta property="og:description" content="Thiệp cưới Phúc &amp; Vân">
-  <meta property="og:image" content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg">
-  <meta property="og:image:secure_url" content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1024">
-  <meta property="og:image:height" content="683">
-  <meta property="og:image:alt" content="Ảnh cưới Phúc và Vân trên bãi đá lúc hoàng hôn">
-  <meta property="og:url" content="https://brother-wedding-card.vercel.app/">
-  <meta property="og:locale" content="vi_VN">
+    <!-- Open Graph (Facebook, Zalo, Messenger, WhatsApp, iMessage, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Phúc – Vân | Thiệp Cưới" />
+    <meta property="og:description" content="Thiệp cưới Phúc &amp; Vân" />
+    <meta
+      property="og:image"
+      content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="683" />
+    <meta
+      property="og:image:alt"
+      content="Ảnh cưới Phúc và Vân trên bãi đá lúc hoàng hôn"
+    />
+    <meta
+      property="og:url"
+      content="https://brother-wedding-card.vercel.app/"
+    />
+    <meta property="og:locale" content="vi_VN" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Phúc – Vân | Thiệp Cưới">
-  <meta name="twitter:description" content="Thiệp cưới Phúc &amp; Vân">
-  <meta name="twitter:image" content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg">
-  <meta name="twitter:image:alt" content="Ảnh cưới Phúc và Vân trên bãi đá lúc hoàng hôn">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Phúc – Vân | Thiệp Cưới" />
+    <meta name="twitter:description" content="Thiệp cưới Phúc &amp; Vân" />
+    <meta
+      name="twitter:image"
+      content="https://brother-wedding-card.vercel.app/assets/images/preview_background.jpg"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Ảnh cưới Phúc và Vân trên bãi đá lúc hoàng hôn"
+    />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fahkwang:wght@300;400;500;600;700&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fahkwang:wght@300;400;500;600;700&family=WindSong:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Swiper CSS (for gallery carousel) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <!-- Swiper CSS (for gallery carousel) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
 
-  <!-- Remix Icon (for action buttons) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css">
+    <!-- Remix Icon (for action buttons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css"
+    />
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/mobile.css">
-  <link rel="stylesheet" href="assets/css/large-screen.css">
-</head>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/mobile.css" />
+    <link rel="stylesheet" href="assets/css/large-screen.css" />
+  </head>
 
-<body>
-
-  <!-- 7. PRELOADER -->
-  <div class="loader" id="loader">
-    <div class="loader__spinner"></div>
-  </div>
-
-  <!-- 8. COVER SECTION -->
-  <section id="cover" class="cover" aria-label="Mở đầu">
-    <div class="cover__media" role="presentation">
-      <video class="cover__video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
-      <div class="cover__bg cover__bg--fallback" role="presentation"></div>
+  <body>
+    <!-- 7. PRELOADER -->
+    <div class="loader" id="loader">
+      <div class="loader__spinner"></div>
     </div>
-    <div class="cover__overlay"></div>
-    <div class="cover__content">
-      <div class="cover__names-block">
-        <p class="cover__groom-name cover__animate" data-cover-delay="0"></p>
-        <i class="cover__and cover__animate section-heading-icon ri-heart-3-line" data-cover-delay="300" aria-hidden="true"></i>
-        <p class="cover__bride-name cover__animate" data-cover-delay="600"></p>
+
+    <!-- 8. COVER SECTION -->
+    <section id="cover" class="cover" aria-label="Mở đầu">
+      <div class="cover__media" role="presentation">
+        <video
+          class="cover__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-hidden="true"
+        ></video>
+        <div class="cover__bg cover__bg--fallback" role="presentation"></div>
       </div>
-      <p class="cover__date cover__animate" data-cover-delay="900"></p>
-      <p class="cover__venue cover__animate" data-cover-delay="1200"></p>
-    </div>
-  </section>
-
-  <!-- 8.5 FAMILY SECTION -->
-  <section id="family" class="family" data-stagger aria-label="Thông tin hai bên gia đình">
-    <div class="family__inner">
-      <h2 class="family__heading stagger-item"></h2>
-
-      <div class="family__top">
-        <div class="family__column family__column--groom stagger-item">
-          <h2 class="family__house-label family__house-label--groom"></h2>
-          <p class="family__parent-line family__parent-line--groom-father"></p>
-          <p class="family__parent-line family__parent-line--groom-mother"></p>
+      <div class="cover__overlay"></div>
+      <div class="cover__content">
+        <div class="cover__names-block">
+          <p class="cover__groom-name cover__animate" data-cover-delay="0"></p>
+          <i
+            class="cover__and cover__animate section-heading-icon ri-heart-3-line"
+            data-cover-delay="300"
+            aria-hidden="true"
+          ></i>
+          <p
+            class="cover__bride-name cover__animate"
+            data-cover-delay="600"
+          ></p>
         </div>
-
-        <div class="family__center family__center--top stagger-item" aria-hidden="true"></div>
-
-        <div class="family__column family__column--bride stagger-item">
-          <h2 class="family__house-label family__house-label--bride"></h2>
-          <p class="family__parent-line family__parent-line--bride-father"></p>
-          <p class="family__parent-line family__parent-line--bride-mother"></p>
-        </div>
-      </div>
-
-      <div class="family__bottom">
-        <p class="family__name family__name--groom stagger-item"></p>
-        <div class="family__center family__center--bottom stagger-item" aria-hidden="true">
-          <span class="family__center-icon family__center-icon--bottom">&#10084;</span>
-        </div>
-        <p class="family__name family__name--bride stagger-item"></p>
-      </div>
-
-      <div class="family__invite">
-        <div class="save-date__divider family__invite-divider stagger-item"></div>
-        <h3 class="family__invite-title stagger-item"></h3>
-        <p class="family__invite-line stagger-item"></p>
-      </div>
-    </div>
-  </section>
-
-  <main>
-
-    <!-- 9. UNTIL THE BIG DAY -->
-    <section id="until-the-day" class="until">
-      <div class="until__inner" data-stagger>
-        <h2 class="until__heading stagger-item"></h2>
-        <div class="until__timer stagger-item" data-wedding-date="">
-          <span class="until__item">
-            <span class="until__value" id="countdown-days">00</span>
-            <span class="until__label"></span>
-          </span>
-          <span class="until__item">
-            <span class="until__value" id="countdown-hours">00</span>
-            <span class="until__label"></span>
-          </span>
-          <span class="until__item">
-            <span class="until__value" id="countdown-minutes">00</span>
-            <span class="until__label"></span>
-          </span>
-          <span class="until__item">
-            <span class="until__value" id="countdown-seconds">00</span>
-            <span class="until__label"></span>
-          </span>
-        </div>
-        <p class="until__message stagger-item"></p>
+        <p class="cover__date cover__animate" data-cover-delay="900"></p>
+        <p class="cover__venue cover__animate" data-cover-delay="1200"></p>
       </div>
     </section>
 
-    <!-- 10. PHOTO GALLERY -->
-    <section id="gallery" class="gallery" data-stagger>
-      <div class="gallery__heading stagger-item">
-        <h2 class="gallery__title"></h2>
-      </div>
+    <!-- 8.5 FAMILY SECTION -->
+    <section
+      id="family"
+      class="family"
+      data-stagger
+      aria-label="Thông tin hai bên gia đình"
+    >
+      <div class="family__inner">
+        <h2 class="family__heading stagger-item"></h2>
 
-      <div class="gallery__slider swiper stagger-item">
-        <div class="swiper-wrapper"></div>
-        <div class="swiper-pagination"></div>
-      </div>
+        <div class="family__top">
+          <div class="family__column family__column--groom stagger-item">
+            <h2 class="family__house-label family__house-label--groom"></h2>
+            <p
+              class="family__parent-line family__parent-line--groom-father"
+            ></p>
+            <p
+              class="family__parent-line family__parent-line--groom-mother"
+            ></p>
+          </div>
 
-      <div class="gallery__horizontal-slider swiper stagger-item">
-        <div class="swiper-wrapper"></div>
-      </div>
-    </section>
+          <div
+            class="family__center family__center--top stagger-item"
+            aria-hidden="true"
+          ></div>
 
-    <!-- 11. SAVE THE DATE -->
-    <section id="save-the-date" class="save-date">
-      <div class="save-date__inner" data-stagger>
-        <h2 class="save-date__heading stagger-item">
-          <span class="save-date__title"></span>
-        </h2>
-        <div class="save-date__divider stagger-item"></div>
-        <time class="save-date__date stagger-item" datetime="2026-05-28"></time>
-        <p class="save-date__time stagger-item"></p>
-      </div>
-    </section>
-
-    <!-- 12. WEDDING TIMELINE -->
-    <section id="timeline" class="timeline">
-      <div class="timeline__inner" data-stagger>
-        <p class="timeline__subtitle stagger-item"></p>
-        <h2 class="timeline__heading stagger-item"></h2>
-        <div class="timeline__track"></div>
-      </div>
-    </section>
-
-    <!-- 13. LOCATION -->
-    <section id="location" class="location">
-      <div class="location__inner" data-stagger>
-        <h2 class="location__heading stagger-item"></h2>
-        <p class="location__venue-name text-wrap--allow stagger-item"></p>
-        <address class="location__venue-address text-wrap--allow stagger-item"></address>
-
-        <div class="location__map-wrapper stagger-item">
-          <iframe class="location__map-iframe" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="family__column family__column--bride stagger-item">
+            <h2 class="family__house-label family__house-label--bride"></h2>
+            <p
+              class="family__parent-line family__parent-line--bride-father"
+            ></p>
+            <p
+              class="family__parent-line family__parent-line--bride-mother"
+            ></p>
+          </div>
         </div>
-        <a class="location__map-link stagger-item" href="" target="_blank" rel="noopener noreferrer"></a>
 
-        <div class="location__divider stagger-item"></div>
-
-        <h3 class="location__sketch-heading text-wrap--allow stagger-item"></h3>
-        <div class="location__sketch-wrapper stagger-item">
-          <img class="location__sketch-img" src="" alt="" loading="lazy">
-        </div>
-        <p class="location__sketch-caption text-wrap--allow stagger-item"></p>
-      </div>
-    </section>
-
-    <!-- 14. RSVP -->
-    <section id="rsvp" class="rsvp" data-stagger>
-      <h2 class="rsvp__heading stagger-item"></h2>
-      <p class="rsvp__description stagger-item"></p>
-
-      <form class="rsvp__form stagger-item" id="rsvp-form" action="#" method="post">
-        <div class="rsvp__form-group">
-          <label class="rsvp__label" for="rsvp-name"></label>
-          <input
-            class="rsvp__input"
-            type="text"
-            id="rsvp-name"
-            name="guest_name"
-            placeholder=""
-            required
+        <div class="family__bottom">
+          <p class="family__name family__name--groom stagger-item"></p>
+          <div
+            class="family__center family__center--bottom stagger-item"
+            aria-hidden="true"
           >
-        </div>
-
-        <fieldset class="rsvp__fieldset rsvp__attendance">
-          <legend class="rsvp__legend"></legend>
-        </fieldset>
-
-        <button class="rsvp__submit" type="submit"></button>
-      </form>
-    </section>
-
-    <!-- 15. WISHES & GIFTS -->
-    <section id="wishes" class="wishes" data-stagger>
-      <h2 class="wishes__heading stagger-item"></h2>
-
-      <div class="wishes__form-wrapper stagger-item">
-        <form class="wishes__form" id="wishes-form" action="#" method="post">
-          <div class="wishes__form-group">
-            <label class="wishes__label" for="wish-name"></label>
-            <input
-              class="wishes__input"
-              type="text"
-              id="wish-name"
-              name="author"
-              placeholder=""
-              required
+            <span class="family__center-icon family__center-icon--bottom"
+              >&#10084;</span
             >
           </div>
-          <div class="wishes__form-group">
-            <label class="wishes__label" for="wish-message"></label>
-            <textarea
-              class="wishes__textarea"
-              id="wish-message"
-              name="comment"
-              rows="4"
-              placeholder=""
-              required
-            ></textarea>
-          </div>
-          <button class="wishes__submit" type="submit"></button>
-        </form>
-      </div>
+          <p class="family__name family__name--bride stagger-item"></p>
+        </div>
 
-      <div class="wishes__divider stagger-item"></div>
-
-      <div id="gifts" class="wishes__gifts">
-        <h3 class="gifts__heading stagger-item"></h3>
-        <p class="gifts__subtitle stagger-item"></p>
-
-        <div class="gifts__cards stagger-item">
-          <div class="gifts__card" data-gift="groom">
-            <span class="gifts__card-icon">
-              <img src="assets/icons/husband_icon.svg" alt="" aria-hidden="true">
-            </span>
-            <span class="gifts__card-label"></span>
-            <span class="gifts__card-subtitle"></span>
-            <div class="gifts__qr-panel">
-              <img class="gifts__qr-img" src="" alt="">
-              <p class="gifts__account-name"></p>
-              <p class="gifts__bank-name"></p>
-              <p class="gifts__account-number text-wrap--allow"></p>
-              <button class="gifts__download-btn" type="button" aria-label="Tải về mã QR">
-                <i class="gifts__download-icon ri-download-2-line" aria-hidden="true"></i>
-                <span class="gifts__download-text">Tải về mã QR</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="gifts__card" data-gift="bride">
-            <span class="gifts__card-icon">
-              <img src="assets/icons/dress_icon.svg" alt="" aria-hidden="true">
-            </span>
-            <span class="gifts__card-label"></span>
-            <span class="gifts__card-subtitle"></span>
-            <div class="gifts__qr-panel">
-              <img class="gifts__qr-img" src="" alt="">
-              <p class="gifts__account-name"></p>
-              <p class="gifts__bank-name"></p>
-              <p class="gifts__account-number text-wrap--allow"></p>
-              <button class="gifts__download-btn" type="button" aria-label="Tải về mã QR">
-                <i class="gifts__download-icon ri-download-2-line" aria-hidden="true"></i>
-                <span class="gifts__download-text">Tải về mã QR</span>
-              </button>
-            </div>
-          </div>
+        <div class="family__invite">
+          <div
+            class="save-date__divider family__invite-divider stagger-item"
+          ></div>
+          <h3 class="family__invite-title stagger-item"></h3>
+          <p class="family__invite-line stagger-item"></p>
         </div>
       </div>
     </section>
 
-    <!-- 16. CONTACT INFO -->
-    <section id="contact-info" class="contact-info" data-stagger>
-      <div class="contact-info__inner">
-        <h2 class="contact-info__heading stagger-item"></h2>
-        <p class="contact-info__phone stagger-item"></p>
-        <p class="contact-info__name stagger-item"></p>
-      </div>
-    </section>
-  </main>
+    <main>
+      <!-- 9. UNTIL THE BIG DAY -->
+      <section id="until-the-day" class="until">
+        <div class="until__inner" data-stagger>
+          <h2 class="until__heading stagger-item"></h2>
+          <div class="until__timer stagger-item" data-wedding-date="">
+            <span class="until__item">
+              <span class="until__value" id="countdown-days">00</span>
+              <span class="until__label"></span>
+            </span>
+            <span class="until__item">
+              <span class="until__value" id="countdown-hours">00</span>
+              <span class="until__label"></span>
+            </span>
+            <span class="until__item">
+              <span class="until__value" id="countdown-minutes">00</span>
+              <span class="until__label"></span>
+            </span>
+            <span class="until__item">
+              <span class="until__value" id="countdown-seconds">00</span>
+              <span class="until__label"></span>
+            </span>
+          </div>
+          <p class="until__message stagger-item"></p>
+        </div>
+      </section>
 
-  <!-- 17. THANK YOU -->
-  <footer id="thank-you" class="thank-you" data-stagger>
-    <h2 class="thank-you__heading stagger-item"></h2>
-    <p class="thank-you__message stagger-item"></p>
-    <p class="thank-you__credit text-wrap--allow stagger-item">Designed & Programmed by Le Hoang Minh</p>
-  </footer>
+      <!-- 10. PHOTO GALLERY -->
+      <section id="gallery" class="gallery" data-stagger>
+        <div class="gallery__heading stagger-item">
+          <h2 class="gallery__title"></h2>
+        </div>
 
-  <!-- 18. LIGHTBOX -->
-  <div class="lightbox" id="lightbox" aria-hidden="true">
-    <button class="lightbox__close" aria-label="Đóng">&times;</button>
-    <button class="lightbox__prev" aria-label="Ảnh trước">&#10094;</button>
-    <button class="lightbox__next" aria-label="Ảnh tiếp">&#10095;</button>
-    <img class="lightbox__img" id="lightbox-img" src="" alt="">
-  </div>
+        <div class="gallery__slider swiper stagger-item">
+          <div class="swiper-wrapper"></div>
+          <div class="swiper-pagination"></div>
+        </div>
 
-  <!-- 19. AMBIENT AUDIO CONSENT -->
-  <div class="ambient-audio ambient-audio--visible" id="ambient-audio-consent" aria-hidden="false">
-    <button class="ambient-audio__button ambient-audio__button--off" type="button" aria-pressed="false">
-      <i class="ambient-audio__icon ri-volume-mute-line" aria-hidden="true"></i>
-      <span class="ambient-audio__label">Bật Âm Thanh</span>
-    </button>
-  </div>
+        <div class="gallery__horizontal-slider swiper stagger-item">
+          <div class="swiper-wrapper"></div>
+        </div>
+      </section>
 
-  <!-- Scripts: Swiper must load before main -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/main.js"></script>
+      <!-- 11. SAVE THE DATE -->
+      <section id="save-the-date" class="save-date">
+        <div class="save-date__inner" data-stagger>
+          <h2 class="save-date__heading stagger-item">
+            <span class="save-date__title"></span>
+          </h2>
+          <div class="save-date__divider stagger-item"></div>
+          <time
+            class="save-date__date stagger-item"
+            datetime="2026-05-28"
+          ></time>
+          <p class="save-date__time stagger-item"></p>
+        </div>
+      </section>
 
-</body>
+      <!-- 12. WEDDING TIMELINE -->
+      <section id="timeline" class="timeline">
+        <div class="timeline__inner" data-stagger>
+          <p class="timeline__subtitle stagger-item"></p>
+          <h2 class="timeline__heading stagger-item"></h2>
+          <div class="timeline__track"></div>
+        </div>
+      </section>
+
+      <!-- 13. LOCATION -->
+      <section id="location" class="location">
+        <div class="location__inner" data-stagger>
+          <h2 class="location__heading stagger-item"></h2>
+          <p class="location__venue-name text-wrap--allow stagger-item"></p>
+          <address
+            class="location__venue-address text-wrap--allow stagger-item"
+          ></address>
+
+          <div class="location__map-wrapper stagger-item">
+            <iframe
+              class="location__map-iframe"
+              src=""
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <a
+            class="location__map-link stagger-item"
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
+
+          <div class="location__divider stagger-item"></div>
+
+          <h3
+            class="location__sketch-heading text-wrap--allow stagger-item"
+          ></h3>
+          <div class="location__sketch-wrapper stagger-item">
+            <img class="location__sketch-img" src="" alt="" loading="lazy" />
+          </div>
+          <p class="location__sketch-caption text-wrap--allow stagger-item"></p>
+        </div>
+      </section>
+
+      <!-- 14. RSVP -->
+      <section id="rsvp" class="rsvp" data-stagger>
+        <h2 class="rsvp__heading stagger-item"></h2>
+        <p class="rsvp__description stagger-item"></p>
+
+        <form
+          class="rsvp__form stagger-item"
+          id="rsvp-form"
+          action="#"
+          method="post"
+        >
+          <div class="rsvp__form-group">
+            <label class="rsvp__label" for="rsvp-name"></label>
+            <input
+              class="rsvp__input"
+              type="text"
+              id="rsvp-name"
+              name="guest_name"
+              placeholder=""
+              required
+            />
+          </div>
+
+          <fieldset class="rsvp__fieldset rsvp__attendance">
+            <legend class="rsvp__legend"></legend>
+          </fieldset>
+
+          <button class="rsvp__submit" type="submit"></button>
+        </form>
+      </section>
+
+      <!-- 15. WISHES & GIFTS -->
+      <section id="wishes" class="wishes" data-stagger>
+        <h2 class="wishes__heading stagger-item"></h2>
+
+        <div class="wishes__form-wrapper stagger-item">
+          <form class="wishes__form" id="wishes-form" action="#" method="post">
+            <div class="wishes__form-group">
+              <label class="wishes__label" for="wish-name"></label>
+              <input
+                class="wishes__input"
+                type="text"
+                id="wish-name"
+                name="author"
+                placeholder=""
+                required
+              />
+            </div>
+            <div class="wishes__form-group">
+              <label class="wishes__label" for="wish-message"></label>
+              <textarea
+                class="wishes__textarea"
+                id="wish-message"
+                name="comment"
+                rows="4"
+                placeholder=""
+                required
+              ></textarea>
+            </div>
+            <button class="wishes__submit" type="submit"></button>
+          </form>
+        </div>
+
+        <div class="wishes__divider stagger-item"></div>
+
+        <div id="gifts" class="wishes__gifts">
+          <h3 class="gifts__heading stagger-item"></h3>
+          <p class="gifts__subtitle stagger-item"></p>
+
+          <div class="gifts__cards">
+            <div class="gifts__card stagger-item" data-gift="groom">
+              <span class="gifts__card-icon">
+                <img
+                  src="assets/icons/husband_icon.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </span>
+              <span class="gifts__card-label"></span>
+              <span class="gifts__card-subtitle"></span>
+              <div class="gifts__qr-panel">
+                <img class="gifts__qr-img" src="" alt="" />
+                <p class="gifts__account-name"></p>
+                <p class="gifts__bank-name"></p>
+                <p class="gifts__account-number text-wrap--allow"></p>
+                <button
+                  class="gifts__download-btn"
+                  type="button"
+                  aria-label="Tải về mã QR"
+                >
+                  <i
+                    class="gifts__download-icon ri-download-2-line"
+                    aria-hidden="true"
+                  ></i>
+                  <span class="gifts__download-text">Tải về mã QR</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="gifts__card stagger-item" data-gift="bride">
+              <span class="gifts__card-icon">
+                <img
+                  src="assets/icons/dress_icon.svg"
+                  alt=""
+                  aria-hidden="true"
+                />
+              </span>
+              <span class="gifts__card-label"></span>
+              <span class="gifts__card-subtitle"></span>
+              <div class="gifts__qr-panel">
+                <img class="gifts__qr-img" src="" alt="" />
+                <p class="gifts__account-name"></p>
+                <p class="gifts__bank-name"></p>
+                <p class="gifts__account-number text-wrap--allow"></p>
+                <button
+                  class="gifts__download-btn"
+                  type="button"
+                  aria-label="Tải về mã QR"
+                >
+                  <i
+                    class="gifts__download-icon ri-download-2-line"
+                    aria-hidden="true"
+                  ></i>
+                  <span class="gifts__download-text">Tải về mã QR</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 16. CONTACT INFO -->
+      <section id="contact-info" class="contact-info" data-stagger>
+        <div class="contact-info__inner">
+          <h2 class="contact-info__heading stagger-item"></h2>
+          <p class="contact-info__phone stagger-item"></p>
+          <p class="contact-info__name stagger-item"></p>
+        </div>
+      </section>
+    </main>
+
+    <!-- 17. THANK YOU -->
+    <footer id="thank-you" class="thank-you" data-stagger>
+      <h2 class="thank-you__heading stagger-item"></h2>
+      <p class="thank-you__message stagger-item"></p>
+      <p class="thank-you__credit text-wrap--allow stagger-item">
+        Designed & Programmed by Le Hoang Minh
+      </p>
+    </footer>
+
+    <!-- 18. LIGHTBOX -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox__close" aria-label="Đóng">&times;</button>
+      <button class="lightbox__prev" aria-label="Ảnh trước">&#10094;</button>
+      <button class="lightbox__next" aria-label="Ảnh tiếp">&#10095;</button>
+      <img class="lightbox__img" id="lightbox-img" src="" alt="" />
+    </div>
+
+    <!-- 19. AMBIENT AUDIO CONSENT -->
+    <div
+      class="ambient-audio ambient-audio--visible"
+      id="ambient-audio-consent"
+      aria-hidden="false"
+    >
+      <button
+        class="ambient-audio__button ambient-audio__button--off"
+        type="button"
+        aria-pressed="false"
+      >
+        <i
+          class="ambient-audio__icon ri-volume-mute-line"
+          aria-hidden="true"
+        ></i>
+        <span class="ambient-audio__label">Bật Âm Thanh</span>
+      </button>
+    </div>
+
+    <!-- Scripts: Swiper must load before main -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
 </html>

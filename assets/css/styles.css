@@ -1730,12 +1730,35 @@ main {
   border-radius: var(--radius);
   border: 1px solid rgba(255, 255, 255, 0.35);
   background-color: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   cursor: pointer;
   transition:
     background-color var(--transition),
     border-color var(--transition),
     transform var(--transition);
+}
+
+/*
+  Animate reveal on each card (not the shared wrapper) so backdrop blur
+  is available from the first visible frame while preserving fade-in.
+*/
+.gifts__card.stagger-item {
+  opacity: 0;
+  transform: none;
+  translate: 0 24px;
+  transition:
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    translate 1s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+}
+
+.gifts__card.stagger-item.stagger--visible {
+  opacity: 1;
+  transform: none;
+  translate: 0 0;
 }
 
 .gifts__card:hover {
