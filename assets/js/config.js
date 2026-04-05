@@ -129,7 +129,7 @@ const WEDDING_CONFIG = {
   saveTheDate: {
     backgroundImage: SAVE_THE_DATE_IMAGE,
     heading: "Hẹn gặp bạn vào ngày",
-    timeLine: "3 giờ chiều",
+    timeLine: "Từ 3 giờ chiều",
   },
 
   // ──────────────────────────────────────────────
