@@ -45,17 +45,13 @@ const WEDDING_CONFIG = {
     bottomCenterSymbol: "❤",
     groom: {
       houseLabel: "Nhà Trai",
-      fatherLabel: "Bố",
       fatherName: "Lê Tự Khanh",
-      motherLabel: "Mẹ",
       motherName: "Nguyễn Thị Thanh Thủy",
       personName: "Lê Hoàng Phúc",
     },
     bride: {
       houseLabel: "Nhà Gái",
-      fatherLabel: "Bố",
       fatherName: "Nguyễn Trung Toản",
-      motherLabel: "Mẹ",
       motherName: "Đặng Thị Thắng",
       personName: "Nguyễn Thị Hồng Vân",
     },
@@ -369,7 +365,7 @@ const WEDDING_CONFIG = {
     groom: {
       label: "CHÚ RỂ\nHOÀNG PHÚC",
       subtitle:
-        'Bố: Lê Tự Khanh - Mẹ: Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class="gifts__card-cta">(Bấm vào đây để gửi quà)</span>',
+        'Lê Tự Khanh - Nguyễn Thị Thanh Thủy<br><em>Chú rể: Lê Hoàng Phúc</em><br><span class="gifts__card-cta">(Bấm vào đây để gửi quà)</span>',
       name: "NGUYEN VAN PHUC",
       bank: "Vietcombank",
       accountNumber: "0123456789",
@@ -378,7 +374,7 @@ const WEDDING_CONFIG = {
     bride: {
       label: "CÔ DÂU\nHỒNG VÂN",
       subtitle:
-        'Bố: Nguyễn Trung Toản - Mẹ: Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class="gifts__card-cta">(Bấm vào đây để gửi quà)</span>',
+        'Nguyễn Trung Toản - Đặng Thị Thắng<br><em>Cô dâu: Nguyễn Thị Hồng Vân</em><br><span class="gifts__card-cta">(Bấm vào đây để gửi quà)</span>',
       name: "NGUYEN THI VAN",
       bank: "Vietcombank",
       accountNumber: "0123456789",

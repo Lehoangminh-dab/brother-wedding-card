@@ -34,10 +34,14 @@
   // Gallery Swiper
   var GALLERY_AUTOPLAY_DELAY = 3000; // ms between vertical carousel slides
   var GALLERY_SCROLL_SPEED = 8000; // ms for one horizontal filmstrip pass
-  var GALLERY_RELAYOUT_DELAY = 80; // debounce window for viewport/layout changes
+  var GALLERY_RELAYOUT_DELAY = 180; // debounce window for viewport/layout changes
   var GALLERY_INITIAL_EAGER_LOAD = 4; // number of slides to load immediately per track
   var GALLERY_VERTICAL_PRELOAD_RADIUS = 2; // active +/- slides to hydrate
   var GALLERY_HORIZONTAL_PRELOAD_RADIUS = 6; // active +/- slides to hydrate
+  var GALLERY_MOBILE_MAX_WIDTH = 767;
+  var GALLERY_MOBILE_PRELOAD_RADIUS = 3;
+  var GALLERY_MOBILE_SCROLL_SPEED = 14000;
+  var SECTION_BG_PRELOAD_MARGIN = "240px 0px";
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
@@ -58,6 +62,21 @@
   var galleryRelayoutTimer = null;
   var galleryRelayoutRaf = null;
 
+  var OPTIMIZED_SECTION_IMAGES = {
+    "assets/images/ocean_waves_background.png":
+      "assets/images/optimized/sections/ocean_waves_background.jpg",
+    "assets/images/hon_dau_resort.jpg":
+      "assets/images/optimized/sections/hon_dau_resort.jpg",
+    "assets/images/phuc_van_pics/phuc_van_1/Album 30 x 30 Phuc Van/HL.jpg":
+      "assets/images/optimized/sections/until_the_day.jpg",
+    "assets/images/phuc_van_pics/phuc_van_1/DSC_6293.jpg":
+      "assets/images/optimized/sections/save_the_date.jpg",
+    "assets/images/phuc_van_pics/phuc_van_1/BRS06403.jpg":
+      "assets/images/optimized/sections/wishes.jpg",
+    "assets/images/phuc_van_pics/phuc_van_1/Album 30 x 30 Phuc Van/G.jpg":
+      "assets/images/optimized/sections/thank_you.jpg",
+  };
+
   // =========================================================================
   // REGION 1: HELPERS
   // =========================================================================
@@ -70,6 +89,40 @@
   function setAttr(selector, attr, value, parent) {
     var el = (parent || document).querySelector(selector);
     if (el) el.setAttribute(attr, value);
+  }
+
+  function normalizeToJpgPath(filePath) {
+    return String(filePath).replace(/\.[^./]+$/, ".jpg");
+  }
+
+  function toOptimizedImagePath(imagePath) {
+    if (typeof imagePath !== "string" || imagePath.trim() === "") {
+      return imagePath;
+    }
+
+    if (OPTIMIZED_SECTION_IMAGES[imagePath]) {
+      return OPTIMIZED_SECTION_IMAGES[imagePath];
+    }
+
+    if (imagePath.indexOf("assets/images/gallery/portrait/") === 0) {
+      return normalizeToJpgPath(
+        imagePath.replace(
+          "assets/images/gallery/portrait/",
+          "assets/images/optimized/gallery/portrait/",
+        ),
+      );
+    }
+
+    if (imagePath.indexOf("assets/images/gallery/landscape/") === 0) {
+      return normalizeToJpgPath(
+        imagePath.replace(
+          "assets/images/gallery/landscape/",
+          "assets/images/optimized/gallery/landscape/",
+        ),
+      );
+    }
+
+    return imagePath;
   }
 
   /** Read a CSS custom property as px number, with numeric fallback. */
@@ -197,7 +250,72 @@
   function setSectionBackground(sectionId, imageUrl) {
     if (!imageUrl) return;
     var section = document.getElementById(sectionId);
-    if (section) section.style.backgroundImage = "url('" + imageUrl + "')";
+    if (!section) return;
+
+    section.setAttribute("data-bg-src", toOptimizedImagePath(imageUrl));
+    section.setAttribute("data-bg-fallback-src", imageUrl);
+  }
+
+  function applyBackgroundImageWithFallback(section, preferredSrc, fallbackSrc) {
+    if (!section || !preferredSrc) return;
+
+    if (!fallbackSrc || preferredSrc === fallbackSrc) {
+      section.style.backgroundImage = "url('" + preferredSrc + "')";
+      return;
+    }
+
+    var probe = new Image();
+    probe.onload = function () {
+      section.style.backgroundImage = "url('" + preferredSrc + "')";
+    };
+    probe.onerror = function () {
+      section.style.backgroundImage = "url('" + fallbackSrc + "')";
+    };
+    probe.src = preferredSrc;
+  }
+
+  function hydrateSectionBackground(section) {
+    if (!section) return;
+    if (section.getAttribute("data-bg-loaded") === "true") return;
+
+    var preferredSrc = section.getAttribute("data-bg-src");
+    if (!preferredSrc) return;
+
+    var fallbackSrc = section.getAttribute("data-bg-fallback-src") || preferredSrc;
+
+    applyBackgroundImageWithFallback(section, preferredSrc, fallbackSrc);
+    section.setAttribute("data-bg-loaded", "true");
+  }
+
+  function initDeferredSectionBackgrounds() {
+    var sections = document.querySelectorAll("[data-bg-src]");
+    if (!sections.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+      sections.forEach(function (section) {
+        hydrateSectionBackground(section);
+      });
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          hydrateSectionBackground(entry.target);
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        root: null,
+        threshold: 0.01,
+        rootMargin: SECTION_BG_PRELOAD_MARGIN,
+      },
+    );
+
+    sections.forEach(function (section) {
+      observer.observe(section);
+    });
   }
 
   function firstNonEmpty(values) {
@@ -221,20 +339,21 @@
       .replace(/\s+/g, " ")
       .trim();
 
-    var fatherMatch = text.match(
-      /Bố\s*:\s*([^-\n]+?)(?=\s*-\s*Mẹ\s*:|\s*Mẹ\s*:|$)/i,
-    );
-    var motherMatch = text.match(
-      /Mẹ\s*:\s*([^-\n]+?)(?=(?:\s*(?:Chú rể|Cô dâu)\s*:)|$)/i,
-    );
+    var parentLine = text.split(/(?=(?:Chú rể|Cô dâu)\s*:)/i)[0].trim();
+    var parentParts = parentLine
+      .split(/\s*-\s*/)
+      .map(function (part) {
+        return part.trim();
+      })
+      .filter(Boolean);
     var roleRegex =
       role === "groom" ? /Chú rể\s*:\s*([^\n(]+)/i : /Cô dâu\s*:\s*([^\n(]+)/i;
     var personMatch =
       text.match(roleRegex) || text.match(/(?:Chú rể|Cô dâu)\s*:\s*([^\n(]+)/i);
 
     return {
-      fatherName: fatherMatch ? fatherMatch[1].trim() : "",
-      motherName: motherMatch ? motherMatch[1].trim() : "",
+      fatherName: parentParts[0] || "",
+      motherName: parentParts[1] || "",
       personName: personMatch ? personMatch[1].trim() : "",
     };
   }
@@ -440,8 +559,9 @@
     var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
     var coverBg = document.querySelector(".cover__bg--fallback");
-    if (coverBg && cover.backgroundImage) {
-      coverBg.style.backgroundImage = "url('" + cover.backgroundImage + "')";
+    var coverBgSrc = toOptimizedImagePath(cover.backgroundImage || "");
+    if (coverBg && coverBgSrc) {
+      coverBg.style.backgroundImage = "url('" + coverBgSrc + "')";
     } else if (coverBg) {
       coverBg.style.removeProperty("background-image");
     }
@@ -479,7 +599,7 @@
     coverVideo.setAttribute("playsinline", "");
     coverVideo.setAttribute("webkit-playsinline", "");
 
-    var poster = cover.posterImage || cover.backgroundImage || "";
+    var poster = toOptimizedImagePath(cover.posterImage || cover.backgroundImage || "");
     if (poster) {
       coverVideo.poster = poster;
     }
@@ -657,10 +777,6 @@
       giftsCfg.bride && giftsCfg.bride.label,
       "Nhà Gái",
     ]);
-    var groomFatherLabel = firstNonEmpty([groomCfg.fatherLabel, "Bố"]);
-    var groomMotherLabel = firstNonEmpty([groomCfg.motherLabel, "Mẹ"]);
-    var brideFatherLabel = firstNonEmpty([brideCfg.fatherLabel, "Bố"]);
-    var brideMotherLabel = firstNonEmpty([brideCfg.motherLabel, "Mẹ"]);
 
     var groomFatherName = firstNonEmpty([
       groomCfg.fatherName,
@@ -695,14 +811,10 @@
         ".family__heading": firstNonEmpty([familyCfg.heading, "Đám Cưới"]),
         ".family__house-label--groom": groomHouse,
         ".family__house-label--bride": brideHouse,
-        ".family__parent-line--groom-father":
-          groomFatherLabel + " : " + groomFatherName,
-        ".family__parent-line--groom-mother":
-          groomMotherLabel + " : " + groomMotherName,
-        ".family__parent-line--bride-father":
-          brideFatherLabel + " : " + brideFatherName,
-        ".family__parent-line--bride-mother":
-          brideMotherLabel + " : " + brideMotherName,
+        ".family__parent-line--groom-father": groomFatherName,
+        ".family__parent-line--groom-mother": groomMotherName,
+        ".family__parent-line--bride-father": brideFatherName,
+        ".family__parent-line--bride-mother": brideMotherName,
         ".family__name--groom": groomPersonName,
         ".family__name--bride": bridePersonName,
         ".family__invite-title": firstNonEmpty([
@@ -841,6 +953,17 @@
     img.removeAttribute("data-src");
   }
 
+  function onGalleryImageLoadError(event) {
+    var img = event.currentTarget;
+    if (!img) return;
+
+    var fallbackSrc = img.getAttribute("data-fallback-src");
+    if (!fallbackSrc) return;
+    if (img.getAttribute("src") === fallbackSrc) return;
+
+    img.src = fallbackSrc;
+  }
+
   function hydrateSwiperNeighborhood(swiper, radius) {
     if (!swiper || !swiper.slides || !swiper.slides.length) return;
     var activeIndex = Number.isFinite(swiper.activeIndex)
@@ -865,6 +988,7 @@
     images.forEach(function (image, index) {
       var slide = document.createElement("div");
       slide.className = "swiper-slide";
+      var displaySrc = toOptimizedImagePath(image.src);
 
       var a = document.createElement("a");
       a.href = image.src;
@@ -880,15 +1004,17 @@
 
       var img = document.createElement("img");
       if (index < GALLERY_INITIAL_EAGER_LOAD) {
-        img.src = image.src;
+        img.src = displaySrc;
       } else {
-        img.setAttribute("data-src", image.src);
+        img.setAttribute("data-src", displaySrc);
       }
       img.alt = image.alt;
       img.className = "gallery__img";
       img.loading = "lazy";
       img.decoding = "async";
       img.setAttribute("fetchpriority", index < 2 ? "high" : "low");
+      img.setAttribute("data-fallback-src", image.src);
+      img.addEventListener("error", onGalleryImageLoadError);
 
       a.appendChild(img);
       slide.appendChild(a);
@@ -1423,6 +1549,12 @@
   function initGallerySwiper() {
     if (typeof Swiper === "undefined") return;
     var gallerySpacing = getCssPixelVar("--gallery-track-spacing", 16);
+    var isMobileViewport =
+      window.matchMedia &&
+      window.matchMedia("(max-width: " + GALLERY_MOBILE_MAX_WIDTH + "px)").matches;
+    var horizontalPreloadRadius = isMobileViewport
+      ? GALLERY_MOBILE_PRELOAD_RADIUS
+      : GALLERY_HORIZONTAL_PRELOAD_RADIUS;
 
     galleryVerticalSwiper = new Swiper(".gallery__slider", {
       effect: "coverflow",
@@ -1456,18 +1588,20 @@
       slidesPerView: "auto",
       spaceBetween: gallerySpacing,
       grabCursor: true,
-      loop: true,
+      loop: !isMobileViewport,
       preloadImages: false,
-      autoplay: { delay: 1, disableOnInteraction: false },
-      speed: GALLERY_SCROLL_SPEED,
+      autoplay: isMobileViewport
+        ? false
+        : { delay: 1, disableOnInteraction: false },
+      speed: isMobileViewport ? GALLERY_MOBILE_SCROLL_SPEED : GALLERY_SCROLL_SPEED,
       observer: true,
       observeParents: true,
       on: {
         init: function (swiper) {
-          hydrateSwiperNeighborhood(swiper, GALLERY_HORIZONTAL_PRELOAD_RADIUS);
+          hydrateSwiperNeighborhood(swiper, horizontalPreloadRadius);
         },
         slideChangeTransitionStart: function (swiper) {
-          hydrateSwiperNeighborhood(swiper, GALLERY_HORIZONTAL_PRELOAD_RADIUS);
+          hydrateSwiperNeighborhood(swiper, horizontalPreloadRadius);
         },
       },
     });
@@ -1539,11 +1673,24 @@
     var currentPool = [];
     var currentIndex = 0;
 
+    function setLightboxImage(image) {
+      if (!image) return;
+      lightboxImg.src = toOptimizedImagePath(image.src);
+      lightboxImg.alt = image.alt;
+      lightboxImg.setAttribute("data-fallback-src", image.src);
+    }
+
+    lightboxImg.addEventListener("error", function () {
+      var fallbackSrc = lightboxImg.getAttribute("data-fallback-src");
+      if (!fallbackSrc) return;
+      if (lightboxImg.getAttribute("src") === fallbackSrc) return;
+      lightboxImg.src = fallbackSrc;
+    });
+
     function show(pool, index) {
       currentPool = pool;
       currentIndex = index;
-      lightboxImg.src = currentPool[currentIndex].src;
-      lightboxImg.alt = currentPool[currentIndex].alt;
+      setLightboxImage(currentPool[currentIndex]);
       lightbox.classList.add("lightbox--open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -1558,14 +1705,12 @@
     function prev() {
       currentIndex =
         (currentIndex - 1 + currentPool.length) % currentPool.length;
-      lightboxImg.src = currentPool[currentIndex].src;
-      lightboxImg.alt = currentPool[currentIndex].alt;
+      setLightboxImage(currentPool[currentIndex]);
     }
 
     function next() {
       currentIndex = (currentIndex + 1) % currentPool.length;
-      lightboxImg.src = currentPool[currentIndex].src;
-      lightboxImg.alt = currentPool[currentIndex].alt;
+      setLightboxImage(currentPool[currentIndex]);
     }
 
     document.addEventListener("click", function (e) {
@@ -2062,6 +2207,7 @@
     populateRsvp();
     populateContactInfo();
     populateThankYou();
+    initDeferredSectionBackgrounds();
     applyHeadingIcons();
 
     var ambientControl = initAmbientAudio();

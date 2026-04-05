@@ -33,10 +33,10 @@
     /* Reduce oversized vertical pacing on phones/tablets. */
     --section-height-standard: 100svh;
     --section-height-save-date: 140svh;
-    --section-height-gallery: 150svh;
-    --section-height-location: 190svh;
+    --section-height-gallery: 130svh;
+    --section-height-location: 150svh;
     --section-height-rsvp: 100svh;
-    --section-height-wishes: 220svh;
+    --section-height-wishes: 170svh;
 
     /* Shared semantic roles: same taxonomy as desktop, mobile-tuned values. */
     --divider-gap: var(--space-stack-section);
@@ -557,10 +557,10 @@
 
     --section-height-standard: 100svh;
     --section-height-save-date: 150svh;
-    --section-height-gallery: 160svh;
-    --section-height-location: 210svh;
+    --section-height-gallery: 145svh;
+    --section-height-location: 175svh;
     --section-height-rsvp: 100svh;
-    --section-height-wishes: 230svh;
+    --section-height-wishes: 195svh;
 
     --divider-gap: var(--space-stack-section);
     --save-date-date-to-time: var(--space-stack-block);
@@ -991,10 +991,10 @@
   :root {
     --section-margin: var(--space-48);
     --section-height-save-date: 125svh;
-    --section-height-gallery: 135svh;
-    --section-height-location: 175svh;
+    --section-height-gallery: 120svh;
+    --section-height-location: 145svh;
     --section-height-rsvp: 95svh;
-    --section-height-wishes: 205svh;
+    --section-height-wishes: 165svh;
   }
 
   .cover__content {
