@@ -141,10 +141,6 @@ const WEDDING_CONFIG = {
         alt: "Ảnh cưới Phuc và Van - 2",
       },
       {
-        src: "assets/images/gallery/portrait/BRS06318.jpg",
-        alt: "Ảnh cưới Phuc và Van - 3",
-      },
-      {
         src: "assets/images/gallery/portrait/BRS06423.jpg",
         alt: "Ảnh cưới Phuc và Van - 4",
       },
