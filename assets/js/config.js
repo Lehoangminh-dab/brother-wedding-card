@@ -12,6 +12,7 @@ const SAVE_THE_DATE_IMAGE =
 const LOCATION_IMAGE = "assets/images/optimized/sections/hon_dau_resort.jpg";
 const WISHES_IMAGE = "assets/images/optimized/sections/wishes.jpg";
 const THANK_YOU_IMAGE = "assets/images/optimized/sections/thank_you.jpg";
+const IN_LOCATION_IMAGE = "assets/images/in_area_map.jpg";
 
 const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
@@ -351,8 +352,7 @@ const WEDDING_CONFIG = {
     mapLinkText: "Mở trên Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/SRDaoq3A8kUVkyg37",
     sketchHeading: "SƠ ĐỒ NỘI BỘ",
-    sketchMapImage:
-      "https://upload.wikimedia.org/wikipedia/en/4/4d/Shrek_%28character%29.png",
+    sketchMapImage: IN_LOCATION_IMAGE,
     sketchMapAlt: "Sơ đồ chỉ dẫn nội bộ",
     sketchMapCaption: "Sơ đồ chỉ dẫn lối đi trong khu vực tổ chức",
   },
