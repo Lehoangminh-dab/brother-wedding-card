@@ -81,6 +81,12 @@
       "assets/images/optimized/sections/thank_you.jpg",
   };
 
+  var DEFAULT_SECTION_BG_STYLE = {
+    size: "cover",
+    position: "center center",
+    repeat: "no-repeat",
+  };
+
   // =========================================================================
   // REGION 1: HELPERS
   // =========================================================================
@@ -311,6 +317,46 @@
     if (!section) return;
 
     section.setAttribute("data-bg-src", toOptimizedImagePath(imageUrl));
+    applySectionBackgroundStyle(section, getSectionBackgroundStyle(sectionId));
+  }
+
+  function sanitizeBackgroundStyleValue(value, fallback) {
+    if (typeof value !== "string") return fallback;
+    var trimmed = value.trim();
+    return trimmed !== "" ? trimmed : fallback;
+  }
+
+  function getSectionBackgroundStyle(sectionId) {
+    var styleMap = WEDDING_CONFIG.sectionBackgrounds || {};
+    var sectionStyle = styleMap[sectionId] || {};
+
+    return {
+      size: sanitizeBackgroundStyleValue(
+        sectionStyle.size,
+        DEFAULT_SECTION_BG_STYLE.size,
+      ),
+      position: sanitizeBackgroundStyleValue(
+        sectionStyle.position,
+        DEFAULT_SECTION_BG_STYLE.position,
+      ),
+      repeat: sanitizeBackgroundStyleValue(
+        sectionStyle.repeat,
+        DEFAULT_SECTION_BG_STYLE.repeat,
+      ),
+    };
+  }
+
+  function applySectionBackgroundStyle(section, styleConfig) {
+    if (!section || !styleConfig) return;
+
+    section.style.backgroundSize = styleConfig.size;
+    section.style.backgroundPosition = styleConfig.position;
+    section.style.backgroundRepeat = styleConfig.repeat;
+
+    // Keep applied values visible in DevTools for quick diagnostics.
+    section.setAttribute("data-bg-size", styleConfig.size);
+    section.setAttribute("data-bg-position", styleConfig.position);
+    section.setAttribute("data-bg-repeat", styleConfig.repeat);
   }
 
   function applySectionBackgroundImage(section, preferredSrc) {

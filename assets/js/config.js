@@ -53,6 +53,39 @@ const WEDDING_CONFIG = {
   weddingDate: "2026-05-28T15:00:00+07:00",
 
   // ──────────────────────────────────────────────
+  // SECTION BACKGROUND RENDERING
+  // Controls how each section background image is painted.
+  // Values map directly to CSS background-size/position/repeat.
+  // ──────────────────────────────────────────────
+  sectionBackgrounds: {
+    "until-the-day": {
+      size: "cover",
+      position: "center center",
+      repeat: "no-repeat",
+    },
+    "save-the-date": {
+      size: "cover",
+      position: "center center",
+      repeat: "no-repeat",
+    },
+    location: {
+      size: "cover",
+      position: "center center",
+      repeat: "no-repeat",
+    },
+    wishes: {
+      size: "cover",
+      position: "center center",
+      repeat: "no-repeat",
+    },
+    "thank-you": {
+      size: "cover",
+      position: "center top",
+      repeat: "no-repeat",
+    },
+  },
+
+  // ──────────────────────────────────────────────
   // COVER (opening section: names + date)
   // Prefer videoSources (ordered by browser compatibility).
   // Keep videoUrl for backward compatibility with older script logic.
