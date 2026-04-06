@@ -206,7 +206,6 @@
       </section>
     </div>
 
-    <script src="/qrcode.min.js"></script>
     <script>
       const form = document.getElementById("qr-form");
       const linkInput = document.getElementById("link");
@@ -237,8 +236,7 @@
           : `${base}.${format}`;
       }
 
-      function downloadBlob(content, mimeType, filename) {
-        const blob = new Blob([content], { type: mimeType });
+      function downloadBlob(blob, filename) {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
@@ -264,52 +262,29 @@
         };
       }
 
-      async function makePngQr(data) {
-        const canvas = document.createElement("canvas");
-        await QRCode.toCanvas(canvas, data.link, {
-          width: data.size,
-          margin: data.margin,
-          color: {
-            dark: data.dark,
-            light: data.light,
-          },
+      async function requestQr(data) {
+        const response = await fetch("/api/qr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
         });
 
-        previewEl.innerHTML = "";
-        previewEl.appendChild(canvas);
-
-        const pngDataUrl = canvas.toDataURL("image/png");
-        const pngBinary = atob(pngDataUrl.split(",")[1]);
-        const bytes = new Uint8Array(pngBinary.length);
-        for (let i = 0; i < pngBinary.length; i += 1) {
-          bytes[i] = pngBinary.charCodeAt(i);
+        if (!response.ok) {
+          let message = `Request failed (${response.status})`;
+          try {
+            const payload = await response.json();
+            if (payload && payload.error) message = payload.error;
+          } catch {
+            // Ignore non-JSON errors.
+          }
+          throw new Error(message);
         }
 
-        return bytes;
-      }
-
-      async function makeSvgQr(data) {
-        const svg = await QRCode.toString(data.link, {
-          type: "svg",
-          width: data.size,
-          margin: data.margin,
-          color: {
-            dark: data.dark,
-            light: data.light,
-          },
-        });
-
-        previewEl.innerHTML = svg;
-        return svg;
+        return response.blob();
       }
 
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
-
-        if (typeof QRCode === "undefined") {
-          setStatus("QR library failed to load. Start with npm run qr-server and open /qr.");
-          return;
-        }
 
         const data = normalizeInputs();
         if (!data.link) {
@@ -322,15 +297,21 @@
 
         try {
           const filename = safeFilename(filenameInput.value, data.format);
+          const blob = await requestQr(data);
 
-          if (data.format === "svg") {
-            const svg = await makeSvgQr(data);
-            downloadBlob(svg, "image/svg+xml;charset=utf-8", filename);
+          if (data.format === "svg" && blob.type.includes("svg")) {
+            const svg = await blob.text();
+            previewEl.innerHTML = svg;
           } else {
-            const pngBytes = await makePngQr(data);
-            downloadBlob(pngBytes, "image/png", filename);
+            const imgUrl = URL.createObjectURL(blob);
+            const img = document.createElement("img");
+            img.src = imgUrl;
+            img.alt = "Generated QR preview";
+            previewEl.innerHTML = "";
+            previewEl.appendChild(img);
           }
 
+          downloadBlob(blob, filename);
           setStatus(`Generated and downloaded ${filename}`);
         } catch (error) {
           setStatus(error.message || "Failed to generate QR");

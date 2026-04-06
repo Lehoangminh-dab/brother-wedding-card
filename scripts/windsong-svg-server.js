@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const QRCode = require("qrcode");
 const {
   createWindSongSvg,
   filenameFromText,
@@ -9,6 +10,7 @@ const {
 const START_PORT = Number(process.env.WINDSONG_SVG_PORT || 8787);
 const MAX_PORT_TRIES = Number(process.env.WINDSONG_SVG_MAX_PORT_TRIES || 25);
 const PAGE_PATH = path.join(__dirname, "..", "windsong-svg-tool.html");
+const QR_PAGE_PATH = path.join(__dirname, "..", "qr-generator-tool.html");
 
 function readBody(req) {
   return new Promise((resolve, reject) => {
@@ -50,6 +52,13 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === "GET" && req.url === "/qr") {
+    const html = fs.readFileSync(QR_PAGE_PATH, "utf8");
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    res.end(html);
+    return;
+  }
+
   if (req.method === "POST" && req.url === "/api/windsong-svg") {
     try {
       const raw = await readBody(req);
@@ -84,6 +93,52 @@ const server = http.createServer(async (req, res) => {
       res.end(svg);
     } catch (error) {
       sendJson(res, 500, { error: error.message || "Failed to generate SVG" });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && req.url === "/api/qr") {
+    try {
+      const raw = await readBody(req);
+      const data = JSON.parse(raw || "{}");
+
+      const link = String(data.link || "").trim();
+      if (!link) {
+        sendJson(res, 400, { error: "Link is required" });
+        return;
+      }
+
+      const format =
+        String(data.format || "png").toLowerCase() === "svg" ? "svg" : "png";
+      const size = Number(data.size || 512);
+      const margin = Number(data.margin || 2);
+      const dark = String(data.dark || "#000000").trim() || "#000000";
+      const light = String(data.light || "#ffffff").trim() || "#ffffff";
+
+      const options = {
+        width: Number.isFinite(size) && size > 0 ? Math.floor(size) : 512,
+        margin: Number.isFinite(margin) && margin >= 0 ? Math.floor(margin) : 2,
+        color: { dark, light },
+      };
+
+      if (format === "svg") {
+        const svg = await QRCode.toString(link, { ...options, type: "svg" });
+        res.writeHead(200, {
+          "Content-Type": "image/svg+xml; charset=utf-8",
+          "Access-Control-Allow-Origin": "*",
+        });
+        res.end(svg);
+        return;
+      }
+
+      const pngBuffer = await QRCode.toBuffer(link, options);
+      res.writeHead(200, {
+        "Content-Type": "image/png",
+        "Access-Control-Allow-Origin": "*",
+      });
+      res.end(pngBuffer);
+    } catch (error) {
+      sendJson(res, 500, { error: error.message || "Failed to generate QR" });
     }
     return;
   }
