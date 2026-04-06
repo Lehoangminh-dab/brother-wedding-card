@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Generator Tool</title>
+    <style>
+      :root {
+        --bg: #f4efe6;
+        --panel: #fffaf2;
+        --ink: #201b17;
+        --muted: #6f645d;
+        --line: #e7d7c6;
+        --accent: #b14a1f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 10%, #ffeecf 0, transparent 28%),
+          radial-gradient(circle at 85% 92%, #f8d8b7 0, transparent 32%),
+          var(--bg);
+        padding: 24px;
+      }
+
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        display: grid;
+        gap: 16px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+      }
+
+      h1,
+      h2 {
+        margin: 0 0 8px;
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        font-weight: 600;
+      }
+
+      input,
+      select,
+      button,
+      textarea {
+        font: inherit;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: #ffffff;
+      }
+
+      textarea {
+        min-height: 82px;
+        resize: vertical;
+      }
+
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-weight: 700;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .status {
+        min-height: 20px;
+        color: var(--muted);
+      }
+
+      .preview {
+        min-height: 240px;
+        border: 1px dashed var(--line);
+        border-radius: 10px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        padding: 12px;
+        overflow: auto;
+      }
+
+      .preview canvas,
+      .preview svg,
+      .preview img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="card">
+        <h1>QR Generator</h1>
+        <p>
+          Create a QR code from any link, preview it instantly, and download PNG
+          or SVG.
+        </p>
+      </section>
+
+      <section class="card">
+        <form id="qr-form">
+          <label>
+            Link
+            <textarea
+              id="link"
+              placeholder="https://example.com"
+              required
+            ></textarea>
+          </label>
+
+          <div class="grid">
+            <label>
+              Filename (optional)
+              <input id="filename" type="text" placeholder="my-qr" />
+            </label>
+
+            <label>
+              Format
+              <select id="format">
+                <option value="png" selected>PNG</option>
+                <option value="svg">SVG</option>
+              </select>
+            </label>
+
+            <label>
+              Size (px)
+              <input id="size" type="number" min="64" step="1" value="512" />
+            </label>
+
+            <label>
+              Margin
+              <input id="margin" type="number" min="0" step="1" value="2" />
+            </label>
+
+            <label>
+              Dark color
+              <input id="dark" type="text" value="#000000" />
+            </label>
+
+            <label>
+              Light color
+              <input id="light" type="text" value="#ffffff" />
+            </label>
+          </div>
+
+          <button id="generate" type="submit">Generate QR</button>
+          <div class="status" id="status"></div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Preview</h2>
+        <div class="preview" id="preview">No QR generated yet.</div>
+      </section>
+    </div>
+
+    <script src="/qrcode.min.js"></script>
+    <script>
+      const form = document.getElementById("qr-form");
+      const linkInput = document.getElementById("link");
+      const filenameInput = document.getElementById("filename");
+      const formatInput = document.getElementById("format");
+      const sizeInput = document.getElementById("size");
+      const marginInput = document.getElementById("margin");
+      const darkInput = document.getElementById("dark");
+      const lightInput = document.getElementById("light");
+      const statusEl = document.getElementById("status");
+      const previewEl = document.getElementById("preview");
+      const button = document.getElementById("generate");
+
+      function setStatus(message) {
+        statusEl.textContent = message;
+      }
+
+      function safeFilename(raw, format) {
+        const cleaned = String(raw || "")
+          .trim()
+          .replace(/[^a-zA-Z0-9._-]+/g, "-")
+          .replace(/-+/g, "-")
+          .replace(/^-+|-+$/g, "");
+
+        const base = cleaned || "qr-code";
+        return base.toLowerCase().endsWith(`.${format}`)
+          ? base
+          : `${base}.${format}`;
+      }
+
+      function downloadBlob(content, mimeType, filename) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function normalizeInputs() {
+        const size = Number(sizeInput.value || 512);
+        const margin = Number(marginInput.value || 2);
+
+        return {
+          link: String(linkInput.value || "").trim(),
+          format: formatInput.value === "svg" ? "svg" : "png",
+          size: Number.isFinite(size) && size > 0 ? Math.floor(size) : 512,
+          margin:
+            Number.isFinite(margin) && margin >= 0 ? Math.floor(margin) : 2,
+          dark: String(darkInput.value || "#000000").trim() || "#000000",
+          light: String(lightInput.value || "#ffffff").trim() || "#ffffff",
+        };
+      }
+
+      async function makePngQr(data) {
+        const canvas = document.createElement("canvas");
+        await QRCode.toCanvas(canvas, data.link, {
+          width: data.size,
+          margin: data.margin,
+          color: {
+            dark: data.dark,
+            light: data.light,
+          },
+        });
+
+        previewEl.innerHTML = "";
+        previewEl.appendChild(canvas);
+
+        const pngDataUrl = canvas.toDataURL("image/png");
+        const pngBinary = atob(pngDataUrl.split(",")[1]);
+        const bytes = new Uint8Array(pngBinary.length);
+        for (let i = 0; i < pngBinary.length; i += 1) {
+          bytes[i] = pngBinary.charCodeAt(i);
+        }
+
+        return bytes;
+      }
+
+      async function makeSvgQr(data) {
+        const svg = await QRCode.toString(data.link, {
+          type: "svg",
+          width: data.size,
+          margin: data.margin,
+          color: {
+            dark: data.dark,
+            light: data.light,
+          },
+        });
+
+        previewEl.innerHTML = svg;
+        return svg;
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (typeof QRCode === "undefined") {
+          setStatus("QR library failed to load. Start with npm run qr-server and open /qr.");
+          return;
+        }
+
+        const data = normalizeInputs();
+        if (!data.link) {
+          setStatus("Link is required.");
+          return;
+        }
+
+        button.disabled = true;
+        setStatus("Generating...");
+
+        try {
+          const filename = safeFilename(filenameInput.value, data.format);
+
+          if (data.format === "svg") {
+            const svg = await makeSvgQr(data);
+            downloadBlob(svg, "image/svg+xml;charset=utf-8", filename);
+          } else {
+            const pngBytes = await makePngQr(data);
+            downloadBlob(pngBytes, "image/png", filename);
+          }
+
+          setStatus(`Generated and downloaded ${filename}`);
+        } catch (error) {
+          setStatus(error.message || "Failed to generate QR");
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

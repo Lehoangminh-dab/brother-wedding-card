@@ -23,6 +23,8 @@ const NAMES = [
   { text: "Nguyễn Thị Hồng Vân", filename: "HongVan.svg" },
 ];
 
+let cachedFontPromise = null;
+
 function fetchUrl(url, userAgent) {
   return new Promise((resolve, reject) => {
     const req = https.get(
@@ -32,7 +34,7 @@ function fetchUrl(url, userAgent) {
         const chunks = [];
         res.on("data", (chunk) => chunks.push(chunk));
         res.on("end", () => resolve(Buffer.concat(chunks)));
-      }
+      },
     );
     req.on("error", reject);
   });
@@ -42,15 +44,27 @@ function extractFontUrlFromCss(cssBuffer) {
   const css = cssBuffer.toString("utf8");
   const match = css.match(/url\s*\(\s*([^)]+)\s*\)/);
   if (!match) throw new Error("No font url found in Google Fonts CSS");
-  return match[1].trim();
+  return match[1].trim().replace(/^['"]|['"]$/g, "");
 }
 
 function loadFontFromUrl(url) {
   return fetchUrl(url).then((buffer) => {
     // opentype.js expects an ArrayBuffer; Buffer.buffer may include extra bytes.
-    const ab = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
+    const ab = buffer.buffer.slice(
+      buffer.byteOffset,
+      buffer.byteOffset + buffer.byteLength,
+    );
     return opentype.parse(ab);
   });
+}
+
+function getWindSongFont() {
+  if (!cachedFontPromise) {
+    cachedFontPromise = fetchUrl(GOOGLE_FONTS_CSS_URL, IE9_USER_AGENT)
+      .then(extractFontUrlFromCss)
+      .then(loadFontFromUrl);
+  }
+  return cachedFontPromise;
 }
 
 function textToSvgPath(font, text, fontSize) {
@@ -72,42 +86,112 @@ function textToSvgPath(font, text, fontSize) {
 }
 
 function buildSvgEqualCanvas(pathInfo, canvas, fill = "#ffffff") {
-  const { d, x1, y1, y2, width, height } = pathInfo;
+  const { d, x1, y1, width, height } = pathInfo;
   const { viewW, viewH, pad, maxW, maxH } = canvas;
 
-  // opentype.js coordinates are y-up; SVG is y-down.
-  // Use a canonical transform that:
-  // - flips y with scale(1,-1)
-  // - translates the path so its bbox sits inside a (0..viewW, 0..viewH) viewBox
-  // - centers the text on an equal-size canvas (same viewBox for both outputs)
-  //
-  // After scale(1,-1), bbox y-range becomes [-y2, -y1].
-  // To place the *top* at pad (y=pad), translate by (pad + y2).
-  // For x, place left at pad: translate by (pad - x1).
-  //
-  // Centering adjustment:
-  // - x: add half of remaining space (maxW - width)/2
-  // - y: add half of remaining space (maxH - height)/2
+  // Center path bounds directly in SVG coordinates.
+  // No y-axis flip is applied, so text orientation stays upright.
   const dx = (maxW - width) / 2;
   const dy = (maxH - height) / 2;
   const tx = pad + dx - x1;
-  const ty = pad + dy + y2;
+  const ty = pad + dy - y1;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${viewW} ${viewH}" width="${viewW}" height="${viewH}">
-  <g transform="translate(${tx}, ${ty}) scale(1, -1)">
+  <g transform="translate(${tx}, ${ty})">
     <path fill="${fill}" d="${d}"/>
   </g>
 </svg>
 `;
 }
 
+function filenameFromText(text) {
+  const cleaned = text
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `${cleaned || "windsong-text"}.svg`;
+}
+
+async function createWindSongSvg(text, options = {}) {
+  const fontSize = Number(options.fontSize || FONT_SIZE_PX);
+  const fill = options.fill || "#ffffff";
+  const pad = Number(options.pad || 2);
+  const font = options.font || (await getWindSongFont());
+
+  const pathInfo = textToSvgPath(font, text, fontSize);
+  const canvas = {
+    pad,
+    maxW: pathInfo.width,
+    maxH: pathInfo.height,
+    viewW: pathInfo.width + 2 * pad,
+    viewH: pathInfo.height + 2 * pad,
+  };
+
+  return buildSvgEqualCanvas(pathInfo, canvas, fill);
+}
+
+function parseArgs(argv) {
+  const args = {
+    text: null,
+    outDir: null,
+    outFile: null,
+    fontSize: null,
+    fill: null,
+  };
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const token = argv[i];
+    if ((token === "--text" || token === "-t") && argv[i + 1]) {
+      args.text = argv[i + 1];
+      i += 1;
+      continue;
+    }
+    if ((token === "--out" || token === "-o") && argv[i + 1]) {
+      args.outFile = argv[i + 1];
+      i += 1;
+      continue;
+    }
+    if ((token === "--out-dir" || token === "-d") && argv[i + 1]) {
+      args.outDir = argv[i + 1];
+      i += 1;
+      continue;
+    }
+    if (token === "--font-size" && argv[i + 1]) {
+      args.fontSize = Number(argv[i + 1]);
+      i += 1;
+      continue;
+    }
+    if (token === "--fill" && argv[i + 1]) {
+      args.fill = argv[i + 1];
+      i += 1;
+    }
+  }
+
+  return args;
+}
+
 async function main() {
-  const outDir = path.join(__dirname, "..", "out");
+  const args = parseArgs(process.argv.slice(2));
+  const outDir = args.outDir
+    ? path.resolve(process.cwd(), args.outDir)
+    : path.join(__dirname, "..", "out");
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
-  const cssBuffer = await fetchUrl(GOOGLE_FONTS_CSS_URL, IE9_USER_AGENT);
-  const fontUrl = extractFontUrlFromCss(cssBuffer);
-  const font = await loadFontFromUrl(fontUrl);
+  const font = await getWindSongFont();
+
+  if (args.text) {
+    const svg = await createWindSongSvg(args.text, {
+      font,
+      fontSize: args.fontSize || FONT_SIZE_PX,
+      fill: args.fill || "#ffffff",
+    });
+    const outFile = args.outFile || filenameFromText(args.text);
+    const outPath = path.join(outDir, outFile);
+    fs.writeFileSync(outPath, svg, "utf8");
+    console.log("Wrote %s", outPath);
+    return;
+  }
 
   const pad = 2;
   const paths = NAMES.map(({ text, filename }) => ({
@@ -134,7 +218,15 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+module.exports = {
+  createWindSongSvg,
+  filenameFromText,
+  getWindSongFont,
+};
+
+if (require.main === module) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
