@@ -41,6 +41,10 @@
   var GALLERY_MOBILE_MAX_WIDTH = 767;
   var GALLERY_MOBILE_PRELOAD_RADIUS = 3;
   var GALLERY_MOBILE_SCROLL_SPEED = 14000;
+  var TIMELINE_MOBILE_MAX_WIDTH = 767;
+  var TIMELINE_EDGE_TOLERANCE_PX = 1;
+  var TIMELINE_TIME_MAX_LINES = 1;
+  var TIMELINE_EVENT_MAX_LINES = 2;
   var SECTION_BG_PRELOAD_MARGIN = "240px 0px";
   var SECTION_BG_MOBILE_MAX_WIDTH = 767;
   var SECTION_BG_TABLET_MAX_WIDTH = 1024;
@@ -560,6 +564,111 @@
 
     scheduleSync();
     window.setTimeout(scheduleSync, 120);
+  }
+
+  function isMobileViewport(maxWidth) {
+    if (window.matchMedia) {
+      return window.matchMedia("(max-width: " + maxWidth + "px)").matches;
+    }
+    return getViewportWidth() <= maxWidth;
+  }
+
+  function isElementTouchingViewportEdge(el, tolerancePx) {
+    if (!el) return false;
+    var rect = el.getBoundingClientRect();
+    var tolerance = Number.isFinite(tolerancePx) ? Math.max(0, tolerancePx) : 0;
+    var viewportWidth = getViewportWidth();
+    if (!viewportWidth) return false;
+
+    return rect.left <= tolerance || rect.right >= viewportWidth - tolerance;
+  }
+
+  function resetTimelineFitClasses(timelineSection) {
+    if (!timelineSection) return;
+    timelineSection.classList.remove("timeline--text-fallback");
+    timelineSection.classList.remove("timeline--text-lock");
+  }
+
+  function getTimelineTextFitStatus(timelineSection) {
+    var times = timelineSection.querySelectorAll(".timeline__time");
+    var events = timelineSection.querySelectorAll(".timeline__event");
+    var hasEdgeTouch = false;
+    var hasTimeWrap = false;
+    var hasEventOverTwoLines = false;
+
+    times.forEach(function (timeEl) {
+      if (isElementTouchingViewportEdge(timeEl, TIMELINE_EDGE_TOLERANCE_PX)) {
+        hasEdgeTouch = true;
+      }
+      if (getElementLineCount(timeEl) > TIMELINE_TIME_MAX_LINES) {
+        hasTimeWrap = true;
+      }
+    });
+
+    events.forEach(function (eventEl) {
+      if (isElementTouchingViewportEdge(eventEl, TIMELINE_EDGE_TOLERANCE_PX)) {
+        hasEdgeTouch = true;
+      }
+      if (getElementLineCount(eventEl) > TIMELINE_EVENT_MAX_LINES) {
+        hasEventOverTwoLines = true;
+      }
+    });
+
+    return {
+      needsFallback: hasEdgeTouch || hasTimeWrap || hasEventOverTwoLines,
+      hasEdgeTouch: hasEdgeTouch,
+      hasTimeWrap: hasTimeWrap,
+      hasEventOverTwoLines: hasEventOverTwoLines,
+    };
+  }
+
+  function applyTimelineMobileTextFit() {
+    var timelineSection = document.getElementById("timeline");
+    if (!timelineSection) return;
+
+    resetTimelineFitClasses(timelineSection);
+
+    if (!isMobileViewport(TIMELINE_MOBILE_MAX_WIDTH)) {
+      return;
+    }
+
+    var status = getTimelineTextFitStatus(timelineSection);
+    if (!status.needsFallback) return;
+
+    timelineSection.classList.add("timeline--text-fallback");
+
+    status = getTimelineTextFitStatus(timelineSection);
+    if (status.needsFallback) {
+      timelineSection.classList.add("timeline--text-lock");
+    }
+  }
+
+  function initTimelineMobileTextFit() {
+    var scheduled = false;
+
+    function runFit() {
+      scheduled = false;
+      applyTimelineMobileTextFit();
+    }
+
+    function scheduleFit() {
+      if (scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(runFit);
+    }
+
+    window.addEventListener("resize", scheduleFit);
+    window.addEventListener("orientationchange", scheduleFit);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", scheduleFit);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(scheduleFit).catch(function () {});
+    }
+
+    scheduleFit();
+    window.setTimeout(scheduleFit, 120);
   }
 
   /** Submit a JSON payload to the API; calls onSuccess or onError. */
@@ -2381,6 +2490,7 @@
     initRsvpForm();
     initCoverViewportFit();
     initFamilyNameLineSync();
+    initTimelineMobileTextFit();
   }
 
   initPreloader();
