@@ -1369,6 +1369,14 @@ main {
   margin-bottom: var(--windsong-next-gap);
 }
 
+.location__heading,
+.location__venue-name,
+.location__venue-address,
+.location__sketch-heading,
+.location__sketch-caption {
+  text-shadow: var(--text-shadow-strong);
+}
+
 .location__venue-name {
   font-family: var(--title-font);
   font-size: var(--font-size-title);
@@ -1641,6 +1649,7 @@ main {
   border-radius: var(--radius);
   margin: 0 auto;
   color: var(--text-dark);
+  text-shadow: none;
   box-shadow: 0 6px 18px rgba(58, 47, 42, 0.08);
 }
 
