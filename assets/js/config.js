@@ -354,7 +354,6 @@ const WEDDING_CONFIG = {
     sketchHeading: "SƠ ĐỒ NỘI BỘ",
     sketchMapImage: IN_LOCATION_IMAGE,
     sketchMapAlt: "Sơ đồ chỉ dẫn nội bộ",
-    sketchMapCaption: "Sơ đồ chỉ dẫn lối đi trong khu vực tổ chức",
   },
 
   // ──────────────────────────────────────────────

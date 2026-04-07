@@ -1246,7 +1246,6 @@
       ".location__venue-name": cfg.venueName,
       ".location__venue-address": cfg.venueAddress,
       ".location__sketch-heading": cfg.sketchHeading,
-      ".location__sketch-caption": cfg.sketchMapCaption,
     });
 
     setAttr(".location__map-iframe", "src", cfg.googleMapsEmbedUrl);

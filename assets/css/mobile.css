@@ -358,7 +358,7 @@
   .timeline {
     --timeline-icon-size: 62px;
     --timeline-icon-event-gap: var(--space-8);
-    --timeline-axis-gap: 120px;
+    --timeline-axis-gap: 132px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
     --timeline-time-axis-offset: var(--space-12);
     --timeline-fallback-font-size: var(--font-size-body-sm);
@@ -400,11 +400,6 @@
     min-height: var(--timeline-icon-size);
     margin-left: 0;
     padding: 0;
-  }
-
-  .timeline__subtitle {
-    font-size: var(--font-size-body-sm);
-    line-height: 1.35;
   }
 
   .timeline__time {
@@ -1081,7 +1076,7 @@
   .timeline {
     --timeline-icon-size: 48px;
     --timeline-icon-event-gap: var(--space-4);
-    --timeline-axis-gap: 96px;
+    --timeline-axis-gap: 108px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
     --timeline-time-axis-offset: var(--space-8);
   }
@@ -1139,7 +1134,7 @@
 /* Extra-narrow phones: keep timeline text clear of center axis. */
 @media only screen and (max-width: 390px) {
   .timeline {
-    --timeline-axis-gap: 116px;
+    --timeline-axis-gap: 124px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
     --timeline-time-axis-offset: var(--space-12);
   }

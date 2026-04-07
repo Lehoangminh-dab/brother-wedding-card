@@ -1370,8 +1370,7 @@ main {
 .location__heading,
 .location__venue-name,
 .location__venue-address,
-.location__sketch-heading,
-.location__sketch-caption {
+.location__sketch-heading {
   text-shadow: var(--text-shadow-strong);
 }
 
@@ -1440,14 +1439,6 @@ main {
   height: 100%;
   object-fit: contain;
   object-position: center;
-}
-
-.location__sketch-caption {
-  font-family: var(--primary-font);
-  font-size: var(--font-size-body-sm);
-  font-weight: var(--font-weight-normal);
-  color: var(--text-white-pure-muted);
-  margin-top: var(--space-8);
 }
 
 /* ==========================================================================
