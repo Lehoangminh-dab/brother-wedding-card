@@ -61,6 +61,19 @@
     --content-max-width: 92%;
     --location-inner-max-width: 1331px;
     --gallery-track-spacing: 21px;
+
+    /* Section heights (>=1600 baseline) */
+    --section-height-standard: 3240px;
+    --section-height-save-date: 2160px;
+    --section-height-location: 3240px;
+    --section-height-rsvp: 1080px;
+    --section-height-wishes: 3240px;
+    --section-height-thank-you: 2700px;
+    --section-height-cover: 1620px;
+    --section-height-family: 1620px;
+    --section-height-timeline: 1620px;
+    --section-height-contact: 1080px;
+    --lightbox-image-max-height: 918px;
   }
 
   /* Hard-coded desktop constraints that are not tokenized yet */

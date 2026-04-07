@@ -132,20 +132,25 @@
   --content-width: 680px;
   --content-max-width: 90%;
 
-  /* Section heights (viewport-based) */
-  --section-height-standard: 300vh;
-  --section-height-save-date: 200vh;
-  --section-height-gallery: 200vh;
-  --section-height-location: 300vh;
-  --section-height-rsvp: 100vh;
-  --section-height-wishes: 300vh;
-  --section-height-thank-you: 250vh;
+  /* Section heights (px-based vertical rhythm) */
+  --section-height-standard: 2700px;
+  --section-height-save-date: 1800px;
+  --section-height-location: 2700px;
+  --section-height-rsvp: 900px;
+  --section-height-wishes: 2700px;
+  --section-height-thank-you: 2250px;
+  --section-height-cover: 1350px;
+  --section-height-family: 1350px;
+  --section-height-timeline: 1125px;
+  --section-height-contact: 900px;
+  --lightbox-image-max-height: 765px;
 }
 
 @media only screen and (min-width: 1024px) {
   :root {
     --section-margin: var(--space-100);
     --gap: var(--space-40);
+    --section-height-timeline: 1350px;
   }
 }
 
@@ -438,8 +443,8 @@ main {
 
   position: relative;
   width: 100%;
-  height: 150vh;
-  min-height: 150vh;
+  height: var(--section-height-cover);
+  min-height: var(--section-height-cover);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -623,7 +628,7 @@ main {
    8.5 FAMILY SECTION
    ========================================================================== */
 .family {
-  min-height: 150vh;
+  min-height: var(--section-height-family);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -931,11 +936,6 @@ main {
     margin-left: auto;
     margin-right: auto;
   }
-
-  .timeline {
-    height: 150vh;
-    min-height: 150vh;
-  }
 }
 
 /* ==========================================================================
@@ -1122,8 +1122,8 @@ main {
   --timeline-axis-gap: 156px;
   --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
   --timeline-time-axis-offset: var(--space-32);
-  height: 125vh;
-  min-height: 125vh;
+  height: var(--section-height-timeline);
+  min-height: var(--section-height-timeline);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1297,10 +1297,8 @@ main {
    12.5 CONTACT INFO SECTION
    ========================================================================== */
 .contact-info {
-  height: 100vh;
-  min-height: 100vh;
-  min-height: 100svh;
-  min-height: 100dvh;
+  height: var(--section-height-contact);
+  min-height: var(--section-height-contact);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2025,7 +2023,7 @@ main {
 
 .lightbox__img {
   max-width: 90%;
-  max-height: 85vh;
+  max-height: var(--lightbox-image-max-height);
   object-fit: contain;
   border-radius: var(--radius);
   user-select: none;
@@ -2183,11 +2181,4 @@ main {
   background-color: rgba(58, 47, 42, 0.12);
   color: var(--color-error);
   border: 1px solid var(--color-error);
-}
-
-@media only screen and (min-width: 1024px) {
-  .timeline {
-    height: 150vh;
-    min-height: 150vh;
-  }
 }

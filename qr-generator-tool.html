@@ -20,7 +20,7 @@
 
       body {
         margin: 0;
-        min-height: 100vh;
+        min-height: 900px;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         color: var(--ink);
         background:
@@ -28,6 +28,30 @@
           radial-gradient(circle at 85% 92%, #f8d8b7 0, transparent 32%),
           var(--bg);
         padding: 24px;
+      }
+
+      @media only screen and (min-width: 1600px) {
+        body {
+          min-height: 1080px;
+        }
+      }
+
+      @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        body {
+          min-height: 1024px;
+        }
+      }
+
+      @media only screen and (max-width: 767px) {
+        body {
+          min-height: 844px;
+        }
+      }
+
+      @media only screen and (max-width: 480px) {
+        body {
+          min-height: 780px;
+        }
       }
 
       .wrap {

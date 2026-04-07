@@ -1,74 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Xem trước giao diện Android – Thiệp cưới</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #1a1a1a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      font-family: 'Fahkwang', sans-serif;
-      color: #888;
-    }
-    .phone-frame {
-      width: 412px;
-      height: 915px;
-      background: #000;
-      border-radius: 44px;
-      padding: 14px;
-      box-shadow: 0 0 0 3px #333, 0 25px 80px rgba(0,0,0,0.6);
-      flex-shrink: 0;
-    }
-    .phone-screen {
-      width: 100%;
-      height: 100%;
-      border-radius: 32px;
-      overflow: hidden;
-      background: #fff;
-    }
-    .phone-screen iframe {
-      width: 384px;
-      height: 100%;
-      border: none;
-      display: block;
-      transform-origin: 0 0;
-    }
-    .caption {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 14px;
-    }
-    .caption a {
-      color: #6af;
-    }
-  </style>
-</head>
-<body>
-  <div>
-    <div class="phone-frame">
-      <div class="phone-screen">
-        <!-- Android-like viewport: 384pt logical width (common for 412px physical) -->
-        <iframe
-          id="site"
-          title="Thiệp cưới"
-          src="./index.html"
-        ></iframe>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xem trước giao diện Android – Thiệp cưới</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 900px;
+        background: #1a1a1a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family: "Fahkwang", sans-serif;
+        color: #888;
+      }
+      @media only screen and (min-width: 1600px) {
+        body {
+          min-height: 1080px;
+        }
+      }
+      @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        body {
+          min-height: 1024px;
+        }
+      }
+      @media only screen and (max-width: 767px) {
+        body {
+          min-height: 844px;
+        }
+      }
+      @media only screen and (max-width: 480px) {
+        body {
+          min-height: 780px;
+        }
+      }
+      .phone-frame {
+        width: 412px;
+        height: 915px;
+        background: #000;
+        border-radius: 44px;
+        padding: 14px;
+        box-shadow:
+          0 0 0 3px #333,
+          0 25px 80px rgba(0, 0, 0, 0.6);
+        flex-shrink: 0;
+      }
+      .phone-screen {
+        width: 100%;
+        height: 100%;
+        border-radius: 32px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .phone-screen iframe {
+        width: 384px;
+        height: 100%;
+        border: none;
+        display: block;
+        transform-origin: 0 0;
+      }
+      .caption {
+        margin-top: 16px;
+        text-align: center;
+        font-size: 14px;
+      }
+      .caption a {
+        color: #6af;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <!-- Android-like viewport: 384pt logical width (common for 412px physical) -->
+          <iframe id="site" title="Thiệp cưới" src="./index.html"></iframe>
+        </div>
       </div>
+      <p class="caption">
+        Xem trước Android (412×915) · <a href="./index.html">Mở trang đầy đủ</a>
+      </p>
     </div>
-    <p class="caption">Xem trước Android (412×915) · <a href="./index.html">Mở trang đầy đủ</a></p>
-  </div>
-  <script>
-    // Size iframe to match container (384px is a common Android logical width)
-    var f = document.getElementById('site');
-    f.style.width = document.querySelector('.phone-screen').offsetWidth + 'px';
-    f.style.height = document.querySelector('.phone-screen').offsetHeight + 'px';
-  </script>
-</body>
+    <script>
+      // Size iframe to match container (384px is a common Android logical width)
+      var f = document.getElementById("site");
+      f.style.width =
+        document.querySelector(".phone-screen").offsetWidth + "px";
+      f.style.height =
+        document.querySelector(".phone-screen").offsetHeight + "px";
+    </script>
+  </body>
 </html>

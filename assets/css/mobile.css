@@ -9,18 +9,6 @@
 }
 
 @media only screen and (max-width: 767px) {
-  /* Mobile browser viewport bars can make 100vh unreliable. Keep 100vh as
-     fallback, then prefer dynamic viewport units where supported. */
-  .cover,
-  .cover__content {
-    height: 125vh;
-    height: 125svh;
-    height: 125dvh;
-    min-height: 125vh;
-    min-height: 125svh;
-    min-height: 125dvh;
-  }
-
   :root {
     --section-margin: var(--space-56);
     --windsong-next-gap: var(--windsong-gap-mobile);
@@ -31,13 +19,17 @@
     --text-icon-lg: 41.06px;
 
     /* Reduce oversized vertical pacing on phones/tablets. */
-    --section-height-standard: 200svh;
-    --section-height-save-date: 140svh;
-    --section-height-gallery: 130svh;
-    --section-height-location: 150svh;
-    --section-height-rsvp: 100svh;
-    --section-height-wishes: 170svh;
-    --section-height-thank-you: 100vh;
+    --section-height-standard: 1688px;
+    --section-height-save-date: 1184px;
+    --section-height-location: 1268px;
+    --section-height-rsvp: 844px;
+    --section-height-wishes: 1436px;
+    --section-height-thank-you: 844px;
+    --section-height-cover: 1056px;
+    --section-height-family: 1268px;
+    --section-height-timeline: 1056px;
+    --section-height-contact: 844px;
+    --lightbox-image-max-height: 716px;
 
     /* Shared semantic roles: same taxonomy as desktop, mobile-tuned values. */
     --divider-gap: var(--space-stack-section);
@@ -88,9 +80,6 @@
   }
 
   .family {
-    min-height: 150vh;
-    min-height: 150svh;
-    min-height: 150dvh;
     padding-left: var(--space-4);
     padding-right: var(--space-4);
   }
@@ -373,8 +362,6 @@
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
     --timeline-time-axis-offset: var(--space-12);
     --timeline-fallback-font-size: 20px;
-    height: 125vh;
-    min-height: 125vh;
   }
 
   .timeline__track {
@@ -447,6 +434,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     overflow: hidden;
     line-height: 1.2;
     max-height: calc(2 * 1.2em);
@@ -576,16 +564,6 @@
 /* Portrait tablets (including most iPads): compact desktop rhythm
    without applying phone-tight spacing. */
 @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-  .cover,
-  .cover__content {
-    height: 130vh;
-    height: 130svh;
-    height: 130dvh;
-    min-height: 130vh;
-    min-height: 130svh;
-    min-height: 130dvh;
-  }
-
   :root {
     --heading-icon-gap: 0.16em;
     --section-margin: var(--space-64);
@@ -596,12 +574,17 @@
     --text-icon: 35px;
     --text-icon-lg: 42px;
 
-    --section-height-standard: 125svh;
-    --section-height-save-date: 150svh;
-    --section-height-gallery: 145svh;
-    --section-height-location: 175svh;
-    --section-height-rsvp: 100svh;
-    --section-height-wishes: 195svh;
+    --section-height-standard: 1280px;
+    --section-height-save-date: 1536px;
+    --section-height-location: 1792px;
+    --section-height-rsvp: 1024px;
+    --section-height-wishes: 1996px;
+    --section-height-thank-you: 2560px;
+    --section-height-cover: 1332px;
+    --section-height-family: 1536px;
+    --section-height-timeline: 1280px;
+    --section-height-contact: 1024px;
+    --lightbox-image-max-height: 872px;
 
     --divider-gap: var(--space-stack-section);
     --save-date-date-to-time: var(--space-stack-block);
@@ -648,9 +631,6 @@
   }
 
   .family {
-    min-height: 150vh;
-    min-height: 150svh;
-    min-height: 150dvh;
     padding-left: var(--space-4);
     padding-right: var(--space-4);
   }
@@ -856,8 +836,6 @@
     --timeline-axis-gap: 140px;
     --timeline-axis-bridge: calc(var(--timeline-axis-gap) / 2);
     --timeline-time-axis-offset: var(--space-16);
-    height: 125vh;
-    min-height: 125vh;
   }
 
   .timeline__track {
@@ -1043,11 +1021,17 @@
 @media only screen and (max-width: 480px) {
   :root {
     --section-margin: var(--space-48);
-    --section-height-save-date: 125svh;
-    --section-height-gallery: 120svh;
-    --section-height-location: 145svh;
-    --section-height-rsvp: 95svh;
-    --section-height-wishes: 165svh;
+    --section-height-standard: 1560px;
+    --section-height-save-date: 975px;
+    --section-height-location: 1132px;
+    --section-height-rsvp: 741px;
+    --section-height-wishes: 1288px;
+    --section-height-thank-you: 780px;
+    --section-height-cover: 975px;
+    --section-height-family: 1170px;
+    --section-height-timeline: 975px;
+    --section-height-contact: 780px;
+    --lightbox-image-max-height: 663px;
   }
 
   .cover__content {
