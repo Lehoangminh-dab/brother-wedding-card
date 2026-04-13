@@ -341,6 +341,7 @@ main {
   color: var(--text-dark);
   background-color: var(--text-white-pure);
   caret-color: var(--text-dark);
+  width: 100%;
 }
 
 .wishes__input::placeholder,
