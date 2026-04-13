@@ -140,8 +140,9 @@
   /* Canonical desktop section heights (px-based vertical rhythm) */
   --section-height-desktop-cover: 800px;
   --section-height-desktop-family: 900px;
-  --section-height-desktop-until: 1600px;
-  --section-height-desktop-save-date: 920px;
+  --section-height-desktop-until: 1120px;
+  /* Single source of truth: controls exact desktop save-date section height. */
+  --section-height-desktop-save-date: 880px;
   --section-height-desktop-timeline: 860px;
   --section-height-desktop-contact: 620px;
   --section-height-desktop-location: 720px;
@@ -1102,6 +1103,7 @@ main {
    11. SAVE THE DATE SECTION
    ========================================================================== */
 .save-date {
+  height: var(--section-height-save-date);
   min-height: var(--section-height-save-date);
   display: flex;
   align-items: center;
@@ -1444,7 +1446,7 @@ main {
   font-family: var(--primary-font);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-normal);
-  color: var(--text-white-pure-muted);
+  color: var(--text-white-pure);
   margin-bottom: var(--location-subsection-gap);
 }
 
@@ -1755,7 +1757,7 @@ main {
 }
 
 .gifts__subtitle.stagger--visible {
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .gifts__cards {

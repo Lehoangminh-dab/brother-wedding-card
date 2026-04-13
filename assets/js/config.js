@@ -60,12 +60,12 @@ const WEDDING_CONFIG = {
   sectionBackgrounds: {
     "until-the-day": {
       size: "cover",
-      position: "center center",
+      position: "center top",
       repeat: "no-repeat",
     },
     "save-the-date": {
       size: "cover",
-      position: "center top",
+      position: "center center",
       repeat: "no-repeat",
     },
     location: {
