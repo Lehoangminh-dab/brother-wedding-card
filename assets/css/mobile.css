@@ -18,17 +18,30 @@
     --text-icon: 33.81px;
     --text-icon-lg: 41.06px;
 
-    /* Reduce oversized vertical pacing on phones/tablets. */
-    --section-height-standard: 1688px;
-    --section-height-save-date: 1184px;
-    --section-height-location: 940px;
-    --section-height-rsvp: 844px;
-    --section-height-wishes: 1436px;
-    --section-height-thank-you: 844px;
-    --section-height-cover: 1056px;
-    --section-height-family: 1268px;
-    --section-height-timeline: 1056px;
-    --section-height-contact: 844px;
+    /* Mobile section-height source variables (behavior-preserving). */
+    --section-height-mobile-until: 1688px;
+    --section-height-mobile-save-date: 1184px;
+    --section-height-mobile-location: 940px;
+    --section-height-mobile-rsvp: 844px;
+    --section-height-mobile-wishes: 1436px;
+    --section-height-mobile-thank-you: 844px;
+    --section-height-mobile-cover: 1056px;
+    --section-height-mobile-family: 1268px;
+    --section-height-mobile-timeline: 1056px;
+    --section-height-mobile-contact: 844px;
+
+    /* Section tokens consumed by section styles on mobile. */
+    --section-height-until: var(--section-height-mobile-until);
+    --section-height-standard: var(--section-height-mobile-until);
+    --section-height-save-date: var(--section-height-mobile-save-date);
+    --section-height-location: var(--section-height-mobile-location);
+    --section-height-rsvp: var(--section-height-mobile-rsvp);
+    --section-height-wishes: var(--section-height-mobile-wishes);
+    --section-height-thank-you: var(--section-height-mobile-thank-you);
+    --section-height-cover: var(--section-height-mobile-cover);
+    --section-height-family: var(--section-height-mobile-family);
+    --section-height-timeline: var(--section-height-mobile-timeline);
+    --section-height-contact: var(--section-height-mobile-contact);
     --lightbox-image-max-height: 716px;
 
     /* Shared semantic roles: same taxonomy as desktop, mobile-tuned values. */
@@ -568,16 +581,28 @@
     --text-icon: 35px;
     --text-icon-lg: 42px;
 
-    --section-height-standard: 1280px;
-    --section-height-save-date: 1536px;
-    --section-height-location: 1360px;
-    --section-height-rsvp: 1024px;
-    --section-height-wishes: 1996px;
-    --section-height-thank-you: 2560px;
-    --section-height-cover: 1332px;
-    --section-height-family: 1536px;
-    --section-height-timeline: 1280px;
-    --section-height-contact: 1024px;
+    --section-height-mobile-until: 1280px;
+    --section-height-mobile-save-date: 1536px;
+    --section-height-mobile-location: 1360px;
+    --section-height-mobile-rsvp: 1024px;
+    --section-height-mobile-wishes: 1996px;
+    --section-height-mobile-thank-you: 2560px;
+    --section-height-mobile-cover: 1332px;
+    --section-height-mobile-family: 1536px;
+    --section-height-mobile-timeline: 1280px;
+    --section-height-mobile-contact: 1024px;
+
+    --section-height-until: var(--section-height-mobile-until);
+    --section-height-standard: var(--section-height-mobile-until);
+    --section-height-save-date: var(--section-height-mobile-save-date);
+    --section-height-location: var(--section-height-mobile-location);
+    --section-height-rsvp: var(--section-height-mobile-rsvp);
+    --section-height-wishes: var(--section-height-mobile-wishes);
+    --section-height-thank-you: var(--section-height-mobile-thank-you);
+    --section-height-cover: var(--section-height-mobile-cover);
+    --section-height-family: var(--section-height-mobile-family);
+    --section-height-timeline: var(--section-height-mobile-timeline);
+    --section-height-contact: var(--section-height-mobile-contact);
     --lightbox-image-max-height: 872px;
 
     --divider-gap: var(--space-stack-section);
@@ -1019,16 +1044,28 @@
 @media only screen and (max-width: 480px) {
   :root {
     --section-margin: var(--space-48);
-    --section-height-standard: 1560px;
-    --section-height-save-date: 975px;
-    --section-height-location: 820px;
-    --section-height-rsvp: 741px;
-    --section-height-wishes: 1288px;
-    --section-height-thank-you: 780px;
-    --section-height-cover: 975px;
-    --section-height-family: 1170px;
-    --section-height-timeline: 975px;
-    --section-height-contact: 780px;
+    --section-height-mobile-until: 1560px;
+    --section-height-mobile-save-date: 975px;
+    --section-height-mobile-location: 820px;
+    --section-height-mobile-rsvp: 741px;
+    --section-height-mobile-wishes: 1288px;
+    --section-height-mobile-thank-you: 780px;
+    --section-height-mobile-cover: 975px;
+    --section-height-mobile-family: 1170px;
+    --section-height-mobile-timeline: 975px;
+    --section-height-mobile-contact: 780px;
+
+    --section-height-until: var(--section-height-mobile-until);
+    --section-height-standard: var(--section-height-mobile-until);
+    --section-height-save-date: var(--section-height-mobile-save-date);
+    --section-height-location: var(--section-height-mobile-location);
+    --section-height-rsvp: var(--section-height-mobile-rsvp);
+    --section-height-wishes: var(--section-height-mobile-wishes);
+    --section-height-thank-you: var(--section-height-mobile-thank-you);
+    --section-height-cover: var(--section-height-mobile-cover);
+    --section-height-family: var(--section-height-mobile-family);
+    --section-height-timeline: var(--section-height-mobile-timeline);
+    --section-height-contact: var(--section-height-mobile-contact);
     --lightbox-image-max-height: 663px;
   }
 

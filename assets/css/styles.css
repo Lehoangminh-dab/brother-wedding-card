@@ -137,17 +137,32 @@
   --content-width: 680px;
   --content-max-width: 90%;
 
-  /* Section heights (px-based vertical rhythm) */
-  --section-height-standard: 2700px;
-  --section-height-save-date: 1800px;
-  --section-height-location: 2200px;
-  --section-height-rsvp: 900px;
-  --section-height-wishes: 2700px;
-  --section-height-thank-you: 2250px;
-  --section-height-cover: 1350px;
-  --section-height-family: 1350px;
-  --section-height-timeline: 1125px;
-  --section-height-contact: 900px;
+  /* Canonical desktop section heights (px-based vertical rhythm) */
+  --section-height-desktop-cover: 1200px;
+  --section-height-desktop-family: 1150px;
+  --section-height-desktop-until: 2200px;
+  --section-height-desktop-save-date: 1400px;
+  --section-height-desktop-timeline: 1080px;
+  --section-height-desktop-contact: 780px;
+  --section-height-desktop-location: 1750px;
+  --section-height-desktop-rsvp: 760px;
+  --section-height-desktop-wishes: 2200px;
+  --section-height-desktop-thank-you: 1700px;
+
+  /* Section tokens consumed by section styles */
+  --section-height-cover: var(--section-height-desktop-cover);
+  --section-height-family: var(--section-height-desktop-family);
+  --section-height-until: var(--section-height-desktop-until);
+  --section-height-save-date: var(--section-height-desktop-save-date);
+  --section-height-timeline: var(--section-height-desktop-timeline);
+  --section-height-contact: var(--section-height-desktop-contact);
+  --section-height-location: var(--section-height-desktop-location);
+  --section-height-rsvp: var(--section-height-desktop-rsvp);
+  --section-height-wishes: var(--section-height-desktop-wishes);
+  --section-height-thank-you: var(--section-height-desktop-thank-you);
+
+  /* Legacy alias retained to avoid accidental regressions in future edits. */
+  --section-height-standard: var(--section-height-until);
   --lightbox-image-max-height: 765px;
 }
 
@@ -155,7 +170,6 @@
   :root {
     --section-margin: var(--space-100);
     --gap: var(--space-40);
-    --section-height-timeline: 1350px;
   }
 }
 
@@ -873,7 +887,7 @@ main {
    ========================================================================== */
 .until {
   margin-top: 0;
-  min-height: var(--section-height-standard);
+  min-height: var(--section-height-until);
   display: flex;
   align-items: center;
   justify-content: center;
