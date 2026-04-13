@@ -6,7 +6,8 @@
    1. DESIGN TOKENS (CSS Custom Properties)
    ========================================================================== */
 :root {
-  color-scheme: only light;
+  /* Keep this value CSS-valid so mobile browsers cannot ignore it. */
+  color-scheme: light;
   --max-width: 1024px;
   --bg: #fdf5e8;
   --bg-light: #fdf5e8;
@@ -192,7 +193,7 @@
 }
 
 html {
-  color-scheme: only light;
+  color-scheme: light;
   background-color: var(--bg);
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
@@ -250,6 +251,7 @@ body {
   padding: 0;
   color: var(--text-white-pure);
   background-color: var(--bg);
+  color-scheme: light;
 }
 
 main {
@@ -333,6 +335,12 @@ main {
 .wishes__input,
 .wishes__textarea,
 .rsvp__input {
+  color-scheme: light;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  forced-color-adjust: none;
+  accent-color: var(--primary-color);
   border: 1px solid var(--primary-color);
   padding: var(--space-8) var(--space-20);
   border-radius: var(--radius);
@@ -1514,6 +1522,11 @@ main {
 }
 
 .rsvp__radio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  forced-color-adjust: none;
+  accent-color: var(--primary-color);
   position: absolute;
   opacity: 0;
   cursor: pointer;
