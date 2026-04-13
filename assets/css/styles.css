@@ -140,7 +140,7 @@
   /* Canonical desktop section heights (px-based vertical rhythm) */
   --section-height-desktop-cover: 800px;
   --section-height-desktop-family: 900px;
-  --section-height-desktop-until: 1120px;
+  --section-height-desktop-until: 1200px;
   /* Single source of truth: controls exact desktop save-date section height. */
   --section-height-desktop-save-date: 880px;
   --section-height-desktop-timeline: 860px;
