@@ -743,13 +743,22 @@ main {
 }
 
 .family__center-icon--bottom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: var(--heart-icon-size);
   line-height: 1;
   color: var(--secondary-color);
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7),
-    0 0 10px rgba(201, 162, 39, 0.45),
-    0 0 20px rgba(201, 162, 39, 0.3);
+}
+
+.family__center-icon-svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+  fill: currentColor;
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7))
+    drop-shadow(0 0 10px rgba(201, 162, 39, 0.45))
+    drop-shadow(0 0 20px rgba(201, 162, 39, 0.3));
 }
 
 .section-heading-icon.ri-heart-3-line {

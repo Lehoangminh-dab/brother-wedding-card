@@ -1052,10 +1052,6 @@
           familyCfg.topCenterSymbol,
           "♡",
         ]),
-        ".family__center-icon--bottom": getFirstNonEmptyTrimmed([
-          familyCfg.bottomCenterSymbol,
-          "❤",
-        ]),
       },
       familySection,
     );
