@@ -147,7 +147,7 @@
   --section-height-desktop-location: 720px;
   --section-height-desktop-rsvp: 620px;
   --section-height-desktop-wishes: 1500px;
-  --section-height-desktop-thank-you: 1350px;
+  --section-height-desktop-thank-you: 880px;
 
   /* Section tokens consumed by section styles */
   --section-height-cover: var(--section-height-desktop-cover);
