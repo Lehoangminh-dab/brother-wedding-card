@@ -465,7 +465,7 @@ const WEDDING_CONFIG = {
   autoScrollHint: {
     enabled: true,
     bufferAfterFadeMs: 500,
-    speedPxPerSec: 80,
+    speedPxPerSec: 95,
   },
 
   // ──────────────────────────────────────────────
