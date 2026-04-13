@@ -580,6 +580,13 @@ main {
   text-shadow: var(--text-shadow-soft);
 }
 
+.cover__and-icon {
+  width: 1em;
+  height: 1em;
+  display: block;
+  fill: currentColor;
+}
+
 .cover__date,
 .cover__venue {
   margin: calc(
