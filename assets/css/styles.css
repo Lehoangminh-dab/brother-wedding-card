@@ -734,7 +734,7 @@ main {
 .family__name {
   text-align: center;
   font-family: var(--script-font);
-  font-size: var(--family-name-size, clamp(46.4px, 5.76vw, 72px));
+  font-size: var(--family-name-size, clamp(48px, 5.76vw, 72px));
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
   color: var(--secondary-color);
