@@ -1255,7 +1255,6 @@
       ".location__heading": cfg.heading,
       ".location__venue-name": cfg.venueName,
       ".location__venue-address": cfg.venueAddress,
-      ".location__sketch-heading": cfg.sketchHeading,
     });
 
     setAttr(".location__map-iframe", "src", cfg.googleMapsEmbedUrl);
@@ -1265,13 +1264,6 @@
       mapLink.href = cfg.mapLinkHref;
       mapLink.textContent = cfg.mapLinkText;
     }
-
-    populateAttrs({
-      ".location__sketch-img": {
-        src: cfg.sketchMapImage,
-        alt: cfg.sketchMapAlt,
-      },
-    });
   }
 
   function populateWishes() {

@@ -21,7 +21,7 @@
     /* Reduce oversized vertical pacing on phones/tablets. */
     --section-height-standard: 1688px;
     --section-height-save-date: 1184px;
-    --section-height-location: 1268px;
+    --section-height-location: 940px;
     --section-height-rsvp: 844px;
     --section-height-wishes: 1436px;
     --section-height-thank-you: 844px;
@@ -325,7 +325,6 @@
   .save-date__date,
   .save-date__time,
   .location__venue-name,
-  .location__sketch-heading,
   .timeline__subtitle {
     font-size: var(--font-size-title);
     line-height: 1.25;
@@ -576,7 +575,7 @@
 
     --section-height-standard: 1280px;
     --section-height-save-date: 1536px;
-    --section-height-location: 1792px;
+    --section-height-location: 1360px;
     --section-height-rsvp: 1024px;
     --section-height-wishes: 1996px;
     --section-height-thank-you: 2560px;
@@ -810,7 +809,6 @@
   .save-date__date,
   .save-date__time,
   .location__venue-name,
-  .location__sketch-heading,
   .timeline__subtitle {
     font-size: var(--font-size-title);
     line-height: 1.25;
@@ -1023,7 +1021,7 @@
     --section-margin: var(--space-48);
     --section-height-standard: 1560px;
     --section-height-save-date: 975px;
-    --section-height-location: 1132px;
+    --section-height-location: 820px;
     --section-height-rsvp: 741px;
     --section-height-wishes: 1288px;
     --section-height-thank-you: 780px;

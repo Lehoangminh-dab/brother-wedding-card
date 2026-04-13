@@ -12,7 +12,6 @@ const SAVE_THE_DATE_IMAGE =
 const LOCATION_IMAGE = "assets/images/optimized/sections/hon_dau_resort.jpg";
 const WISHES_IMAGE = "assets/images/optimized/sections/wishes.jpg";
 const THANK_YOU_IMAGE = "assets/images/optimized/sections/thank_you.jpg";
-const IN_LOCATION_IMAGE = "assets/images/in_area_map.jpg";
 
 const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
@@ -341,7 +340,7 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
-  // LOCATION (Google Maps + sketch map)
+  // LOCATION (Google Maps)
   // ──────────────────────────────────────────────
   location: {
     backgroundImage: LOCATION_IMAGE,
@@ -352,9 +351,6 @@ const WEDDING_CONFIG = {
       "https://maps.google.com/maps?q=Kh%C3%A1ch%20s%E1%BA%A1n%20Holiday%20H%C3%B2n%20D%E1%BA%A5u%20Resort%2C%20%C4%90%E1%BB%93%20S%C6%A1n%2C%20H%E1%BA%A3i%20Ph%C3%B2ng&z=13&output=embed",
     mapLinkText: "Mở trên Google Maps",
     mapLinkHref: "https://maps.app.goo.gl/SRDaoq3A8kUVkyg37",
-    sketchHeading: "SƠ ĐỒ NƠI TỔ CHỨC",
-    sketchMapImage: IN_LOCATION_IMAGE,
-    sketchMapAlt: "Sơ đồ nơi tổ chức",
   },
 
   // ──────────────────────────────────────────────
