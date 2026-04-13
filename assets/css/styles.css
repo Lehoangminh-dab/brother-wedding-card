@@ -76,8 +76,7 @@
   --spinner-ring: rgba(201, 162, 39, 0.22);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
-  --font-size-title: clamp(18px, 2.6vw, 30px);
-  --font-size-body-lg: clamp(16px, 2vw, 20px);
+  --font-size-body-lg: clamp(18px, 2.2vw, 22px);
   --font-size-body-sm: clamp(14px, 1.8vw, 17px);
   --font-size-credit-xs: clamp(7px, 1.12vw, 8.4px);
   --font-size-countdown-timer: clamp(18px, 2.6vw, 30px);
@@ -583,7 +582,7 @@ main {
     )
     0 0 0;
   padding: 0;
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-family: var(--primary-font);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
@@ -682,7 +681,7 @@ main {
 
 .family__house-label {
   font-family: var(--title-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-normal);
   color: var(--secondary-color);
@@ -801,7 +800,7 @@ main {
 
 .family__invite-title {
   font-family: var(--title-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
@@ -833,7 +832,7 @@ main {
   }
 
   .family__house-label {
-    font-size: var(--font-size-title);
+    font-size: var(--font-size-body-lg);
     margin-bottom: var(--space-8);
   }
 
@@ -854,7 +853,7 @@ main {
   }
 
   .family__invite-title {
-    font-size: var(--font-size-title);
+    font-size: var(--font-size-body-lg);
     margin-bottom: var(--space-8);
   }
 
@@ -1119,7 +1118,7 @@ main {
 
 .save-date__date {
   font-family: var(--primary-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
@@ -1129,7 +1128,7 @@ main {
 
 .save-date__time {
   font-family: var(--primary-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   text-transform: uppercase;
@@ -1168,7 +1167,7 @@ main {
 
 .timeline__subtitle {
   font-family: var(--title-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-display);
   text-transform: uppercase;
@@ -1289,7 +1288,7 @@ main {
 
 .timeline__time {
   font-family: var(--primary-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-form);
   color: var(--secondary-color);
@@ -1348,7 +1347,7 @@ main {
 
 .contact-info__phone {
   font-family: var(--title-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   color: var(--secondary-color);
@@ -1357,7 +1356,7 @@ main {
 
 .contact-info__name {
   font-family: var(--title-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
   color: var(--secondary-color);
@@ -1399,7 +1398,7 @@ main {
 
 .location__venue-name {
   font-family: var(--title-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-wider);
   color: var(--text-white-pure);
@@ -1793,7 +1792,7 @@ main {
 .gifts__card-label {
   display: block;
   font-family: var(--primary-font);
-  font-size: var(--font-size-title);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-medium);
   letter-spacing: var(--tracking-uppercase);
   text-transform: uppercase;

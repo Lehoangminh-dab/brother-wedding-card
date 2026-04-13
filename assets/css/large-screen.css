@@ -40,8 +40,7 @@
     --space-stack-section: 42px;
 
     /* Typography scale */
-    --font-size-title: clamp(28px, 4.06vw, 47px);
-    --font-size-body-lg: clamp(25px, 3.12vw, 31px);
+    --font-size-body-lg: clamp(27px, 3.4vw, 33px);
     --font-size-body-sm: clamp(22px, 2.81vw, 26px);
     --font-size-credit-xs: clamp(7px, 1.12vw, 8.4px);
     --font-size-countdown-timer: clamp(28px, 4.06vw, 47px);
