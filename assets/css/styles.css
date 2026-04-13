@@ -138,16 +138,16 @@
   --content-max-width: 90%;
 
   /* Canonical desktop section heights (px-based vertical rhythm) */
-  --section-height-desktop-cover: 1200px;
-  --section-height-desktop-family: 1150px;
-  --section-height-desktop-until: 2200px;
-  --section-height-desktop-save-date: 1400px;
-  --section-height-desktop-timeline: 1080px;
-  --section-height-desktop-contact: 780px;
-  --section-height-desktop-location: 1750px;
-  --section-height-desktop-rsvp: 760px;
-  --section-height-desktop-wishes: 2200px;
-  --section-height-desktop-thank-you: 1700px;
+  --section-height-desktop-cover: 980px;
+  --section-height-desktop-family: 900px;
+  --section-height-desktop-until: 1400px;
+  --section-height-desktop-save-date: 920px;
+  --section-height-desktop-timeline: 860px;
+  --section-height-desktop-contact: 620px;
+  --section-height-desktop-location: 1120px;
+  --section-height-desktop-rsvp: 620px;
+  --section-height-desktop-wishes: 1500px;
+  --section-height-desktop-thank-you: 1350px;
 
   /* Section tokens consumed by section styles */
   --section-height-cover: var(--section-height-desktop-cover);
