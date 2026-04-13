@@ -751,7 +751,7 @@
   }
 
   .until__message {
-    width: min(100%, 38ch);
+    width: 100%;
     max-width: 100%;
   }
 

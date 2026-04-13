@@ -1743,23 +1743,19 @@ main {
 
 .gifts__subtitle {
   font-family: var(--primary-font);
-  font-size: var(--font-size-body-lg);
+  font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   color: var(--text-white-pure);
+  width: var(--content-width);
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: var(--space-40);
 }
 
 .gifts__subtitle.stagger--visible {
   opacity: 0.85;
-}
-
-@media only screen and (min-width: 1024px) {
-  .gifts__subtitle {
-    width: min(100%, 900px);
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
 
 .gifts__cards {

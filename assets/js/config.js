@@ -65,7 +65,7 @@ const WEDDING_CONFIG = {
     },
     "save-the-date": {
       size: "cover",
-      position: "center center",
+      position: "center top",
       repeat: "no-repeat",
     },
     location: {
