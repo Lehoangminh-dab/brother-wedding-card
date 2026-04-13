@@ -140,7 +140,7 @@
   /* Canonical desktop section heights (px-based vertical rhythm) */
   --section-height-desktop-cover: 800px;
   --section-height-desktop-family: 900px;
-  --section-height-desktop-until: 1200px;
+  --section-height-desktop-until: 1128px;
   /* Single source of truth: controls exact desktop save-date section height. */
   --section-height-desktop-save-date: 880px;
   --section-height-desktop-timeline: 860px;
@@ -171,7 +171,7 @@
   :root {
     --section-margin: var(--space-100);
     --gap: var(--space-40);
-    --font-size-body-lg: clamp(21px, 2.4vw, 30px);
+    --font-size-body-lg: clamp(20px, 2vw, 24px);
   }
 }
 
@@ -1745,7 +1745,7 @@ main {
 
 .gifts__subtitle {
   font-family: var(--primary-font);
-  font-size: var(--font-size-body-sm);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-tight);
   color: var(--text-white-pure);
