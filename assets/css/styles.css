@@ -46,6 +46,10 @@
   --space-stack-block: var(--space-24);
   --space-stack-section: var(--space-32);
 
+  /* Consistency guardrail: use spacing tokens for zero/micro spacing too. */
+  --space-0: 0;
+  --space-2: 2px;
+
   /* Spacing scale (multiples of 4) */
   --space-4: 4px;
   --space-8: 8px;
@@ -72,7 +76,7 @@
   --z-ambient-audio: 99997;
   --ambient-audio-bottom-offset: var(--space-16);
   --ambient-audio-button-height: 52px;
-  --thank-you-credit-audio-gap: 2px;
+  --thank-you-credit-audio-gap: var(--space-2);
   --spinner-ring: rgba(201, 162, 39, 0.22);
 
   /* Typography scale (fluid where clamp, fixed for UI) */
@@ -84,6 +88,7 @@
   --font-size-countdown-value: var(--text-script-title);
   --text-script-display: clamp(87px, 12.3vw, 147px);
   --text-script-title: clamp(56px, 9vw, 88px);
+  --family-name-size: clamp(48px, 5.76vw, 72px);
   --text-icon: 32px;
   --text-icon-lg: 40px;
 
@@ -734,7 +739,7 @@ main {
 .family__name {
   text-align: center;
   font-family: var(--script-font);
-  font-size: var(--family-name-size, clamp(48px, 5.76vw, 72px));
+  font-size: var(--family-name-size);
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-tight);
   color: var(--secondary-color);
@@ -822,6 +827,10 @@ main {
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .family {
+    --family-name-size: clamp(41.6px, 6.8vw, 60.8px);
+  }
+
   .family__inner {
     row-gap: var(--space-20);
   }
@@ -837,10 +846,6 @@ main {
 
   .family__parent-line {
     font-size: var(--font-size-body-lg);
-  }
-
-  .family__name {
-    font-size: clamp(41.6px, 6.8vw, 60.8px);
   }
 
   .family__center--top {
@@ -1088,7 +1093,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: var(--space-0);
   margin-bottom: var(--windsong-next-gap);
 }
 

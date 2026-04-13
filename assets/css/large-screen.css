@@ -33,8 +33,8 @@
 
     --windsong-gap-desktop: var(--space-32);
     --windsong-next-gap: var(--windsong-gap-desktop);
-    --divider-gap: 62px;
-    --save-date-date-to-time: 62px;
+    --divider-gap: var(--space-48);
+    --save-date-date-to-time: var(--space-48);
     --space-stack-tight: 16px;
     --space-stack-block: 31px;
     --space-stack-section: 42px;
