@@ -798,13 +798,17 @@ main {
   text-align: center;
 }
 
-.family__invite-title {
+.family__invite-title,
+.family__invite-line {
   font-family: var(--title-font);
   font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--tracking-date);
-  text-transform: uppercase;
   color: var(--secondary-color);
+}
+
+.family__invite-title {
+  text-transform: uppercase;
   margin-bottom: var(--space-12);
 }
 
@@ -814,12 +818,7 @@ main {
 }
 
 .family__invite-line {
-  font-family: var(--primary-font);
-  font-size: var(--font-size-body-lg);
-  font-weight: var(--font-weight-normal);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-relaxed);
-  color: var(--secondary-color);
+  line-height: 1.35;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
@@ -853,12 +852,7 @@ main {
   }
 
   .family__invite-title {
-    font-size: var(--font-size-body-lg);
     margin-bottom: var(--space-8);
-  }
-
-  .family__invite-line {
-    font-size: var(--font-size-body-sm);
   }
 }
 

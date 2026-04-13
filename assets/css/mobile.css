@@ -154,15 +154,19 @@
     padding-right: 0;
   }
 
-  .family__invite-title {
+  .family__invite-title,
+  .family__invite-line {
     font-size: var(--font-size-body-lg);
     letter-spacing: var(--tracking-wide);
-    margin-bottom: var(--space-8);
-    max-width: 14ch;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.35;
     text-wrap: balance;
+  }
+
+  .family__invite-title {
+    margin-bottom: var(--space-8);
+    max-width: 14ch;
   }
 
   .family__invite-divider {
@@ -171,12 +175,8 @@
   }
 
   .family__invite-line {
-    font-size: var(--font-size-body-lg);
-    display: block;
-    width: 100%;
-    max-width: none;
-    margin-left: 0;
-    margin-right: 0;
+    width: min(100%, 18ch);
+    max-width: 18ch;
   }
 
   .family__center-icon--top {
@@ -236,7 +236,6 @@
     max-width: 100%;
   }
 
-  .family__invite-line,
   .until__message,
   .thank-you__message {
     font-size: var(--font-size-body-lg);
@@ -660,13 +659,23 @@
     font-size: clamp(44.8px, 7.04vw, 57.6px);
   }
 
-  .family__invite-title {
-    margin-bottom: var(--space-8);
-    max-width: 14ch;
+  .family__invite-title,
+  .family__invite-line {
+    letter-spacing: var(--tracking-wide);
     margin-left: auto;
     margin-right: auto;
     line-height: 1.35;
     text-wrap: balance;
+  }
+
+  .family__invite-title {
+    margin-bottom: var(--space-8);
+    max-width: 14ch;
+  }
+
+  .family__invite-line {
+    width: min(100%, 18ch);
+    max-width: 18ch;
   }
 
   .family__center--top {
@@ -727,7 +736,6 @@
     max-width: 100%;
   }
 
-  .family__invite-line,
   .until__message,
   .thank-you__message {
     font-size: var(--font-size-body-lg);
