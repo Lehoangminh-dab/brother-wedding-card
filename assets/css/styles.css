@@ -170,6 +170,7 @@
   :root {
     --section-margin: var(--space-100);
     --gap: var(--space-40);
+    --font-size-body-lg: clamp(21px, 2.4vw, 30px);
   }
 }
 
