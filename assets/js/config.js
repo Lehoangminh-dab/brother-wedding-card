@@ -29,7 +29,7 @@ const WEDDING_CONFIG = {
   // ──────────────────────────────────────────────
   family: {
     heading: "Lễ Cưới",
-    inviteTitle: "Trân trọng kính mời",
+    inviteTitle: "Trân trọng kính mời bạn",
     inviteLine: "Tham dự lễ cưới của chúng mình",
     topCenterSymbol: "♡",
     bottomCenterSymbol: "",
