@@ -820,7 +820,7 @@ main {
 }
 
 .family__invite {
-  width: min(100%, 680px);
+  width: min(100%, var(--max-width));
   margin: 0 auto;
   text-align: center;
 }
@@ -846,6 +846,13 @@ main {
 
 .family__invite-line {
   line-height: 1.35;
+}
+
+@media only screen and (min-width: 1024px) {
+  .family__invite-title,
+  .family__invite-line {
+    white-space: nowrap;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
