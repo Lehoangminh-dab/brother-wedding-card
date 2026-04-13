@@ -48,6 +48,13 @@
   var SECTION_BG_PRELOAD_MARGIN = "240px 0px";
   var SECTION_BG_MOBILE_MAX_WIDTH = 767;
   var SECTION_BG_TABLET_MAX_WIDTH = 1024;
+  var SECTION_BG_RESPONSIVE_VARIANTS = [
+    { maxWidth: 480, suffix: "480" },
+    { maxWidth: 640, suffix: "640" },
+    { maxWidth: SECTION_BG_MOBILE_MAX_WIDTH, suffix: "768" },
+    { maxWidth: SECTION_BG_TABLET_MAX_WIDTH, suffix: "768" },
+    { maxWidth: 1600, suffix: "1280" },
+  ];
 
   // Ambient audio
   var AMBIENT_AUDIO_SRC_COVER = "assets/audio/ocean_waves_sound.mp3";
@@ -109,7 +116,7 @@
     return String(filePath).replace(/\.[^./]+$/, ".jpg");
   }
 
-  function toVariantPath(basePath, suffix) {
+  function buildJpgVariantPath(basePath, suffix) {
     if (typeof basePath !== "string" || !basePath) return basePath;
     return basePath.replace(/\.jpg$/i, "-" + suffix + ".jpg");
   }
@@ -161,21 +168,13 @@
     var devicePixelRatio = window.devicePixelRatio || 1;
     var effectiveWidth = viewportWidth * devicePixelRatio;
 
-    if (effectiveWidth > 0 && effectiveWidth <= 480) {
-      return toVariantPath(basePath, "480");
+    for (var i = 0; i < SECTION_BG_RESPONSIVE_VARIANTS.length; i++) {
+      var variant = SECTION_BG_RESPONSIVE_VARIANTS[i];
+      if (effectiveWidth > 0 && effectiveWidth <= variant.maxWidth) {
+        return buildJpgVariantPath(basePath, variant.suffix);
+      }
     }
-    if (effectiveWidth > 0 && effectiveWidth <= 640) {
-      return toVariantPath(basePath, "640");
-    }
-    if (effectiveWidth > 0 && effectiveWidth <= SECTION_BG_MOBILE_MAX_WIDTH) {
-      return toVariantPath(basePath, "768");
-    }
-    if (effectiveWidth > 0 && effectiveWidth <= SECTION_BG_TABLET_MAX_WIDTH) {
-      return toVariantPath(basePath, "768");
-    }
-    if (effectiveWidth > 0 && effectiveWidth <= 1600) {
-      return toVariantPath(basePath, "1280");
-    }
+
     return basePath;
   }
 
@@ -183,11 +182,11 @@
     if (pool === "horizontal") {
       return {
         srcset:
-          toVariantPath(basePath, "640") +
+          buildJpgVariantPath(basePath, "640") +
           " 640w, " +
-          toVariantPath(basePath, "960") +
+          buildJpgVariantPath(basePath, "960") +
           " 960w, " +
-          toVariantPath(basePath, "1280") +
+          buildJpgVariantPath(basePath, "1280") +
           " 1280w",
         sizes: "(max-width: 767px) 86vw, 520px",
       };
@@ -195,11 +194,11 @@
 
     return {
       srcset:
-        toVariantPath(basePath, "480") +
+        buildJpgVariantPath(basePath, "480") +
         " 480w, " +
-        toVariantPath(basePath, "768") +
+        buildJpgVariantPath(basePath, "768") +
         " 768w, " +
-        toVariantPath(basePath, "960") +
+        buildJpgVariantPath(basePath, "960") +
         " 960w",
       sizes: "(max-width: 767px) 74vw, 416px",
     };
@@ -214,13 +213,13 @@
     return Number.isFinite(value) ? value : fallbackPx;
   }
 
-  function addDocumentListeners(events, handler) {
+  function registerDocumentListeners(events, handler) {
     events.forEach(function (evt) {
       document.addEventListener(evt, handler);
     });
   }
 
-  function removeDocumentListeners(events, handler) {
+  function unregisterDocumentListeners(events, handler) {
     events.forEach(function (evt) {
       document.removeEventListener(evt, handler);
     });
@@ -423,7 +422,7 @@
     });
   }
 
-  function firstNonEmpty(values) {
+  function getFirstNonEmptyTrimmed(values) {
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
       if (typeof value === "string" && value.trim() !== "") return value.trim();
@@ -443,6 +442,8 @@
       .replace(/\u00a0/g, " ")
       .replace(/\s+/g, " ")
       .trim();
+
+    if (!text) return { fatherName: "", motherName: "", personName: "" };
 
     var parentLine = text.split(/(?=(?:Chú rể|Cô dâu)\s*:)/i)[0].trim();
     var parentParts = parentLine
@@ -870,13 +871,13 @@
 
     function removeRetryListeners() {
       if (!retryAttached) return;
-      removeDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
+      unregisterDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = false;
     }
 
     function addRetryListeners() {
       if (retryAttached || prefersReducedMotion) return;
-      addDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
+      registerDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = true;
     }
 
@@ -976,40 +977,40 @@
     var groomCfg = familyCfg.groom || {};
     var brideCfg = familyCfg.bride || {};
 
-    var groomHouse = firstNonEmpty([
+    var groomHouse = getFirstNonEmptyTrimmed([
       groomCfg.houseLabel,
       giftsCfg.groom && giftsCfg.groom.label,
       "Nhà Trai",
     ]);
-    var brideHouse = firstNonEmpty([
+    var brideHouse = getFirstNonEmptyTrimmed([
       brideCfg.houseLabel,
       giftsCfg.bride && giftsCfg.bride.label,
       "Nhà Gái",
     ]);
 
-    var groomFatherName = firstNonEmpty([
+    var groomFatherName = getFirstNonEmptyTrimmed([
       groomCfg.fatherName,
       groomGiftFallback.fatherName,
     ]);
-    var groomMotherName = firstNonEmpty([
+    var groomMotherName = getFirstNonEmptyTrimmed([
       groomCfg.motherName,
       groomGiftFallback.motherName,
     ]);
-    var brideFatherName = firstNonEmpty([
+    var brideFatherName = getFirstNonEmptyTrimmed([
       brideCfg.fatherName,
       brideGiftFallback.fatherName,
     ]);
-    var brideMotherName = firstNonEmpty([
+    var brideMotherName = getFirstNonEmptyTrimmed([
       brideCfg.motherName,
       brideGiftFallback.motherName,
     ]);
 
-    var groomPersonName = firstNonEmpty([
+    var groomPersonName = getFirstNonEmptyTrimmed([
       groomCfg.personName,
       groomGiftFallback.personName,
       coverCfg.groomName,
     ]);
-    var bridePersonName = firstNonEmpty([
+    var bridePersonName = getFirstNonEmptyTrimmed([
       brideCfg.personName,
       brideGiftFallback.personName,
       coverCfg.brideName,
@@ -1017,7 +1018,10 @@
 
     populateText(
       {
-        ".family__heading": firstNonEmpty([familyCfg.heading, "Đám Cưới"]),
+        ".family__heading": getFirstNonEmptyTrimmed([
+          familyCfg.heading,
+          "Đám Cưới",
+        ]),
         ".family__house-label--groom": groomHouse,
         ".family__house-label--bride": brideHouse,
         ".family__parent-line--groom-father": groomFatherName,
@@ -1026,19 +1030,19 @@
         ".family__parent-line--bride-mother": brideMotherName,
         ".family__name--groom": groomPersonName,
         ".family__name--bride": bridePersonName,
-        ".family__invite-title": firstNonEmpty([
+        ".family__invite-title": getFirstNonEmptyTrimmed([
           familyCfg.inviteTitle,
           "Trân trọng kính mời",
         ]),
-        ".family__invite-line": firstNonEmpty([
+        ".family__invite-line": getFirstNonEmptyTrimmed([
           familyCfg.inviteLine,
           "Tham dự lễ thành hôn của chúng mình",
         ]),
-        ".family__center-icon--top": firstNonEmpty([
+        ".family__center-icon--top": getFirstNonEmptyTrimmed([
           familyCfg.topCenterSymbol,
           "♡",
         ]),
-        ".family__center-icon--bottom": firstNonEmpty([
+        ".family__center-icon--bottom": getFirstNonEmptyTrimmed([
           familyCfg.bottomCenterSymbol,
           "❤",
         ]),
@@ -1485,14 +1489,14 @@
 
     function removeRetryListeners() {
       if (!retryAttached) return;
-      removeDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
+      unregisterDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = false;
     }
 
     function addRetryListeners() {
       if (!isAudioOn || !hasUserEnabledAudio) return;
       if (retryAttached) return;
-      addDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
+      registerDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = true;
     }
 

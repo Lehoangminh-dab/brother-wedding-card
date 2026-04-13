@@ -23,38 +23,25 @@ function toMb(bytes) {
   return bytes / (1024 * 1024);
 }
 
-async function sumDirectoryBytes(dirPath) {
+async function sumDirectoryBytes(dirPath, suffixFilter = "") {
   const entries = await fs.readdir(dirPath, { withFileTypes: true });
   let totalBytes = 0;
   let fileCount = 0;
 
   for (const entry of entries) {
     const fullPath = path.join(dirPath, entry.name);
+
     if (entry.isDirectory()) {
-      const nested = await sumDirectoryBytes(fullPath);
+      const nested = await sumDirectoryBytes(fullPath, suffixFilter);
       totalBytes += nested.totalBytes;
       fileCount += nested.fileCount;
       continue;
     }
 
     if (!entry.isFile()) continue;
+    if (suffixFilter && !entry.name.endsWith(suffixFilter)) continue;
+
     const stat = await fs.stat(fullPath);
-    totalBytes += stat.size;
-    fileCount += 1;
-  }
-
-  return { totalBytes, fileCount };
-}
-
-async function sumDirectoryBytesBySuffix(dirPath, suffix) {
-  const entries = await fs.readdir(dirPath, { withFileTypes: true });
-  let totalBytes = 0;
-  let fileCount = 0;
-
-  for (const entry of entries) {
-    if (!entry.isFile()) continue;
-    if (!entry.name.endsWith(suffix)) continue;
-    const stat = await fs.stat(path.join(dirPath, entry.name));
     totalBytes += stat.size;
     fileCount += 1;
   }
@@ -82,9 +69,9 @@ async function main() {
   const landscapePath = path.join(OPTIMIZED_DIR, "gallery", "landscape");
   const sectionsPath = path.join(OPTIMIZED_DIR, "sections");
 
-  const portrait = await sumDirectoryBytesBySuffix(portraitPath, "-480.jpg");
-  const landscape = await sumDirectoryBytesBySuffix(landscapePath, "-640.jpg");
-  const sections = await sumDirectoryBytesBySuffix(
+  const portrait = await sumDirectoryBytes(portraitPath, "-480.jpg");
+  const landscape = await sumDirectoryBytes(landscapePath, "-640.jpg");
+  const sections = await sumDirectoryBytes(
     sectionsPath,
     SECTION_MOBILE_SUFFIX,
   );

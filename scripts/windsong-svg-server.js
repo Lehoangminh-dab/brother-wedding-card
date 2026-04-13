@@ -1,7 +1,12 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-const QRCode = require("qrcode");
+const {
+  readBody,
+  sendJson,
+  startServerWithFallback,
+} = require("./utils/server-utils");
+const { normalizeQrRequest, generateQrPayload } = require("./utils/qr-utils");
 const {
   createWindSongSvg,
   filenameFromText,
@@ -11,23 +16,6 @@ const START_PORT = Number(process.env.WINDSONG_SVG_PORT || 8787);
 const MAX_PORT_TRIES = Number(process.env.WINDSONG_SVG_MAX_PORT_TRIES || 25);
 const PAGE_PATH = path.join(__dirname, "..", "windsong-svg-tool.html");
 const QR_PAGE_PATH = path.join(__dirname, "..", "qr-generator-tool.html");
-
-function readBody(req) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
-    req.on("error", reject);
-  });
-}
-
-function sendJson(res, statusCode, payload) {
-  res.writeHead(statusCode, {
-    "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
-  });
-  res.end(JSON.stringify(payload));
-}
 
 const server = http.createServer(async (req, res) => {
   if (!req.url) {
@@ -102,41 +90,18 @@ const server = http.createServer(async (req, res) => {
       const raw = await readBody(req);
       const data = JSON.parse(raw || "{}");
 
-      const link = String(data.link || "").trim();
+      const { link, format, options } = normalizeQrRequest(data);
       if (!link) {
         sendJson(res, 400, { error: "Link is required" });
         return;
       }
 
-      const format =
-        String(data.format || "png").toLowerCase() === "svg" ? "svg" : "png";
-      const size = Number(data.size || 512);
-      const margin = Number(data.margin || 2);
-      const dark = String(data.dark || "#000000").trim() || "#000000";
-      const light = String(data.light || "#ffffff").trim() || "#ffffff";
-
-      const options = {
-        width: Number.isFinite(size) && size > 0 ? Math.floor(size) : 512,
-        margin: Number.isFinite(margin) && margin >= 0 ? Math.floor(margin) : 2,
-        color: { dark, light },
-      };
-
-      if (format === "svg") {
-        const svg = await QRCode.toString(link, { ...options, type: "svg" });
-        res.writeHead(200, {
-          "Content-Type": "image/svg+xml; charset=utf-8",
-          "Access-Control-Allow-Origin": "*",
-        });
-        res.end(svg);
-        return;
-      }
-
-      const pngBuffer = await QRCode.toBuffer(link, options);
+      const qrPayload = await generateQrPayload(link, format, options);
       res.writeHead(200, {
-        "Content-Type": "image/png",
+        "Content-Type": qrPayload.mimeType,
         "Access-Control-Allow-Origin": "*",
       });
-      res.end(pngBuffer);
+      res.end(qrPayload.data);
     } catch (error) {
       sendJson(res, 500, { error: error.message || "Failed to generate QR" });
     }
@@ -146,44 +111,6 @@ const server = http.createServer(async (req, res) => {
   sendJson(res, 404, { error: "Not found" });
 });
 
-function startServerWithFallback(startPort, maxTries) {
-  let currentPort = startPort;
-  let tries = 0;
-
-  const tryListen = () => {
-    const onError = (error) => {
-      server.off("listening", onListening);
-
-      if (error.code === "EADDRINUSE" && tries < maxTries) {
-        tries += 1;
-        currentPort += 1;
-        console.warn(
-          `Port ${currentPort - 1} is busy, trying ${currentPort}...`,
-        );
-        tryListen();
-        return;
-      }
-
-      console.error(error);
-      process.exit(1);
-    };
-
-    const onListening = () => {
-      server.off("error", onError);
-      const address = server.address();
-      const activePort =
-        address && typeof address === "object" ? address.port : currentPort;
-      console.log(
-        `WindSong SVG server running at http://localhost:${activePort}`,
-      );
-    };
-
-    server.once("error", onError);
-    server.once("listening", onListening);
-    server.listen(currentPort);
-  };
-
-  tryListen();
-}
-
-startServerWithFallback(START_PORT, MAX_PORT_TRIES);
+startServerWithFallback(server, START_PORT, MAX_PORT_TRIES, (activePort) => {
+  console.log(`WindSong SVG server running at http://localhost:${activePort}`);
+});
