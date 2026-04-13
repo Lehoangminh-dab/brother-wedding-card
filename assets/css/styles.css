@@ -1344,6 +1344,13 @@ main {
   text-transform: uppercase;
 }
 
+@media only screen and (min-width: 1024px) {
+  .timeline__time,
+  .timeline__event {
+    font-size: var(--font-size-body-sm);
+  }
+}
+
 /* ==========================================================================
    12.5 CONTACT INFO SECTION
    ========================================================================== */
@@ -2154,6 +2161,16 @@ main {
 
 .ambient-audio__icon {
   font-size: calc(var(--font-size-body-lg) + 2px);
+}
+
+@media only screen and (min-width: 1024px) {
+  .ambient-audio__button {
+    font-size: var(--font-size-body-sm);
+  }
+
+  .ambient-audio__icon {
+    font-size: calc(var(--font-size-body-sm) + 2px);
+  }
 }
 
 .ambient-audio__label {
