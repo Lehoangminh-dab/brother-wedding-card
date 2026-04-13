@@ -763,6 +763,16 @@
     var cover = WEDDING_CONFIG.cover;
     var coverGroomName = cover.groomName || "";
     var coverBrideName = cover.brideName || "";
+    var coverLocationLine1 = cover.locationLine1 || "";
+    var coverLocationLine2 = cover.locationLine2 || "";
+    var coverLocationText = "";
+
+    if (coverLocationLine1 && coverLocationLine2) {
+      coverLocationText = coverLocationLine1 + "\n" + coverLocationLine2;
+    } else {
+      coverLocationText =
+        cover.locationLine || coverLocationLine1 || coverLocationLine2 || "";
+    }
 
     var coverSection = document.getElementById("cover");
     var coverVideo = document.querySelector(".cover__video");
@@ -785,7 +795,7 @@
       ".cover__groom-name": coverGroomName,
       ".cover__bride-name": coverBrideName,
       ".cover__date": coverDateText.toUpperCase(),
-      ".cover__venue": (cover.locationLine || "").toUpperCase(),
+      ".cover__venue": coverLocationText.toUpperCase(),
     });
 
     if (!coverSection || !coverVideo) return;

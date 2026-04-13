@@ -348,7 +348,7 @@
   .cover__venue {
     width: 100%;
     max-width: none;
-    white-space: nowrap;
+    white-space: pre-line;
     font-size: var(--font-size-body-lg);
     letter-spacing: 0.08em;
     line-height: 1.2;

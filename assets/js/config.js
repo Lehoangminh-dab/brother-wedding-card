@@ -95,7 +95,8 @@ const WEDDING_CONFIG = {
   cover: {
     groomName: "Hoàng Phúc",
     brideName: "Hồng Vân",
-    locationLine: "BIỂN ĐỒ SƠN, HẢI PHÒNG",
+    locationLine1: "BIỂN ĐỒ SƠN,",
+    locationLine2: "HẢI PHÒNG",
     videoSources: [
       { src: "assets/videos/ocean_waves_background.mp4", type: "video/mp4" },
       // Optional modern format (add file before enabling):
