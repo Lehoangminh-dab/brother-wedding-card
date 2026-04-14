@@ -65,6 +65,18 @@
   var GESTURE_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
   var COVER_VIDEO_FAIL_TIMEOUT = 12000;
+  var DEBUG_CONFIG = WEDDING_CONFIG.debug || {};
+  var COVER_VIDEO_TELEMETRY_ENABLED = !!DEBUG_CONFIG.coverVideoTelemetry;
+  var COVER_VIDEO_TELEMETRY_ENDPOINT =
+    typeof DEBUG_CONFIG.coverVideoTelemetryEndpoint === "string" &&
+    DEBUG_CONFIG.coverVideoTelemetryEndpoint.trim() !== ""
+      ? DEBUG_CONFIG.coverVideoTelemetryEndpoint
+      : "/api/video-debug";
+  var COVER_VIDEO_TELEMETRY_MAX_EVENTS = Number.isFinite(
+    DEBUG_CONFIG.coverVideoTelemetryMaxEvents,
+  )
+    ? Math.max(1, Math.floor(DEBUG_CONFIG.coverVideoTelemetryMaxEvents))
+    : 12;
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0; // trigger as soon as target crosses reveal line
@@ -223,6 +235,107 @@
     events.forEach(function (evt) {
       document.removeEventListener(evt, handler);
     });
+  }
+
+  function getMediaErrorCodeName(code) {
+    var map = {
+      1: "MEDIA_ERR_ABORTED",
+      2: "MEDIA_ERR_NETWORK",
+      3: "MEDIA_ERR_DECODE",
+      4: "MEDIA_ERR_SRC_NOT_SUPPORTED",
+    };
+    return map[code] || "UNKNOWN";
+  }
+
+  function getConnectionSnapshot() {
+    var conn =
+      navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (!conn) return null;
+    return {
+      effectiveType: conn.effectiveType || "",
+      downlink: Number.isFinite(conn.downlink) ? conn.downlink : null,
+      rtt: Number.isFinite(conn.rtt) ? conn.rtt : null,
+      saveData: !!conn.saveData,
+    };
+  }
+
+  function getCoverVideoState(video) {
+    var err = video && video.error ? video.error : null;
+    return {
+      currentSrc: (video && video.currentSrc) || "",
+      networkState: video ? video.networkState : null,
+      readyState: video ? video.readyState : null,
+      paused: video ? video.paused : null,
+      muted: video ? video.muted : null,
+      ended: video ? video.ended : null,
+      errorCode: err ? err.code : null,
+      errorName: err ? getMediaErrorCodeName(err.code) : "",
+      errorMessage: err && err.message ? err.message : "",
+    };
+  }
+
+  function createCoverVideoDebugLogger(video, sources, extraContext) {
+    if (!COVER_VIDEO_TELEMETRY_ENABLED) {
+      return function () {};
+    }
+
+    var sent = 0;
+    var sessionId = Math.random().toString(36).slice(2, 12);
+    var sourceList = Array.isArray(sources)
+      ? sources.map(function (s) {
+          return { src: s.src || "", type: s.type || "" };
+        })
+      : [];
+
+    function send(eventName, detail) {
+      if (sent >= COVER_VIDEO_TELEMETRY_MAX_EVENTS) return;
+      sent += 1;
+
+      var payload = {
+        event: eventName,
+        timestamp: new Date().toISOString(),
+        sessionId: sessionId,
+        href: window.location.href,
+        userAgent: navigator.userAgent,
+        platform: navigator.platform || "",
+        language: navigator.language || "",
+        online: typeof navigator.onLine === "boolean" ? navigator.onLine : true,
+        viewport: {
+          width: window.innerWidth || null,
+          height: window.innerHeight || null,
+        },
+        dpr: window.devicePixelRatio || 1,
+        visibilityState: document.visibilityState || "",
+        connection: getConnectionSnapshot(),
+        detail: {
+          video: getCoverVideoState(video),
+          sources: sourceList,
+          context: extraContext || {},
+          extra: detail || {},
+        },
+      };
+
+      var body = JSON.stringify(payload);
+
+      try {
+        if (navigator.sendBeacon) {
+          var blob = new Blob([body], { type: "application/json" });
+          navigator.sendBeacon(COVER_VIDEO_TELEMETRY_ENDPOINT, blob);
+          return;
+        }
+      } catch (e) {}
+
+      try {
+        fetch(COVER_VIDEO_TELEMETRY_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: body,
+          keepalive: true,
+        }).catch(function () {});
+      } catch (e) {}
+    }
+
+    return send;
   }
 
   function getConfiguredWeddingDate() {
@@ -840,7 +953,15 @@
         source && typeof source.src === "string" && source.src.trim() !== ""
       );
     });
+    var coverDebugLog = createCoverVideoDebugLogger(coverVideo, usableSources, {
+      prefersReducedMotion: prefersReducedMotion,
+      failTimeoutMs: COVER_VIDEO_FAIL_TIMEOUT,
+      preload: coverVideo.preload,
+    });
+    coverDebugLog("cover_video_init");
+
     if (!usableSources.length) {
+      coverDebugLog("cover_video_no_usable_sources");
       coverSection.classList.add("cover--video-unavailable");
       return;
     }
@@ -853,6 +974,9 @@
       });
       if (playableSources.length) usableSources = playableSources;
     }
+    coverDebugLog("cover_video_sources_selected", {
+      selectedSourceCount: usableSources.length,
+    });
 
     // Let the browser choose the best source from an ordered list.
     coverVideo.removeAttribute("src");
@@ -891,35 +1015,51 @@
       retryAttached = true;
     }
 
-    function setUnavailable() {
+    function setUnavailable(reason) {
       clearFailureTimeout();
       removeRetryListeners();
       coverSection.classList.remove("cover--video-ready");
       coverSection.classList.remove("cover--has-video-src");
       coverSection.classList.add("cover--video-unavailable");
+      coverDebugLog("cover_video_unavailable", {
+        reason: reason || "unknown",
+      });
     }
 
-    function onPlaybackStarted() {
+    function onPlaybackStarted(trigger) {
       playbackConfirmed = true;
       clearFailureTimeout();
       removeRetryListeners();
       coverSection.classList.remove("cover--video-unavailable");
       coverSection.classList.add("cover--video-ready");
+      coverDebugLog("cover_video_playback_started", {
+        trigger: trigger || "unknown",
+      });
     }
 
     function scheduleFailureFallback() {
       clearFailureTimeout();
       failureTimeoutId = setTimeout(function () {
-        if (!playbackConfirmed) setUnavailable();
+        if (!playbackConfirmed) {
+          coverDebugLog("cover_video_timeout_fallback");
+          setUnavailable("timeout");
+        }
       }, COVER_VIDEO_FAIL_TIMEOUT);
     }
 
-    function attemptPlay() {
+    function attemptPlay(trigger) {
       if (prefersReducedMotion) return;
+      coverDebugLog("cover_video_play_attempt", {
+        trigger: trigger || "unknown",
+      });
       var playAttempt;
       try {
         playAttempt = coverVideo.play();
       } catch (e) {
+        coverDebugLog("cover_video_play_exception", {
+          trigger: trigger || "unknown",
+          message: e && e.message ? e.message : "",
+        });
         addRetryListeners();
         scheduleFailureFallback();
         return;
@@ -927,27 +1067,47 @@
 
       // Older engines may not return a Promise from play().
       if (!playAttempt || typeof playAttempt.then !== "function") {
-        onPlaybackStarted();
+        onPlaybackStarted("non_promise_play");
         return;
       }
 
-      playAttempt.then(onPlaybackStarted).catch(function () {
-        addRetryListeners();
-        scheduleFailureFallback();
-      });
+      playAttempt
+        .then(function () {
+          onPlaybackStarted("play_promise_resolved");
+        })
+        .catch(function (err) {
+          coverDebugLog("cover_video_play_rejected", {
+            trigger: trigger || "unknown",
+            message: err && err.message ? err.message : "",
+            name: err && err.name ? err.name : "",
+          });
+          addRetryListeners();
+          scheduleFailureFallback();
+        });
     }
 
     function onFirstGesture() {
-      attemptPlay();
+      coverDebugLog("cover_video_first_gesture_retry");
+      attemptPlay("first_gesture");
     }
 
-    coverVideo.addEventListener("loadedmetadata", scheduleFailureFallback);
-    coverVideo.addEventListener("canplay", attemptPlay);
-    coverVideo.addEventListener("playing", onPlaybackStarted);
+    coverVideo.addEventListener("loadedmetadata", function () {
+      coverDebugLog("cover_video_loadedmetadata");
+      scheduleFailureFallback();
+    });
+    coverVideo.addEventListener("canplay", function () {
+      coverDebugLog("cover_video_canplay");
+      attemptPlay("canplay_event");
+    });
+    coverVideo.addEventListener("playing", function () {
+      onPlaybackStarted("playing_event");
+    });
     coverVideo.addEventListener("error", function () {
-      if (!playbackConfirmed) setUnavailable();
+      coverDebugLog("cover_video_error");
+      if (!playbackConfirmed) setUnavailable("error_event");
     });
     coverVideo.addEventListener("stalled", function () {
+      coverDebugLog("cover_video_stalled");
       if (!playbackConfirmed) scheduleFailureFallback();
     });
 
@@ -956,14 +1116,15 @@
       try {
         coverVideo.currentTime = 0;
       } catch (e) {}
-      attemptPlay();
+      coverDebugLog("cover_video_ended_restart");
+      attemptPlay("ended_event");
     });
 
     if (!prefersReducedMotion) {
       scheduleFailureFallback();
-      attemptPlay();
+      attemptPlay("initial_boot");
     } else {
-      setUnavailable();
+      setUnavailable("reduced_motion");
     }
   }
 

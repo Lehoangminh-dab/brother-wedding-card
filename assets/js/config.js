@@ -23,6 +23,16 @@ const WEDDING_CONFIG = {
   },
 
   // ──────────────────────────────────────────────
+  // DEBUG TELEMETRY (Vercel logs)
+  // Disable once cover-video issue is resolved in production.
+  // ──────────────────────────────────────────────
+  debug: {
+    coverVideoTelemetry: true,
+    coverVideoTelemetryEndpoint: "/api/video-debug",
+    coverVideoTelemetryMaxEvents: 14,
+  },
+
+  // ──────────────────────────────────────────────
   // FAMILY (standalone house information section)
   // If any field is blank, JS falls back to parsing gifts subtitles.
   // ──────────────────────────────────────────────
