@@ -109,7 +109,10 @@ const WEDDING_CONFIG = {
     locationLine2: "HẢI PHÒNG",
     forceVideoWithReducedMotion: true,
     videoSources: [
-      { src: "assets/videos/ocean_waves_background_web.mp4", type: "video/mp4" },
+      {
+        src: "assets/videos/ocean_waves_background_web.mp4",
+        type: "video/mp4",
+      },
       // Optional modern format (add file before enabling):
       // { src: "assets/videos/ocean_waves_background.webm", type: "video/webm" },
     ],
@@ -481,7 +484,7 @@ const WEDDING_CONFIG = {
   // AMBIENT AUDIO
   // ──────────────────────────────────────────────
   audio: {
-    afterCoverSrc: "assets/audio/kiki_light.mp3",
+    afterCoverSrc: "assets/audio/carpenters_close_to_you.mp3",
   },
 
   // ──────────────────────────────────────────────
