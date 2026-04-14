@@ -431,7 +431,7 @@ main {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stagger-item {
+  body:not(.force-motion-text) .stagger-item {
     opacity: 1;
     transform: none;
     transition: none;

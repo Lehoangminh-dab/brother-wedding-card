@@ -77,6 +77,9 @@
   )
     ? Math.max(1, Math.floor(DEBUG_CONFIG.coverVideoTelemetryMaxEvents))
     : 12;
+  var FORCE_TEXT_ANIMATIONS_WITH_REDUCED_MOTION =
+    !!DEBUG_CONFIG.forceTextAnimationsWithReducedMotion;
+  var FORCE_MOTION_TEXT_CLASS = "force-motion-text";
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0; // trigger as soon as target crosses reveal line
@@ -235,6 +238,22 @@
     events.forEach(function (evt) {
       document.removeEventListener(evt, handler);
     });
+  }
+
+  function getPrefersReducedMotion() {
+    return !!(
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+  }
+
+  function applyReducedMotionTextOverrideClass() {
+    if (!document.body) return;
+    if (FORCE_TEXT_ANIMATIONS_WITH_REDUCED_MOTION && getPrefersReducedMotion()) {
+      document.body.classList.add(FORCE_MOTION_TEXT_CLASS);
+    } else {
+      document.body.classList.remove(FORCE_MOTION_TEXT_CLASS);
+    }
   }
 
   function getMediaErrorCodeName(code) {
@@ -937,9 +956,10 @@
       coverVideo.poster = poster;
     }
 
-    var prefersReducedMotion =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var prefersReducedMotion = getPrefersReducedMotion();
+    var forceVideoWithReducedMotion = !!cover.forceVideoWithReducedMotion;
+    var shouldRespectReducedMotionForVideo =
+      prefersReducedMotion && !forceVideoWithReducedMotion;
 
     var configuredSources = [];
     if (Array.isArray(cover.videoSources)) {
@@ -955,6 +975,10 @@
     });
     var coverDebugLog = createCoverVideoDebugLogger(coverVideo, usableSources, {
       prefersReducedMotion: prefersReducedMotion,
+      forceVideoWithReducedMotion: forceVideoWithReducedMotion,
+      forceTextAnimationsWithReducedMotion:
+        FORCE_TEXT_ANIMATIONS_WITH_REDUCED_MOTION,
+      shouldRespectReducedMotionForVideo: shouldRespectReducedMotionForVideo,
       failTimeoutMs: COVER_VIDEO_FAIL_TIMEOUT,
       preload: coverVideo.preload,
     });
@@ -1010,7 +1034,7 @@
     }
 
     function addRetryListeners() {
-      if (retryAttached || prefersReducedMotion) return;
+      if (retryAttached || shouldRespectReducedMotionForVideo) return;
       registerDocumentListeners(GESTURE_RETRY_EVENTS, onFirstGesture);
       retryAttached = true;
     }
@@ -1048,7 +1072,7 @@
     }
 
     function attemptPlay(trigger) {
-      if (prefersReducedMotion) return;
+      if (shouldRespectReducedMotionForVideo) return;
       coverDebugLog("cover_video_play_attempt", {
         trigger: trigger || "unknown",
       });
@@ -1120,7 +1144,7 @@
       attemptPlay("ended_event");
     });
 
-    if (!prefersReducedMotion) {
+    if (!shouldRespectReducedMotionForVideo) {
       scheduleFailureFallback();
       attemptPlay("initial_boot");
     } else {
@@ -2616,6 +2640,7 @@
   // =========================================================================
 
   function init() {
+    applyReducedMotionTextOverrideClass();
     populateMeta();
     populateCover();
     populateFamily();
@@ -2646,6 +2671,7 @@
     initTimelineMobileTextFit();
   }
 
+  applyReducedMotionTextOverrideClass();
   initPreloader();
 
   if (document.readyState === "loading") {

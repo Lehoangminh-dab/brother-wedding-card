@@ -30,6 +30,7 @@ const WEDDING_CONFIG = {
     coverVideoTelemetry: true,
     coverVideoTelemetryEndpoint: "/api/video-debug",
     coverVideoTelemetryMaxEvents: 14,
+    forceTextAnimationsWithReducedMotion: true,
   },
 
   // ──────────────────────────────────────────────
@@ -106,6 +107,7 @@ const WEDDING_CONFIG = {
     brideName: "Hồng Vân",
     locationLine1: "BIỂN ĐỒ SƠN,",
     locationLine2: "HẢI PHÒNG",
+    forceVideoWithReducedMotion: true,
     videoSources: [
       { src: "assets/videos/ocean_waves_background_web.mp4", type: "video/mp4" },
       // Optional modern format (add file before enabling):
