@@ -97,11 +97,11 @@ const WEDDING_CONFIG = {
     locationLine1: "BIỂN ĐỒ SƠN,",
     locationLine2: "HẢI PHÒNG",
     videoSources: [
-      { src: "assets/videos/ocean_waves_background.mp4", type: "video/mp4" },
+      { src: "assets/videos/ocean_waves_background_web.mp4", type: "video/mp4" },
       // Optional modern format (add file before enabling):
       // { src: "assets/videos/ocean_waves_background.webm", type: "video/webm" },
     ],
-    videoUrl: "assets/videos/ocean_waves_background.mp4",
+    videoUrl: "assets/videos/ocean_waves_background_web.mp4",
     posterImage: "assets/images/optimized/sections/ocean_waves_background.jpg",
     backgroundImage:
       "assets/images/optimized/sections/ocean_waves_background.jpg",

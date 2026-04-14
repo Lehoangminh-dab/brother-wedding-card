@@ -64,7 +64,7 @@
   var AMBIENT_AUDIO_VOLUME = 0.08;
   var GESTURE_RETRY_EVENTS = ["pointerdown", "touchstart", "keydown"];
   var AMBIENT_AUDIO_CONSENT_SELECTOR = "#ambient-audio-consent";
-  var COVER_VIDEO_FAIL_TIMEOUT = 3500;
+  var COVER_VIDEO_FAIL_TIMEOUT = 12000;
 
   // Scroll animations
   var SCROLL_ANIM_THRESHOLD = 0; // trigger as soon as target crosses reveal line
@@ -809,7 +809,7 @@
     }
 
     // Keep playback settings explicit for cross-browser consistency.
-    coverVideo.preload = "metadata";
+    coverVideo.preload = "auto";
     coverVideo.muted = true;
     coverVideo.defaultMuted = true;
     coverVideo.loop = true;
